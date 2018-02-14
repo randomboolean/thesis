@@ -1,0 +1,54 @@
+% Document type
+\documentclass[11pt, english, headsepline]{book}
+\usepackage[a4paper, top=3.0cm, bottom=2.0cm, hmarginratio=3:2]{geometry}
+\usepackage[french, english]{babel}
+
+% Compilation
+\includeonly{chapter1/body1}
+
+\begin{document}
+    
+    % Title page
+    \begin{titlepage}
+        \include{Others/TitlePage}
+    \end{titlepage}
+    \thispagestyle{empty}
+    
+    % Table of contents
+    \dominitoc
+    \selectlanguage{english}
+    \tableofcontents
+    \vfill
+    
+    % Headers
+    \include{Others/Acknowledgments}
+    \include{Others/Resume}
+    \include{Others/Abstract}
+    
+    % Chapters
+    \include{Chapters/Chapter1}
+    \include{Chapters/Chapter2}
+    \include{Chapters/Chapter3}
+    \include{Chapters/Chapter4}
+    \include{Chapters/Chapter5}
+    \include{Chapters/Chapter6}
+
+    % Appendices
+    \appendix
+    \include{Appendices/AppendixA}
+    \include{Appendices/AppendixB}
+    
+    % Bibliography
+    \printbibliography[heading=bibintoc]
+    
+    % Index
+    \printindex
+    
+    % Back cover (should be on a left page)
+    \pagebreak
+    ~ \\ \vfill \pagebreak
+    \pagestyle{empty}
+    ~ \\ \vfill \pagebreak
+    \input{Others/BackCover}
+    
+\end{document}

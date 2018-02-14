@@ -1,0 +1,410 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DOCUMENT TUNING %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    % Document type
+    \documentclass[11pt, english, headsepline]{book}
+    \usepackage[a4paper, top=3.0cm, bottom=2.0cm, hmarginratio=3:2]{geometry}
+    \usepackage[french, english]{babel}
+
+    % Fonts and encoding
+    \usepackage[utf8]{inputenc}
+    \usepackage[T1]{fontenc}
+    \usepackage{palatino}
+    \usepackage{amsfonts}
+    \usepackage{amsmath}
+    \usepackage{amssymb}
+    \usepackage{amsthm}
+    \usepackage{stmaryrd}
+    \usepackage{mathtools}
+    \usepackage{gensymb}
+    \usepackage{tikzsymbols}
+    
+    % Index
+    \usepackage{imakeidx}
+    \newcommand{\BH}[1]{\large\textbf{\hyperpage{#1}}\normalsize}
+    \newcommand{\IN}[1]{\index{#1|BH}}
+    \makeindex[intoc, options= -s perso.ist]
+    
+    % Tikz
+    \usepackage{pgfplots}
+    \usepackage{tikz}
+    \usetikzlibrary{calc}
+    \pgfplotsset{compat=newest}
+    \usetikzlibrary{backgrounds}
+    \tikzset{>=latex}
+    \tikzset{every loop/.style={}}
+    \usepgfplotslibrary{external} 
+    \tikzexternalize
+    
+    % Code
+    \usepackage{listings}
+    \definecolor{light-gray}{gray}{0.95}
+    
+    % Figures
+    \usepackage{graphicx}
+    \usepackage{float}
+    \usepackage[labelfont=bf]{caption}
+    \usepackage{subcaption}
+    \pgfplotsset{colormap={invertedblackwhite}{rgb255=(255,255,255) rgb255=(0,0,0)}}
+    
+    % Tables
+    \usepackage{hhline}
+    \usepackage{tabularx}
+    
+    % Back cover
+    \usepackage{multicol}
+    \setlength{\columnsep}{1.0cm}
+    
+    % Numbering
+    \usepackage{chngcntr}
+    \counterwithout{figure}{chapter}
+    \counterwithout{table}{chapter}
+    \counterwithout{equation}{chapter}
+    \newcommand{\starredChapter}[1]{\chapter*{#1}\addstarredchapter{#1}\markboth{{#1}}{#1}}
+
+    % Matrices
+    \usepackage{blkarray}
+    
+    % References
+    \usepackage{hyperref}
+    
+    % Bibliography
+    \usepackage[backend=bibtex, natbib=true, style=alphabetic, maxbibnames=99]{biblatex}
+    \addbibresource{bibliography.bib}
+    
+    % Line on top and page numbers
+    \usepackage{fancyhdr}
+    \fancypagestyle{plain}{
+        \fancyfoot{}
+        \fancyhf{}
+        \fancyhead[EL]{\nouppercase\leftmark}
+        \fancyhead[OR]{\nouppercase\rightmark}
+        \fancyhead[RE,LO]{\thepage}
+    }
+    \pagestyle{plain}
+    
+    % Table of contents
+    \usepackage{minitoc}
+    
+    % No indent and paragraphs spacing
+    \usepackage{parskip}
+    \usepackage[shortlabels]{enumitem}
+    \setlist[itemize]{label=\textbullet}
+    
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% COMMANDS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    % Acronyms
+    \newcommand{\iid}{\emph{i.i.d.}}
+    \newcommand{\etal}{\emph{et al.}}
+    \newcommand{\ie}{\emph{i.e.}}
+    \newcommand{\st}{\emph{s.t.}}
+    \newcommand{\eg}{\emph{e.g.}}
+    \newcommand{\powth}{\text{$^\text{th}$}}
+    
+    % References
+    \newcommand{\figref}[1]{Figure~\ref{#1}}
+    \newcommand{\chapref}[1]{Chapter~\ref{#1}}
+    \newcommand{\appref}[1]{Appendix~\ref{#1}}
+    \newcommand{\secref}[1]{Section~\ref{#1}}
+    \newcommand{\algref}[1]{Algorithm~\ref{#1}}
+    \newcommand{\thref}[1]{Theorem~\ref{#1}}
+    \newcommand{\propref}[1]{Proposition~\ref{#1}}
+    \newcommand{\remref}[1]{Remark~\ref{#1}}
+    \newcommand{\defref}[1]{Definition~\ref{#1}}
+    \newcommand{\corref}[1]{Corrolary~\ref{#1}}
+    \newcommand{\lemref}[1]{Lemma~\ref{#1}}
+    \newcommand{\conjref}[1]{Conjecture~\ref{#1}}
+    \newcommand{\probref}[1]{Problem~\ref{#1}}
+    \newcommand{\quoref}[1]{Quote~\ref{#1}}
+    \newcommand{\tabref}[1]{Table~\ref{#1}}
+    
+    % Theorems, definitions...
+    \usepackage[theorems]{tcolorbox}
+    \tcbuselibrary{breakable}
+    \newtcbtheorem{problem}{Problem}{breakable, parbox=false, colback=blue!5, colframe=blue!35!black, fonttitle=\bfseries}{th}
+    \newtcbtheorem{definition}{Definition}{breakable, parbox=false, colback=blue!5, colframe=blue!35!black, fonttitle=\bfseries}{th}
+    \newtcbtheorem{proposition}{Proposition}{breakable, parbox=false, colback=blue!5, colframe=blue!35!black, fonttitle=\bfseries}{th}
+    \newtcbtheorem{corrolary}{Corrolary}{breakable, parbox=false, colback=blue!5, colframe=blue!35!black, fonttitle=\bfseries}{th}
+    \newtcbtheorem{remark}{Remark}{breakable, parbox=false, colback=green!5, colframe=green!35!black, fonttitle=\bfseries}{th}
+    \newtcbtheorem{lemma}{Lemma}{breakable, parbox=false, colback=blue!5, colframe=blue!35!black, fonttitle=\bfseries}{th}
+    \newtcbtheorem{conjecture}{Conjecture}{breakable, parbox=false, colback=blue!5, colframe=blue!35!black, fonttitle=\bfseries}{th}
+    \newtcbtheorem{theorem}{Theorem}{breakable, parbox=false, colback=blue!5, colframe=blue!35!black, fonttitle=\bfseries}{th}
+    \newtcbtheorem{quoteExternal}{}{breakable, parbox=false, colback=blue!5, colframe=blue!35!black, fonttitle=\bfseries}{th}
+    \newtcbtheorem{resultProof}{Proof}{breakable, parbox=false, colback=red!5, colframe=red!35!black, fonttitle=\bfseries}{th}
+    \newcommand{\inlinedef}[2]{\textcolor{blue!35!black}{\textbf{\emph{#1}}}\IN{#2}}
+    \newcommand{\inlinecode}[1]{\texttt{#1}}
+    
+    % Algorithms
+    \usepackage[ruled, vlined]{algorithm2e}
+    \SetKwProg{Function}{function}{}{}
+    \newcommand{\State}[1]{#1 \\}
+    \SetKw{KwAnd}{and}
+    \SetKw{KwSt}{s.t.}
+    \SetKw{KwTrue}{true}
+    \SetKw{KwFalse}{false}
+    \SetKw{KwNot}{not}
+    \SetKwRepeat{Do}{do}{while}
+    
+    % Variables styles
+    \newcommand{\constantName}[1]{\text{$\MakeUppercase{#1}$}}
+    \newcommand{\mathSetName}[1]{\text{$\mathbb{\MakeUppercase{#1}}$}}
+    \newcommand{\setName}[1]{\text{$\mathcal{\MakeUppercase{#1}}$}}
+    \newcommand{\variableName}[1]{\text{$\MakeLowercase{#1}$}}
+    \newcommand{\vectorName}[1]{\text{$\mathbf{\MakeLowercase{#1}}$}}
+    \newcommand{\vectorSymbolName}[1]{\text{$\mathbf{\boldsymbol{#1}}$}}
+    \newcommand{\matrixName}[1]{\text{$\mathbf{\MakeUppercase{#1}}$}}
+    \newcommand{\matrixSymbolName}[1]{\text{$\mathbf{\boldsymbol{#1}}$}}
+    \newcommand{\functionName}[1]{\text{$\MakeLowercase{#1}$}}
+    \newcommand{\distributionName}[1]{\text{$\mathcal{\MakeUppercase{#1}}$}}
+    
+    % Notations
+    \newcommand{\set}[1]{\text{$\left\{ #1 \right\}$}}
+    \newcommand{\condSet}[2]{\text{$\left\{ #1 \;\middle|\; #2 \right\}$}}
+    \newcommand{\tuple}[1]{\text{$\langle #1 \rangle$}}
+    \newcommand{\sequence}[1]{\text{$\left( #1 \right)$}}
+    \newcommand{\transpose}[1]{\text{${#1}^\top$}}
+    \newcommand{\inverse}[1]{\text{${#1}^{-1}$}}
+    \newcommand{\entry}[1]{\text{$\left[ #1 \right]$}}
+    \renewcommand{\vector}[1]{\text{$\protect\begin{bmatrix} #1 \end{bmatrix}$}}
+    \newcommand{\spectral}[1]{\text{$\widehat{#1}$}}
+    
+    % Math
+    \DeclareMathOperator*{\offdiag}{\mathrm{offdiag}}
+    \DeclareMathOperator*{\argmin}{\mathrm{arg min}}
+    \DeclareMathOperator*{\trace}{\mathrm{Tr}}
+    \DeclareMathOperator*{\sign}{\mathrm{sign}}
+    \DeclareMathOperator*{\solve}{\mathrm{solve}}
+    \DeclareMathOperator*{\median}{\mathrm{median}}
+    \newcommand{\plusMod}[1]{\text{~$+_{\text{\tiny{#1}}}$~}}
+    \newcommand{\minusMod}[1]{\text{~$-_{\text{\tiny{#1}}}$~}}
+    \newcommand{\ewProd}{\odot}
+    \newcommand{\sample}[1]{\widetilde{#1}}
+    \newcommand{\exponential}[1]{\text{exp$\left(#1\right)$}}
+    \newcommand{\interval}[2]{\text{$\left[ #1, #2 \right]$}}
+    \newcommand{\intInterval}[2]{\text{$\left\llbracket #1, #2 \right\rrbracket$}}
+    \newcommand{\cardinal}[1]{\text{$\left| #1 \right|$}}
+    \newcommand{\absoluteValue}[1]{\text{$\left| #1 \right|$}}
+    \newcommand{\norm}[2]{\text{$\left\| #1 \right\|_{#2}$}}
+    \newcommand{\squareNorm}[2]{\text{$\left\| #1 \right\|^2_{#2}$}}
+    \newcommand{\normalLaw}[2]{\text{$\mathcal{N}\left(#1, #2\right)$}}
+    \newcommand{\expect}[1]{\text{$\mathbb{E}\left[#1\right]$}}
+    \newcommand{\lNorm}[1]{\text{$\ell_{#1}$}}
+    \newcommand{\LNorm}[1]{\text{$L_{#1}$}}
+    \newcommand{\integralD}{\mathrm{d}}
+    \newcommand{\eExponential}{\mathrm{e}}
+    
+    % Sets
+    \newcommand{\graph}{\text{$\setName{G}$}}
+    \newcommand{\digraph}[1]{\text{${\overrightarrow{\graph}}^{#1}$}}
+    \newcommand{\vertices}{\text{$\setName{V}$}}
+    \newcommand{\edges}{\text{$\setName{E}$}}
+    \newcommand{\diedges}[1]{\text{${\overrightarrow{\edges}}^{#1}$}}
+    \newcommand{\edge}[2]{\text{$\set{#1, #2}$}}
+    \newcommand{\diedge}[2]{\text{$\sequence{#1, #2}$}}
+    \newcommand{\weightDomain}{\text{$\setName{W}$}}
+    \newcommand{\transformations}[1]{\text{$\Phi_{#1}$}}
+    \newcommand{\losslessTransformations}[1]{\text{$\Phi^*_{#1}$}}
+    \newcommand{\translations}[1]{\text{$\Psi_{#1}$}}
+    \newcommand{\losslessTranslations}[1]{\text{$\Psi^*_{#1}$}}
+    \newcommand{\EC}[1]{\text{EC$\left(\transformations{#1}\right)$}}
+    \newcommand{\WNP}[1]{\text{WNP$\left(\transformations{#1}\right)$}}
+    \newcommand{\SNP}[1]{\text{SNP$\left(\transformations{#1}\right)$}}
+    \newcommand{\ISO}[1]{\text{ISO$\left(\transformations{#1}\right)$}}
+    \newcommand{\losslessEC}[1]{\text{EC$\left(\losslessTransformations{#1}\right)$}}
+    \newcommand{\losslessWNP}[1]{\text{WNP$\left(\losslessTransformations{#1}\right)$}}
+    \newcommand{\losslessSNP}[1]{\text{SNP$\left(\losslessTransformations{#1}\right)$}}
+    \newcommand{\losslessISO}[1]{\text{ISO$\left(\losslessTransformations{#1}\right)$}}
+    \newcommand{\paths}[1]{\text{$\setName{P}(#1)$}}
+    \newcommand{\cycles}[1]{\text{$\setName{C}(#1)$}}
+    \newcommand{\neighborhood}[1]{\text{$\setName{N}(#1)$}}
+    \newcommand{\feasibilityRegion}[2]{\text{$\setName{D}_{#1, #2}$}}
+    \newcommand{\positiveIntegers}{\text{$\mathSetName{N}$}}
+    \newcommand{\strictlyPositiveIntegers}{\text{$\mathSetName{N}^*$}}
+    \newcommand{\integers}{\text{$\mathSetName{Z}$}}
+    \newcommand{\integersSubset}{\text{$\setName{I}$}}
+    \newcommand{\reals}{\text{$\mathSetName{R}$}}
+    \newcommand{\complexes}{\text{$\mathSetName{C}$}}
+    \newcommand{\coDomainDiscretizedSignal}{\text{$\setName{S}$}}
+    \newcommand{\integersModulo}[1]{\text{$\integers/#1\integers$}}
+    \newcommand{\constraintsSet}{\text{$\setName{S}$}}
+    
+    % Constants
+    \newcommand{\nbSignals}{\text{$\constantName{M}$}}
+    \newcommand{\graphOrder}{\text{$\constantName{N}$}}
+    \newcommand{\nbPixels}{\text{$\constantName{N}$}}
+    \newcommand{\samplingOrder}{\text{$\constantName{N}$}}
+    \newcommand{\constant}{\text{$\constantName{C}$}}
+    \newcommand{\radius}{\text{$\constantName{R}$}}
+    \newcommand{\K}{\text{$\constantName{K}$}}
+    \newcommand{\proba}{\text{$\constantName{P}$}}
+    \newcommand{\ringNeighborsEachSide}{\text{$\constantName{K}$}}
+    \newcommand{\filterSize}{\text{$\constantName{K}$}}
+    \newcommand{\nbFilters}{\text{$\constantName{N}$}}
+    \newcommand{\gridNbDimensions}{\text{$\constantName{D}$}}
+    \newcommand{\nbDiffusions}{\text{$\constantName{K}$}}
+    \newcommand{\inverseRegularization}{\text{$\constantName{C}$}}
+    
+    % Vectors
+    \newcommand{\vertexVector}{\text{$\vectorName{v}$}}
+    \newcommand{\diracVector}[1]{\text{$\vectorSymbolName{\delta}_{#1}$}}
+    \newcommand{\signalVector}{\text{$\vectorName{x}$}}
+    \newcommand{\iidSignalVector}{\text{$\vectorName{y}$}}
+    \newcommand{\gridDimensions}{\text{$\vectorName{d}$}}
+    \newcommand{\eigenvector}{\text{$\vectorSymbolName{\chi}$}}
+    \newcommand{\epsilonVector}{\text{$\vectorSymbolName{\epsilon}$}}
+    \newcommand{\timeVector}{\text{$\vectorName{t}$}}
+    \newcommand{\nbDiffusionsVector}{\text{$\vectorName{k}$}}
+    \newcommand{\filterVector}{\text{$\vectorName{h}$}}
+    \newcommand{\eigenvalues}{\text{$\vectorSymbolName{\lambda}$}}
+    \newcommand{\vecOne}[1]{\text{$\vectorSymbolName{1}_{#1}$}}
+    \newcommand{\vecOneTransposed}[1]{\text{$\vectorSymbolName{1}^\top_{#1}$}}
+    \newcommand{\vecZero}[1]{\text{$\vectorSymbolName{0}_{#1}$}}
+    \newcommand{\cosineSimilarity}{\text{$\vectorName{e}$}}
+    \newcommand{\signsVector}{\text{$\vectorName{s}$}}
+    \newcommand{\anyVector}{\text{$\vectorName{v}$}}
+    \newcommand{\distancesVector}{\text{$\vectorName{d}$}}
+    \newcommand{\differenceVector}{\text{$\vectorSymbolName{\gamma}$}}
+    
+    % Matrices
+    \newcommand{\adjacency}{\text{$\matrixName{A}$}}
+    \newcommand{\circulant}{\text{$\matrixName{c}$}}
+    \newcommand{\identity}[1]{\text{$\matrixName{I}_{#1}$}}
+    \newcommand{\weights}{\text{$\matrixName{W}$}}
+    \newcommand{\inverseWeights}{\text{$\overline{\matrixName{W}}$}}
+    \newcommand{\laplacian}{\text{$\matrixName{L}$}}
+    \newcommand{\normalizedLaplacian}{\text{$\matrixSymbolName{\mathcal{L}}$}}
+    \newcommand{\diffusionNL}{\text{$\matrixSymbolName{\mathcal{T}}$}}
+    \newcommand{\anyMatrix}{\text{$\matrixName{M}$}}
+    \newcommand{\meanMatrix}{\text{$\matrixName{M}$}}
+    \newcommand{\gso}{\text{$\matrixName{S}$}}
+    \newcommand{\graphFilter}{\text{$\matrixName{H}$}}
+    \newcommand{\geodesicMatrix}[1]{\text{$\matrixName{P}_{#1}$}}
+    \newcommand{\squaredGeodesicMatrix}[1]{\text{$\matrixName{P}^2_{#1}$}}
+    \newcommand{\degrees}{\text{$\matrixName{D}$}}
+    \newcommand{\eigenvectors}{\text{$\matrixSymbolName{\mathcal{X}}$}}
+    \newcommand{\eigenvaluesMatrix}{\text{$\matrixSymbolName{\Lambda}$}}
+    \newcommand{\covMatrix}{\text{$\matrixSymbolName{\Sigma}$}}
+    \newcommand{\precisionMatrix}{\text{$\matrixSymbolName{\Theta}$}}
+    \newcommand{\signalsMatrix}{\text{$\matrixName{X}$}}
+    \newcommand{\iidSignalsMatrix}{\text{$\matrixName{Y}$}}
+    \newcommand{\closeSignalsMatrix}{\text{$\matrixName{Y}$}}
+    \newcommand{\segarraSolution}{\text{$\matrixName{S}$}}
+    
+    % Variables
+    \newcommand{\vertex}{\text{$\variableName{v}$}}
+    \newcommand{\weight}{\text{$\variableName{w}$}}
+    \renewcommand{\i}{\text{$\variableName{i}$}}
+    \renewcommand{\j}{\text{$\variableName{j}$}}
+    \renewcommand{\k}{\text{$\variableName{k}$}}
+    \newcommand{\g}{\text{$\variableName{g}$}}
+    \newcommand{\s}{\text{$\variableName{s}$}}
+    \newcommand{\n}{\text{$\variableName{n}$}}
+    \newcommand{\timeQuantity}{\text{$\variableName{\tau}$}}
+    \newcommand{\timeInstant}{\text{$\variableName{t}$}}
+    \newcommand{\frequency}{\text{$\variableName{\omega}$}}
+    \newcommand{\frequencyQuantity}{\text{$\variableName{\xi}$}}
+    \newcommand{\eigenvalue}{\text{$\variableName{\lambda}$}}
+    \renewcommand{\path}{\text{$\variableName{p}$}}
+    \newcommand{\cycle}{\text{$\variableName{c}$}}
+    \newcommand{\complex}{\text{$\variableName{i}$}}
+    \newcommand{\anyVariable}{\text{$\variableName{x}$}}
+    
+    % Functions
+    \newcommand{\distance}{\text{$\functionName{d}$}}
+    \newcommand{\geodesicDistance}{\text{$\functionName{d}_\text{geo}$}}
+    \newcommand{\iwGeodesicDistance}{\text{$\functionName{d}_{\overline{\text{geo}}}$}}
+    \newcommand{\squaredIwGeodesicDistance}{\text{$\functionName{d}^2_{\overline{\text{geo}}}$}}
+    \newcommand{\weightFunction}{\text{$\functionName{f}$}}
+    \newcommand{\transformation}{\text{$\functionName{\phi}$}}
+    \newcommand{\losslessTransformation}{\text{$\functionName{\phi}^*$}}
+    \newcommand{\translation}{\text{$\functionName{\psi}$}}
+    \newcommand{\euclideanTranslation}{\text{$\functionName{\psi}_E$}}
+    \newcommand{\losslessTranslation}{\text{$\functionName{\psi}^*$}}
+    \newcommand{\loss}{\text{$\functionName{loss}$}}
+    \newcommand{\timeSignal}{\text{$\functionName{s}$}}
+    \newcommand{\dirac}{\text{$\functionName{\delta}$}}
+    \newcommand{\timeSpread}[1]{\text{$\functionName{\Delta}_{#1}$}}
+    \newcommand{\graphSpread}[2]{\text{$\functionName{\Delta}_{#1, #2}$}}
+    \newcommand{\spectralSpread}[1]{\text{$\functionName{\Delta}_{#1}$}}
+    \newcommand{\spectralGraphSpread}[2]{\text{$\functionName{\Delta}_{#1, #2}$}}
+    \newcommand{\fourier}{\text{$\mathrm{FT}$}}
+    \newcommand{\inverseFourier}{\text{$\mathrm{FT}^{-1}$}}
+    \newcommand{\discreteFourier}{\text{$\mathrm{DFT}$}}
+    \newcommand{\inverseDiscreteFourier}{\text{$\mathrm{DFT}^{-1}$}}
+    \newcommand{\centrality}{\text{$\mathrm{C}$}}
+    \newcommand{\graphFourier}{\text{$\mathrm{GFT}$}}
+    \newcommand{\inverseGraphFourier}{\text{$\mathrm{GFT}^{-1}$}}
+    \newcommand{\modulation}[1]{\text{$\mathrm{M}_{#1}$}}
+    \newcommand{\translationShuman}[1]{\text{$\mathrm{T}_{#1}$}}
+    \newcommand{\smoothness}{\text{$\mathrm{S}$}}
+    \newcommand{\diag}{\text{$\mathrm{diag}$}}
+    \newcommand{\uncertaintyCurve}[1]{\text{$\functionName{\gamma}_{#1}$}}
+    \newcommand{\eigenvalueMultiplicity}{\text{$\#$}}
+    \newcommand{\complexity}{\text{$\mathcal{O}$}}
+    \newcommand{\filterFunction}{\text{$\functionName{h}$}}
+    
+    % Others
+    \newcommand{\blackHole}{\text{$\bot$}}
+    \newcommand{\central}{\text{$\bullet$}}
+    \newcommand{\vertexIndex}[1]{{\Large \textcircled{\raisebox{1pt}{\scriptsize{#1}}}}}
+    
+    % Work in progress
+    \newcommand{\TODO}[1]{\textcolor{red}{TODO : #1}}
+    \newcommand{\COMMENT}[1]{\textcolor{blue}{COMMENT : #1}}
+    
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% CONTENTS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    \begin{document}
+        
+        % Title page
+        \begin{titlepage}
+            \include{Others/TitlePage}
+        \end{titlepage}
+        \thispagestyle{empty}
+        
+        % Table of contents
+        \dominitoc
+        \selectlanguage{english}
+        \tableofcontents
+        \vfill
+        
+        % Headers
+        \include{Others/Acknowledgments}
+        \include{Others/Resume}
+        \include{Others/Abstract}
+        
+        % Chapters
+        \include{Chapters/Chapter1}
+        \include{Chapters/Chapter2}
+        \include{Chapters/Chapter3}
+        \include{Chapters/Chapter4}
+        \include{Chapters/Chapter5}
+        \include{Chapters/Chapter6}
+
+        % Appendices
+        \appendix
+        \include{Appendices/AppendixA}
+        \include{Appendices/AppendixB}
+        
+        % Bibliography
+        \printbibliography[heading=bibintoc]
+        
+        % Index
+        \printindex
+        
+        % Back cover (should be on a left page)
+        \pagebreak
+        ~ \\ \vfill \pagebreak
+        \pagestyle{empty}
+        ~ \\ \vfill \pagebreak
+        \input{Others/BackCover}
+        
+    \end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
