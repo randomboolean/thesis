@@ -39,13 +39,17 @@ The \emph{inverse image per $f$} of the subset $V \subset F$, denoted $f^{-1}(V)
 
 A finite dimensional vector space $E$ is defined as $\real^n$, and is equipped with pointwise addition and scalar multiplication. % TODO reword
 
-\subsection*{Signals and datasets}
+\subsection*{Signals}
 
 A \emph{signal} $s$ is a function taking values in a finite dimensional vector space.
-A \emph{dataset} is a finite set of signals.
-A dataset is said to be \emph{static} if its signals are defined on the same domain, it is said to be \emph{non-static} otherwise.
+A set is said to be \emph{static} if all its signals are defined on the same domain, it is said to be \emph{non-static} otherwise.
+In experimental setups, we will often refer to the word \emph{dataset} instead of \emph{set}.
 
 For examples, images are signals defined on a set of pixels. Typically, an image $s$ in RGB representation is a mapping from pixels $p$ to a 3d vector space, as $s: p \mapsto (r,g,b)$. Image datasets used in practice are usually static. Non-static would mean that there are images of different sizes and/or different scales; in which case, they are usually rescaled and/or padded with zeros.
+
+\begin{figure}
+
+\end{figure}
 
 A \emph{graph} $G = (V, E)$ is defined as a set of vertices $V$, and a set of edges $E \subseteq\binom{V}{2}$.
 A \emph{graph signal} is a signal defined on the vertices of a graph.
