@@ -15,59 +15,123 @@
 \usepackage{arydshln}
 \usepackage{multirow}
 
+% no indent
+\setlength\parindent{0pt}
+
 % commands
 \newtheorem{definition}{Definition}
 \newcommand{\domain}{\mathcal{D}}
 \newcommand{\image}{\mathcal{I}}
 \newcommand{\real}{\mathbb{R}}
 
-
 \begin{document}
 
-\subsection*{Basic naming conventions}
 
-Let's start with the naming conventions of basic notions.
+\section{Disambiguations and definitions}
 
-A \emph{function} $f$, from the set $E$ to $F$, denoted $f: E \rightarrow F$ maps objects $x \in E$ to objects $y \in F$, as $y = f(x)$.\\
-Its \emph{domain} $\domain_f = E$ is the set of objects onto which it is defined.\\
-Objects of its domain $\domain_f$ are mapped to objects of its \emph{codomain} $\domain_f^c= F$.\\
-We say that $f$ is \emph{taking values} in its codomain.\\
+% This thesis manuscript is about deep learning on \emph{irregular domains}. So what does it mean exactly ?
+
+%% start of <see below> comment
+
+% The term \emph{deep learning}, as introduced in the previous chapter, refers to a family of learnable models based on deep neural networks. The inputs of these models are \emph{signals} of a specific type. Learning is made over a training dataset of such signals. Hence, the term \emph{domain} as in \emph{irregular domains} refers to the definition domain of these input signals.
+
+%% Shoud be put later, must make disambiguation with "unstructured" as well
+
+% In this section we recall the basic naming convention in~\ref{basic}, of some definitions in~\ref{regularity}, and categorize the models we will review by the tasks for what they are designed in~\ref{tasks}.
+
+\subsection{Naming conventions}
+\label{basic}
+
+\subsubsection{Basic notions}
+
+Let's recall the naming conventions of basic notions.
+
+A \emph{function} $f: E \rightarrow F$ maps objects $x \in E$ to objects $y \in F$, as $y = f(x)$.\\
+Its \emph{definition domain} $\domain_f = E$ is the set of objects onto which it is defined. We will often just use the term \emph{domain}.\\
+%Objects of its domain $\domain_f$ are mapped to objects of its \emph{codomain} $\domain_f^c= F$.\\
+We also say that $f$ is \emph{taking values} in its \emph{codomain} $F$.\\
 The \emph{image per $f$} of the subset $U \subset E$, denoted $f(U)$, is $\{y \in F, \exists x \in E, y = f(x)\}$.\\
 The \emph{image of $f$} is the image of its domain. We denote $\image_f$.\\
-The \emph{fiber} of the object $y \in \image_f$ is the object $x \in E$ such that $y = f(x)$.\\
-The \emph{inverse image per $f$} of the subset $V \subset F$, denoted $f^{-1}(V)$ is $\{x \in E, \exists y \in F, y = f(x)\}$.
+% The \emph{fiber} of the object $y \in \image_f$ is the object $x \in E$ such that $y = f(x)$.\\
+% The \emph{inverse image per $f$} of the subset $V \subset F$, denoted $f^{-1}(V)$ is $\{x \in E, \exists y \in F, y = f(x)\}$.
+A vector space $E$, which we will always assume to be finite-dimensional in our context, is defined as $\real^n$, and is equipped with pointwise addition and scalar multiplication.% TODO reword?
 
-A finite dimensional vector space $E$ is defined as $\real^n$, and is equipped with pointwise addition and scalar multiplication. % TODO reword
+\subsubsection{Signals}
 
-\subsection*{Signals and datasets}
+A \emph{signal} $s$ is a function taking values in a vector space. In other words, a signal can also be seen as a \emph{vector} with an \emph{underlying structure}, where the vector is composed from its image, and the underlying structure is defined by its \emph{domain}.\\
 
-A \emph{signal} $s$ is a function taking values in a finite dimensional vector space.
-A \emph{dataset} is a finite set of signals.
-A dataset is said to be \emph{static} if its signals are defined on the same domain, it is said to be \emph{non-static} otherwise.
+For example, images are signals define on a set of pixels. Typically, an image~$s$ in RGB representation is a mapping from pixels~$p$ to a 3 dimensional vector space, as $s_p = (r,g,b)$. The underlying structure of images are a grid as the pixels are arranged as such.
 
-For examples, images are signals defined on a set of pixels. Typically, an image $s$ in RGB representation is a mapping from pixels $p$ to a 3d vector space, as $s: p \mapsto (r,g,b)$. Image datasets used in practice are usually static. Non-static would mean that there are images of different sizes and/or different scales; in which case, they are usually rescaled and/or padded with zeros.
+% TODO: figure
+% quadillage , arrow ->, quadrillage remplie en 3 images
+\begin{figure}
 
-A \emph{graph} $G = (V, E)$ is defined as a set of vertices $V$, and a set of edges $E \subseteq\binom{V}{2}$.
-A \emph{graph signal} is a signal defined on the vertices of a graph.
+\end{figure}
+
+\subsubsection{An example : graph Signals}
+
+A \emph{graph} $G = (V, E)$ is defined as a set of nodes $V$, and a set of edges $E \subseteq\binom{V}{2}$. The words \emph{node} and \emph{vertex} will be used equivalently, but we will rather use the first.
+
+A \emph{graph signal}, or \emph{graph-structured signal} is a signal defined on the nodes of a graph, for which the underlying structure is the graph itself.
+A \emph{node signal} is a signal defined on a node, in which case it is a \emph{node embedding} in a vector space.
+
+Although this is rarely seen, a signal can also be defined on the edges of a graph, or on an edge. We then coin it respectively \emph{dual graph signal}, or \emph{edge signal} / \emph{edge embedding}.
+
+\emph{Graph-structured data} can refer to any of these type of signals.
+
+% Adjacency matrix, laplacian, etc ...
+A dataset of signals is said to be \emph{static} if all its signals share the same underlying structure, it is said to be \emph{non-static} otherwise.\\
+For image datasets, being non-static would mean that the dataset contains images of different sizes or different scales. For graph signal datasets, it would mean thats the underlying graph structures of the signals are different.
+
+The point in specifying that objects of a dataset of a machine learning task are signals is that we can hope to leverage their underlying structure.
 
 
-\subsection*{Regular and irregular domains}
+% TODO: figure
 
-In this subsection, we are going to redefine the notion of \emph{regularity} of a function's domain relatively to the context of deep learning and convolutional representations.
+\subsection{Regularity of a domain}
+\label{regularity}
 
+In this subsection, we explain the notion of \emph{regularity} relatively to the context of deep learning and convolutional representations. Deep learning on regular domains refer to deep learning of signals with a regular underlying structure; although being on irregular domains means that signals are defined over an irregular underlying structure.
 
+%def posets ?
 
-\begin{definition}{Regular Domain}\\
-%A regular domain is a lattice
+\begin{definition}[]{Regular domain}{}
+
 \end{definition}
 
+Let consider a signal $s: \domain \rightarrow s(\domain)$. We assume $\domain$ to be finite.
 
-\begin{definition}{Irregular Domain}\\
+%TODO examples
 
-\end{definition}
+\subsection{Disambiguation of the title}
+
+This thesis manuscript is entitled \emph{Deep Learning on Irregular or Unstructured Data}.
+
+\emph{Deep learning on unstructured data} means that the input data of the deep learning models are not signals, for example they are just objects or feature vectors, without any underlying structure \emph{a priori}.
+On the other hand, the input data of deep learning models on \emph{irregular data} are signals defined on irregular domains.
+
+\subsection{Theoretical results on regularity and convolutions}
+
+% idea : regularity of a domain implies with poset
+% prop: if a domain has a poset, define translations and convolutions
+% proving the converse too
+
+\section{Datasets}
+
+\subsection{Tasks} %% proabably too early
+\label{tasks}
 
 
-\subsection*{Invariance}
+
+
+
+
+
+
+
+\section{Goals}
+
+\subsection{Invariance}
 
 \begin{definition}
 
@@ -75,16 +139,9 @@ In this subsection, we are going to redefine the notion of \emph{regularity} of 
 
 In order to be observed, invariances must be defined relatively to an observation. Let's give a formal definition to support our discussion.
 
+...
 
-
-\begin{definition}{A function $f: $}
-
-\end{definition}
-
-
-
-
-
-
+\subsection{Methods}
+\label{methods}
 
 \end{document}
