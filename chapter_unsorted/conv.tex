@@ -19,13 +19,18 @@
 \setlength\parindent{0pt}
 
 % commands
-\newtheorem{definition}{Definition}
+\usepackage{amsthm}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
 \newcommand{\domain}{\mathcal{D}}
 \newcommand{\image}{\mathcal{I}}
 \newcommand{\real}{\mathbb{R}}
 
 \begin{document}
 
+
+\textcolor{red}{TODO: Rework 1.1}
 
 \section{Disambiguations and definitions}
 
@@ -56,19 +61,24 @@ The \emph{image of $f$} is the image of its domain. We denote $\image_f$.\\
 % The \emph{inverse image per $f$} of the subset $V \subset F$, denoted $f^{-1}(V)$ is $\{x \in E, \exists y \in F, y = f(x)\}$.
 A vector space $E$, which we will always assume to be finite-dimensional in our context, is defined as $\real^n$, and is equipped with pointwise addition and scalar multiplication.% TODO reword?
 
-\subsubsection{Signals}
-
 A \emph{signal} $s$ is a function taking values in a vector space. In other words, a signal can also be seen as a \emph{vector} with an \emph{underlying structure}, where the vector is composed from its image, and the underlying structure is defined by its \emph{domain}.\\
 
-For example, images are signals define on a set of pixels. Typically, an image~$s$ in RGB representation is a mapping from pixels~$p$ to a 3 dimensional vector space, as $s_p = (r,g,b)$. The underlying structure of images are a grid as the pixels are arranged as such.
+For example, images are signals define on a set of pixels. Typically, an image~$s$ in RGB representation is a mapping from pixels~$p$ to a 3d vector space, as $s_p = (r,g,b)$.
 
-% TODO: figure
+\textcolor{red}{TODO?: figure}
 % quadillage , arrow ->, quadrillage remplie en 3 images
 \begin{figure}
 
 \end{figure}
 
-\subsubsection{An example : graph Signals}
+\subsubsection{Graphs and graph signals}
+
+%
+\textcolor{red}{TODO: more defs on grid graphs and other graphs}
+% need to define covariance graph, nearest neighbour
+% Need to define grid graphs, regular grids from geometry, etc ...
+% A regular grid graph is a nearest neighbor graph of a regular geometric grid
+%
 
 A \emph{graph} $G = (V, E)$ is defined as a set of nodes $V$, and a set of edges $E \subseteq\binom{V}{2}$. The words \emph{node} and \emph{vertex} will be used equivalently, but we will rather use the first.
 
@@ -79,36 +89,61 @@ Although this is rarely seen, a signal can also be defined on the edges of a gra
 
 \emph{Graph-structured data} can refer to any of these type of signals.
 
+\subsubsection{Data and datasets}
+
 % Adjacency matrix, laplacian, etc ...
 A dataset of signals is said to be \emph{static} if all its signals share the same underlying structure, it is said to be \emph{non-static} otherwise.\\
 For image datasets, being non-static would mean that the dataset contains images of different sizes or different scales. For graph signal datasets, it would mean thats the underlying graph structures of the signals are different.
 
 The point in specifying that objects of a dataset of a machine learning task are signals is that we can hope to leverage their underlying structure.
 
+\textcolor{red}{TODO: figure}
 
-% TODO: figure
+\subsection{Disambiguation of the subject}
 
-\subsection{Regularity of a domain}
-\label{regularity}
+This thesis is entitled \emph{Deep learning models for data without a regular structure}.
+So either the data of interest in this manuscript do not have any structure, or either their structure is not regular.
 
-In this subsection, we explain the notion of \emph{regularity} relatively to the context of deep learning and convolutional representations. Deep learning on regular domains refer to deep learning of signals with a regular underlying structure; although being on irregular domains means that signals are defined over an irregular underlying structure.
+\subsubsection{Irregularly structured data}
 
-%def posets ?
+By structured data, we mean that there exists an underlying structure over which the data is defined. This kind of data are usually modelized as signals defined over a domain. These domains are then composed of objects that are related together by some sort of structural properties. For example, pixels of images can be seen as located on a grid with integer spatial coordinates (a 2d cartesian grid graph).
 
-\begin{definition}[]{Regular domain}{}
+It then come in handy to define the notions of structure and regularity with the help of graph signals.
 
+\begin{definition}{Structure}\\
+  Let $s: D \rightarrow F$ be a signal defined over a finite domain.\\
+  An \emph{underlying structure} of the signal $s$ is a graph $G$ that has the domain of $s$ for nodes.\\
+  A dataset is said to be \emph{structured}, if its objects can be modelized as signals with an underlying structure.\\
+  It is said to be \emph{static} if all its objects share the same underlying structure, and \emph{non-static} otherwise.
 \end{definition}
 
-Let consider a signal $s: \domain \rightarrow s(\domain)$. We assume $\domain$ to be finite.
+In other words, we chose to define ``structured data'' as ``graph-structured data'' by some graph. Hence we need to specify for which graphs this structure would be said to be regular, and for which it would not.
 
-%TODO examples
+\begin{definition}{Regularity}\\
+An underlying structure is said to be \emph{regular}, if it is a regular grid graph.
+It is said to be \emph{irregular} otherwise.\\
+A dataset is said to be \emph{regularly structured}, if the underlying structures of its objects are regular.
+It is said to be \emph{irregularly structured} otherwise.
+\end{definition}
 
-\subsection{Disambiguation of the title}
 
-This thesis manuscript is entitled \emph{Deep Learning on Irregular or Unstructured Data}.
+\textcolor{red}{TODO: examples}
+%% example images , example time series, example graph signals, example manifolds
 
-\emph{Deep learning on unstructured data} means that the input data of the deep learning models are not signals, for example they are just objects or feature vectors, without any underlying structure \emph{a priori}.
-On the other hand, the input data of deep learning models on \emph{irregular data} are signals defined on irregular domains.
+\subsubsection{Unstructured data}
+
+Data can also be unstructured. If the data is not yet embedded into a finite dimensional vector space, then we will be interested in embedding techniques used in representation learning. In the other case, it is often possible to fall back to the case of irregularly structured data. For example, vectors can be seen as signals defined over the canonical basis of the vector space, and the vectors of this basis can be related together by their covariances through the dataset. It is typical to use the graph structure that has the canonical basis for nodes, with edges obtained by covariance thresholding.
+
+\textcolor{red}{TODO: examples}
+%% give examples of unstructured data, graphs, scramble image datasets, etc..
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% END %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%
+% DRAFTS
+%
+\textcolor{red}{What follows is a draft}
+
 
 \subsection{Theoretical results on regularity and convolutions}
 
@@ -118,7 +153,7 @@ On the other hand, the input data of deep learning models on \emph{irregular dat
 
 \section{Datasets}
 
-\subsection{Tasks} %% proabably too early
+\subsection{Tasks} %% probably too early
 \label{tasks}
 
 
