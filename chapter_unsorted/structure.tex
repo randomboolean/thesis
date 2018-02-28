@@ -29,6 +29,7 @@
 \newcommand{\domain}{\mathcal{D}}
 \newcommand{\image}{\mathcal{I}}
 \newcommand{\real}{\mathbb{R}}
+\newcommand{\ovec}{}
 
 \newcommand{\todo}[1]{\textcolor{red}{TODO: #1}}
 
@@ -49,14 +50,15 @@
 \subsection{Formal description}
 
 We denote by $I_f$ the \textit{domain of definition} of a function $f$ ("I" for "input") and by $O_f = f(I_f)$ its \textit{image} ("O" for "output"), and we represent it as $I_f \xrightarrow{f} O_f$.
-
 An activation function is a function $f$ such that $I_f = O_f$.
+
 Vector spaces considered in this thesis are always assumed to be finite-dimensional.
-A tensor space is a cartesian product of vector spaces, equipped with the canonical operators.
+We define a tensor space of rank $n$ as a cartesian product of $n$ vector spaces, equipped with the coordinate-wise sum and a mono-linear outer product.
 
 \begin{definition}\textbf{Neural network}\\
-{Let $F$ be a function such that $I_f$ and $O_f$ are vector spaces.\\
-$F$ is said to be a \emph{functional formulation} of a \emph{neural network} if there are a series of linear functions $(g_k)_{k=1,2,..,L}$ and a series of non-linear derivable activation functions $(h_k)_{k=1,2,..,L}$ such that:
+\label{nndef}
+{Let $F$ be a function such that $I_f$ and $O_f$ are vector or tensor spaces.\\
+$F$ is a \emph{mathematical formulation} of a \emph{neural network} if there are a series of linear functions $(g_k)_{k=1,2,..,L}$ and a series of non-linear derivable activation functions $(h_k)_{k=1,2,..,L}$ such that:
 $$
 \left\{
   \begin{array}{l}
@@ -67,47 +69,74 @@ $$
 \right.
 $$
 The couple $(g_k, h_k)$ is called the \emph{$k$-th layer} of the neural network.
-For $x \in I_f$, we denote by $x_k = f_k \circ ... \circ f_{2} \circ f_1 (x)$ the \emph{activations} of the $k$-th layer.
+For $\ovec{x} \in I_f$, we denote by $\ovec{x_k} = f_k \circ ... \circ f_{2} \circ f_1 (\ovec{x})$ the \emph{activations} of the $k$-th layer.
 }
 \end{definition}
 
-Any linear function $g$ is characterized by a \emph{set of parameters} $\theta_g$. Without loss of generality, let's suppose $I_g$ and $O_g$ are vector spaces\footnote{for instance if they are tensor spaces, they can be reshaped to vector spaces}. Then there exists a \emph{connectivity matrix} $W$ for which:
+\begin{remark}{Connectivity matrix}\\
+Any linear function $g$ is characterized by a \emph{set of parameters} $\Theta_g$, that we order arbitrarily in the dimensions of a vector $\theta_g$. Without loss of generality, let's suppose $I_g$ and $O_g$ are vector spaces\footnote{for instance if they are tensor spaces, they can be reshaped to vector spaces}. Then there exists a \emph{connectivity matrix} $W$ for which:
 $$
 \left\{
 \begin{array}{l}
-  \forall x \in I_g, g(x) = Wx\\
-  \forall (i,j), W_{ij} \in \theta_g \text{ or } W_{ij} = 0
+  \forall \ovec{x} \in I_g, g(\ovec{x}) = W\ovec{x}\\
+  \forall (i,j), W_{ij} \in \Theta_g \text{ or } W_{ij} = 0
 \end{array}
 \right.
 $$
+\end{remark}
 
-The \emph{weights} of the $k$-th layer of a neural network, denoted $\theta_k$, are defined as the set of parameters of its linear part.
+\begin{definition}{Weights}\\
+The \emph{weights} of the $k$-th layer of a neural network, denoted $\Theta_k$, are defined as the set of parameters of its linear part.
+A weight that appear multiple times in $W$ is said to be \emph{shared}. Two parameters of $W$ that share a weight are said to be \emph{tied}.
+\end{definition}
 
-Usually, a \emph{loss} function $\mathcal{L}$ penalizes the output $F(x)$, and its gradient w.r.t. $\theta_k$ is used to update the weights via an optimization algorithm based on gradient descent and a learning rate $\alpha$, that is:
+\begin{remark}{Training}\\
+Usually, a \emph{loss} function $\mathcal{L}$ penalizes the output $x_L = F(\ovec{x})$. Its gradient w.r.t.~$\theta_k$, denoted $\vec{\bigtriangledown}_{\theta_k}$, is used to update the weights via an optimization algorithm based on gradient descent and a learning rate $\alpha$, that is:
 $$
-\theta_k^{\text{new}} = \theta_k^{\text{old}} - \alpha \bigtriangledown(\mathcal{L})_{\theta_k}
-$$ 
+\theta_k^{\text{new}} = \theta_k^{\text{old}} - \alpha \cdot \vec{\bigtriangledown}_{\theta_k}
+$$
+where $\alpha$ depends on training variables and can be a scalar or a vector, and so $\cdot$~denotes here outer or pointwise product.
+\end{remark}
 
-Thanks to the chain rule, gradients w.r.t. weights of a layer $k$, denoted $\bigtriangledown_{\theta_k}$, can be computed using gradients that are w.r.t. the elementary basis of $O_{f_k}$, denoted $\bigtriangledown_k$, which in turn can be computed using gradients w.r.t. weights of the next layer $k+1$, up to the gradients given on the output layer. That is:
+\begin{remark}\textbf{Linear complexity}\\
+{Thanks to the chain rule, $\vec{\bigtriangledown}_{\theta_k}$ can be computed using gradients that are w.r.t. $\ovec{x_k}$, denoted $\vec{\bigtriangledown}_k$, which in turn can be computed using gradients w.r.t. outputs of the next layer $k+1$, up to the gradients given on the output layer. That is:
 $$
 \left\{
 \begin{array}{l}
-  \bigtriangledown_{\theta_k} = J(W_k)_{\theta_k} \bigtriangledown_{W_k}\\
-  \bigtriangledown_{W_k} = J(x_k)_{W_k} \bigtriangledown_{k}\\
-  \bigtriangledown_{k} = J(W_{k+1})_{k} \bigtriangledown_{W_{k+1}}\\
-  \bigtriangledown_{W_{k+1}} = \ldots\\
+  \vec{\bigtriangledown}_{\theta_k} = J(\ovec{x_k})_{\theta_k} \vec{\bigtriangledown}_{k}\\
+  \vec{\bigtriangledown}_{k} = J(\ovec{x_{k+1}})_{k} \vec{\bigtriangledown}_{k+1} \label{eq:bph} \\
+  \vec{\bigtriangledown}_{k+1} = J(\ovec{x_{k+2}})_{k+1} \vec{\bigtriangledown}_{k+2} \label{eq:bph} \\
   \quad \quad \ldots\\
-  \bigtriangledown_{L} = \bigtriangledown(\mathcal{L}(x_L))_L
-
+  \vec{\bigtriangledown}_{L} = \vec{\bigtriangledown}(\mathcal{L}(\ovec{x_L}))_L
 \end{array}
 \right.
 $$
-where $J(.)_{\text{wrt}}$ are the respective jacobians which can be determined with the layer's expressions.
+where $J(.)_{\text{wrt}}$ are the respective jacobians which can be determined with the layer's expressions and the $\{x_k\}$.
 
-This allows to compute the gradients with a complexity that is linear with the number of weights, instead of being quadratic if it were done with the difference quotient expression of the derivatives.
+This allows to compute the gradients with a complexity that is linear with the number of weights, instead of being quadratic if it were done with the difference quotient expression of the derivatives.}
+\end{remark}
 
 \begin{remark}\textbf{Neural interpretation}\\
 \todo{}
+A neuron is a computational unit that that is biologically inspired. Each neuron are capable of:
+\begin{enumerate}
+\item receive modulated signals from other neurons and aggregate them,
+\item apply to the result a derivable activation,
+\item pass the signal to other neurons.
+\end{enumerate}
+As we can notice, a set of neurons implement a linear function $g$ thanks to 1) where the connectivity matrix $W$ would determine connections with another set of neurons and the modulations of the received signals. It also implements a non-linear derivable activation $h$ on the output of $g$ thanks to 2). Hence it is an \emph{neural interpretation} of a layer $(g,h)$ as formally defined above. It is depicted on Figure~\ref{neuronFig}. The point 3) stand for the fact that a layer can pass a message to another layer, and thus propagate an input signal $x$ through a series of layers $(f_k)$. This is called the \emph{forward propagation}.
+Because of the chain rule, the transpose of the connectivity matrix is used to pass a gradient signal
+Moreover, as we have $J(\ovec{x_{k+1}})_{k} = W_g \cdot h'(g(x_k))$, the gradient descent is also a neural network which layers $(h^b,g^b)$ are such that:
+\todo{}
+$$
+\left\{
+\begin{array}{l}
+  
+\end{array}
+\right.
+$$
+
+
 \end{remark}
 
 \begin{definition}\textbf{Dense layer}\\
@@ -141,9 +170,11 @@ where $p$ and $q$ index the last ranks and $\ast_n$ denotes the n-d convolution.
 
 Note that a $n$-dimensional convolutional layer that has its domain and image reshaped to vector spaces is a partially connected layer for which the weight matrix $W$ is a Toeplitz matrix.
 
-
-\begin{definition}\textbf{Pooling}
+\begin{definition}\textbf{Pooling}\\
 A layer with \textit{pooling} $(g,h)$ is such that $g = g_1 \circ g_2$, where $(g_1,h)$ is a layer and $g_2$ is a pooling operation.
+\end{definition}
+
+\begin{definition}\textbf{Reshaping}\\
 \end{definition}
 
 A layer with \textit{dropout} $(g,h)$ is such that $h = h_1 \circ h_2$, where $(g,h_2)$ is a layer and $h_1$ is a dropout operation~\cite{srivastava2014dropout}. When dropout is used, a certain number of neurons are randomly set to zero during the training phase, compensated at test time by scaling down the whole layer. This is done to prevent overfitting.
