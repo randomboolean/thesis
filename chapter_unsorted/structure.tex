@@ -31,7 +31,7 @@
 \newcommand{\real}{\mathbb{R}}
 \newcommand{\ovec}{}
 
-\newcommand{\todo}[1]{\textcolor{red}{TODO: #1}}
+\newcommand{\todo}[1]{\textcolor{red}{TODO: #1\\}}
 
 
 
@@ -49,17 +49,16 @@
 
 \subsection{Formal description}
 
-We denote by $I_f$ the \textit{domain of definition} of a function $f$ ("I" for "input") and by $O_f = f(I_f)$ its \textit{image} ("O" for "output"), and we represent it as $I_f \xrightarrow{f} O_f$.
-An activation function is a function $f$ such that $I_f = O_f$.
-
+We denote by $I_f$ the \textit{domain of definition} of a function $f$ ("I" for "input") and by $O_f = f(I_f)$ its \textit{image} ("O" for "output"), and we represent it as $I_f~\xrightarrow{f}~O_f$.
 Vector spaces considered in this thesis are always assumed to be finite-dimensional.
-We define a tensor space of rank $n$ as a cartesian product of $n$ vector spaces, equipped with the coordinate-wise sum and a mono-linear outer product.
+We define a tensor space of rank $r$ as a cartesian product of $r$ vector spaces, equipped with the coordinate-wise sum and a mono-linear outer product. An entry of a tensor $t$ is denoted $t[i_1, i_2, \ldots, i_r]$.
+An activation function $h$ defined from a $n$-d vector space to itself is a $1$-d function applied dimension-wise and we use the functional notation $h(v) = (h(v[1]), h(v[2]), \ldots, h(v[n]))$.
 
 \begin{definition}\textbf{Neural network}\\
 \label{nndef}
 {Let $F$ be a function such that $I_f$ and $O_f$ are vector or tensor spaces.\\
 $F$ is a \emph{mathematical formulation} of a \emph{neural network} if there are a series of linear functions $(g_k)_{k=1,2,..,L}$ and a series of non-linear derivable activation functions $(h_k)_{k=1,2,..,L}$ such that:
-$$
+\begin{gather}
 \left\{
   \begin{array}{l}
     \forall k \in \{1,2,..,L\}, f_k = h_k \circ g_k, \\
@@ -67,76 +66,110 @@ $$
     F = f_{L} \circ ... \circ f_{2} \circ f_1
   \end{array}
 \right.
-$$
+\end{gather}
 The couple $(g_k, h_k)$ is called the \emph{$k$-th layer} of the neural network.
 For $\ovec{x} \in I_f$, we denote by $\ovec{x_k} = f_k \circ ... \circ f_{2} \circ f_1 (\ovec{x})$ the \emph{activations} of the $k$-th layer.
 }
 \end{definition}
 
-\begin{remark}{Connectivity matrix}\\
-Any linear function $g$ is characterized by a \emph{set of parameters} $\Theta_g$, that we order arbitrarily in the dimensions of a vector $\theta_g$. Without loss of generality, let's suppose $I_g$ and $O_g$ are vector spaces\footnote{for instance if they are tensor spaces, they can be reshaped to vector spaces}. Then there exists a \emph{connectivity matrix} $W$ for which:
-$$
+\begin{remark}\textbf{Connectivity matrix}\\
+Any linear function $g$ is characterized by a \emph{set of parameters} $\Theta_g$, that we order arbitrarily in the dimensions of a vector $\theta_g$. Without loss of generality, let's suppose $I_g$ and $O_g$ are vector spaces\footnote{for instance if they are tensor spaces, they can be reshaped to vector spaces}. Then there exists a \emph{connectivity matrix} $W$, with entries denoted $W[i,j]$ for which:
+\begin{gather}
 \left\{
 \begin{array}{l}
   \forall \ovec{x} \in I_g, g(\ovec{x}) = W\ovec{x}\\
-  \forall (i,j), W_{ij} \in \Theta_g \text{ or } W_{ij} = 0
+  \forall (i,j), W[i,j] \in \Theta_g \text{ or } W[i,j] = 0
 \end{array}
 \right.
-$$
+\end{gather}
 \end{remark}
 
-\begin{definition}{Weights}\\
+\begin{remark}\textbf{Biological inspiration}\\
+A \emph{(computational) neuron} is a computational unit that is biologically inspired. Each neuron should be capable of:
+\begin{enumerate}
+\item receiving modulated signals from other neurons and aggregate them,
+\item applying to the result a derivable activation,
+\item passing the signal to other neurons.
+\end{enumerate}
+That is to say, each domain $\{I_{f_k}\}$, $O_F$ can be interpreted as a layer of neurons, with one neuron for each dimension. The connectivity matrices $\{W_k\}$ describe the connexions between each successive layers. A neuron is illustrated on Figure~\ref{fig:neuron}.
+\end{remark}
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}
+\draw (0,0) -- (4,0) -- (4,4) -- (0,4) -- (0,0);
+\end{tikzpicture}
+\caption{A neuron (placeholder)}
+\label{fig:neuron}
+\end{figure}
+
+\begin{definition}\textbf{Weights}\\
 The \emph{weights} of the $k$-th layer of a neural network, denoted $\Theta_k$, are defined as the set of parameters of its linear part.
-A weight that appear multiple times in $W$ is said to be \emph{shared}. Two parameters of $W$ that share a weight are said to be \emph{tied}.
+A weight that appear multiple times in $W_k$ is said to be \emph{shared}. Two parameters of $W_k$ that share a weight are said to be \emph{tied}.
 \end{definition}
 
-\begin{remark}{Training}\\
+\begin{remark}\textbf{Training}\\
 Usually, a \emph{loss} function $\mathcal{L}$ penalizes the output $x_L = F(\ovec{x})$. Its gradient w.r.t.~$\theta_k$, denoted $\vec{\bigtriangledown}_{\theta_k}$, is used to update the weights via an optimization algorithm based on gradient descent and a learning rate $\alpha$, that is:
-$$
+\begin{gather}
 \theta_k^{\text{new}} = \theta_k^{\text{old}} - \alpha \cdot \vec{\bigtriangledown}_{\theta_k}
-$$
+\end{gather}
 where $\alpha$ depends on training variables and can be a scalar or a vector, and so $\cdot$~denotes here outer or pointwise product.
+\todo{Give some ref of optimization algorithms}
 \end{remark}
 
 \begin{remark}\textbf{Linear complexity}\\
-{Thanks to the chain rule, $\vec{\bigtriangledown}_{\theta_k}$ can be computed using gradients that are w.r.t. $\ovec{x_k}$, denoted $\vec{\bigtriangledown}_k$, which in turn can be computed using gradients w.r.t. outputs of the next layer $k+1$, up to the gradients given on the output layer. That is:
-$$
-\left\{
-\begin{array}{l}
-  \vec{\bigtriangledown}_{\theta_k} = J(\ovec{x_k})_{\theta_k} \vec{\bigtriangledown}_{k}\\
-  \vec{\bigtriangledown}_{k} = J(\ovec{x_{k+1}})_{k} \vec{\bigtriangledown}_{k+1} \label{eq:bph} \\
-  \vec{\bigtriangledown}_{k+1} = J(\ovec{x_{k+2}})_{k+1} \vec{\bigtriangledown}_{k+2} \label{eq:bph} \\
+{Thanks to the chain rule, $\vec{\bigtriangledown}_{\theta_k}$ can be computed using gradients that are w.r.t. $\ovec{x_k}$, denoted $\vec{\bigtriangledown}_{x_k}$, which in turn can be computed using gradients w.r.t. outputs of the next layer $k+1$, up to the gradients given on the output layer.
+
+That is:
+%$$
+%\left\{
+%\begin{array}{l}
+\begin{align}
+  \vec{\bigtriangledown}_{\theta_k} & = J(\ovec{x_k})_{\theta_k} \vec{\bigtriangledown}_{x_k} \\
+  \begin{split}
+  \vec{\bigtriangledown}_{x_k} & = J(\ovec{x_{k+1}})_{x_k} \vec{\bigtriangledown}_{x_{k+1}} \\
+  \vec{\bigtriangledown}_{x_{k+1}} & = J(\ovec{x_{k+2}})_{x_{k+1}} \vec{\bigtriangledown}_{x_{k+2}} \\
   \quad \quad \ldots\\
-  \vec{\bigtriangledown}_{L} = \vec{\bigtriangledown}(\mathcal{L}(\ovec{x_L}))_L
-\end{array}
-\right.
-$$
+  \vec{\bigtriangledown}_{x_{L-1}} & = J(\ovec{x_{L}})_{x_{L-1}} \vec{\bigtriangledown}_{x_{L}}
+  \label{eq:bp}
+  \end{split}
+\end{align}
+Obtaining,
+\begin{align}
+  \vec{\bigtriangledown}_{\theta_k} = J(\ovec{x_k})_{\theta_k} (\prod_{p=k}^{L-1} J(\ovec{x_{p+1}})_{x_p}) \vec{\bigtriangledown}_{x_L}
+\end{align}
+%\end{array}
+%\right.
+%$$
 where $J(.)_{\text{wrt}}$ are the respective jacobians which can be determined with the layer's expressions and the $\{x_k\}$.
 
 This allows to compute the gradients with a complexity that is linear with the number of weights, instead of being quadratic if it were done with the difference quotient expression of the derivatives.}
 \end{remark}
 
 \begin{remark}\textbf{Neural interpretation}\\
-\todo{}
-A neuron is a computational unit that that is biologically inspired. Each neuron are capable of:
-\begin{enumerate}
-\item receive modulated signals from other neurons and aggregate them,
-\item apply to the result a derivable activation,
-\item pass the signal to other neurons.
-\end{enumerate}
-As we can notice, a set of neurons implement a linear function $g$ thanks to 1) where the connectivity matrix $W$ would determine connections with another set of neurons and the modulations of the received signals. It also implements a non-linear derivable activation $h$ on the output of $g$ thanks to 2). Hence it is an \emph{neural interpretation} of a layer $(g,h)$ as formally defined above. It is depicted on Figure~\ref{neuronFig}. The point 3) stand for the fact that a layer can pass a message to another layer, and thus propagate an input signal $x$ through a series of layers $(f_k)$. This is called the \emph{forward propagation}.
-Because of the chain rule, the transpose of the connectivity matrix is used to pass a gradient signal
-Moreover, as we have $J(\ovec{x_{k+1}})_{k} = W_g \cdot h'(g(x_k))$, the gradient descent is also a neural network which layers $(h^b,g^b)$ are such that:
-\todo{}
-$$
-\left\{
-\begin{array}{l}
-  
-\end{array}
-\right.
-$$
 
+We can remark that \eqref{eq:bp} rewrites as
+\begin{align}
+  \begin{split}
+  \vec{\bigtriangledown}_{x_k} & = J(\ovec{x_{k+1}})_{x_k} \vec{\bigtriangledown}_{x_{k+1}} \\ 
+                               & = J(h(x'_k))_{x'_k} J(W_k x_k)_{x_k} \vec{\bigtriangledown}_{x_{k+1}}
+                               %& = \text{diag}( h_k'(W_k x_k) ) W_k \vec{\bigtriangledown}_{x_{k+1}}
+  \end{split}
+\end{align}
+where $x'_k = W_k x_k$, and these jacobians can be expressed as:
+\begin{align}
+  \begin{split}
+  J(h(x'_k))_{x'_k} & [i,j] = \delta_i^j h'(x'_k[i])\\
+  J(h(x'_k))_{x'_k} & = I h'(x'_k)
+  \end{split}\\
+  J(W_k x_k)_{x_k} & = W_k^T
+\end{align}
+That means that we can write $\vec{\bigtriangledown}_{x_k} = (\widetilde{h}_k \circ \widetilde{g}_k)(\vec{\bigtriangledown}_{x_{k+1}})$ such that the connectivity matrix $\widetilde{W}_k$ is obtained by transposition. This can be interpreted as gradient calculation being a \emph{back-propagation} on the same neural network, in opposition of the \emph{forward-propagation} done to compute the output.
+\end{remark}
 
+\begin{remark}\textbf{Bias}\\
+In
+\todo{}
 \end{remark}
 
 \begin{definition}\textbf{Dense layer}\\
