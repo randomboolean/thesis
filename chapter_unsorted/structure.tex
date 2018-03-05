@@ -33,31 +33,63 @@
 
 \newcommand{\todo}[1]{\textcolor{red}{TODO: #1\\}}
 
-
-
-
 \title{Structures en apprentissage profond.\\ On structures in deep learning}
 
 \begin{document}
 
 \section{Definitions}
 
-\subsection{Deep learning}
+In this section we recall and define the notions we will be using throughout this manuscript.
 
-\subsection{Todo}
-\todo{}
+\subsection{Tensors}
 
-\subsection{Formal description}
+\todo{reformat}
+
+Vector spaces considered in this thesis are always assumed to be finite-dimensional.
+
+\begin{definition}\textbf{Tensor space}\\
+We define a \emph{tensor space of rank $r$} as a cartesian product of $r$ vector spaces, equipped with the coordinate-wise sum and the monolinear outer product.
+Its \emph{shape} is denoted $n_1 \times n_2 \times \cdots \times n_r$, where the $\{n_k\}$ are the dimensions of the vector spaces.
+For notational conveniency, we will often abusively confound vector spaces with tensor spaces of rank $1$, and matrix spaces with tensor spaces of rank $2$.
+\end{definition}
+
+\begin{definition}\textbf{Tensor}\\
+A \emph{tensor} $t$ is an object of a tensor space.
+An \emph{entry} of $t$ is denoted $t[i_1, i_2, \ldots, i_r]$.
+The \emph{shape} of the tensor $t$ is denoted $n_1(t) \times n_2(t) \times \cdots \times n_r(t)$
+\end{definition}
+
+\begin{definition}\textbf{Slice}\\
+A \emph{slice} of a tensor $t$, along the last ranks $\{r_1, r_2, \ldots, r_s\}$, and indexed by  $\{i_{r_1}, i_{r_2}, \cdots, i_{r_s}\}$, is the tensor $t'$ of rank $r-s$ such that
+\begin{align*}
+t'[i'_1, i'_2, \ldots, i'_{r-s}] &= t[i'_1, i'_2, \ldots, i'_{r-s}, i_{r_1}, i_{r_2}, \ldots, i_{r_s}] \\
+\text{ i.e. } \quad t' :&= t[:,:, \ldots, :, i'_{r-s}, i_{r_1}, i_{r_2}, \ldots, i_{r_s}]
+\end{align*}
+It is denoted $t_{i_{r_1} i_{r_2} \cdots i_{r_s}}$.
+\end{definition}
+
+\begin{definition}\textbf{Contraction}\\
+\end{definition}
+
+\begin{remark}\textbf{Covariant and contravariant indices}\\
+\end{remark}
+
+\begin{definition}\textbf{Convolution}\\
+\end{definition}
+
+\begin{definition}\textbf{Flattened space}\\
+\end{definition}
+
+\subsection{Neural Networks}
 
 We denote by $I_f$ the \textit{domain of definition} of a function $f$ ("I" for "input") and by $O_f = f(I_f)$ its \textit{image} ("O" for "output"), and we represent it as $I_f~\xrightarrow{f}~O_f$.
-Vector spaces considered in this thesis are always assumed to be finite-dimensional.
-We define a tensor space of rank $r$ as a cartesian product of $r$ vector spaces, equipped with the coordinate-wise sum and a mono-linear outer product. An entry of a tensor $t$ is denoted $t[i_1, i_2, \ldots, i_r]$.
-An activation function $h$ defined from a $n$-d vector space to itself is a $1$-d function applied dimension-wise and we use the functional notation $h(v) = (h(v[1]), h(v[2]), \ldots, h(v[n]))$.
+
+An activation function $h$ defined from a tensor space to itself is a $1$-d function applied dimension-wise and we use the functional notation $h(v)[i_1, i_2, \ldots, i_r] = h(v[i_1, i_2, \ldots, i_r])$.
 
 \begin{definition}\textbf{Neural network}\\
 \label{nndef}
 {Let $F$ be a function such that $I_f$ and $O_f$ are vector or tensor spaces.\\
-$F$ is a \emph{mathematical formulation} of a \emph{neural network} if there are a series of linear functions $(g_k)_{k=1,2,..,L}$ and a series of non-linear derivable activation functions $(h_k)_{k=1,2,..,L}$ such that:
+$F$ is a \emph{functional formulation} of a \emph{neural network} if there are a series of linear or affine functions $(g_k)_{k=1,2,..,L}$ and a series of non-linear derivable activation functions $(h_k)_{k=1,2,..,L}$ such that:
 \begin{gather}
 \left\{
   \begin{array}{l}
@@ -72,13 +104,21 @@ For $\ovec{x} \in I_f$, we denote by $\ovec{x_k} = f_k \circ ... \circ f_{2} \ci
 }
 \end{definition}
 
+\begin{remark}\textbf{Bias}\\
+Affine functions $\widetilde{g}$ can be written as a sum between a linear function $g$ and a constant vector $b$. For notational conveniency, we only consider linear functions in this section. $b$ is called the \emph{bias}. Its role is to augment the expressivity of the neural network's family of functions.
+\end{remark}
+
 \begin{remark}\textbf{Connectivity matrix}\\
-Any linear function $g$ is characterized by a \emph{set of parameters} $\Theta_g$, that we order arbitrarily in the dimensions of a vector $\theta_g$. Without loss of generality, let's suppose $I_g$ and $O_g$ are vector spaces\footnote{for instance if they are tensor spaces, they can be reshaped to vector spaces}. Then there exists a \emph{connectivity matrix} $W$, with entries denoted $W[i,j]$ for which:
+Any linear function $g$ is characterized by a \emph{set of parameters} $\Theta_g$, that we order arbitrarily in the dimensions of a vector $\theta_g$. Without loss of generality, let's suppose $I_g$ and $O_g$ are vector spaces\footnote{for instance if they are tensor spaces, they can be reshaped to vector spaces}. Then there exists a \emph{connectivity matrix}~$W_g$, for which:
 \begin{gather}
 \left\{
 \begin{array}{l}
-  \forall \ovec{x} \in I_g, g(\ovec{x}) = W\ovec{x}\\
-  \forall (i,j), W[i,j] \in \Theta_g \text{ or } W[i,j] = 0
+  \forall \ovec{x} \in I_g, g(\ovec{x}) = W_g\ovec{x}\\
+  \forall (i,j),
+    \begin{cases}
+      \exists w \in \Theta_g, W_g[i,j] := w \\
+      \text{ or } W_g[i,j] = 0
+    \end{cases}
 \end{array}
 \right.
 \end{gather}
@@ -105,7 +145,7 @@ That is to say, each domain $\{I_{f_k}\}$, $O_F$ can be interpreted as a layer o
 
 \begin{definition}\textbf{Weights}\\
 The \emph{weights} of the $k$-th layer of a neural network, denoted $\Theta_k$, are defined as the set of parameters of its linear part.
-A weight that appear multiple times in $W_k$ is said to be \emph{shared}. Two parameters of $W_k$ that share a weight are said to be \emph{tied}.
+A weight that appears multiple times in $W_k$ is said to be \emph{shared}. Two parameters of $W_k$ that share a weight are said to be \emph{tied}.
 \end{definition}
 
 \begin{remark}\textbf{Training}\\
@@ -167,25 +207,29 @@ where $x'_k = W_k x_k$, and these jacobians can be expressed as:
 That means that we can write $\vec{\bigtriangledown}_{x_k} = (\widetilde{h}_k \circ \widetilde{g}_k)(\vec{\bigtriangledown}_{x_{k+1}})$ such that the connectivity matrix $\widetilde{W}_k$ is obtained by transposition. This can be interpreted as gradient calculation being a \emph{back-propagation} on the same neural network, in opposition of the \emph{forward-propagation} done to compute the output.
 \end{remark}
 
-\begin{remark}\textbf{Bias}\\
-In
-\todo{}
-\end{remark}
-
 \begin{definition}\textbf{Dense layer}\\
-A \textit{dense layer} $(g,h)$ is a layer such that there is a \textit{weight matrix} $W$ for which
+A \textit{dense layer} $(g,h)$ is a layer such that
 $$
 \left\{
 \begin{array}{l}
   I_g \mbox{ and } O_g \mbox{ are vector spaces} \\
-  \forall x \in I_g, g(x) = Wx
+  \forall w \in \Theta_g, \exists! (i, j), W_g[i,j] := w \\
+  | \Theta_g | = n_1(W_g)n_2(W_g)
 \end{array}
 \right.
 $$
 \end{definition}
 
 \begin{definition}\textbf{Partially connected layer}\\
-A \textit{partially connected layer} is a dense layer such that $\exists (i,j), W_{i,j} = 0$.
+A \textit{partially connected layer} is a layer such that
+$$
+\left\{
+\begin{array}{l}
+  I_g \mbox{ and } O_g \mbox{ are vector spaces}\\
+  \exists (i,j), \forall w \in \Theta_g, W_g[i,j] :\neq w
+\end{array}
+\right.
+$$
 \end{definition}
 
 \begin{definition}\textbf{Convolutional layer}\\
@@ -199,9 +243,8 @@ $$
 \right.
 $$
 where $p$ and $q$ index the last ranks and $\ast_n$ denotes the n-d convolution. The tensor slices indexed by $p$ and $q$ are typically called \textit{feature maps}.
+Note that if $I_g$ and $O_g$ are reshaped to vector spaces, $W_g$ would be a Toeplitz matrix.
 \end{definition}
-
-Note that a $n$-dimensional convolutional layer that has its domain and image reshaped to vector spaces is a partially connected layer for which the weight matrix $W$ is a Toeplitz matrix.
 
 \begin{definition}\textbf{Pooling}\\
 A layer with \textit{pooling} $(g,h)$ is such that $g = g_1 \circ g_2$, where $(g_1,h)$ is a layer and $g_2$ is a pooling operation.
@@ -236,7 +279,7 @@ We encounter the notion of graphs several times in deep learning:
 \subsubsection{Connectivity graph}
 \label{con_graph}
 
-A Connectivity graph is a graphical representation of the linear part of the mathematical model implemented by a layer of neurons.
+A Connectivity graph is the bipartite graph whose adjacency matrix is the connectivity graph of a layer of neurons.
 %$U = \{u_1, u_2, \ldots, u_n\}$
 Formally, given a linear part of a layer, let $\textbf{x}$ and $\textbf{y}$ be the input and output signals, $n$ the size of the set of input neurons $N = \{u_1, u_2, \ldots, u_n\}$, and $m$ the size of the set of output neurons $M = \{v_1, v_2, \ldots, v_m\}$. This layer implements the equation $y = \Theta x$ where $\Theta$ is a $n \times m$ matrix.
 
