@@ -26,9 +26,9 @@
 \newtheorem{definition}{Definition}[section]
 \newtheorem{remark}{Remark}
 
-\newcommand{\domain}{\mathcal{D}}
-\newcommand{\image}{\mathcal{I}}
 \newcommand{\real}{\mathbb{R}}
+\newcommand{\tspace}{\mathbb{T}}
+\newcommand{\vecspace}{\mathbb{V}}
 \newcommand{\ovec}{}
 
 \newcommand{\todo}[1]{\textcolor{red}{TODO: #1\\}}
@@ -37,27 +37,30 @@
 
 \begin{document}
 
-\section{Definitions}
+\section{Definitions and disambiguations}
 
-In this section we recall and define the notions we will be using throughout this manuscript.
+In this section we recall and define the notions we will be using in this manuscript.
 
 \subsection{Tensors}
 
-\todo{reformat}
-
-Vector spaces considered in this thesis are always assumed to be finite-dimensional.
+Vector spaces considered in this thesis are assumed to be finite-dimensional and over the field of real numbers $\real$.
 
 \begin{definition}\textbf{Tensor space}\\
-We define a \emph{tensor space of rank $r$} as a cartesian product of $r$ vector spaces, equipped with the coordinate-wise sum and the monolinear outer product.
+We define a \emph{tensor space} $\tspace$ of rank $r$ as a cartesian product of $r$ vector spaces, equipped with the coordinate-wise sum and the mono-linear outer product.
+
 Its \emph{shape} is denoted $n_1 \times n_2 \times \cdots \times n_r$, where the $\{n_k\}$ are the dimensions of the vector spaces.
-For notational conveniency, we will often abusively confound vector spaces with tensor spaces of rank $1$, and matrix spaces with tensor spaces of rank $2$.
 \end{definition}
+
+For notational conveniency, we will often abusively confound vector spaces with tensor spaces of rank $1$, and matrix spaces with tensor spaces of rank $2$.
 
 \begin{definition}\textbf{Tensor}\\
 A \emph{tensor} $t$ is an object of a tensor space.
-An \emph{entry} of $t$ is denoted $t[i_1, i_2, \ldots, i_r]$.
-The \emph{shape} of the tensor $t$ is denoted $n_1(t) \times n_2(t) \times \cdots \times n_r(t)$
+
+The \emph{shape} of $t$, which is the same as the shape of the tensor space it belongs to, is denoted $n_1^{(t)} \times n_2^{(t)} \times \cdots \times n_r^{(t)}$.
+An \emph{entry} is denoted $t[i_1, i_2, \ldots, i_r]$.
 \end{definition}
+
+When using an index $i_k$ for an entry of a tensor $t$, we implicitly assume that $i_k \in \{1, 2, \cdots, n_k^{(t)}\}$ if nothing is precised.
 
 \begin{definition}\textbf{Slice}\\
 A \emph{slice} of a tensor $t$, along the last ranks $\{r_1, r_2, \ldots, r_s\}$, and indexed by  $\{i_{r_1}, i_{r_2}, \cdots, i_{r_s}\}$, is the tensor $t'$ of rank $r-s$ such that
@@ -65,19 +68,74 @@ A \emph{slice} of a tensor $t$, along the last ranks $\{r_1, r_2, \ldots, r_s\}$
 t'[i'_1, i'_2, \ldots, i'_{r-s}] &= t[i'_1, i'_2, \ldots, i'_{r-s}, i_{r_1}, i_{r_2}, \ldots, i_{r_s}] \\
 \text{ i.e. } \quad t' :&= t[:,:, \ldots, :, i'_{r-s}, i_{r_1}, i_{r_2}, \ldots, i_{r_s}]
 \end{align*}
-It is denoted $t_{i_{r_1} i_{r_2} \cdots i_{r_s}}$.
+We denote $t_{i_{r_1} i_{r_2} \cdots i_{r_s}}$. Hence its shape is $n_1^{(t)} \times n_2^{(t)} \times \cdots \times n_{r-s}^{(t)}$.
+\end{definition}
+
+\begin{definition}\textbf{Flattening}\\
+A \emph{flatten} operation is a bijection $f$ between a tensor space $\tspace$ of rank $r$ and an $n$-dimensional vector space $\vecspace$ such that
+\begin{gather*}
+\left\{
+  \begin{array}{l}
+  \displaystyle \prod_{k=1}^r n_k = n \\
+  \forall t \in \tspace, f(t)[\displaystyle \sum_{p=1}^r \left( \prod_{k=p+1}^r n_k \right) i_p ] = f(t[i_1, i_2, \ldots, i_r])
+  \end{array}
+\right.
+\end{gather*}
+An inverse operation is called a \emph{de-flatten} operation.
+\end{definition}
+
+\begin{definition}\textbf{Reshaping}\\
+A \emph{reshape} operation is a bijection $g$ defined on a tensor space $\tspace = \displaystyle \prod_{k=1}^r \vecspace_k$ such that its basis vector spaces $\{\vecspace_k\}$ are either de-flattened or flattened by contiguous groups $\{\displaystyle \prod_{p=0}^{s-1} \vecspace_{s_0+p}\}$.
 \end{definition}
 
 \begin{definition}\textbf{Contraction}\\
+A \emph{tensor contraction} between two tensors, along ranks of same dimensions, is defined as the tensor equivalent of the dot product operation.
+
+More precisely, let $\tspace_1$ a tensor space of shape $n_1^{(1)} \times n_2^{(1)} \times \cdots \times n_{r_1}^{(1)}$, and $\tspace_2$ a tensor space of shape $n_1^{(2)} \times n_2^{(2)} \times \cdots \times n_{r_2}^{(2)}$, such that $\forall k \in \{1, 2, \ldots, s\}, n_{r_1-(s-k)}^{(1)} = n_k^{(2)}$, then the tensor contraction between $t_1 \in \tspace_1$ and $t_2 \in \tspace_2$ is defined as:
+\begin{gather*}
+\left\{
+  \begin{array}{l}
+    t_1 \otimes t_2 = t_3 \in \tspace_3 \text{ of shape } n_1^{(1)} \times \cdots \times n_{r_1-s}^{(1)} \times n_{s+1}^{(2)} \times \cdots \times n_{r_2}^{(2)}
+    \text{ where} \\
+    t_3[i_1^{(1)}, \ldots, i_{r_1-s}^{(1)}, i_{s+1}^{(2)}, \ldots, i_{r_2}^{(2)}] = \\
+    \displaystyle \sum_{k_1, \ldots, k_s}
+    t_1[i_1^{(1)}, \ldots, i_{r_1-s}^{(1)}, k_1, \ldots, k_s] \hspace{2pt}
+    t_2[k_1, \ldots, k_s, i_{s+1}^{(2)}, \ldots, i_{r_2}^{(2)}]
+  \end{array}
+\right.
+\end{gather*}
 \end{definition}
 
 \begin{remark}\textbf{Covariant and contravariant indices}\\
+Indices of the left handed operand $t_1$ that are not contracted are called \emph{covariant} indices. Those that are contracted are called \emph{contravariant} indices. For the right operand $t_2$, the naming convention is the opposite. Using subscript notation for covariant indices and superscript notation for contravariant indices, the previous tensor contraction can be written using the Einstein summation convention as:
+\begin{gather*}
+t_1 \hspace{0pt}_{i_1^{(1)} \cdots i_{r_1}^{(1)} } \hspace{0pt}^{ k_1 \cdots k_s} \otimes
+t_2 \hspace{0pt}_{ k_1^{\phantom{(}} \cdots k_s^{\phantom{(}}} \hspace{0pt}^{i_{s+1}^{(2)} \cdots i_{r_2}^{(2)}} =
+t_3 \hspace{0pt}_ {i_1^{(1)} \cdots i_{r_1}^{(1)} } \hspace{0pt}^{i_{s+1}^{(2)} \cdots i_{r_2}^{(2)}}
+\end{gather*}
+\end{remark}
+
+Dot product $u_k v^k = \lambda $ and matrix product $A_i\hspace{0pt}^k B_k\hspace{0pt}^j = C_i\hspace{0pt}^j$ are common examples of tensor contractions.
+
+\begin{remark}\textbf{Matrix product equivalence}\\
+Using a reshaping that groups all covariant indices into a single index and all contravariant indices into another single index, any tensor contraction can be rewritten as a matrix product.
 \end{remark}
 
 \begin{definition}\textbf{Convolution}\\
-\end{definition}
-
-\begin{definition}\textbf{Flattened space}\\
+The \emph{$n$-dimensional convolution} between $t_1 \in \tspace_1$ and $t_2 \in \tspace_2$, where $\tspace_1$ and $\tspace_2$ are of the same rank $n$, is defined as:
+\begin{gather*}
+\left\{
+  \begin{array}{l}
+t_1 \ast_r t_2 = t_3 \in \tspace_1 \\
+t_3[i_1, \ldots, i_n] = \displaystyle \sum_{k_1, \ldots, k_n} \widetilde{t_1}[i_1 - k_1, \ldots, i_n - k_n] \hspace{2pt} t_2[k_1, \ldots, k_n] \\
+\text{where } \widetilde{t_1}[p_1, \ldots, p_n] =
+  \begin{cases}
+  t_1[p_1, \ldots, p_n] & \text{if } \forall q, 1 \le p_q \le n_q(t_1) \\
+  0 & \text{otherwise}
+  \end{cases}
+  \end{array}
+\right.
+\end{gather*}
 \end{definition}
 
 \subsection{Neural Networks}
@@ -108,8 +166,8 @@ For $\ovec{x} \in I_f$, we denote by $\ovec{x_k} = f_k \circ ... \circ f_{2} \ci
 Affine functions $\widetilde{g}$ can be written as a sum between a linear function $g$ and a constant vector $b$. For notational conveniency, we only consider linear functions in this section. $b$ is called the \emph{bias}. Its role is to augment the expressivity of the neural network's family of functions.
 \end{remark}
 
-\begin{remark}\textbf{Connectivity matrix}\\
-Any linear function $g$ is characterized by a \emph{set of parameters} $\Theta_g$, that we order arbitrarily in the dimensions of a vector $\theta_g$. Without loss of generality, let's suppose $I_g$ and $O_g$ are vector spaces\footnote{for instance if they are tensor spaces, they can be reshaped to vector spaces}. Then there exists a \emph{connectivity matrix}~$W_g$, for which:
+\begin{definition}\textbf{Connectivity matrix}\\
+Any linear function $g$ is characterized by a \emph{set of parameters} $\Theta_g$, that we order arbitrarily in the dimensions of a vector $\theta_g$. Without loss of generality subject to a flattening, let's suppose $I_g$ and $O_g$ are vector spaces. Then there exists a \emph{connectivity matrix}~$W_g$, for which:
 \begin{gather}
 \left\{
 \begin{array}{l}
@@ -122,7 +180,7 @@ Any linear function $g$ is characterized by a \emph{set of parameters} $\Theta_g
 \end{array}
 \right.
 \end{gather}
-\end{remark}
+\end{definition}
 
 \begin{remark}\textbf{Biological inspiration}\\
 A \emph{(computational) neuron} is a computational unit that is biologically inspired. Each neuron should be capable of:
@@ -131,15 +189,16 @@ A \emph{(computational) neuron} is a computational unit that is biologically ins
 \item applying to the result a derivable activation,
 \item passing the signal to other neurons.
 \end{enumerate}
-That is to say, each domain $\{I_{f_k}\}$, $O_F$ can be interpreted as a layer of neurons, with one neuron for each dimension. The connectivity matrices $\{W_k\}$ describe the connexions between each successive layers. A neuron is illustrated on Figure~\ref{fig:neuron}.
+That is to say, each domain $\{I_{f_k}\}$ and $O_F$ can be interpreted as a layer of neurons, with one neuron for each dimension. The connectivity matrices $\{W_k\}$ describe the connexions between each successive layers. A neuron is illustrated on Figure~\ref{fig:neuron}.
 \end{remark}
 
 \begin{figure}[h]
 \centering
 \begin{tikzpicture}
 \draw (0,0) -- (4,0) -- (4,4) -- (0,4) -- (0,0);
+\node at (2,2){placeholder};
 \end{tikzpicture}
-\caption{A neuron (placeholder)}
+\caption{A neuron}
 \label{fig:neuron}
 \end{figure}
 
@@ -153,8 +212,7 @@ Usually, a \emph{loss} function $\mathcal{L}$ penalizes the output $x_L = F(\ove
 \begin{gather}
 \theta_k^{\text{new}} = \theta_k^{\text{old}} - \alpha \cdot \vec{\bigtriangledown}_{\theta_k}
 \end{gather}
-where $\alpha$ depends on training variables and can be a scalar or a vector, and so $\cdot$~denotes here outer or pointwise product.
-\todo{Give some ref of optimization algorithms}
+where $\alpha$~can be a scalar or a vector, and $\cdot$~can denote outer or pointwise product. $\alpha$ and~$\cdot$~ depend on the optimization algorithm.
 \end{remark}
 
 \begin{remark}\textbf{Linear complexity}\\
@@ -200,7 +258,7 @@ where $x'_k = W_k x_k$, and these jacobians can be expressed as:
 \begin{align}
   \begin{split}
   J(h(x'_k))_{x'_k} & [i,j] = \delta_i^j h'(x'_k[i])\\
-  J(h(x'_k))_{x'_k} & = I h'(x'_k)
+  J(h(x'_k))_{x'_k} & = I \hspace{2pt} h'(x'_k)
   \end{split}\\
   J(W_k x_k)_{x_k} & = W_k^T
 \end{align}
@@ -214,11 +272,13 @@ $$
 \begin{array}{l}
   I_g \mbox{ and } O_g \mbox{ are vector spaces} \\
   \forall w \in \Theta_g, \exists! (i, j), W_g[i,j] := w \\
-  | \Theta_g | = n_1(W_g)n_2(W_g)
+  | \Theta_g | = n_1^{(W_g)}n_2^{(W_g)}
 \end{array}
 \right.
 $$
 \end{definition}
+
+That is, there is no weight sharing, and all possible connections in the connectivity matrix exist. When some connections don't exist, we have the following type of layer:
 
 \begin{definition}\textbf{Partially connected layer}\\
 A \textit{partially connected layer} is a layer such that
@@ -233,29 +293,37 @@ $$
 \end{definition}
 
 \begin{definition}\textbf{Convolutional layer}\\
-A \textit{$n$-dimensional convolutional layer} $(g,h)$ is a layer such that there is a \textit{weight tensor} $W$ of rank $n+2$ for which
+A \textit{$n$-dimensional convolutional layer} $(g,h)$ is a layer such that there is a \textit{weight kernel} tensor $w$ of rank $n+2$ for which
 $$
 \left\{
 \begin{array}{l}
   I_g \mbox{ and } O_g \mbox{ are tensor spaces of rank }n+1 \\
-  \forall x \in I_g, g(x) = (g(x)_q = \sum\limits_p{W_{pq} \ast_n x_p})_{\forall q}
+  \forall x \in I_g, g(x) = (g(x)_q = \sum\limits_p{x_p \ast_n w_{pq}})_{\forall q}
 \end{array}
 \right.
 $$
 where $p$ and $q$ index the last ranks and $\ast_n$ denotes the n-d convolution. The tensor slices indexed by $p$ and $q$ are typically called \textit{feature maps}.
-Note that if $I_g$ and $O_g$ are reshaped to vector spaces, $W_g$ would be a Toeplitz matrix.
 \end{definition}
+
+\begin{remark}\textbf{Connectivity matrix of a convolution}\\
+Note that if $I_g$ and $O_g$ are flattened, a convolutional layer $(g,h)$ is equivalently defined as $W_g$ being a Toeplitz matrix.
+\end{remark}
+
+\todo{below}
+
+\begin{remark}\textbf{Convolution with stride}
+\end{remark}
+
+\begin{remark}\textbf{Geometric shape of the kernel}
+\end{remark}
 
 \begin{definition}\textbf{Pooling}\\
 A layer with \textit{pooling} $(g,h)$ is such that $g = g_1 \circ g_2$, where $(g_1,h)$ is a layer and $g_2$ is a pooling operation.
 \end{definition}
 
-\begin{definition}\textbf{Reshaping}\\
-\end{definition}
-
 A layer with \textit{dropout} $(g,h)$ is such that $h = h_1 \circ h_2$, where $(g,h_2)$ is a layer and $h_1$ is a dropout operation~\cite{srivastava2014dropout}. When dropout is used, a certain number of neurons are randomly set to zero during the training phase, compensated at test time by scaling down the whole layer. This is done to prevent overfitting.
 
-\todo{neuron interpretation}
+\todo{rephrase}
 
 A multilayer perceptron (MLP)~\cite{hornik1989multilayer} is a neural network composed of only dense layers.
 A convolutional neural network (CNN)~\cite{lecun1998gradient} is a neural network composed of convolutional layers.
@@ -263,6 +331,8 @@ A convolutional neural network (CNN)~\cite{lecun1998gradient} is a neural networ
 Neural networks are commonly used for machine learning tasks. For example, to perform supervised classification, we usually add a dense output layer $s=(g_{L+1},h_{L+1})$ with as many neurons as classes. We measure the error between an output and its expected output with a discriminative loss function $\mathcal{L}$. During the training phase, the weights of the network are adapted for the classification task based on the errors that are back-propagated~\cite{hornik1989multilayer} via the chain rule and according to a chosen optimization algorithm (e.g. \cite{bottou2010large}).
 
 \subsection{Graphs}
+
+\todo{check this subsection}
 
 A graph $G$ is defined as a couple $(V,E)$ where $V$ represents the set of nodes and $E \subseteq\binom{V}{2}$ is the set of edges connecting these nodes.
 
