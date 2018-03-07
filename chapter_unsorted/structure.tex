@@ -101,7 +101,8 @@ More precisely, let $\tspace_1$ a tensor space of shape $n_1^{(1)} \times n_2^{(
     t_1 \otimes t_2 = t_3 \in \tspace_3 \text{ of shape } n_1^{(1)} \times \cdots \times n_{r_1-s}^{(1)} \times n_{s+1}^{(2)} \times \cdots \times n_{r_2}^{(2)}
     \text{ where} \\
     t_3[i_1^{(1)}, \ldots, i_{r_1-s}^{(1)}, i_{s+1}^{(2)}, \ldots, i_{r_2}^{(2)}] = \\
-    \displaystyle \sum_{k_1, \ldots, k_s}
+    %\displaystyle \sum_{k_1, \ldots, k_s}
+    \displaystyle \sum_{k_1=1}^{n_1^{(2)}} \cdots \sum_{k_s=1}^{n_s^{(2)}}
     t_1[i_1^{(1)}, \ldots, i_{r_1-s}^{(1)}, k_1, \ldots, k_s] \hspace{2pt}
     t_2[k_1, \ldots, k_s, i_{s+1}^{(2)}, \ldots, i_{r_2}^{(2)}]
   \end{array}
@@ -129,13 +130,16 @@ The \emph{$n$-dimensional convolution} between $t_1 \in \tspace_1$ and $t_2 \in 
 \begin{gather*}
 \left\{
   \begin{array}{l}
-t_1 \ast_n t_2 = t_3 \in \tspace_1 \\
-t_3[i_1, \ldots, i_n] = \displaystyle \sum_{k_1, \ldots, k_n} \widetilde{t_1}[i_1 - k_1, \ldots, i_n - k_n] \hspace{2pt} t_2[k_1, \ldots, k_n] \\
-\text{where } \widetilde{t_1}[p_1, \ldots, p_n] =
-  \begin{cases}
-  t_1[p_1, \ldots, p_n] & \text{if } \forall q, 1 \le p_q \le n_q(t_1) \\
-  0 & \text{otherwise}
-  \end{cases}
+    t_1 \ast_n t_2 = t_3 \in \tspace_1 \\
+    t_3[i_1, \ldots, i_n] =
+    %\displaystyle \sum_{k_1, \ldots, k_n}
+    \displaystyle \sum_{k_1=1}^{n_1^{(2)}} \cdots \sum_{k_n=1}^{n_n^{(2)}}
+    \widetilde{t_1}[i_1 - k_1, \ldots, i_n - k_n] \hspace{2pt} t_2[k_1, \ldots, k_n] \\
+    \text{where } \widetilde{t_1}[p_1, \ldots, p_n] =
+    \begin{cases}
+      t_1[p_1, \ldots, p_n] & \text{if } \forall q, 1 \le p_q \le n_q^{(1)} \\
+      0 & \text{otherwise}
+    \end{cases}
   \end{array}
 \right.
 \end{gather*}
