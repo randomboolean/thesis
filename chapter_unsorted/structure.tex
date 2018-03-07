@@ -63,13 +63,14 @@ An \emph{entry} is denoted $t[i_1, i_2, \ldots, i_r]$.
 
 When using an index $i_k$ for an entry of a tensor $t$, we implicitly assume that $i_k \in \{1, 2, \cdots, n_k^{(t)}\}$ if nothing is precised.
 
-\begin{definition}\textbf{Slice}\\
-A \emph{slice} of a tensor $t$, along the last ranks $\{r_1, r_2, \ldots, r_s\}$, and indexed by  $\{i_{r_1}, i_{r_2}, \cdots, i_{r_s}\}$, is the tensor $t'$ of rank $r-s$ such that
+\begin{definition}\textbf{Slicing}\\
+A \emph{slice} operation $s$, along the last ranks $\{r_1, r_2, \ldots, r_s\}$, is a function that maps a tensor space $\tspace = \displaystyle \prod_{k=1}^r \vecspace_k$ to another tensor space $\tspace' = \displaystyle \prod_{k=1}^{r-s} \vecspace_k$, called a \emph{sliced subspace}, such that:
 \begin{align*}
-t'[i'_1, i'_2, \ldots, i'_{r-s}] &= t[i'_1, i'_2, \ldots, i'_{r-s}, i_{r_1}, i_{r_2}, \ldots, i_{r_s}] \\
-\text{ i.e. } \quad t' :&= t[:,:, \ldots, :, i'_{r-s}, i_{r_1}, i_{r_2}, \ldots, i_{r_s}]
+s(t)[i'_1, i'_2, \ldots, i'_{r-s}] &= t[i'_1, i'_2, \ldots, i'_{r-s}, i_{r_1}, i_{r_2}, \ldots, i_{r_s}] \\
+\text{ i.e. } \quad s(t) :&= t[:,:, \ldots, :, i'_{r-s}, i_{r_1}, i_{r_2}, \ldots, i_{r_s}]
 \end{align*}
-We denote $t_{i_{r_1} i_{r_2} \cdots i_{r_s}}$. Hence its shape is $n_1^{(t)} \times n_2^{(t)} \times \cdots \times n_{r-s}^{(t)}$.
+We denote $t_{i_{r_1} i_{r_2} \cdots i_{r_s}}$ the slice of $t$ along the $s$ last ranks. 
+Slicing along a subset of ranks that are not the lasts is defined similarly.
 \end{definition}
 
 \begin{definition}\textbf{Flattening}\\
@@ -86,7 +87,7 @@ An inverse operation is called a \emph{de-flatten} operation.
 \end{definition}
 
 \begin{definition}\textbf{Reshaping}\\
-A \emph{reshape} operation is a bijection $g$ defined on a tensor space $\tspace = \displaystyle \prod_{k=1}^r \vecspace_k$ such that its basis vector spaces $\{\vecspace_k\}$ are either de-flattened or flattened by contiguous groups $\{\displaystyle \prod_{p=0}^{s-1} \vecspace_{s_0+p}\}$.
+A \emph{reshape} operation is a bijection $g$ defined on a tensor space $\tspace = \displaystyle \prod_{k=1}^r \vecspace_k$ such that some of its basis vector spaces $\{\vecspace_k\}$ are de-flattened and some of its sliced subspace are flattened.
 \end{definition}
 
 \begin{definition}\textbf{Contraction}\\
