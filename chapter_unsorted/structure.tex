@@ -64,7 +64,7 @@ An \emph{entry} is denoted $t[i_1, i_2, \ldots, i_r]$.
 When using an index $i_k$ for an entry of a tensor $t$, we implicitly assume that $i_k \in \{1, 2, \cdots, n_k^{(t)}\}$ if nothing is precised.
 
 \begin{definition}\textbf{Slicing}\\
-A \emph{slice} operation $s$, along the last ranks $\{r_1, r_2, \ldots, r_s\}$, and indexed by $(i_{r_1}, i_{r_2}, \ldots, i_{r_s})$, is a function $\tspace = \displaystyle \prod_{k=1}^r \vecspace_k \rightarrow \prod_{k=1}^{r-s} \vecspace_k$, such that:
+A \emph{slice} operation, along the last ranks $\{r_1, r_2, \ldots, r_s\}$, and indexed by $(i_{r_1}, i_{r_2}, \ldots, i_{r_s})$, is a function $s: \tspace = \displaystyle \prod_{k=1}^r \vecspace_k \rightarrow \prod_{k=1}^{r-s} \vecspace_k$, such that:
 \begin{align*}
 s(t)[i'_1, i'_2, \ldots, i'_{r-s}] &= t[i'_1, i'_2, \ldots, i'_{r-s}, i_{r_1}, i_{r_2}, \ldots, i_{r_s}] \\
 \text{ i.e. } \quad s(t) :&= t[:,:, \ldots, :, i_{r_1}, i_{r_2}, \ldots, i_{r_s}]
@@ -75,7 +75,7 @@ $s(\tspace)$ is called a \emph{sliced subspace}.
 \end{definition}
 
 \begin{definition}\textbf{Flattening}\\
-A \emph{flatten} operation is a bijection $f$ between a tensor space $\tspace$ of rank $r$ and an $n$-dimensional vector space $\vecspace$ such that
+A \emph{flatten} operation is a bijection $f: \tspace \rightarrow \vecspace$, between a tensor space $\tspace$ of rank $r$ and an $n$-dimensional vector space $\vecspace$ such that
 \begin{gather*}
 \left\{
   \begin{array}{l}
@@ -88,7 +88,7 @@ An inverse operation is called a \emph{de-flatten} operation.
 \end{definition}
 
 \begin{definition}\textbf{Reshaping}\\
-A \emph{reshape} operation is a bijection $g$ defined on a tensor space $\tspace = \displaystyle \prod_{k=1}^r \vecspace_k$ such that some of its basis vector spaces $\{\vecspace_k\}$ are de-flattened and some of its sliced subspace are flattened.
+A \emph{reshape} operation is a bijection defined on a tensor space $\tspace = \displaystyle \prod_{k=1}^r \vecspace_k$ such that some of its basis vector spaces $\{\vecspace_k\}$ are de-flattened and some of its sliced subspaces are flattened.
 \end{definition}
 
 \begin{definition}\textbf{Contraction}\\
