@@ -64,13 +64,14 @@ An \emph{entry} is denoted $t[i_1, i_2, \ldots, i_r]$.
 When using an index $i_k$ for an entry of a tensor $t$, we implicitly assume that $i_k \in \{1, 2, \cdots, n_k^{(t)}\}$ if nothing is precised.
 
 \begin{definition}\textbf{Slicing}\\
-A \emph{slice} operation $s$, along the last ranks $\{r_1, r_2, \ldots, r_s\}$, is a function that maps a tensor space $\tspace = \displaystyle \prod_{k=1}^r \vecspace_k$ to another tensor space $\tspace' = \displaystyle \prod_{k=1}^{r-s} \vecspace_k$, called a \emph{sliced subspace}, such that:
+A \emph{slice} operation $s$, along the last ranks $\{r_1, r_2, \ldots, r_s\}$, and indexed by $(i_{r_1}, i_{r_2}, \ldots, i_{r_s})$, is a function $\tspace = \displaystyle \prod_{k=1}^r \vecspace_k \rightarrow \prod_{k=1}^{r-s} \vecspace_k$, such that:
 \begin{align*}
 s(t)[i'_1, i'_2, \ldots, i'_{r-s}] &= t[i'_1, i'_2, \ldots, i'_{r-s}, i_{r_1}, i_{r_2}, \ldots, i_{r_s}] \\
-\text{ i.e. } \quad s(t) :&= t[:,:, \ldots, :, i'_{r-s}, i_{r_1}, i_{r_2}, \ldots, i_{r_s}]
+\text{ i.e. } \quad s(t) :&= t[:,:, \ldots, :, i_{r_1}, i_{r_2}, \ldots, i_{r_s}]
 \end{align*}
-We denote $t_{i_{r_1} i_{r_2} \cdots i_{r_s}}$ the slice of $t$ along the $s$ last ranks. 
+We denote $t_{i_{r_1} i_{r_2} \cdots i_{r_s}}$ and call it the \emph{slice} of $t$. 
 Slicing along a subset of ranks that are not the lasts is defined similarly.
+$s(\tspace)$ is called a \emph{sliced subspace}.
 \end{definition}
 
 \begin{definition}\textbf{Flattening}\\
@@ -91,7 +92,7 @@ A \emph{reshape} operation is a bijection $g$ defined on a tensor space $\tspace
 \end{definition}
 
 \begin{definition}\textbf{Contraction}\\
-A \emph{tensor contraction} between two tensors, along ranks of same dimensions, is defined as the tensor equivalent of the dot product operation.
+A \emph{tensor contraction} between two tensors, along ranks of same dimensions, is defined by natural extension of the dot product operation to tensors.
 
 More precisely, let $\tspace_1$ a tensor space of shape $n_1^{(1)} \times n_2^{(1)} \times \cdots \times n_{r_1}^{(1)}$, and $\tspace_2$ a tensor space of shape $n_1^{(2)} \times n_2^{(2)} \times \cdots \times n_{r_2}^{(2)}$, such that $\forall k \in \{1, 2, \ldots, s\}, n_{r_1-(s-k)}^{(1)} = n_k^{(2)}$, then the tensor contraction between $t_1 \in \tspace_1$ and $t_2 \in \tspace_2$ is defined as:
 \begin{gather*}
@@ -128,7 +129,7 @@ The \emph{$n$-dimensional convolution} between $t_1 \in \tspace_1$ and $t_2 \in 
 \begin{gather*}
 \left\{
   \begin{array}{l}
-t_1 \ast_r t_2 = t_3 \in \tspace_1 \\
+t_1 \ast_n t_2 = t_3 \in \tspace_1 \\
 t_3[i_1, \ldots, i_n] = \displaystyle \sum_{k_1, \ldots, k_n} \widetilde{t_1}[i_1 - k_1, \ldots, i_n - k_n] \hspace{2pt} t_2[k_1, \ldots, k_n] \\
 \text{where } \widetilde{t_1}[p_1, \ldots, p_n] =
   \begin{cases}
