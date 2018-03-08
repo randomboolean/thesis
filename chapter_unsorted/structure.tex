@@ -237,11 +237,11 @@ A weight $p$ that appears multiple times in $W_k$ is said to be \emph{shared}. T
 % \end{definition}
 
 \begin{remark}\textbf{Training}\\
-Usually, a \emph{loss} function $\mathcal{L}$ penalizes the output $x_L = F(\ovec{x})$. Its gradient w.r.t.~$\theta_k$, denoted $\vec{\bigtriangledown}_{\theta_k}$, is used to update the weights via an optimization algorithm based on gradient descent and a learning rate $\alpha$, that is:
+Usually, a \emph{loss} function $\mathcal{L}$ penalizes the output $x_L = F(\ovec{x})$ relatively to what can be expected. Gradient w.r.t.~$\theta_k$, denoted $\vec{\bigtriangledown}_{\theta_k}$, is used to update the weights via an optimization algorithm based on gradient descent and a learning rate $\alpha$, that is:
 \begin{gather}
-\theta_k^{\text{new}} = \theta_k^{\text{old}} - \alpha \cdot \vec{\bigtriangledown}_{\theta_k}
+\theta_k^{\text{new}} = \theta_k^{\text{old}} - \alpha \cdot \vec{\bigtriangledown}_{\theta_k} \left( \mathcal{L}(x_L, \theta_k^{\text{old}}) + R(\theta_k^{\text{old}}) \right)
 \end{gather}
-where $\alpha$~can be a scalar or a vector, and $\cdot$~can denote outer or pointwise product. $\alpha$ and~$\cdot$~ depend on the optimization algorithm.
+where $\alpha$~can be a scalar or a vector, $\cdot$~can denote outer or pointwise product, and $R$~is a regularizer. They depend on the optimization algorithm.
 \end{remark}
 
 \begin{remark}\textbf{Linear complexity}\\
@@ -373,7 +373,7 @@ We encounter the notion of graphs several times in deep learning:
 \subsubsection{Connectivity graph}
 \label{con_graph}
 
-A Connectivity graph is the bipartite graph whose adjacency matrix is the connectivity graph of a layer of neurons.
+A Connectivity graph is the bipartite graph whose adjacency matrix is the connectivity matrix of a layer of neurons.
 %$U = \{u_1, u_2, \ldots, u_n\}$
 Formally, given a linear part of a layer, let $\textbf{x}$ and $\textbf{y}$ be the input and output signals, $n$ the size of the set of input neurons $N = \{u_1, u_2, \ldots, u_n\}$, and $m$ the size of the set of output neurons $M = \{v_1, v_2, \ldots, v_m\}$. This layer implements the equation $y = \Theta x$ where $\Theta$ is a $n \times m$ matrix.
 
