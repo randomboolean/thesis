@@ -69,7 +69,7 @@ A \emph{slice} operation, along the last ranks $\{r_1, r_2, \ldots, r_s\}$, and 
 s(t)[i'_1, i'_2, \ldots, i'_{r-s}] &= t[i'_1, i'_2, \ldots, i'_{r-s}, i_{r_1}, i_{r_2}, \ldots, i_{r_s}] \\
 \text{ i.e. } \quad s(t) :&= t[:,:, \ldots, :, i_{r_1}, i_{r_2}, \ldots, i_{r_s}]
 \end{align*}
-We denote $t_{i_{r_1} i_{r_2} \cdots i_{r_s}}$ and call it the \emph{slice} of $t$. 
+We denote $t_{i_{r_1}, i_{r_2}, \ldots i_{r_s}}$ and call it the \emph{slice} of $t$. 
 Slicing along a subset of ranks that are not the lasts is defined similarly.
 $s(\tspace)$ is called a \emph{sliced subspace}.
 \end{definition}
@@ -318,7 +318,7 @@ $$
 \left\{
 \begin{array}{l}
   I_g \mbox{ and } O_g \mbox{ are tensor spaces of rank }n+1 \\
-  \forall x \in I_g, g(x) = (g(x)_q = \sum\limits_p{x_p \ast_n w_{pq}})_{\forall q}
+  \forall x \in I_g, g(x) = (g(x)_q = \sum\limits_p{x_p \ast_n w_{p,q}})_{\forall q}
 \end{array}
 \right.
 $$
@@ -336,8 +336,8 @@ Let $g$ the linear part of a convolution layer with \emph{stride} $s_p > 1$ alon
 \begin{gather*}
   \forall i_p \in \{ 1, \lfloor \frac{n_p^{(g(x))}}{s_p} \rfloor \}, \forall x \in I_g, g(x)_{i_p} = \widetilde{g}(x)_{s_p i_p}
 \end{gather*}
+where $i_p$ and $s_p i_p$ index slices along the $p$-th rank.
 \end{definition}
-where $i_p$ index slices along the $p$-th rank.
 
 \todo{below}
 
