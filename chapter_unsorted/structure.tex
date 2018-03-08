@@ -237,7 +237,7 @@ A weight $p$ that appears multiple times in $W_k$ is said to be \emph{shared}. T
 % \end{definition}
 
 \begin{remark}\textbf{Training}\\
-Usually, a \emph{loss} function $\mathcal{L}$ penalizes the output $x_L = F(\ovec{x})$ relatively to what can be expected. Gradient w.r.t.~$\theta_k$, denoted $\vec{\bigtriangledown}_{\theta_k}$, is used to update the weights via an optimization algorithm based on gradient descent and a learning rate $\alpha$, that is:
+A \emph{loss} function $\mathcal{L}$ penalizes the output $x_L = F(\ovec{x})$ relatively to what can be expected. Gradient w.r.t.~$\theta_k$, denoted $\vec{\bigtriangledown}_{\theta_k}$, is used to update the weights via an optimization algorithm based on gradient descent and a learning rate $\alpha$, that is:
 \begin{gather}
 \theta_k^{(\text{new})} = \theta_k^{(\text{old})} - \alpha \cdot \vec{\bigtriangledown}_{\theta_k} \left( \mathcal{L}\left( x_L, \theta_k^{(\text{old})} \right) + R\left( \theta_k^{(\text{old})} \right) \right)
 \end{gather}
@@ -252,23 +252,23 @@ That is:
 %\left\{
 %\begin{array}{l}
 \begin{align}
-  \vec{\bigtriangledown}_{\theta_k} & = J(\ovec{x_k})_{\theta_k} \vec{\bigtriangledown}_{x_k} \\
+  \vec{\bigtriangledown}_{\theta_k} & = J_{\theta_k}(\ovec{x_k}) \vec{\bigtriangledown}_{x_k} \\
   \begin{split}
-  \vec{\bigtriangledown}_{x_k} & = J(\ovec{x_{k+1}})_{x_k} \vec{\bigtriangledown}_{x_{k+1}} \\
-  \vec{\bigtriangledown}_{x_{k+1}} & = J(\ovec{x_{k+2}})_{x_{k+1}} \vec{\bigtriangledown}_{x_{k+2}} \\
+  \vec{\bigtriangledown}_{x_k} & = J_{x_k}(\ovec{x_{k+1}}) \vec{\bigtriangledown}_{x_{k+1}} \\
+  \vec{\bigtriangledown}_{x_{k+1}} & = J_{x_{k+1}}(\ovec{x_{k+2}}) \vec{\bigtriangledown}_{x_{k+2}} \\
   \quad \quad \ldots\\
-  \vec{\bigtriangledown}_{x_{L-1}} & = J(\ovec{x_{L}})_{x_{L-1}} \vec{\bigtriangledown}_{x_{L}}
+  \vec{\bigtriangledown}_{x_{L-1}} & = J_{x_{L-1}}(\ovec{x_{L}}) \vec{\bigtriangledown}_{x_{L}}
   \label{eq:bp}
   \end{split}
 \end{align}
 Obtaining,
 \begin{align}
-  \vec{\bigtriangledown}_{\theta_k} = J(\ovec{x_k})_{\theta_k} (\prod_{p=k}^{L-1} J(\ovec{x_{p+1}})_{x_p}) \vec{\bigtriangledown}_{x_L}
+  \vec{\bigtriangledown}_{\theta_k} = J_{\theta_k}(\ovec{x_k}) (\prod_{p=k}^{L-1} J_{x_p}(\ovec{x_{p+1}})) \vec{\bigtriangledown}_{x_L}
 \end{align}
 %\end{array}
 %\right.
 %$$
-where $J(.)_{\text{wrt}}$ are the respective jacobians which can be determined with the layer's expressions and the $\{x_k\}$.
+where $J_{\text{wrt}}(.)$ are the respective jacobians which can be determined with the layer's expressions and the $\{x_k\}$.
 
 This allows to compute the gradients with a complexity that is linear with the number of weights, instead of being quadratic if it were done with the difference quotient expression of the derivatives.}
 \end{remark}
@@ -278,18 +278,18 @@ This allows to compute the gradients with a complexity that is linear with the n
 We can remark that \eqref{eq:bp} rewrites as
 \begin{align}
   \begin{split}
-  \vec{\bigtriangledown}_{x_k} & = J(\ovec{x_{k+1}})_{x_k} \vec{\bigtriangledown}_{x_{k+1}} \\ 
-                               & = J(h(x'_k))_{x'_k} J(W_k x_k)_{x_k} \vec{\bigtriangledown}_{x_{k+1}}
+  \vec{\bigtriangledown}_{x_k} & = J_{x_k}(\ovec{x_{k+1}}) \vec{\bigtriangledown}_{x_{k+1}} \\ 
+                               & = J_{x'_k}(h(x'_k)) J_{x_k}(W_k x_k) \vec{\bigtriangledown}_{x_{k+1}}
                                %& = \text{diag}( h_k'(W_k x_k) ) W_k \vec{\bigtriangledown}_{x_{k+1}}
   \end{split}
 \end{align}
 where $x'_k = W_k x_k$, and these jacobians can be expressed as:
 \begin{align}
   \begin{split}
-  J(h(x'_k))_{x'_k} & [i,j] = \delta_i^j h'(x'_k[i])\\
-  J(h(x'_k))_{x'_k} & = I \hspace{2pt} h'(x'_k)
+  J_{x'_k}(h(x'_k)) & [i,j] = \delta_i^j h'(x'_k[i])\\
+  J_{x'_k}(h(x'_k)) & = I \hspace{2pt} h'(x'_k)
   \end{split}\\
-  J(W_k x_k)_{x_k} & = W_k^T
+  J_{x_k}(W_k x_k) & = W_k^T
 \end{align}
 That means that we can write $\vec{\bigtriangledown}_{x_k} = (\widetilde{h}_k \circ \widetilde{g}_k)(\vec{\bigtriangledown}_{x_{k+1}})$ such that the connectivity matrix $\widetilde{W}_k$ is obtained by transposition. This can be interpreted as gradient calculation being a \emph{back-propagation} on the same neural network, in opposition of the \emph{forward-propagation} done to compute the output.
 \end{remark}
