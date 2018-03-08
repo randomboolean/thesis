@@ -239,7 +239,7 @@ A weight $p$ that appears multiple times in $W_k$ is said to be \emph{shared}. T
 \begin{remark}\textbf{Training}\\
 Usually, a \emph{loss} function $\mathcal{L}$ penalizes the output $x_L = F(\ovec{x})$ relatively to what can be expected. Gradient w.r.t.~$\theta_k$, denoted $\vec{\bigtriangledown}_{\theta_k}$, is used to update the weights via an optimization algorithm based on gradient descent and a learning rate $\alpha$, that is:
 \begin{gather}
-\theta_k^{\text{new}} = \theta_k^{\text{old}} - \alpha \cdot \vec{\bigtriangledown}_{\theta_k} \left( \mathcal{L}(x_L, \theta_k^{\text{old}}) + R(\theta_k^{\text{old}}) \right)
+\theta_k^{(\text{new})} = \theta_k^{(\text{old})} - \alpha \cdot \vec{\bigtriangledown}_{\theta_k} \left( \mathcal{L}\left( x_L, \theta_k^{(\text{old})} \right) + R\left( \theta_k^{(\text{old})} \right) \right)
 \end{gather}
 where $\alpha$~can be a scalar or a vector, $\cdot$~can denote outer or pointwise product, and $R$~is a regularizer. They depend on the optimization algorithm.
 \end{remark}
