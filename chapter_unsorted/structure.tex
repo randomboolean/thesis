@@ -40,7 +40,7 @@
 \section{Definitions and disambiguations}
 
 \todo{Explain why we do rigourous defintions and argue on the added value}
-In this section we recall and define the notions we will be using in this manuscript.
+In this section, we make an effort to rigorously define the notions of tensors, neural networks and graphs.
 
 \subsection{Tensors}
 
@@ -55,13 +55,17 @@ Its \emph{shape} is denoted $n_1 \times n_2 \times \cdots \times n_r$, where the
 For notational conveniency, we will often abusively confound vector spaces with tensor spaces of rank $1$, and matrix spaces with tensor spaces of rank $2$.
 
 \begin{definition}\textbf{Tensor}\\
-A \emph{tensor} $t$ is an object of a tensor space.
+A \emph{tensor} $t$ is an object of a tensor space. The \emph{shape} of $t$, which is the same as the shape of the tensor space it belongs to, is denoted $n_1^{(t)} \times n_2^{(t)} \times \cdots \times n_r^{(t)}$.
+\end{definition}
 
-The \emph{shape} of $t$, which is the same as the shape of the tensor space it belongs to, is denoted $n_1^{(t)} \times n_2^{(t)} \times \cdots \times n_r^{(t)}$.
-An \emph{entry} is denoted $t[i_1, i_2, \ldots, i_r]$.
+\begin{definition}\textbf{Indexing}\\
+An \emph{entry} of $t$ is a scalar denoted $t[i_1, i_2, \ldots, i_r]$.
+
+A \emph{subtensor} $t'$ is a tensor of same rank composed of entries of $t$ that are contiguous in the indexing. We denote $t' = t[l_1{:}u_1, l_2{:}u_2, \ldots, l_r{:}u_r]$, where $\{l_p\}$ and $\{u_p\}$ are the lower and upper bounds of the indices used by the entries that compose~$t'$.
 \end{definition}
 
 When using an index $i_k$ for an entry of a tensor $t$, we implicitly assume that $i_k \in \{1, 2, \cdots, n_k^{(t)}\}$ if nothing is precised.
+For subtensor indexings, we don't necessarily write the lower bound index if it is equal to $1$, neither the upper bound index if it is equal to $n_p^{(t)}$.
 
 \begin{definition}\textbf{Slicing}\\
 A \emph{slice} operation, along the last ranks $\{r_1, r_2, \ldots, r_s\}$, and indexed by $(i_{r_1}, i_{r_2}, \ldots, i_{r_s})$, is a function $s: \tspace = \displaystyle \prod_{k=1}^r \vecspace_k \rightarrow \prod_{k=1}^{r-s} \vecspace_k$, such that:
@@ -143,6 +147,12 @@ The \emph{$n$-dimensional convolution}, denoted $\ast_n$, between $t_1 \in \tspa
   \end{array}
 \right.
 \end{gather*}
+\end{definition}
+
+\begin{definition}\textbf{Pooling}\\
+
+\todo{Use indexing, maybe add stride in this subsection rather than in the next}
+
 \end{definition}
 
 \subsection{Neural Networks}
@@ -331,7 +341,7 @@ where $p$ and $q$ index slices along the last ranks. The slices $g(x)_q$ are typ
 Note that a convolutional layer $(g,h)$ is equivalently defined as $W_g$ being a Toeplitz matrix, but the above definition is more intuitive.
 \end{remark}
 
-\begin{definition}\textbf{Convolution with stride}\\
+\begin{definition}\textbf{Convolutional layer with stride}\\
 Let $g$ the linear part of a convolution layer with \emph{stride} $s_p > 1$ along the $p$-th rank, and $\widetilde{g}$ the same linear part if it was a regular convolutional layer as defined above. Then $g$ is defined as
 \begin{gather*}
   \forall i_p \in \{ 1, \lfloor \frac{n_p^{(g(x))}}{s_p} \rfloor \}, \forall x \in I_g, g(x)_{i_p} = \widetilde{g}(x)_{s_p i_p}
@@ -343,6 +353,7 @@ where $i_p$ and $s_p i_p$ index slices along the $p$-th rank.
 
 \begin{definition}\textbf{Pooling}\\
 A layer with \textit{pooling} $(g,h)$ is such that $g = g_1 \circ g_2$, where $(g_1,h)$ is a layer and $g_2$ is a pooling operation.
+
 \end{definition}
 
 A layer with \textit{dropout} $(g,h)$ is such that $h = h_1 \circ h_2$, where $(g,h_2)$ is a layer and $h_1$ is a dropout operation~\cite{srivastava2014dropout}. When dropout is used, a certain number of neurons are randomly set to zero during the training phase, compensated at test time by scaling down the whole layer. This is done to prevent overfitting.
