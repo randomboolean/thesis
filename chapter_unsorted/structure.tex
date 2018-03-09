@@ -40,11 +40,14 @@
 \section{Definitions and disambiguations}
 
 \todo{Explain why we do rigourous defintions and argue on the added value}
-In this section, we make an effort to rigorously define the notions of tensors, neural networks and graphs.
+In this section, we recall of rigorously redefine notions related to tensors, neural networks and graphs. Vector spaces considered below are assumed to be finite-dimensional and over the field of real numbers $\real$.
 
 \subsection{Tensors}
 
-Vector spaces considered in this thesis are assumed to be finite-dimensional and over the field of real numbers $\real$.
+\todo{rewrite and check}
+Intuitively, tensors in deep learning are a generalization of vectors and matrices, as if vectors were tensors of rank $1$ and matrices were tensors of rank $2$. However, a tensor in mathematics is a multilinear object that is obtained from vectors of same dimensionality and from their duals. This does not generalize the notion of matrices as we need and thus is not directly usable in the context of deep learning. On the other hand, in tensor manipulation languages, tensors are basically defined as multidimensional array equipped with math operators and many others.
+
+In this section, our aim is to provide a definition that is close to multidimensional arrays but that is more rigourous.
 
 \begin{definition}\textbf{Tensor space}\\
 We define a \emph{tensor space} $\tspace$ of rank $r$ as a cartesian product of $r$ vector spaces, equipped with the coordinate-wise sum and the mono-linear outer product.
@@ -52,7 +55,7 @@ We define a \emph{tensor space} $\tspace$ of rank $r$ as a cartesian product of 
 Its \emph{shape} is denoted $n_1 \times n_2 \times \cdots \times n_r$, where the $\{n_k\}$ are the dimensions of the vector spaces.
 \end{definition}
 
-For notational conveniency, we will often abusively confound vector spaces with tensor spaces of rank $1$, and matrix spaces with tensor spaces of rank $2$.
+That is, a tensor space is a vector space. However, from now on for naming conveniency, we will abusively use the term vector space only to refer to tensor space of rank $1$, and matrices spaces to refer to tensor spaces of rank $2$.
 
 \begin{definition}\textbf{Tensor}\\
 A \emph{tensor} $t$ is an object of a tensor space. The \emph{shape} of $t$, which is the same as the shape of the tensor space it belongs to, is denoted $n_1^{(t)} \times n_2^{(t)} \times \cdots \times n_r^{(t)}$.
@@ -79,17 +82,20 @@ $s(\tspace)$ is called a \emph{sliced subspace}.
 \end{definition}
 
 \begin{definition}\textbf{Flattening}\\
-A \emph{flatten} operation is a bijection $f: \tspace \rightarrow \vecspace$, between a tensor space $\tspace$ of rank $r$ and an $n$-dimensional vector space $\vecspace$ such that
+A \emph{flatten} operation is a bijection $f: \tspace \rightarrow \vecspace$, between a tensor space $\tspace$ of rank~$r$ and an $n$-dimensional vector space $\vecspace$, where $n =\displaystyle \prod_{k=1}^r n_k$, characterized by a bijection in the index spaces $g: \displaystyle \prod_{k=1}^r \{1, \ldots, n_k \} \rightarrow\{1, \ldots, n \}$ such that
 \begin{gather*}
-\left\{
-  \begin{array}{l}
-  \displaystyle \prod_{k=1}^r n_k = n \\
-  \forall t \in \tspace, f(t)[\displaystyle \sum_{p=1}^r \left( \prod_{k=p+1}^r n_k \right) i_p ] = f(t[i_1, i_2, \ldots, i_r])
-  \end{array}
-\right.
+  \forall t \in \tspace, f(t)[g(i_1, i_2, \ldots, i_r)] = f(t[i_1, i_2, \ldots, i_r])
 \end{gather*}
+
 An inverse operation is called a \emph{de-flatten} operation.
 \end{definition}
+
+\begin{remark}\textbf{Row major ordering}\\
+The choice of $g$ determines in which order the indexing is made. $g$ is reminescent of how data of multidimensional arrays or tensors are stored internally in programming languages. In most tensor manipulation languages, incrementing the memory adress (i.e. the output of $g$) will increment only $i_r$ if $i_r < n_r$ (and then ranks are ordered in reverse lexicographic order to decide what index is also incremented). This is called \emph{row major ordering}, as opposed to \emph{column major ordering}. That is, in row major, $g$ is defined as
+\begin{align}
+  g(i_1, i_2, \ldots, i_r) = \displaystyle \sum_{p=1}^r \left( \prod_{k=p+1}^r n_k \right) i_p
+\end{align}
+\end{remark}
 
 \begin{definition}\textbf{Reshaping}\\
 A \emph{reshape} operation is a bijection defined on a tensor space $\tspace = \displaystyle \prod_{k=1}^r \vecspace_k$ such that some of its basis vector spaces $\{\vecspace_k\}$ are de-flattened and some of its sliced subspaces are flattened.
@@ -125,6 +131,7 @@ t_3 \hspace{0pt}_ {i_1^{(1)} \cdots i_{r_1}^{(1)} } \hspace{0pt}^{i_{s+1}^{(2)} 
 
 Dot product $u_k v^k = \lambda $ and matrix product $A_i\hspace{0pt}^k B_k\hspace{0pt}^j = C_i\hspace{0pt}^j$ are common examples of tensor contractions.
 
+%Maybe prove it as a proposition
 \begin{remark}\textbf{Matrix product equivalence}\\
 Using a reshaping that groups all covariant indices into a single index and all contravariant indices into another single index, any tensor contraction can be rewritten as a matrix product.
 \end{remark}
@@ -336,7 +343,7 @@ where $p$ and $q$ index slices along the last ranks. The slices $g(x)_q$ are typ
 \end{definition}
 
 % not discussing geometric shape here (?)
-
+% Maybe prove it as a proposition
 \begin{remark}\textbf{Connectivity matrix of a convolution}\\
 Note that a convolutional layer $(g,h)$ is equivalently defined as $W_g$ being a Toeplitz matrix, but the above definition is more intuitive.
 \end{remark}
