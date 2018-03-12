@@ -70,7 +70,7 @@ When using an index $i_k$ for an entry of a tensor $t$, we implicitly assume tha
 For subtensor indexings, we don't necessarily write the lower bound index if it is equal to $1$, neither the upper bound index if it is equal to $n_p^{(t)}$.
 
 \begin{definition}\textbf{Slicing}\\
-A \emph{slice} operation, along the last ranks $\{r_1, r_2, \ldots, r_s\}$, and indexed by $(i_{r_1}, i_{r_2}, \ldots, i_{r_s})$, is a function $s: \tspace = \displaystyle \prod_{k=1}^r \vecspace_k \rightarrow \prod_{k=1}^{r-s} \vecspace_k$, such that:
+A \emph{slice} operation, along the last ranks $\{r_1, r_2, \ldots, r_s\}$, and indexed by $(i_{r_1}, i_{r_2}, \ldots, i_{r_s})$, is a morphism $s: \tspace = \displaystyle \prod_{k=1}^r \vecspace_k \rightarrow \prod_{k=1}^{r-s} \vecspace_k$, such that:
 \begin{align*}
 s(t)[i'_1, i'_2, \ldots, i'_{r-s}] &= t[i'_1, i'_2, \ldots, i'_{r-s}, i_{r_1}, i_{r_2}, \ldots, i_{r_s}] \\
 \text{ i.e. } \quad s(t) :&= t[:,:, \ldots, :, i_{r_1}, i_{r_2}, \ldots, i_{r_s}]
@@ -82,7 +82,7 @@ $s(\tspace)$ is called a \emph{sliced subspace}.
 \end{definition}
 
 \begin{definition}\textbf{Flattening}\\
-A \emph{flatten} operation is a bijection $f: \tspace \rightarrow \vecspace$, between a tensor space $\tspace$ of rank~$r$ and an $n$-dimensional vector space $\vecspace$, where $n =\displaystyle \prod_{k=1}^r n_k$, characterized by a bijection in the index spaces $g: \displaystyle \prod_{k=1}^r \{1, \ldots, n_k \} \rightarrow\{1, \ldots, n \}$ such that
+A \emph{flatten} operation is an isomorphism $f: \tspace \rightarrow \vecspace$, between a tensor space $\tspace$ of rank~$r$ and an $n$-dimensional vector space $\vecspace$, where $n =\displaystyle \prod_{k=1}^r n_k$, characterized by a bijection in the index spaces $g: \displaystyle \prod_{k=1}^r \{1, \ldots, n_k \} \rightarrow\{1, \ldots, n \}$ such that
 \begin{gather*}
   \forall t \in \tspace, f(t)[g(i_1, i_2, \ldots, i_r)] = f(t[i_1, i_2, \ldots, i_r])
 \end{gather*}
@@ -98,7 +98,7 @@ The choice of $g$ determines in which order the indexing is made. $g$ is remines
 \end{remark}
 
 \begin{definition}\textbf{Reshaping}\\
-A \emph{reshape} operation is a bijection defined on a tensor space $\tspace = \displaystyle \prod_{k=1}^r \vecspace_k$ such that some of its basis vector spaces $\{\vecspace_k\}$ are de-flattened and some of its sliced subspaces are flattened.
+A \emph{reshape} operation is an isomorphism defined on a tensor space $\tspace = \displaystyle \prod_{k=1}^r \vecspace_k$ such that some of its basis vector spaces $\{\vecspace_k\}$ are de-flattened and some of its sliced subspaces are flattened.
 \end{definition}
 
 \begin{definition}\textbf{Contraction}\\
