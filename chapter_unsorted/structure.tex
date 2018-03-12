@@ -45,7 +45,7 @@ In this section, we recall or rigorously redefine notions related to tensors, ne
 
 Intuitively, tensors in the field of deep learning are defined as a generalization of vectors and matrices, as if vectors were tensors of rank $1$ and matrices were tensors of rank $2$. That is, they are objects in a vector space and their dimensions are indexed using as many indices as their rank, so that they can be represented by multidimensional arrays. In mathematics, a tensor is rather defined as a special class of multilinear functions. As such, a mathematical tensor is entirely defined on the cartesian product of the canonical bases onto which its outputs can be represented by a multidimensional array. In that sense, both definitions rejoin on their representation, but the underlying objects are different.
 
-Our definition of tensors is such that they are a bit more than multidimensional arrays but not as much as mathematical tensors, for that they are embedded in a vector space and any deep learning object can be define rigorously.
+Our definition of tensors is such that they are a bit more than multidimensional arrays but not as much as mathematical tensors, for that they are embedded in a vector space and any deep learning object can be later define rigorously.
 
 \begin{definition}\textbf{Tensor space}\\
 We define a \emph{tensor space} $\tspace$ of rank $r$ as a cartesian product of $r$ vector spaces under the coordinate-wise sum and the mono-linear outer product.
@@ -54,6 +54,7 @@ Its \emph{shape} is denoted $n_1 \times n_2 \times \cdots \times n_r$, where the
 \end{definition}
 
 That is, a tensor space is a vector space. From now on for naming conveniency, we will abusively use the term \emph{vector space} only to refer to a tensor space of rank $1$, and \emph{matrix space} to refer to a tensor space of rank $2$. If we need to refer to a vector space that has no notion of rank defined, we will use the term \emph{linear space} instead.
+We also make the clear distinction between the term \emph{dimension} (that is, for a tensor space it is equal to $\displaystyle \prod_{k=1}^r n_k$) and the term \emph{rank} (equal to $r$).
 
 \begin{definition}\textbf{Tensor}\\
 A \emph{tensor} $t$ is an object of a tensor space. The \emph{shape} of $t$, which is the same as the shape of the tensor space it belongs to, is denoted $n_1^{(t)} \times n_2^{(t)} \times \cdots \times n_r^{(t)}$.
