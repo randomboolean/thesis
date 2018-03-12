@@ -39,32 +39,30 @@
 
 \section{Definitions and disambiguations}
 
-\todo{Explain why we do rigourous defintions and argue on the added value}
-In this section, we recall of rigorously redefine notions related to tensors, neural networks and graphs. Vector spaces considered below are assumed to be finite-dimensional and over the field of real numbers $\real$.
+In this section, we recall or rigorously redefine notions related to tensors, neural networks and graphs. Vector spaces considered below are assumed to be finite-dimensional and over the field of real numbers $\real$.
 
 \subsection{Tensors}
 
-\todo{rewrite and check}
-Intuitively, tensors in deep learning are a generalization of vectors and matrices, as if vectors were tensors of rank $1$ and matrices were tensors of rank $2$. However, a tensor in mathematics is a multilinear object that is obtained from vectors of same dimensionality and from their duals. This does not generalize the notion of matrices as we need and thus is not directly usable in the context of deep learning. On the other hand, in tensor manipulation languages, tensors are basically defined as multidimensional array equipped with math operators and many others.
+Intuitively, tensors in the field of deep learning are defined as a generalization of vectors and matrices, as if vectors were tensors of rank $1$ and matrices were tensors of rank $2$. That is, they are objects in a vector space and their dimensions are indexed using as many indices as their rank, so that they can be represented by multidimensional arrays. In mathematics, a tensor is rather defined as a special class of multilinear functions. As such, a mathematical tensor is entirely defined on the cartesian product of the canonical bases onto which its outputs can be represented by a multidimensional array. In that sense, both definitions rejoin on their representation, but the underlying objects are different.
 
-In this section, our aim is to provide a definition that is close to multidimensional arrays but that is more rigourous.
+Our definition of tensors is such that they are a bit more than multidimensional arrays but not as much as mathematical tensors, for that they are embedded in a vector space and any deep learning object can be define rigorously.
 
 \begin{definition}\textbf{Tensor space}\\
-We define a \emph{tensor space} $\tspace$ of rank $r$ as a cartesian product of $r$ vector spaces, equipped with the coordinate-wise sum and the mono-linear outer product.
+We define a \emph{tensor space} $\tspace$ of rank $r$ as a cartesian product of $r$ vector spaces under the coordinate-wise sum and the mono-linear outer product.
 
 Its \emph{shape} is denoted $n_1 \times n_2 \times \cdots \times n_r$, where the $\{n_k\}$ are the dimensions of the vector spaces.
 \end{definition}
 
-That is, a tensor space is a vector space. However, from now on for naming conveniency, we will abusively use the term vector space only to refer to tensor space of rank $1$, and matrices spaces to refer to tensor spaces of rank $2$.
+That is, a tensor space is a vector space. From now on for naming conveniency, we will abusively use the term \emph{vector space} only to refer to a tensor space of rank $1$, and \emph{matrix space} to refer to a tensor space of rank $2$. If we need to refer to a vector space that has no notion of rank defined, we will use the term \emph{linear space} instead.
 
 \begin{definition}\textbf{Tensor}\\
 A \emph{tensor} $t$ is an object of a tensor space. The \emph{shape} of $t$, which is the same as the shape of the tensor space it belongs to, is denoted $n_1^{(t)} \times n_2^{(t)} \times \cdots \times n_r^{(t)}$.
 \end{definition}
 
 \begin{definition}\textbf{Indexing}\\
-An \emph{entry} of $t$ is a scalar denoted $t[i_1, i_2, \ldots, i_r]$.
+An \emph{entry} of a tensor $t$ is a scalar denoted $t[i_1, i_2, \ldots, i_r]$.
 
-A \emph{subtensor} $t'$ is a tensor of same rank composed of entries of $t$ that are contiguous in the indexing. We denote $t' = t[l_1{:}u_1, l_2{:}u_2, \ldots, l_r{:}u_r]$, where $\{l_p\}$ and $\{u_p\}$ are the lower and upper bounds of the indices used by the entries that compose~$t'$.
+A \emph{subtensor} $t'$ is a tensor of same rank composed of entries of $t$ that are contiguous in the indexing, with at least one entry per rank. We denote $t' = t[l_1{:}u_1, l_2{:}u_2, \ldots, l_r{:}u_r]$, where $\{l_p\}$ and $\{u_p\}$ are the lower and upper bounds of the indices used by the entries that compose~$t'$.
 \end{definition}
 
 When using an index $i_k$ for an entry of a tensor $t$, we implicitly assume that $i_k \in \{1, 2, \cdots, n_k^{(t)}\}$ if nothing is precised.
@@ -76,6 +74,7 @@ A \emph{slice} operation, along the last ranks $\{r_1, r_2, \ldots, r_s\}$, and 
 s(t)[i'_1, i'_2, \ldots, i'_{r-s}] &= t[i'_1, i'_2, \ldots, i'_{r-s}, i_{r_1}, i_{r_2}, \ldots, i_{r_s}] \\
 \text{ i.e. } \quad s(t) :&= t[:,:, \ldots, :, i_{r_1}, i_{r_2}, \ldots, i_{r_s}]
 \end{align*}
+where $:=$ means that values of the right operand are assigned to the left operand.
 We denote $t_{i_{r_1}, i_{r_2}, \ldots i_{r_s}}$ and call it the \emph{slice} of $t$. 
 Slicing along a subset of ranks that are not the lasts is defined similarly.
 $s(\tspace)$ is called a \emph{sliced subspace}.
