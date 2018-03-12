@@ -24,7 +24,12 @@
 \usepackage{amsthm}
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}[section]
+
+\theoremstyle{remark}
 \newtheorem{remark}{Remark}
+
+\theoremstyle{plain}
+\newtheorem{proposition}{Proposition}
 
 \newcommand{\real}{\mathbb{R}}
 \newcommand{\tspace}{\mathbb{T}}
@@ -63,7 +68,7 @@ A \emph{tensor} $t$ is an object of a tensor space. The \emph{shape} of $t$, whi
 \begin{definition}\textbf{Indexing}\\
 An \emph{entry} of a tensor $t$ is a scalar denoted $t[i_1, i_2, \ldots, i_r]$.
 
-A \emph{subtensor} $t'$ is a tensor of same rank composed of entries of $t$ that are contiguous in the indexing, with at least one entry per rank. We denote $t' = t[l_1{:}u_1, l_2{:}u_2, \ldots, l_r{:}u_r]$, where $\{l_p\}$ and $\{u_p\}$ are the lower and upper bounds of the indices used by the entries that compose~$t'$.
+A \emph{subtensor} $t'$ is a tensor of same rank composed of entries of $t$ that are contiguous in the indexing, with at least one entry per rank. We denote $t' = t[l_1{:}u_1, l_2{:}u_2, \ldots, l_r{:}u_r]$, where the $\{l_p\}$ and the $\{u_p\}$ are the lower and upper bounds of the indices used by the entries that compose~$t'$.
 \end{definition}
 
 When using an index $i_k$ for an entry of a tensor $t$, we implicitly assume that $i_k \in \{1, 2, \cdots, n_k^{(t)}\}$ if nothing is precised.
@@ -82,7 +87,7 @@ $s(\tspace)$ is called a \emph{sliced subspace}.
 \end{definition}
 
 \begin{definition}\textbf{Flattening}\\
-A \emph{flatten} operation is an isomorphism $f: \tspace \rightarrow \vecspace$, between a tensor space $\tspace$ of rank~$r$ and an $n$-dimensional vector space $\vecspace$, where $n =\displaystyle \prod_{k=1}^r n_k$, characterized by a bijection in the index spaces $g: \displaystyle \prod_{k=1}^r \{1, \ldots, n_k \} \rightarrow\{1, \ldots, n \}$ such that
+A \emph{flatten} operation is an isomorphism $f: \tspace \rightarrow \vecspace$, between a tensor space $\tspace$ of rank~$r$ and an $n$-dimensional vector space $\vecspace$, where $n =\displaystyle \prod_{k=1}^r n_k$. It is characterized by a bijection in the index spaces $g: \displaystyle \prod_{k=1}^r \{1, \ldots, n_k \} \rightarrow\{1, \ldots, n \}$ such that
 \begin{gather*}
   \forall t \in \tspace, f(t)[g(i_1, i_2, \ldots, i_r)] = f(t[i_1, i_2, \ldots, i_r])
 \end{gather*}
@@ -93,7 +98,7 @@ An inverse operation is called a \emph{de-flatten} operation.
 \begin{remark}\textbf{Row major ordering}\\
 The choice of $g$ determines in which order the indexing is made. $g$ is reminescent of how data of multidimensional arrays or tensors are stored internally in programming languages. In most tensor manipulation languages, incrementing the memory adress (i.e. the output of $g$) will increment only $i_r$ if $i_r < n_r$ (and then ranks are ordered in reverse lexicographic order to decide what index is also incremented). This is called \emph{row major ordering}, as opposed to \emph{column major ordering}. That is, in row major, $g$ is defined as
 \begin{align}
-  g(i_1, i_2, \ldots, i_r) = \displaystyle \sum_{p=1}^r \left( \prod_{k=p+1}^r n_k \right) i_p
+  g(i_1, i_2, \ldots, i_r) = \displaystyle \sum_{p=1}^r \left( \prod_{k=p+1}^r n_k \right) i_p \label{rowmajor}
 \end{align}
 \end{remark}
 
@@ -120,12 +125,15 @@ More precisely, let $\tspace_1$ a tensor space of shape $n_1^{(1)} \times n_2^{(
 \end{gather*}
 \end{definition}
 
+For the sake of simplicity, we omit the case where the contracted ranks are not the last ones for $t_1$ and the first ones for $t_2$. But this definition still holds in the general case subject to a permutation of the indices.
+
 \begin{remark}\textbf{Covariant and contravariant indices}\\
 Indices of the left handed operand $t_1$ that are not contracted are called \emph{covariant} indices. Those that are contracted are called \emph{contravariant} indices. For the right operand $t_2$, the naming convention is the opposite. Using subscript notation for covariant indices and superscript notation for contravariant indices, the previous tensor contraction can be written using the Einstein summation convention as:
 \begin{gather}
-t_1 \hspace{0pt}_{i_1^{(1)} \cdots i_{r_1}^{(1)} } \hspace{0pt}^{ k_1 \cdots k_s} \otimes
+t_1 \hspace{0pt}_{i_1^{(1)} \cdots i_{r_1-s}^{(1)} } \hspace{0pt}^{ k_1 \cdots k_s} \otimes
 t_2 \hspace{0pt}_{ k_1^{\phantom{(}} \cdots k_s^{\phantom{(}}} \hspace{0pt}^{i_{s+1}^{(2)} \cdots i_{r_2}^{(2)}} =
-t_3 \hspace{0pt}_ {i_1^{(1)} \cdots i_{r_1}^{(1)} } \hspace{0pt}^{i_{s+1}^{(2)} \cdots i_{r_2}^{(2)}}
+t_3 \hspace{0pt}_ {i_1^{(1)} \cdots i_{r_1-s}^{(1)} } \hspace{0pt}^{i_{s+1}^{(2)} \cdots i_{r_2}^{(2)}}
+\label{indices}
 \end{gather}
 \end{remark}
 
@@ -133,8 +141,17 @@ Dot product $u_k v^k = \lambda $ and matrix product $A_i\hspace{0pt}^k B_k\hspac
 
 %Maybe prove it as a proposition
 \begin{remark}\textbf{Matrix product equivalence}\\
-Using a reshaping that groups all covariant indices into a single index and all contravariant indices into another single index, any tensor contraction can be rewritten as a matrix product.
+Using reshapings that groups all covariant indices into a single index and all contravariant indices into another single index, any tensor contraction can be rewritten as a matrix product.
 \end{remark}
+\begin{proof}
+Using notation of (\ref{indices}), with the reshapings $t_1 \mapsto t'_1$, $t_2 \mapsto t'_2$ and $t_3 \mapsto t'_3$ we can rewrite
+$$
+t'_1 \hspace{0pt}_{g_i(i_1^{(1)}, \ldots, i_{r_1-s}^{(1)})} \hspace{0pt}^{g_k(k_1, \ldots, k_s)} \otimes
+t'_2 \hspace{0pt}_{g_k(k_1^{\phantom{(}}, \ldots, k_s^{\phantom{(}})} \hspace{0pt}^{g_j(i_{s+1}^{(2)}, \ldots, i_{r_2}^{(2)})} =
+t'_3 \hspace{0pt}_ {g_i(i_1^{(1)}, \ldots, i_{r_1-s}^{(1)})} \hspace{0pt}^{g_j(i_{s+1}^{(2)}, \ldots, i_{r_2}^{(2)})}
+$$
+where $g_i$, $g_k$ and $g_j$ are bijections defined similarly as in (\ref{rowmajor}).
+\end{proof}
 
 \begin{definition}\textbf{Convolution}\\
 The \emph{$n$-dimensional convolution}, denoted $\ast_n$, between $t_1 \in \tspace_1$ and $t_2 \in \tspace_2$, where $\tspace_1$ and $\tspace_2$ are of the same rank $n$, is defined as:
