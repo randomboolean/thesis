@@ -144,11 +144,11 @@ Dot product $u_k v^k = \lambda $ and matrix product $A_i\hspace{0pt}^k B_k\hspac
 Using reshapings that groups all covariant indices into a single index and all contravariant indices into another single index, any tensor contraction can be rewritten as a matrix product.
 \end{remark}
 \begin{proof}
-Using notation of (\ref{indices}), with the reshapings $t_1 \mapsto A$, $t_2 \mapsto B$ and $t_3 \mapsto C$ we can rewrite
+Using notation of (\ref{indices}), with the reshapings $t_1 \mapsto T_1$, $t_2 \mapsto T_2$ and $t_3 \mapsto T_3$ we can rewrite
 $$
-A \hspace{0pt}_{g_i(i_1^{(1)}, \ldots, i_{r_1-s}^{(1)})} \hspace{0pt}^{g_k(k_1, \ldots, k_s)} \otimes
-B \hspace{0pt}_{g_k(k_1^{\phantom{(}}, \ldots, k_s^{\phantom{(}})} \hspace{0pt}^{g_j(i_{s+1}^{(2)}, \ldots, i_{r_2}^{(2)})} =
-C \hspace{0pt}_ {g_i(i_1^{(1)}, \ldots, i_{r_1-s}^{(1)})} \hspace{0pt}^{g_j(i_{s+1}^{(2)}, \ldots, i_{r_2}^{(2)})}
+T_1 \hspace{0pt}_{g_i(i_1^{(1)}, \ldots, i_{r_1-s}^{(1)})} \hspace{0pt}^{g_k(k_1, \ldots, k_s)} \otimes
+T_2 \hspace{0pt}_{g_k(k_1^{\phantom{(}}, \ldots, k_s^{\phantom{(}})} \hspace{0pt}^{g_j(i_{s+1}^{(2)}, \ldots, i_{r_2}^{(2)})} =
+T_3 \hspace{0pt}_ {g_i(i_1^{(1)}, \ldots, i_{r_1-s}^{(1)})} \hspace{0pt}^{g_j(i_{s+1}^{(2)}, \ldots, i_{r_2}^{(2)})}
 $$
 where $g_i$, $g_k$ and $g_j$ are bijections defined similarly as in (\ref{rowmajor}).
 \end{proof}
@@ -183,7 +183,7 @@ The \emph{$n$-dimensional convolution}, denoted $\ast_n$, between $t_1 \in \tspa
 
 We denote by $I_f$ the \textit{domain of definition} of a function $f$ ("I" for "input") and by $O_f = f(I_f)$ its \textit{image} ("O" for "output"), and we represent it as $I_f~\xrightarrow{f}~O_f$.
 
-An activation function $h$ defined from a tensor space to itself is a $1$-d function applied dimension-wise and we use the functional notation $h(v)[i_1, i_2, \ldots, i_r] = h(v[i_1, i_2, \ldots, i_r])$.
+An activation function $h$ defined from a tensor space to itself is an univariate function applied dimension-wise and we use the functional notation $h(v)[i_1, i_2, \ldots, i_r] = h(v[i_1, i_2, \ldots, i_r])$.
 
 \begin{definition}\textbf{Neural network}\\
 \label{nndef}
