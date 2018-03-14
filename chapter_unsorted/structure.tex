@@ -130,7 +130,7 @@ For the sake of simplicity, we omit the case where the contracted ranks are not 
 \begin{remark}\textbf{Covariant and contravariant indices}\\
 Indices of the left handed operand $t_1$ that are not contracted are called \emph{covariant} indices. Those that are contracted are called \emph{contravariant} indices. For the right operand $t_2$, the naming convention is the opposite. Using subscript notation for covariant indices and superscript notation for contravariant indices, the previous tensor contraction can be written using the Einstein summation convention as:
 \begin{gather}
-t_1 \hspace{0pt}_{i_1^{(1)} \cdots i_{r_1-s}^{(1)} } \hspace{0pt}^{ k_1 \cdots k_s} \otimes
+t_1 \hspace{0pt}_{i_1^{(1)} \cdots i_{r_1-s}^{(1)} } \hspace{0pt}^{ k_1 \cdots k_s} 
 t_2 \hspace{0pt}_{ k_1^{\phantom{(}} \cdots k_s^{\phantom{(}}} \hspace{0pt}^{i_{s+1}^{(2)} \cdots i_{r_2}^{(2)}} =
 t_3 \hspace{0pt}_ {i_1^{(1)} \cdots i_{r_1-s}^{(1)} } \hspace{0pt}^{i_{s+1}^{(2)} \cdots i_{r_2}^{(2)}}
 \label{indices}
@@ -147,7 +147,7 @@ Using reshapings that groups all covariant indices into a single index and all c
 \begin{proof}
 Using notation of (\ref{indices}), with the reshapings $t_1 \mapsto T_1$, $t_2 \mapsto T_2$ and $t_3 \mapsto T_3$ we can rewrite
 $$
-T_1 \hspace{0pt}_{g_i(i_1^{(1)}, \ldots, i_{r_1-s}^{(1)})} \hspace{0pt}^{g_k(k_1, \ldots, k_s)} \otimes
+T_1 \hspace{0pt}_{g_i(i_1^{(1)}, \ldots, i_{r_1-s}^{(1)})} \hspace{0pt}^{g_k(k_1, \ldots, k_s)} 
 T_2 \hspace{0pt}_{g_k(k_1^{\phantom{(}}, \ldots, k_s^{\phantom{(}})} \hspace{0pt}^{g_j(i_{s+1}^{(2)}, \ldots, i_{r_2}^{(2)})} =
 T_3 \hspace{0pt}_ {g_i(i_1^{(1)}, \ldots, i_{r_1-s}^{(1)})} \hspace{0pt}^{g_j(i_{s+1}^{(2)}, \ldots, i_{r_2}^{(2)})}
 $$
@@ -163,9 +163,8 @@ The \emph{$n$-dimensional convolution}, denoted $\ast_n$, between $t_1 \in \tspa
     \text{ where} \\
     \forall p \in \{1, 2, \ldots, n\}, n_p^{(3)} = n_p^{(1)} - n_p^{(2)} + 1 \\
     t_3[i_1, \ldots, i_n] =
-    %\displaystyle \sum_{k_1, \ldots, k_n}
-    \displaystyle \sum_{k_1=1}^{n_1^{(3)}} \cdots \sum_{k_n=1}^{n_n^{(3)}}
-    t_1[i_1 + k_1 - 1, \ldots, i_n + k_n - 1] \hspace{2pt} t_2[k_1, \ldots, k_n] \\
+    \displaystyle \sum_{k_1=1}^{n_1^{(2)}} \cdots \sum_{k_n=1}^{n_n^{(2)}}
+    t_1[i_1 + n_1^{(2)} - k_1, \ldots, i_n + n_n^{(2)} - k_n] \hspace{2pt} t_2[k_1, \ldots, k_n] \\
   \end{array}
 \right.
 \end{gather*}
@@ -366,25 +365,36 @@ Note that a convolutional layer $(g,h)$ is equivalently defined as $W_g$ being a
 \end{remark}
 
 \begin{proof}
-Let's recall from definition \ref{convdef} that
+Let's consider the slices indexed by $p$ and $q$, and to simplify the notations, let's drop the subscripts $\hspace{0pt}_{p,q}$. We recall from definition \ref{convdef} that
 \begin{align*}
-  y_q &= x_p \ast_n w_{p,q}[i_1, \ldots, i_n] \\
- &=
-    \displaystyle \sum_{k_1=1}^{n_1^{(x_p)} - n_1^{(w_{p,q})} +1} \cdots \sum_{k_n=1}^{n_n^{(x_p)} - n_n^{(w_{p,q})} +1}
-    x_p[i_1 + k_1 - 1, \ldots, i_n + k_n - 1] \hspace{2pt}
-    w_{p,q}[k_1, \ldots, k_n]\\
- &= \displaystyle \sum_{j_1=i_1}^{i_1 + n_1^{(x_p)} - n_1^{(w_{p,q})}} \cdots \sum_{j_n=i_n}^{i_n + n_n^{(x_p)} - n_n^{(w_{p,q})}}
-    x_p[j_1, \ldots, j_n] \hspace{2pt}
-    w_{p,q}[j_1 - i_1 + 1, \ldots, j_n - i_n + 1]\\
- & \text{where } \forall p, j_p = i_p + k_p - 1
+  y &= (x \ast_n w)[j_1, \ldots, j_n] \\
+ &= \displaystyle \sum_{k_1=1}^{n_1^{(w)}} \cdots \sum_{k_n=1}^{n_n^{(w)}}
+    x[j_1 + n_1^{(w)} - k_1, \ldots, j_n + n_n^{(w)} - k_n] \hspace{2pt} w[k_1, \ldots, k_n] \\
+ &= \displaystyle \sum_{i_1=j_1}^{j_1 + n_1^{(w)} - 1} \cdots \sum_{i_n=j_n}^{j_n + n_n^{(w)} - 1}
+    x[i_1, \ldots, i_n] \hspace{2pt} w[j_1 + n_1^{(w)} - i_1, \ldots, j_n + n_n^{(w)} - i_n] \\
+ &= \displaystyle \sum_{i_1=1}^{n_1^{(x)}} \cdots \sum_{i_n=1}^{n_n^{(x)}}
+    x[i_1, \ldots, i_n] \hspace{2pt} \widetilde{w}[i_1, j_1, \ldots, i_n, j_n] \\
+ & \text{where } \widetilde{w}[i_1, j_1, \ldots, i_n, j_n] =
+ \begin{cases}
+   w[j_1 + n_1^{(w)} - i_1, \ldots, j_n + n_n^{(w)} - i_n] & \text{if } \forall t, 0 \le i_t - j_t \le n_t^{(w)} - 1 \\
+   0 & \text{otherwise}
+ \end{cases}
 \end{align*}
+Using Einstein summation convention as in~(\ref{indices}) and permuting indices, we recognize the following tensor contraction
+\begin{align*}
+y_{j_1 \cdots j_n} = x_{i_1 \cdots i_n} \widetilde{w} \hspace{1pt}^{i_1 \cdots i_n} \hspace{0pt}_{j_1 \cdots j_n}
+\end{align*}
+
+
+
+
 Let a reshaping $w_{p,q} \mapsto \widetilde{w}_{p,q}$ such that its ranks are de-flattened using the inverses of the bijections $\{g_t: (i_t, j_t) \mapsto j_t - i_t + 1\}$. Then, subject to an index permutation and using notations as in (\ref{indices}), we can rewrite:
 \begin{align*}
 y_q \hspace{0pt}_{i_1^{\phantom{(}} \cdots i_n^{\phantom{(}}} = x_p \hspace{0pt}_{j_1^{\phantom{(}} \cdots j_n^{\phantom{(}}} \widetilde{w}_{p,q} \hspace{0pt}^{j_1^{\phantom{(}} \cdots j_n^{\phantom{(}}} \hspace{0pt}_{i_1^{\phantom{(}} \cdots i_n^{\phantom{(}}}
 \end{align*}
-where we recognize that the $n$-d convolution is expressed as a tensor contraction. Using the matrix product equivalence from remark~\ref{rq:matprodeq}, we can reshape $\widetilde{w}_{p,q}$ to a matrix $W_{p,q}$ and obtain the block $(p,q)$ of $W_g$.
+where we recognize that the $n$-d convolution can be expressed as a tensor contraction. Using the matrix product equivalence from remark~\ref{rq:matprodeq}, we can reshape $\widetilde{w}_{p,q}$ to a matrix $W_{p,q}$ and obtain the block $(p,q)$ of $W_g$. We denote by $g_i$ and $g_j$ the bijections in the index spaces related to this reshaping.
 
-The Toeplitz property holds for $\widetilde{w}_{p,q}$ for couples of covariant and contravariant indices $(i_t,j_t)$ because incrementing them both keeps the weight index $k_t$ constant. Hence, $W_{p,q}$ is a Toeplitz matrix. The proof of the converse also holds because reshapings are isomorphisms.
+The Toeplitz property holds for $\widetilde{w}_{p,q}$ for couples of covariant and contravariant indices $(i_t,j_t)$ because incrementing them both keeps the weight index $k_t$ constant. If we.Hence, $W_{p,q}$ is a Toeplitz matrix. The converse is also proven because reshapings are isomorphisms.
 \end{proof}
 
 \begin{definition}\textbf{Convolutional layer with stride}\\
