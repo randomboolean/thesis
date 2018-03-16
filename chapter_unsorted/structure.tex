@@ -400,16 +400,16 @@ where $p$ and $q$ index slices along the last ranks. The slices $g(x)_q$ are typ
 \end{remark}
 
 \begin{definition}\textbf{Padding}\\
-A layer $(g_\text{pad} \circ g, h)$ with padding is such that $g_\text{pad}$ is a padding operation.
+A layer $(g, h)$ with padding is such that $\exists (g_\text{pad}, g'), g = g_\text{pad} \circ g'$ where $g_\text{pad}$ is a padding operation.
 
-A convolutional layer with padding $(g_\text{pad} \circ g,h)$ is such that $g_\text{pad}$ \todo{}
+A convolutional layer with padding $(g_\text{pad} \circ g',h)$ is such that $g_\text{pad}$ \todo{}
 \todo{rewrite}
 \end{definition}
 
 \todo{blabla padding}
 
 \begin{proposition}\textbf{Connectivity matrix of a convolution with padding}\\
-A convolutional layer with padding $(g_\text{pad} \circ g,h)$ is equivalently defined as $W_g$ being a $n_{n+1}^{(I_g)} \times n_{n+1}^{(O_g)}$ block matrix such that its blocks are Toeplitz matrices.
+A convolutional layer with padding $(g, h)$ is equivalently defined as $W_g$ being a $n_{n+1}^{(I_g)} \times n_{n+1}^{(O_g)}$ block matrix such that its blocks are Toeplitz matrices.
 \end{proposition}
 
 \begin{proof}
@@ -433,29 +433,24 @@ Using Einstein summation convention as in~(\ref{indices}) and permuting indices,
 \begin{align}
 y_{j_1 \cdots j_n} = x_{i_1 \cdots i_n} \widetilde{w} \hspace{1pt}^{i_1 \cdots i_n} \hspace{0pt}_{j_1 \cdots j_n} \label{eq:toep1}
 \end{align}
-Following remark~\ref{rq:matprodeq}, we reshape~(\ref{eq:toep1}) as a matrix product. To reshape $y \mapsto Y$, we use the row major order bijections $g_j$ as in~(\ref{rowmajor}) defined onto $\{(j_1, \ldots, j_n), \forall t, 1 \le j_t \le n_t^{(y)}\}$. To reshape $x \mapsto X$, we use the same row major order bijection $g_j$, however defined on the indices that support non zero-padded values, so that zero-padded values are lost after reshaping. That is, we use a bijection $g_i$ such that $g_i(i_1, i_2, \ldots, i_n) = g_j(i_1 - o_1, i_2 - o_2, \ldots, i_n - o_n)$ defined if and only if $\forall t, 1 + o_t \le i_t \le n_t^{(y)}$, where the $\{o_t\}$ are the starting offsets of the non zero-padded values. $\widetilde{w} \mapsto W$ is reshaped by using $g_j$ for its covariant indices, and $g_i$ for its contravariant indices. The entries lost by using $g_i$ do not matter because they would have been nullified by the resulting matrix product.
+Following remark~\ref{rq:matprodeq}, we reshape~(\ref{eq:toep1}) as a matrix product. To reshape $y \mapsto Y$, we use the row major order bijections $g_j$ as in~(\ref{rowmajor}) defined onto $\{(j_1, \ldots, j_n), \forall t, 1 \le j_t \le n_t^{(y)}\}$. To reshape $x \mapsto X$, we use the same row major order bijection $g_j$, however defined on the indices that support non zero-padded values, so that zero-padded values are lost after reshaping. That is, we use a bijection $g_i$ such that $g_i(i_1, i_2, \ldots, i_n) = g_j(i_1 - o_1, i_2 - o_2, \ldots, i_n - o_n)$ defined if and only if $\forall t, 1 + o_t \le i_t \le n_t^{(y)}$, where the $\{o_t\}$ are the starting offsets of the non zero-padded values. $\widetilde{w} \mapsto W$ is reshaped by using $g_j$ for its covariant indices, and $g_i$ for its contravariant indices. The entries lost by using $g_i$ do not matter because they would have been nullified by the resulting matrix product. We remark that $W$ is exactly the block $(p,q)$ of $W_g$ (and not of $W_{g'}$). Now let's prove that it is a Toeplitz matrix.
 
-Thanks to the linearity of $g_j$, by denoting $i'_t = i_t - o_t$, we obtain
+Thanks to the linearity of the expression~(\ref{rowmajor}) of $g_j$, by denoting $i'_t = i_t - o_t$, we obtain
 \begin{gather}
   g_i(i_1, i_2, \ldots, i_n) - g_j(j_1, j_2, \ldots, j_n) = g_j(i'_1 - j_1, i'_2 - j_2, \ldots, i'_n - j_n)
 \label{eq:toep2}
 \end{gather}
 
-To simplify the notations, let's drop the arguments of $g_i$ and $g_j$. Recall that $W[g_j,g_i] = w[k_1, \ldots, k_n]$ or $0$. When it is not equal to $0$, we have
-\begin{align}
-W[g_j,g_i] &= W[g_j,g_j + (g_i-g_j)]
-  &= 
-\end{align}
-
-By definition of the $n$-dimensional convolution, we have that $\forall t, n_t^{(w)} \le n_t^{(y)}$. So, because of the expression of $g_j$, the function $g_k$ defined in the index space of $w$ as follow is injective
-\begin{align}
-\begin{split}
-g_k(k_1, k_2, \ldots, k_n) &= g_j(n_1^{(w)} - k_1, n_2^{(w)} - k_2, \ldots, n_n^{(w)} - k_n)\\
-&= g_j(i_1 - j_1, i_2 - j_2, \ldots, i_n - j_n)
+To simplify the notations, let's drop the arguments of $g_i$ and $g_j$. By bijectivity of $g_j$, (\ref{eq:toep2}) tells us that $g_i - g_j$ remains constant if and only if $i'_t - j_t$ remains constant for all $t$. Recall that 
+\begin{gather}
+  W[g_i,g_j] =
+ \begin{cases}
+   w[j_1 + n_1^{(w)} - i'_1, \ldots, j_n + n_n^{(w)} - i'_n] & \text{if } \forall t, 0 \le i'_t - j_t \le n_t^{(w)} - 1 \\
+   0 & \text{otherwise}
+ \end{cases}
 \label{eq:toep3}
-\end{split}
-\end{align}
-Combining (\ref{eq:toep2})  and (\ref{eq:toep3}), we obtained that $g_i - g_j$ is in the image of $g_k$, so that thanks to its injectivity it is associated to a unique weight index $(k'_1, k'_2, \ldots, k'_n)$. Because $g_i - g_j$ characterizes a diagonal of $W$, it is a Toeplitz matrix. Moreover, by~\ref{eq:toep1} and remark~\ref{rq:matprodeq}, we know that $W$ is the block $(p,q)$ of $W_g$.
+\end{gather}
+Hence, on a diagonal of $W$, $g_i - g_j$ remaining constant means that $W[g_i,g_j]$ also remains constants. So $W$ is a Toeplitz matrix.
 
 The converse is also true as we used invertible functions in the index spaces through the proof.
 \end{proof}
