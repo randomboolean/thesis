@@ -21,7 +21,7 @@
 % no indent
 \setlength\parindent{0pt}
 
-% commands
+% theorems
 \usepackage{amsthm}
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}[section]
@@ -32,31 +32,29 @@
 
 \theoremstyle{plain}
 
-\newcommand{\real}{\mathbb{R}}
-\newcommand{\tspace}{\mathbb{T}}
-\newcommand{\vecspace}{\mathbb{V}}
-\newcommand{\nn}{\mathcal{N}}
-\newcommand{\lf}{\mathcal{L}}
-\newcommand{\ovec}{}
+
+%comands
+\newcommand{\bbr}{\mathbb{R}}
+\newcommand{\bbt}{\mathbb{T}}
+\newcommand{\bbv}{\mathbb{V}}
+\newcommand{\bbn}{\mathbb{N}}
+
+\newcommand{\cn}{\mathcal{N}}
+\newcommand{\cl}{\mathcal{L}}
 
 \newcommand{\todo}[1]{\textcolor{red}{TODO: #1\\}}
 
-\title{Structures en apprentissage profond.\\ On structures in deep learning}
+%\title{Structures en apprentissage profond.\\ On structures in deep learning}
 
 \begin{document}
 
-%
-% TODO list:
-%    add ref
-%    more discussion and refs
-%
-
-\chapter{First chapter}
+\chapter{First chapter to be renamed}
+\todo{brief summary + minitoc}
 \newpage
 
 \section{Definitions and disambiguations}
 
-In this section, we recall or rigorously redefine notions related to tensors, neural networks and graphs. Vector spaces considered below are assumed to be finite-dimensional and over the field of real numbers $\real$.
+In this section, we recall or rigorously redefine notions related to tensors, neural networks and graphs. Vector spaces considered below are assumed to be finite-dimensional and over the field of real numbers $\bbr$.
 
 \subsection{Tensors}
 
@@ -65,7 +63,7 @@ Intuitively, tensors in the field of deep learning are defined as a generalizati
 Our definition of tensors is such that they are a bit more than multidimensional arrays but not as much as mathematical tensors, for that they are embedded in a linear space and any deep learning object can be later define rigorously.
 
 \begin{definition}\textbf{Tensor space}\\
-We define a \emph{tensor space} $\tspace$ of rank $r$ as a cartesian product of $r$ vector spaces under the coordinate-wise sum and the mono-linear outer product.
+We define a \emph{tensor space} $\bbt$ of rank $r$ as a cartesian product of $r$ vector spaces under the coordinate-wise sum and the mono-linear outer product.
 
 Its \emph{shape} is denoted $n_1 \times n_2 \times \cdots \times n_r$, where the $\{n_k\}$ are the dimensions of the vector spaces.
 \end{definition}
@@ -87,7 +85,7 @@ When using an index $i_k$ for an entry of a tensor $t$, we implicitly assume tha
 For subtensor indexings, we don't necessarily write the lower bound index if it is equal to $1$, neither the upper bound index if it is equal to $n_p^{(t)}$.
 
 \begin{definition}\textbf{Slicing}\\
-A \emph{slice} operation, along the last ranks $\{r_1, r_2, \ldots, r_s\}$, and indexed by $(i_{r_1}, i_{r_2}, \ldots, i_{r_s})$, is a morphism $s: \tspace = \displaystyle \prod_{k=1}^r \vecspace_k \rightarrow \prod_{k=1}^{r-s} \vecspace_k$, such that:
+A \emph{slice} operation, along the last ranks $\{r_1, r_2, \ldots, r_s\}$, and indexed by $(i_{r_1}, i_{r_2}, \ldots, i_{r_s})$, is a morphism $s: \bbt = \displaystyle \prod_{k=1}^r \bbv_k \rightarrow \prod_{k=1}^{r-s} \bbv_k$, such that:
 \begin{align*}
 s(t)[i'_1, i'_2, \ldots, i'_{r-s}] &= t[i'_1, i'_2, \ldots, i'_{r-s}, i_{r_1}, i_{r_2}, \ldots, i_{r_s}] \\
 \text{ i.e. } \quad s(t) :&= t[:,:, \ldots, :, i_{r_1}, i_{r_2}, \ldots, i_{r_s}]
@@ -95,13 +93,13 @@ s(t)[i'_1, i'_2, \ldots, i'_{r-s}] &= t[i'_1, i'_2, \ldots, i'_{r-s}, i_{r_1}, i
 where $:=$ means that values of the right operand are assigned to the left operand.
 We denote $t_{i_{r_1}, i_{r_2}, \ldots i_{r_s}}$ and call it the \emph{slice} of $t$. 
 Slicing along a subset of ranks that are not the lasts is defined similarly.
-$s(\tspace)$ is called a \emph{sliced subspace}.
+$s(\bbt)$ is called a \emph{sliced subspace}.
 \end{definition}
 
 \begin{definition}\textbf{Flattening}\\
-A \emph{flatten} operation is an isomorphism $f: \tspace \rightarrow \vecspace$, between a tensor space $\tspace$ of rank~$r$ and an $n$-dimensional vector space $\vecspace$, where $n =\displaystyle \prod_{k=1}^r n_k$. It is characterized by a bijection in the index spaces $g: \displaystyle \prod_{k=1}^r \{1, \ldots, n_k \} \rightarrow\{1, \ldots, n \}$ such that
+A \emph{flatten} operation is an isomorphism $f: \bbt \rightarrow \bbv$, between a tensor space $\bbt$ of rank~$r$ and an $n$-dimensional vector space $\bbv$, where $n =\displaystyle \prod_{k=1}^r n_k$. It is characterized by a bijection in the index spaces $g: \displaystyle \prod_{k=1}^r \{1, \ldots, n_k \} \rightarrow\{1, \ldots, n \}$ such that
 \begin{gather*}
-  \forall t \in \tspace, f(t)[g(i_1, i_2, \ldots, i_r)] = f(t[i_1, i_2, \ldots, i_r])
+  \forall t \in \bbt, f(t)[g(i_1, i_2, \ldots, i_r)] = f(t[i_1, i_2, \ldots, i_r])
 \end{gather*}
 
 An inverse operation is called a \emph{de-flatten} operation.
@@ -115,17 +113,17 @@ The choice of $g$ determines in which order the indexing is made. $g$ is remines
 \end{remark}
 
 \begin{definition}\textbf{Reshaping}\\
-A \emph{reshape} operation is an isomorphism defined on a tensor space $\tspace = \displaystyle \prod_{k=1}^r \vecspace_k$ such that some of its basis vector spaces $\{\vecspace_k\}$ are de-flattened and some of its sliced subspaces are flattened.
+A \emph{reshape} operation is an isomorphism defined on a tensor space $\bbt = \displaystyle \prod_{k=1}^r \bbv_k$ such that some of its basis vector spaces $\{\bbv_k\}$ are de-flattened and some of its sliced subspaces are flattened.
 \end{definition}
 
 \begin{definition}\textbf{Contraction}\\
 A \emph{tensor contraction} between two tensors, along ranks of same dimensions, is defined by natural extension of the dot product operation to tensors.
 
-More precisely, let $\tspace_1$ a tensor space of shape $n_1^{(1)} \times n_2^{(1)} \times \cdots \times n_{r_1}^{(1)}$, and $\tspace_2$ a tensor space of shape $n_1^{(2)} \times n_2^{(2)} \times \cdots \times n_{r_2}^{(2)}$, such that $\forall k \in \{1, 2, \ldots, s\}, n_{r_1-(s-k)}^{(1)} = n_k^{(2)}$, then the tensor contraction between $t_1 \in \tspace_1$ and $t_2 \in \tspace_2$ is defined as:
+More precisely, let $\bbt_1$ a tensor space of shape $n_1^{(1)} \times n_2^{(1)} \times \cdots \times n_{r_1}^{(1)}$, and $\bbt_2$ a tensor space of shape $n_1^{(2)} \times n_2^{(2)} \times \cdots \times n_{r_2}^{(2)}$, such that $\forall k \in \{1, 2, \ldots, s\}, n_{r_1-(s-k)}^{(1)} = n_k^{(2)}$, then the tensor contraction between $t_1 \in \bbt_1$ and $t_2 \in \bbt_2$ is defined as:
 \begin{gather*}
 \left\{
   \begin{array}{l}
-    t_1 \otimes t_2 = t_3 \in \tspace_3 \text{ of shape } n_1^{(1)} \times \cdots \times n_{r_1-s}^{(1)} \times n_{s+1}^{(2)} \times \cdots \times n_{r_2}^{(2)}
+    t_1 \otimes t_2 = t_3 \in \bbt_3 \text{ of shape } n_1^{(1)} \times \cdots \times n_{r_1-s}^{(1)} \times n_{s+1}^{(2)} \times \cdots \times n_{r_2}^{(2)}
     \text{ where} \\
     t_3[i_1^{(1)}, \ldots, i_{r_1-s}^{(1)}, i_{s+1}^{(2)}, \ldots, i_{r_2}^{(2)}] = \\
     %\displaystyle \sum_{k_1, \ldots, k_s}
@@ -175,11 +173,11 @@ where $g_i$, $g_k$ and $g_j$ are bijections defined similarly as in (\ref{rowmaj
 \end{proof}
 
 \begin{definition}\textbf{Convolution}\\
-The \emph{$n$-dimensional convolution}, denoted $\ast_n$, between $t_1 \in \tspace_1$ and $t_2 \in \tspace_2$, where $\tspace_1$ and $\tspace_2$ are of the same rank $n$ such that $\forall p \in \{1, 2, \ldots, n\}, n_p^{(1)} \ge n_p^{(2)}$, is defined as:
+The \emph{$n$-dimensional convolution}, denoted $\ast_n$, between $t_1 \in \bbt_1$ and $t_2 \in \bbt_2$, where $\bbt_1$ and $\bbt_2$ are of the same rank $n$ such that $\forall p \in \{1, 2, \ldots, n\}, n_p^{(1)} \ge n_p^{(2)}$, is defined as:
 \begin{gather*}
 \left\{
   \begin{array}{l}
-    t_1 \ast_n t_2 = t_3 \in  \tspace_3 \text{ of shape } n_1^{(3)} \times \cdots \times n_n^{(3)}
+    t_1 \ast_n t_2 = t_3 \in  \bbt_3 \text{ of shape } n_1^{(3)} \times \cdots \times n_n^{(3)}
     \text{ where} \\
     \forall p \in \{1, 2, \ldots, n\}, n_p^{(3)} = n_p^{(1)} - n_p^{(2)} + 1 \\
     t_3[i_1, \ldots, i_n] =
@@ -216,7 +214,7 @@ $F$ is a \emph{functional formulation} of a \emph{simply connected neural networ
 \right.
 \end{gather*}
 The couple $(g_k, h_k)$ is called the \emph{$k$-th layer} of the neural network.
-For $\ovec{x} \in I_f$, we denote by $\ovec{x_k} = f_k \circ ... \circ f_{2} \circ f_1 (\ovec{x})$ the \emph{activations} of the $k$-th layer.
+For $x \in I_f$, we denote by $x_k = f_k \circ ... \circ f_{2} \circ f_1 (x)$ the \emph{activations} of the $k$-th layer.
 \label{def:nn}
 \end{definition}
 
@@ -232,7 +230,7 @@ Let a layer $(g,h)$. $h$ is called the \emph{activation function} of the layer. 
 \end{remark}
 
 \begin{definition}\textbf{Layer}\\
-A couple $(g,h)$, where $g$ is an affine or linear function, and $h$ is an activation function is called a \emph{layer}. The set of layers is denoted~$\lf$.
+A couple $(g,h)$, where $g$ is an affine or linear function, and $h$ is an activation function is called a \emph{layer}. The set of layers is denoted~$\cl$.
 \end{definition}
 
 \begin{remark}\textbf{Bias}\\
@@ -242,7 +240,7 @@ Affine functions $\widetilde{g}$ can be written as a sum between a linear functi
 \begin{definition}\textbf{Connectivity matrix}\\
 Let $g$ a linear function. Without loss of generality subject to a flattening, let's suppose $I_g$ and $O_g$ are vector spaces. Then there exists a \emph{connectivity matrix}~$W_g$, such that:
 \begin{gather*}
-\forall \ovec{x} \in I_g, g(\ovec{x}) = W_g\ovec{x}
+\forall x \in I_g, g(x) = W_g x
 \end{gather*}
 \end{definition}
 We denote $W_k$ the connectivity matrix of the $k$-th layer.
@@ -278,16 +276,16 @@ A \emph{branching operation} of a neural network between $n$ activations, $x_{k_
 \end{definition}
 
 \begin{definition}\textbf{Neural network (generic definition)}\\
-The set of \emph{neural network functions} $\nn$ is defined inductively as follow
+The set of \emph{neural network functions} $\cn$ is defined inductively as follow
 %\begin{gather*}
 \begin{enumerate}
 %\left\{
   %\begin{array}{l}
-  \item $Id \in \nn$
-  \item $f \in \nn \wedge (g,h) \in \lf \wedge O_f \subset I_g \Rightarrow h \circ g \circ f \in \nn$
+  \item $Id \in \cn$
+  \item $f \in \cn \wedge (g,h) \in \cl \wedge O_f \subset I_g \Rightarrow h \circ g \circ f \in \cn$
   %\text{for all shape compatible branching operation:}\\
   \item for all shape compatible branching operations:\\
-  $\quad f_1, f_2, \ldots, f_n \in \nn \Rightarrow  f_1 \Join f_2 \Join \cdots \Join f_n \in \nn$
+  $\quad f_1, f_2, \ldots, f_n \in \cn \Rightarrow  f_1 \Join f_2 \Join \cdots \Join f_n \in \cn$
   %\end{array}
 %\right.
 \end{enumerate}
@@ -312,7 +310,7 @@ Let consider the $k$-th layer of a neural networks. We define its weights as coo
 A weight $p$ that appears multiple times in $W_k$ is said to be \emph{shared}. Two parameters of $W_k$ that share a same weight $p$ are said to be \emph{tied}. The number of weights of the $k$-th layer is $n_1^{(\theta_k)}$.
 
 \begin{remark}\textbf{Learning}\\
-A \emph{loss} function $\mathcal{L}$ penalizes the output $x_L = F(\ovec{x})$ relatively to what can be expected. Gradient w.r.t.~$\theta_k$, denoted $\vec{\bigtriangledown}_{\theta_k}$, is used to update the weights via an optimization algorithm based on gradient descent and a learning rate $\alpha$, that is:
+A \emph{loss} function $\mathcal{L}$ penalizes the output $x_L = F(x)$ relatively to what can be expected. Gradient w.r.t.~$\theta_k$, denoted $\vec{\bigtriangledown}_{\theta_k}$, is used to update the weights via an optimization algorithm based on gradient descent and a learning rate $\alpha$, that is:
 \begin{gather}
 \theta_k^{(\text{new})} = \theta_k^{(\text{old})} - \alpha \cdot \vec{\bigtriangledown}_{\theta_k} \left( \mathcal{L}\left( x_L, \theta_k^{(\text{old})} \right) + R\left( \theta_k^{(\text{old})} \right) \right)
 \end{gather}
@@ -324,22 +322,22 @@ where $\alpha$~can be a scalar or a vector, $\cdot$~can denote outer or pointwis
 \begin{remark}\textbf{Linear complexity}\\
 {The complexity of computing the gradients is linear with the number of weights.}
 \begin{proof}
-Without loss of generality, we assume that the neural network is simply connected. Thanks to the chain rule, $\vec{\bigtriangledown}_{\theta_k}$ can be computed using gradients that are w.r.t. $\ovec{x_k}$, denoted $\vec{\bigtriangledown}_{x_k}$, which in turn can be computed using gradients w.r.t. outputs of the next layer $k+1$, up to the gradients given on the output layer.
+Without loss of generality, we assume that the neural network is simply connected. Thanks to the chain rule, $\vec{\bigtriangledown}_{\theta_k}$ can be computed using gradients that are w.r.t. $x_k$, denoted $\vec{\bigtriangledown}_{x_k}$, which in turn can be computed using gradients w.r.t. outputs of the next layer $k+1$, up to the gradients given on the output layer.
 
 That is:
 \begin{align}
-  \vec{\bigtriangledown}_{\theta_k} & = J_{\theta_k}(\ovec{x_k}) \vec{\bigtriangledown}_{x_k} \\
+  \vec{\bigtriangledown}_{\theta_k} & = J_{\theta_k}(x_k) \vec{\bigtriangledown}_{x_k} \\
   \begin{split}
-  \vec{\bigtriangledown}_{x_k} & = J_{x_k}(\ovec{x_{k+1}}) \vec{\bigtriangledown}_{x_{k+1}} \\
-  \vec{\bigtriangledown}_{x_{k+1}} & = J_{x_{k+1}}(\ovec{x_{k+2}}) \vec{\bigtriangledown}_{x_{k+2}} \\
+  \vec{\bigtriangledown}_{x_k} & = J_{x_k}(x_{k+1}) \vec{\bigtriangledown}_{x_{k+1}} \\
+  \vec{\bigtriangledown}_{x_{k+1}} & = J_{x_{k+1}}(x_{k+2}) \vec{\bigtriangledown}_{x_{k+2}} \\
   \quad \quad \ldots\\
-  \vec{\bigtriangledown}_{x_{L-1}} & = J_{x_{L-1}}(\ovec{x_{L}}) \vec{\bigtriangledown}_{x_{L}}
+  \vec{\bigtriangledown}_{x_{L-1}} & = J_{x_{L-1}}(x_{L}) \vec{\bigtriangledown}_{x_{L}}
   \label{eq:bp}
   \end{split}
 \end{align}
 Obtaining,
 \begin{align}
-  \vec{\bigtriangledown}_{\theta_k} = J_{\theta_k}(\ovec{x_k}) (\prod_{p=k}^{L-1} J_{x_p}(\ovec{x_{p+1}})) \vec{\bigtriangledown}_{x_L}
+  \vec{\bigtriangledown}_{\theta_k} = J_{\theta_k}(x_k) (\prod_{p=k}^{L-1} J_{x_p}(x_{p+1})) \vec{\bigtriangledown}_{x_L}
 \end{align}
 where $J_{\text{wrt}}(.)$ are the respective jacobians which can be determined with the layer's expressions and the $\{x_k\}$; and $\vec{\bigtriangledown}_{x_L}$ can be determined using $\mathcal{L}$, $R$ and $x_L$.
 \end{proof}
@@ -350,7 +348,7 @@ This allows to compute the gradients with a complexity that is linear with the n
 We can remark that \eqref{eq:bp} rewrites as
 \begin{align}
   \begin{split}
-  \vec{\bigtriangledown}_{x_k} & = J_{x_k}(\ovec{x_{k+1}}) \vec{\bigtriangledown}_{x_{k+1}} \\ 
+  \vec{\bigtriangledown}_{x_k} & = J_{x_k}(x_{k+1}) \vec{\bigtriangledown}_{x_{k+1}} \\ 
                                & = J_{x'_k}(h(x'_k)) J_{x_k}(W_k x_k) \vec{\bigtriangledown}_{x_{k+1}}
   \end{split}
 \end{align}
