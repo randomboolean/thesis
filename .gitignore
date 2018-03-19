@@ -3,3 +3,6 @@
 template_mdt/
 example_header1.tex
 example_header0.tex
+*.maf
+*.mtc*
+*.toc
