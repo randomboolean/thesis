@@ -1,0 +1,138 @@
+\subsection{Tensors}
+
+Intuitively, tensors in the field of deep learning are defined as a generalization of vectors and matrices, as if vectors were tensors of rank $1$ and matrices were tensors of rank $2$. That is, they are objects in a linear space and their dimensions are indexed using as many indices as their rank, so that they can be represented by multidimensional arrays. In mathematics, a tensor is usually defined as a special class of multilinear functions. As such, a mathematical tensor is entirely defined on the cartesian product of the canonical bases onto which its outputs can be represented by a multidimensional array. In that sense, both definitions rejoin on their representation, but the underlying objects are different. In particular, mathematical tensors enjoy a more intrinsic definition as they neither depend on their multidimensional array representation nor on a change of basis.
+
+Our definition of tensors is such that they are a bit more than multidimensional arrays but not as much as mathematical tensors, for that they are embedded in a linear space and any deep learning object can be later define rigorously.
+
+\begin{definition}\textbf{Tensor space}\\
+We define a \emph{tensor space} $\bbt$ of rank $r$ as a cartesian product of $r$ vector spaces under the coordinate-wise sum and the mono-linear outer product.
+
+Its \emph{shape} is denoted $n_1 \times n_2 \times \cdots \times n_r$, where the $\{n_k\}$ are the dimensions of the vector spaces.
+\end{definition}
+
+Hence, a tensor space is a linear space. Note that for naming conveniency, we distinguish between the terms \emph{linear space} and \emph{vector space}. That is, we abusively use the term \emph{vector space} only to refer to a linear space that can be seen as a tensor space of rank $1$. If there is no notion of rank defined, we rather use the term \emph{linear space}.
+We also make a clear distinction between the term \emph{dimension} (that is, for a tensor space it is equal to $\displaystyle \prod_{k=1}^r n_k$) and the term \emph{rank} (equal to $r$).
+
+\begin{definition}\textbf{Tensor}\\
+A \emph{tensor} $t$ is an object of a tensor space. The \emph{shape} of $t$, which is the same as the shape of the tensor space it belongs to, is denoted $n_1^{(t)} \times n_2^{(t)} \times \cdots \times n_r^{(t)}$.
+\end{definition}
+
+\begin{definition}\textbf{Indexing}\\
+An \emph{entry} of a tensor $t$ is a scalar denoted $t[i_1, i_2, \ldots, i_r]$.
+
+A \emph{subtensor} $t'$ is a tensor of same rank composed of entries of $t$ that are contiguous in the indexing, with at least one entry per rank. We denote $t' = t[l_1{:}u_1, l_2{:}u_2, \ldots, l_r{:}u_r]$, where the $\{l_p\}$ and the $\{u_p\}$ are the lower and upper bounds of the indices used by the entries that compose~$t'$.
+\end{definition}
+
+When using an index $i_k$ for an entry of a tensor $t$, we implicitly assume that $i_k \in \{1, 2, \cdots, n_k^{(t)}\}$ if nothing is precised.
+For subtensor indexings, we don't necessarily write the lower bound index if it is equal to $1$, neither the upper bound index if it is equal to $n_p^{(t)}$.
+
+\begin{definition}\textbf{Slicing}\\
+A \emph{slice} operation, along the last ranks $\{r_1, r_2, \ldots, r_s\}$, and indexed by $(i_{r_1}, i_{r_2}, \ldots, i_{r_s})$, is a morphism $s: \bbt = \displaystyle \prod_{k=1}^r \bbv_k \rightarrow \prod_{k=1}^{r-s} \bbv_k$, such that:
+\begin{align*}
+s(t)[i'_1, i'_2, \ldots, i'_{r-s}] &= t[i'_1, i'_2, \ldots, i'_{r-s}, i_{r_1}, i_{r_2}, \ldots, i_{r_s}] \\
+\text{ i.e. } \quad s(t) :&= t[:,:, \ldots, :, i_{r_1}, i_{r_2}, \ldots, i_{r_s}]
+\end{align*}
+where $:=$ means that values of the right operand are assigned to the left operand.
+We denote $t_{i_{r_1}, i_{r_2}, \ldots i_{r_s}}$ and call it the \emph{slice} of $t$. 
+Slicing along a subset of ranks that are not the lasts is defined similarly.
+$s(\bbt)$ is called a \emph{sliced subspace}.
+\end{definition}
+
+\begin{definition}\textbf{Flattening}\\
+A \emph{flatten} operation is an isomorphism $f: \bbt \rightarrow \bbv$, between a tensor space $\bbt$ of rank~$r$ and an $n$-dimensional vector space $\bbv$, where $n =\displaystyle \prod_{k=1}^r n_k$. It is characterized by a bijection in the index spaces $g: \displaystyle \prod_{k=1}^r \{1, \ldots, n_k \} \rightarrow\{1, \ldots, n \}$ such that
+\begin{gather*}
+  \forall t \in \bbt, f(t)[g(i_1, i_2, \ldots, i_r)] = f(t[i_1, i_2, \ldots, i_r])
+\end{gather*}
+
+An inverse operation is called a \emph{de-flatten} operation.
+\end{definition}
+
+\begin{remark}\textbf{Row major ordering}\\
+The choice of $g$ determines in which order the indexing is made. $g$ is reminescent of how data of multidimensional arrays or tensors are stored internally by programming languages. In most tensor manipulation languages, incrementing the memory adress (i.e. the output of $g$) will increment only $i_r$ if $i_r < n_r$ (and then ranks are ordered in reverse lexicographic order to decide what index is also incremented). This is called \emph{row major ordering}, as opposed to \emph{column major ordering}. That is, in row major, $g$ is defined as
+\begin{align}
+  g(i_1, i_2, \ldots, i_r) = \displaystyle \sum_{p=1}^r \left( \prod_{k=p+1}^r n_k \right) i_p \label{rowmajor}
+\end{align}
+\end{remark}
+
+\begin{definition}\textbf{Reshaping}\\
+A \emph{reshape} operation is an isomorphism defined on a tensor space $\bbt = \displaystyle \prod_{k=1}^r \bbv_k$ such that some of its basis vector spaces $\{\bbv_k\}$ are de-flattened and some of its sliced subspaces are flattened.
+\end{definition}
+
+\begin{definition}\textbf{Contraction}\\
+A \emph{tensor contraction} between two tensors, along ranks of same dimensions, is defined by natural extension of the dot product operation to tensors.
+
+More precisely, let $\bbt_1$ a tensor space of shape $n_1^{(1)} \times n_2^{(1)} \times \cdots \times n_{r_1}^{(1)}$, and $\bbt_2$ a tensor space of shape $n_1^{(2)} \times n_2^{(2)} \times \cdots \times n_{r_2}^{(2)}$, such that $\forall k \in \{1, 2, \ldots, s\}, n_{r_1-(s-k)}^{(1)} = n_k^{(2)}$, then the tensor contraction between $t_1 \in \bbt_1$ and $t_2 \in \bbt_2$ is defined as:
+\begin{gather*}
+\left\{
+  \begin{array}{l}
+    t_1 \otimes t_2 = t_3 \in \bbt_3 \text{ of shape } n_1^{(1)} \times \cdots \times n_{r_1-s}^{(1)} \times n_{s+1}^{(2)} \times \cdots \times n_{r_2}^{(2)}
+    \text{ where} \\
+    t_3[i_1^{(1)}, \ldots, i_{r_1-s}^{(1)}, i_{s+1}^{(2)}, \ldots, i_{r_2}^{(2)}] = \\
+    %\displaystyle \sum_{k_1, \ldots, k_s}
+    \displaystyle \sum_{k_1=1}^{n_1^{(2)}} \cdots \sum_{k_s=1}^{n_s^{(2)}}
+    t_1[i_1^{(1)}, \ldots, i_{r_1-s}^{(1)}, k_1, \ldots, k_s] \hspace{2pt}
+    t_2[k_1, \ldots, k_s, i_{s+1}^{(2)}, \ldots, i_{r_2}^{(2)}]
+  \end{array}
+\right.
+\end{gather*}
+\end{definition}
+
+For the sake of simplicity, we omit the case where the contracted ranks are not the last ones for $t_1$ and the first ones for $t_2$. But this definition still holds in the general case subject to a permutation of the indices.
+
+\begin{definition}\textbf{Covariant and contravariant indices}\\
+Given a tensor contraction $t_1 \otimes t_2$, indices of the left hand operand $t_1$ that are not contracted are called \emph{covariant} indices. Those that are contracted are called \emph{contravariant} indices. For the right operand $t_2$, the naming convention is the opposite. 
+The set of covariant and contravariant indices of both operands are called the \emph{transformation laws} of the tensor contraction.
+\end{definition}
+
+\begin{remark}\textbf{Transformation law independency}\\
+Contrary to mathematical definitions, tensors in deep learning are independent of any transformation law, so that they must be specified for tensor contractions.
+\end{remark}
+
+\begin{remark}\textbf{Einstein summation convention}\\
+Using subscript notation for covariant indices and superscript notation for contravariant indices, the previous tensor contraction can be written using the Einstein summation convention as:
+\begin{gather}
+t_1 \hspace{0pt}_{i_1^{(1)} \cdots i_{r_1-s}^{(1)} } \hspace{0pt}^{ k_1 \cdots k_s} 
+t_2 \hspace{0pt}_{ k_1^{\phantom{(}} \cdots k_s^{\phantom{(}}} \hspace{0pt}^{i_{s+1}^{(2)} \cdots i_{r_2}^{(2)}} =
+t_3 \hspace{0pt}_ {i_1^{(1)} \cdots i_{r_1-s}^{(1)} } \hspace{0pt}^{i_{s+1}^{(2)} \cdots i_{r_2}^{(2)}}
+\label{indices}
+\end{gather}
+Dot product $u_k v^k = \lambda $ and matrix product $A_i\hspace{0pt}^k B_k\hspace{0pt}^j = C_i\hspace{0pt}^j$ are common examples of tensor contractions.
+\end{remark}
+
+%Maybe prove it as a proposition
+\begin{remark}\textbf{Matrix product equivalence}\\
+Using reshapings that groups all covariant indices into a single index and all contravariant indices into another single index, any tensor contraction can be rewritten as a matrix product.
+\label{rq:matprodeq}
+\end{remark}
+\begin{proof}
+Using notation of (\ref{indices}), with the reshapings $t_1 \mapsto T_1$, $t_2 \mapsto T_2$ and $t_3 \mapsto T_3$ defined as suggested in the remark, we can rewrite
+$$
+T_1 \hspace{0pt}_{g_i(i_1^{(1)}, \ldots, i_{r_1-s}^{(1)})} \hspace{0pt}^{g_k(k_1, \ldots, k_s)} 
+T_2 \hspace{0pt}_{g_k(k_1^{\phantom{(}}, \ldots, k_s^{\phantom{(}})} \hspace{0pt}^{g_j(i_{s+1}^{(2)}, \ldots, i_{r_2}^{(2)})} =
+T_3 \hspace{0pt}_ {g_i(i_1^{(1)}, \ldots, i_{r_1-s}^{(1)})} \hspace{0pt}^{g_j(i_{s+1}^{(2)}, \ldots, i_{r_2}^{(2)})}
+$$
+where $g_i$, $g_k$ and $g_j$ are bijections defined similarly as in (\ref{rowmajor}).
+\end{proof}
+
+\begin{definition}\textbf{Convolution}\\
+The \emph{$n$-dimensional convolution}, denoted $\ast_n$, between $t_1 \in \bbt_1$ and $t_2 \in \bbt_2$, where $\bbt_1$ and $\bbt_2$ are of the same rank $n$ such that $\forall p \in \{1, 2, \ldots, n\}, n_p^{(1)} \ge n_p^{(2)}$, is defined as:
+\begin{gather*}
+\left\{
+  \begin{array}{l}
+    t_1 \ast_n t_2 = t_3 \in  \bbt_3 \text{ of shape } n_1^{(3)} \times \cdots \times n_n^{(3)}
+    \text{ where} \\
+    \forall p \in \{1, 2, \ldots, n\}, n_p^{(3)} = n_p^{(1)} - n_p^{(2)} + 1 \\
+    t_3[i_1, \ldots, i_n] =
+    \displaystyle \sum_{k_1=1}^{n_1^{(2)}} \cdots \sum_{k_n=1}^{n_n^{(2)}}
+    t_1[i_1 + n_1^{(2)} - k_1, \ldots, i_n + n_n^{(2)} - k_n] \hspace{2pt} t_2[k_1, \ldots, k_n] \\
+  \end{array}
+\right.
+\end{gather*}
+\label{convdef}
+\end{definition}
+
+\begin{definition}\textbf{Pooling}\\
+
+\todo{Use indexing, maybe add stride in this subsection rather than in the next}
+
+\end{definition}

@@ -1,38 +1,38 @@
-\documentclass{article}
-\usepackage[utf8]{inputenc}
-\usepackage[english]{babel}
-\usepackage[T1]{fontenc}
+% \documentclass{article}
+% \usepackage[utf8]{inputenc}
+% \usepackage[english]{babel}
+% \usepackage[T1]{fontenc}
 
-\usepackage{amsfonts}
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{tikz}
-\usepackage{graphicx}
-\usepackage{color}
-\usepackage{enumitem}
-\usetikzlibrary{arrows}
-\usepackage{framed}
-\usepackage{arydshln}
-\usepackage{multirow}
+% \usepackage{amsfonts}
+% \usepackage{amsmath}
+% \usepackage{amssymb}
+% \usepackage{tikz}
+% \usepackage{graphicx}
+% \usepackage{color}
+% \usepackage{enumitem}
+% \usetikzlibrary{arrows}
+% \usepackage{framed}
+% \usepackage{arydshln}
+% \usepackage{multirow}
 
-% no indent
-\setlength\parindent{0pt}
+% % no indent
+% \setlength\parindent{0pt}
 
-% commands
-\usepackage{amsthm}
-\theoremstyle{definition}
-\newtheorem{definition}{Definition}[section]
+% % commands
+% \usepackage{amsthm}
+% \theoremstyle{definition}
+% \newtheorem{definition}{Definition}[section]
 
-\newcommand{\domain}{\mathcal{D}}
-\newcommand{\image}{\mathcal{I}}
-\newcommand{\real}{\mathbb{R}}
+% \newcommand{\cd}{\mathcal{D}}
+% \newcommand{\ci}{\mathcal{I}}
+% \newcommand{\bbr}{\mathbb{R}}
 
-\begin{document}
+% \begin{document}
 
 
 \textcolor{red}{TODO: Rework 1.1}
 
-\section{Disambiguations and definitions}
+%\section{Disambiguations and definitions}
 
 % This thesis manuscript is about deep learning on \emph{irregular domains}. So what does it mean exactly ?
 
@@ -52,14 +52,14 @@
 Let's recall the naming conventions of basic notions.
 
 A \emph{function} $f: E \rightarrow F$ maps objects $x \in E$ to objects $y \in F$, as $y = f(x)$.\\
-Its \emph{definition domain} $\domain_f = E$ is the set of objects onto which it is defined. We will often just use the term \emph{domain}.\\
-%Objects of its domain $\domain_f$ are mapped to objects of its \emph{codomain} $\domain_f^c= F$.\\
+Its \emph{definition domain} $\cd_f = E$ is the set of objects onto which it is defined. We will often just use the term \emph{domain}.\\
+%Objects of its domain $\cd_f$ are mapped to objects of its \emph{codomain} $\cd_f^c= F$.\\
 We also say that $f$ is \emph{taking values} in its \emph{codomain} $F$.\\
 The \emph{image per $f$} of the subset $U \subset E$, denoted $f(U)$, is $\{y \in F, \exists x \in E, y = f(x)\}$.\\
-The \emph{image of $f$} is the image of its domain. We denote $\image_f$.\\
-% The \emph{fiber} of the object $y \in \image_f$ is the object $x \in E$ such that $y = f(x)$.\\
+The \emph{image of $f$} is the image of its domain. We denote $\ci_f$.\\
+% The \emph{fiber} of the object $y \in \ci_f$ is the object $x \in E$ such that $y = f(x)$.\\
 % The \emph{inverse image per $f$} of the subset $V \subset F$, denoted $f^{-1}(V)$ is $\{x \in E, \exists y \in F, y = f(x)\}$.
-A vector space $E$, which we will always assume to be finite-dimensional in our context, is defined as $\real^n$, and is equipped with pointwise addition and scalar multiplication.% TODO reword?
+A vector space $E$, which we will always assume to be finite-dimensional in our context, is defined as $\bbr^n$, and is equipped with pointwise addition and scalar multiplication.% TODO reword?
 
 A \emph{signal} $s$ is a function taking values in a vector space. In other words, a signal can also be seen as a \emph{vector} with an \emph{underlying structure}, where the vector is composed from its image, and the underlying structure is defined by its \emph{domain}.\\
 
@@ -145,26 +145,22 @@ Data can also be unstructured. If the data is not yet embedded into a finite dim
 \textcolor{red}{What follows is a draft}
 
 
-\subsection{Theoretical results on regularity and convolutions}
+%\subsection{Theoretical results on regularity and convolutions}
 
 % idea : regularity of a domain implies with poset
 % prop: if a domain has a poset, define translations and convolutions
 % proving the converse too
 
-\section{Datasets}
+\subsection{Datasets}
 
 \subsection{Tasks} %% probably too early
 \label{tasks}
 
 
 
-\section{Goals}
+\subsection{Goals}
 
 \subsection{Invariance}
-
-\begin{definition}
-
-\end{definition}
 
 In order to be observed, invariances must be defined relatively to an observation. Let's give a formal definition to support our discussion.
 
@@ -173,4 +169,4 @@ In order to be observed, invariances must be defined relatively to an observatio
 \subsection{Methods}
 \label{methods}
 
-\end{document}
+%\end{document}
