@@ -19,6 +19,20 @@
 \setcounter{minitocdepth}{5}
 \setcounter{secnumdepth}{5}
 
+% References
+\usepackage{hyperref}
+
+% Bibliography
+\usepackage[backend=bibtex,style=authoryear,natbib=true,maxcitenames=3,mincitenames=3]{biblatex}
+\addbibresource{refs/datasets.bib}
+\addbibresource{refs/dl_architecture.bib}
+\addbibresource{refs/dl_history.bib}
+\addbibresource{refs/dl_models.bib}
+\addbibresource{refs/gsp.bib}
+\addbibresource{refs/irr_dl.bib}
+\addbibresource{refs/maybe.bib}
+\addbibresource{refs/others.bib}
+\addbibresource{refs/toClassify.bib}
 
 % no indent
 \setlength\parindent{0pt}
@@ -71,4 +85,4 @@
 \newcommand{\probref}[1]{Problem~\ref{#1}}
 \newcommand{\quoref}[1]{Quote~\ref{#1}}
 \newcommand{\tabref}[1]{Table~\ref{#1}}
-%\newcommand{\eqref}[1]{Equation~\ref{#1}} %already defined
+%\newcommand{\eqref}[1]{(\ref{#1})} %already defined

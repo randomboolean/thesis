@@ -177,7 +177,7 @@ We have $0 \leq |C_g| \leq n_1^{(W_g)} n_2^{(W_g)}$.
 \end{definition}
 
 \begin{definition}\textbf{Dense layer}\\
-A \emph{dense layer} $(g,h)$ is a layer such that $|C_g| = n_1^{(W_g)} n_2^{(W_g)}$, i.e. all possible connections exist. The map $(i,j) \mapsto p$ is usually a bijection, meaning that there is no weight sharing.
+A \emph{dense layer} $(g,h)$ is a layer such that $|C_g| = n_1^{(W_g)} n_2^{(W_g)}$, \ie all possible connections exist. The map $(i,j) \mapsto p$ is usually a bijection, meaning that there is no weight sharing.
 \end{definition}
 
 \begin{definition}\textbf{Partially connected layer}\\
@@ -278,13 +278,13 @@ A layer with \textit{pooling} $(g,h)$ is such that $g = g_1 \circ g_2$, where $(
 
 \end{definition}
 
-A layer with \textit{dropout} $(g,h)$ is such that $h = h_1 \circ h_2$, where $(g,h_2)$ is a layer and $h_1$ is a dropout operation~\cite{srivastava2014dropout}. When dropout is used, a certain number of neurons are randomly set to zero during the training phase, compensated at test time by scaling down the whole layer. This is done to prevent overfitting.
+A layer with \textit{dropout} $(g,h)$ is such that $h = h_1 \circ h_2$, where $(g,h_2)$ is a layer and $h_1$ is a dropout operation~\citep{srivastava2014dropout}. When dropout is used, a certain number of neurons are randomly set to zero during the training phase, compensated at test time by scaling down the whole layer. This is done to prevent overfitting.
 
 \subsubsection{Example of architectures}
 
 \todo{rephrase}
 
-A multilayer perceptron (MLP)~\cite{hornik1989multilayer} is a neural network composed of only dense layers.
-A convolutional neural network (CNN)~\cite{lecun1998gradient} is a neural network composed of convolutional layers.
+A multilayer perceptron (MLP)~\citep{hornik1989multilayer} is a neural network composed of only dense layers.
+A convolutional neural network (CNN)~\citep{lecun1998gradient} is a neural network composed of convolutional layers.
 
-Neural networks are commonly used for machine learning tasks. For example, to perform supervised classification, we usually add a dense output layer $s=(g_{L+1},h_{L+1})$ with as many neurons as classes. We measure the error between an output and its expected output with a discriminative loss function $\mathcal{L}$. During the training phase, the weights of the network are adapted for the classification task based on the errors that are back-propagated~\cite{hornik1989multilayer} via the chain rule and according to a chosen optimization algorithm (e.g. \cite{bottou2010large}).
+Neural networks are commonly used for machine learning tasks. For example, to perform supervised classification, we usually add a dense output layer $s=(g_{L+1},h_{L+1})$ with as many neurons as classes. We measure the error between an output and its expected output with a discriminative loss function $\mathcal{L}$. During the training phase, the weights of the network are adapted for the classification task based on the errors that are back-propagated~\citep{hornik1989multilayer} via the chain rule and according to a chosen optimization algorithm (\eg~\cite{bottou2010large}).
