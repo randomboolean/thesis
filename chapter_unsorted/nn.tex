@@ -57,7 +57,7 @@ A \emph{(computational) neuron} is a computational unit that is biologically ins
 \end{enumerate}
 That is to say, each domain $\{I_{f_k}\}$ and $O_F$ can be interpreted as a layer of neurons, with one neuron for each dimension. The connectivity matrices $\{W_k\}$ describe the connexions between each successive layers.
 %The parameters of $\Theta_g$ are the modulation weights that characterize the connections.
-A neuron is illustrated on Figure~\ref{fig:neuron}.
+A neuron is illustrated on \figref{fig:neuron}.
 \end{remark}
 
 \begin{figure}[H]
@@ -217,7 +217,7 @@ A convolutional layer with padding $(g, h)$ is equivalently defined as $W_g$ bei
 \end{proposition}
 
 \begin{proof}
-Let's consider the slices indexed by $p$ and $q$, and to simplify the notations, let's drop the subscripts $\hspace{0pt}_{p,q}$. We recall from definition \ref{convdef} that
+Let's consider the slices indexed by $p$ and $q$, and to simplify the notations, let's drop the subscripts $\hspace{0pt}_{p,q}$. We recall from \defref{convdef} that
 \begin{align*}
   y &= (x \ast_n w)[j_1, \ldots, j_n] \\
  &= \displaystyle \sum_{k_1=1}^{n_1^{(w)}} \cdots \sum_{k_n=1}^{n_n^{(w)}}
@@ -233,19 +233,19 @@ Let's consider the slices indexed by $p$ and $q$, and to simplify the notations,
    0 & \text{otherwise}
  \end{cases}
 \end{align*}
-Using Einstein summation convention as in~(\ref{indices}) and permuting indices, we recognize the following tensor contraction
+Using Einstein summation convention as in~\eqref{indices} and permuting indices, we recognize the following tensor contraction
 \begin{align}
 y_{j_1 \cdots j_n} = x_{i_1 \cdots i_n} \widetilde{w} \hspace{1pt}^{i_1 \cdots i_n} \hspace{0pt}_{j_1 \cdots j_n} \label{eq:toep1}
 \end{align}
-Following remark~\ref{rq:matprodeq}, we reshape~(\ref{eq:toep1}) as a matrix product. To reshape $y \mapsto Y$, we use the row major order bijections $g_j$ as in~(\ref{rowmajor}) defined onto $\{(j_1, \ldots, j_n), \forall t, 1 \le j_t \le n_t^{(y)}\}$. To reshape $x \mapsto X$, we use the same row major order bijection $g_j$, however defined on the indices that support non zero-padded values, so that zero-padded values are lost after reshaping. That is, we use a bijection $g_i$ such that $g_i(i_1, i_2, \ldots, i_n) = g_j(i_1 - o_1, i_2 - o_2, \ldots, i_n - o_n)$ defined if and only if $\forall t, 1 + o_t \le i_t \le n_t^{(y)}$, where the $\{o_t\}$ are the starting offsets of the non zero-padded values. $\widetilde{w} \mapsto W$ is reshaped by using $g_j$ for its covariant indices, and $g_i$ for its contravariant indices. The entries lost by using $g_i$ do not matter because they would have been nullified by the resulting matrix product. We remark that $W$ is exactly the block $(p,q)$ of $W_g$ (and not of $W_{g'}$). Now let's prove that it is a Toeplitz matrix.
+Following \remref{rq:matprodeq}, we reshape~\eqref{eq:toep1} as a matrix product. To reshape $y \mapsto Y$, we use the row major order bijections $g_j$ as in~\eqref{rowmajor} defined onto $\{(j_1, \ldots, j_n), \forall t, 1 \le j_t \le n_t^{(y)}\}$. To reshape $x \mapsto X$, we use the same row major order bijection $g_j$, however defined on the indices that support non zero-padded values, so that zero-padded values are lost after reshaping. That is, we use a bijection $g_i$ such that $g_i(i_1, i_2, \ldots, i_n) = g_j(i_1 - o_1, i_2 - o_2, \ldots, i_n - o_n)$ defined if and only if $\forall t, 1 + o_t \le i_t \le n_t^{(y)}$, where the $\{o_t\}$ are the starting offsets of the non zero-padded values. $\widetilde{w} \mapsto W$ is reshaped by using $g_j$ for its covariant indices, and $g_i$ for its contravariant indices. The entries lost by using $g_i$ do not matter because they would have been nullified by the resulting matrix product. We remark that $W$ is exactly the block $(p,q)$ of $W_g$ (and not of $W_{g'}$). Now let's prove that it is a Toeplitz matrix.
 
-Thanks to the linearity of the expression~(\ref{rowmajor}) of $g_j$, by denoting $i'_t = i_t - o_t$, we obtain
+Thanks to the linearity of the expression~\eqref{rowmajor} of $g_j$, by denoting $i'_t = i_t - o_t$, we obtain
 \begin{gather}
   g_i(i_1, i_2, \ldots, i_n) - g_j(j_1, j_2, \ldots, j_n) = g_j(i'_1 - j_1, i'_2 - j_2, \ldots, i'_n - j_n)
 \label{eq:toep2}
 \end{gather}
 
-To simplify the notations, let's drop the arguments of $g_i$ and $g_j$. By bijectivity of $g_j$, (\ref{eq:toep2}) tells us that $g_i - g_j$ remains constant if and only if $i'_t - j_t$ remains constant for all $t$. Recall that 
+To simplify the notations, let's drop the arguments of $g_i$ and $g_j$. By bijectivity of $g_j$, \eqref{eq:toep2} tells us that $g_i - g_j$ remains constant if and only if $i'_t - j_t$ remains constant for all $t$. Recall that 
 \begin{gather}
   W[g_i,g_j] =
  \begin{cases}

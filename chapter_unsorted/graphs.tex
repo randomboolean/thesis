@@ -8,10 +8,10 @@ A graph $G$ is defined as a couple $(V,E)$ where $V$ represents the set of nodes
 
 We encounter the notion of graphs several times in deep learning:
 \begin{itemize}
-\item Connections between two layers of a deep learning model can be represented as a bipartite graph, coined \emph{connectivity graph}. It encodes how the information is propagated through a layer to another. See section~\ref{con_graph}.
-\item A computation graph is used by deep learning frameworks to keep track of the dependencies between layers of a deep learning models, in order to compute forward and back-propagation. See section~\ref{comp_graph}.
-\item A graph can represent the underlying structure of an object (often a vector), whose nodes represent its features. See section~\ref{inductive_graph}.
-\item Datasets can also be graph-structured, where the nodes represent the objects of the dataset. See section~\ref{transductive_graph}.
+\item Connections between two layers of a deep learning model can be represented as a bipartite graph, coined \emph{connectivity graph}. It encodes how the information is propagated through a layer to another. See \secref{con_graph}.
+\item A computation graph is used by deep learning frameworks to keep track of the dependencies between layers of a deep learning models, in order to compute forward and back-propagation. See \secref{comp_graph}.
+\item A graph can represent the underlying structure of an object (often a vector), whose nodes represent its features. See \secref{inductive_graph}.
+\item Datasets can also be graph-structured, where the nodes represent the objects of the dataset. See \secref{transductive_graph}.
 \end{itemize}
 
 \subsubsection{Connectivity graph}
@@ -28,7 +28,7 @@ Formally, given a linear part of a layer, let $\textbf{x}$ and $\textbf{y}$ be t
 I.e. the connectivity graph is obtained by drawing an edge between neurons for which $\Theta_{ij} \neq 0$.
 For instance, in the special case of a complete bipartite graph, we would obtain a dense layer. 
 Connectivity graphs are especially useful to represent partially connected layers, for which most of the $\Theta_{ij}$ are $0$. 
-For example, in the case of layers characterized by a small local receptive field, the connectivity graph would be sparse, and output neurons would be connected to a set of input neurons that corresponds to features that are close together in the input space. Figure~\ref{con_ex} depicts some examples.
+For example, in the case of layers characterized by a small local receptive field, the connectivity graph would be sparse, and output neurons would be connected to a set of input neurons that corresponds to features that are close together in the input space. \figref{con_ex} depicts some examples.
 
 \begin{figure}[h]
   \begin{center}
@@ -54,10 +54,10 @@ For example, in the case of layers characterized by a small local receptive fiel
   \label{con_ex}
 \end{figure}
 
-\todo{Figure~\ref{con_ex}. It's just a placeholder right now}
+\todo{\figref{con_ex}. It's just a placeholder right now}
 
 
-Connectivity graphs also allow to graphically modelize how weights are tied in a neural layer. Let's suppose the $\Theta_ij$ are taking their values only into the finite set $K = \{w_1, w_2, \ldots, w_\kappa\}$ of size $\kappa$, which we will refer to as the \emph{kernel} of \emph{weights}. Then we can define a labelling of the edges $s: E \rightarrow K$. $s$ is called the \emph{weight sharing scheme} of the layer. This layer can then be formulated as $\displaystyle \forall v \in M, y_v = \sum_{u \in N, (u,v) \in E} w_{s(u,v)} x_u$. Figure~\ref{cnn} depicts the connectivity graph of a 1-d convolution layer and its weight sharing scheme.
+Connectivity graphs also allow to graphically modelize how weights are tied in a neural layer. Let's suppose the $\Theta_ij$ are taking their values only into the finite set $K = \{w_1, w_2, \ldots, w_\kappa\}$ of size $\kappa$, which we will refer to as the \emph{kernel} of \emph{weights}. Then we can define a labelling of the edges $s: E \rightarrow K$. $s$ is called the \emph{weight sharing scheme} of the layer. This layer can then be formulated as $\displaystyle \forall v \in M, y_v = \sum_{u \in N, (u,v) \in E} w_{s(u,v)} x_u$. \figref{cnn} depicts the connectivity graph of a 1-d convolution layer and its weight sharing scheme.
 
 \begin{figure}[h]
   \begin{center}
@@ -104,7 +104,7 @@ Connectivity graphs also allow to graphically modelize how weights are tied in a
 \end{figure}
 
 
-\todo{Add weight sharing scheme in Figure~\ref{cnn}}
+\todo{Add weight sharing scheme in \figref{cnn}}
 
 \subsubsection{Computation graph}
 \label{comp_graph}
