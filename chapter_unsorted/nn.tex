@@ -96,7 +96,10 @@ The set of \emph{neural network functions} $\cn$ is defined inductively as follo
 \label{def:nn2}
 \end{definition}
 
+\begin{remark}\textbf{Examples}\\
 \todo{blabla: residual connections, skip connections,branching layers}
+\label{rq:branching_ex}
+\end{remark}
 
 \subsubsection{Training}
 
@@ -192,34 +195,43 @@ $$
 \left\{
 \begin{array}{l}
   I_g \mbox{ and } O_g \mbox{ are tensor spaces of rank }n+1 \\
-  \forall x \in I_g, g(x) = (g(x)_q = \sum\limits_p{x_p \ast_n w_{p,q}})_{\forall q}
+  \forall x \in I_g, g(x) = (g(x)_q = \sum\limits_p{x_p \ast^n w_{p,q}})_{\forall q}
 \end{array}
 \right.
 $$
-where $p$ and $q$ index slices along the last ranks. The slices $g(x)_q$ are typically called \textit{feature maps}.
+where $p$ and $q$ index slices along the last ranks.
+\label{def:convlayer}
 \end{definition}
 
-\begin{remark}\textbf{Geometric shape}
-\todo{blabla}
+\begin{definition}\textbf{Feature maps and input channels}\\
+The slices $g(x)_q$ are typically called \textit{feature maps}, and the slices $x_p$ are called \textit{input channels}. Let's denote by $n_o = n_{n+1}^{(O_g)}$ and $n_i =n_{n+1}^{(I_g)}$ the number of feature maps and input channels.
+In other words, \defref{def:convlayer} means that for each feature maps, a convolution layer computes $n_i$ convolutions and sums them, computing a total if $n_i \times n_o$ convolutions.
+\end{definition}
+
+\begin{remark}
+Note that because they are simply summed, entries of two different input channels that have the same coordinates are assumed to share some sort of relationship. For instance on images, entries of each input channel (typically corresponding to Red, Green and Blue channels) that have the same coordinates share the same pixel location.
+\end{remark}
+
+\begin{remark}
+Given a tensor input $x$, the $n$-dimensional convolutions between the inputs channels $x_p$ and slices of a weight tensor $w_{p,q}$ would result in outputs $y_q$ of shape $n_1^{(x)} - n_1^{(w)} + 1 \times \ldots \times n_n^{(x)} - n_n^{(w)} + 1$. So, in order to preserve shapes, a padding operation must pad $x$ with $n_1^{(w)} - 1 \times \ldots \times n_n^{(w)} - 1$ zeros beforehand. For example, the padding function of the library \emph{tensorflow}~\citep{tensorflow2015-whitepaper} pads each rank with a balanced number of zeros on the left and right indices (except if $n_t^{(w)} - 1$ is odd then there is one more zero on the left).
 \end{remark}
 
 \begin{definition}\textbf{Padding}\\
-A layer $(g, h)$ with padding is such that $\exists (g_\text{pad}, g'), g = g_\text{pad} \circ g'$ where $g_\text{pad}$ is a padding operation.
-
-A convolutional layer with padding $(g_\text{pad} \circ g',h)$ is such that $g_\text{pad}$ \todo{}
-\todo{rewrite}
+A convolutional layer with \emph{padding} $(g, h)$ is such that $g$ can be decomposed as $g = g_\text{pad} \circ g'$, where $g'$ is the linear part of a convolution layer as in \defref{def:convlayer}, and $g_\text{pad}$ is an operation that pads zeros to its inputs such that $g$ preserves tensor shapes.
 \end{definition}
 
-\todo{blabla padding}
+\begin{remark}
+One asset of padding operations is that they limit the possible loss of information on the borders of the subsequent convolutions, as well as preventing a decrease in size. Moreover, preserving shape is needed to build some neural network architectures, especially for ones with branching operations \eg \remref{rq:branching_ex}. On the other hand, they increase memory and computational footprints.
+\end{remark}
 
 \begin{proposition}\textbf{Connectivity matrix of a convolution with padding}\\
-A convolutional layer with padding $(g, h)$ is equivalently defined as $W_g$ being a $n_{n+1}^{(I_g)} \times n_{n+1}^{(O_g)}$ block matrix such that its blocks are Toeplitz matrices.
+A convolutional layer with padding $(g, h)$ is equivalently defined as $W_g$ being a $n_i \times n_o$ block matrix such that its blocks are Toeplitz matrices.
 \end{proposition}
 
 \begin{proof}
-Let's consider the slices indexed by $p$ and $q$, and to simplify the notations, let's drop the subscripts $\hspace{0pt}_{p,q}$. We recall from \defref{convdef} that
+Let's consider the slices indexed by $p$ and $q$, and to simplify the notations, let's drop the subscripts $\hspace{0pt}_{p,q}$. We recall from \defref{def:convdef} that
 \begin{align*}
-  y &= (x \ast_n w)[j_1, \ldots, j_n] \\
+  y &= (x \ast^n w)[j_1, \ldots, j_n] \\
  &= \displaystyle \sum_{k_1=1}^{n_1^{(w)}} \cdots \sum_{k_n=1}^{n_n^{(w)}}
     x[j_1 + n_1^{(w)} - k_1, \ldots, j_n + n_n^{(w)} - k_n] \hspace{2pt} w[k_1, \ldots, k_n] \\
  &= \displaystyle \sum_{i_1=j_1}^{j_1 + n_1^{(w)} - 1} \cdots \sum_{i_n=j_n}^{j_n + n_n^{(w)} - 1}
@@ -259,24 +271,29 @@ Hence, on a diagonal of $W$, $g_i - g_j$ remaining constant means that $W[g_i,g_
 The converse is also true as we used invertible functions in the index spaces through the proof.
 \end{proof}
 
-\todo{remark when no padding}
+\begin{remark}
+The former proof makes clear that the result doesn't hold in case there is no padding. This is due to border effects when the index of the $n$\powth rank resets in the definition of the row-major ordering function $g_j$ that would be used. Indeed, under appropriate definitions, the matrices could be seen as almost Toeplitz.
+\end{remark}
 
-\todo{below}
+\begin{remark}
+Comparitively with dense layers, convolution layers enjoy a significant decrease in the number of weights. For example, an input $2 \times 2$ convolution on images with $3$-color input channels, would breed only $12$ weights per feature maps, independently of the numbers of input neurons. On image datsets, their usage also breeds a significant boost in performance compared with dense layers~\citep{krizhevsky2012imagenet}, for they allow to take advantage of the topology of the inputs while dense layers don't~\citep{lecun1995convolutional}. A more thorough comparison and explanation of their assets will be discussed in \secref{sec:gnn}.
+\end{remark}
 
-\begin{definition}\textbf{Convolutional layer with stride}\\
-Let $g$ the linear part of a convolution layer with \emph{stride} $s_p > 1$ along the $p$-th rank, and $\widetilde{g}$ the same linear part if it was a regular convolutional layer as defined above. Then $g$ is defined as
-\begin{gather*}
-  \forall i_p \in \{ 1, \lfloor \frac{n_p^{(g(x))}}{s_p} \rfloor \}, \forall x \in I_g, g(x)_{i_p} = \widetilde{g}(x)_{s_p i_p}
-\end{gather*}
-where $i_p$ and $s_p i_p$ index slices along the $p$-th rank.
+\begin{definition}\textbf{Stride}\\
+A convolutional layer with \emph{stride} is a convolutional layer that computes strided convolutions (with stride $> 1$) instead of convolutions.
 \end{definition}
-
-\todo{below}
 
 \begin{definition}\textbf{Pooling}\\
-A layer with \textit{pooling} $(g,h)$ is such that $g = g_1 \circ g_2$, where $(g_1,h)$ is a layer and $g_2$ is a pooling operation.
-
+A layer with \textit{pooling} $(g,h)$ is such that $g$ can be decomposed as $g = g' \circ g_\text{pool}$, where $g_\text{pool}$ is a pooling operation.
 \end{definition}
+
+\begin{remark}\textbf{Downscaling}\\
+Layers with stride or pooling downscale the signals that passes through the layer. These types of layers allows to compute features at a coarser level, giving the intuition that the deeper a layer is in the network, the more abstract are the infomations captured by the weights of the layer.
+\end{remark}
+
+\todo{below}
+
+\subsubsection{Example of regularizations}
 
 A layer with \textit{dropout} $(g,h)$ is such that $h = h_1 \circ h_2$, where $(g,h_2)$ is a layer and $h_1$ is a dropout operation~\citep{srivastava2014dropout}. When dropout is used, a certain number of neurons are randomly set to zero during the training phase, compensated at test time by scaling down the whole layer. This is done to prevent overfitting.
 

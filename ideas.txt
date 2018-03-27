@@ -1,0 +1,3 @@
+0) representation of a tensor contraction (propafational point of view)
+1) tensor-train or other tensor decompositions
+2) graph product (approximate) factorization
