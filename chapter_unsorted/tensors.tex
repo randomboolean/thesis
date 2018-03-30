@@ -1,6 +1,6 @@
 \subsection{Tensors}
 
-Intuitively, tensors in the field of deep learning are defined as a generalization of vectors and matrices, as if vectors were tensors of rank $1$ and matrices were tensors of rank $2$. That is, they are objects in a vector space and their dimensions are indexed using as many indices as their rank, so that they can be represented by multidimensional arrays. In mathematics, a tensor is usually defined as a special class of multilinear functions~\citep{bass1968cours, williamson2015tensor}. As such, a mathematical tensor is entirely defined on the cartesian product of the canonical bases onto which its outputs can be represented by a multidimensional array. In that sense, both definitions rejoin on their representation, but the underlying objects are different. In particular, mathematical tensors enjoy a more intrinsic definition as they neither depend on their representation nor on a change of basis, whereas in our domain, they are confounded with their representation.
+Intuitively, tensors in the field of deep learning are defined as a generalization of vectors and matrices, as if vectors were tensors of rank $1$ and matrices were tensors of rank $2$. That is, they are objects in a vector space and their dimensions are indexed using as many indices as their rank, so that they can be represented by multidimensional arrays. In mathematics, a tensor can be defined as a special type of multilinear function~\citep{bass1968cours, marcus1975finite, williamson2015tensor}, which outputs on a basis can be represented by a multidimensional array. Alternatively, other authors propose a mathematical construction of a tensor space as a quotient set of the span of an appropriately defined tensor product~\citep{hackbusch2012tensor}, which coordinates in a basis can also be represented by a multidimensional array. In particular in mathematics, tensors enjoy an intrinsic definition that neither depend on a representation nor would change the underlying object on a change of basis, whereas in our domain, tensors are confounded with their representation.
 
 Our definition of tensors is such that they are a bit more than multidimensional arrays but not as much as mathematical tensors, for that they are embedded in a vector space and any deep learning object can be later define rigorously.
 
@@ -10,10 +10,6 @@ We define a \emph{tensor space} $\bbt$ of rank $r$ as a vector space such that i
 Its shape is denoted $n_1 \times n_2 \times \cdots \times n_r$, where the $\{n_k\}$ are the dimensions of the vector spaces.
 \end{definition}
 
-\begin{definition}\textbf{Tensor}\\
-A \emph{tensor} $t$ is an object of a tensor space. The \emph{shape} of $t$, which is the same as the shape of the tensor space it belongs to, is denoted $n_1^{(t)} \times n_2^{(t)} \times \cdots \times n_r^{(t)}$.
-\end{definition}
-
 \begin{definition}\textbf{Tensor product of vector spaces}\\
 Given $r$ vector spaces $\bbv_1, \bbv_2, \ldots, \bbv_r$, their \emph{tensor product} is the tensor space~$\bbt$ spanned by the cartesian product of their canonical bases under coordinate-wise sum and outer product.
 
@@ -21,13 +17,17 @@ We use the notation $\bbt = \displaystyle \bigotimes_{k=1}^r \bbv_k$.
 \end{definition}
 
 \begin{remark}
-This definition is indeed equivalent with the definition of the tensor product given in~(\cite{hackbusch2012tensor}, p. 51). The drawback of our definition is that it depends on the canonical bases, which is not a concern in our domain as we need not distinguish tensors from their representation.
+This simpler definition is indeed equivalent with the definition of the tensor product given in~(\cite{hackbusch2012tensor}, p. 51). The drawback of our definition is that it depends on the canonical bases, which at first can seem limiting as being canon implies that these bases are bounded to a certain system of coordinates. However this is not a concern in our domain as we need not distinguish tensors from their representation.
 \end{remark}
 
 \begin{remark}
 For naming conveniency, from now on, we will distinguish between the terms \emph{linear space} and \emph{vector space} \ie we will abusively use the term \emph{vector space} only to refer to a linear space that can be seen as a tensor space of rank $1$. If there is no notion of rank defined, we rather use the term \emph{linear space}.
 We also make a clear distinction between the terms \emph{dimension} (that is, for a tensor space it is equal to $\displaystyle \prod_{k=1}^r n_k$) and the term \emph{rank} (equal to $r$). Note that some authors use the term \emph{order} instead of \emph{rank} (\eg \cite{hackbusch2012tensor}) to disambiguate with another notion of rank.
 \end{remark}
+
+\begin{definition}\textbf{Tensor}\\
+A \emph{tensor} $t$ is an object of a tensor space. The \emph{shape} of $t$, which is the same as the shape of the tensor space it belongs to, is denoted $n_1^{(t)} \times n_2^{(t)} \times \cdots \times n_r^{(t)}$.
+\end{definition}
 
 \begin{definition}\textbf{Indexing}\\
 An \emph{entry} of a tensor $t \in \bbt$ is one of its scalar coordinates in the canonical basis, denoted $t[i_1, i_2, \ldots, i_r]$.
@@ -177,6 +177,6 @@ Unformally, a strided convolution is defined as if it were a regular subsampling
 \end{remark}
 
 \begin{definition}\textbf{Pooling}\\
-Let a real-valued function $f$ defined over any tensor space of any shape, \eg the \emph{max} or \emph{average} function.
+Let a real-valued function $f$ defined on all tensor spaces of any shape, \eg the \emph{max} or \emph{average} function.
 An $f$-pooling operation is a mapping $t \mapsto t'$ such that each entry of $t'$ is an image by $f$ of a subtensor of $t$.
 \end{definition}

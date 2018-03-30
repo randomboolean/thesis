@@ -11,3 +11,4 @@ example_header0.tex
 *.xml
 *.blg
 main-blx.bib
+*/*.aux
