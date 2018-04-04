@@ -1,4 +1,8 @@
-0) representation of a tensor contraction (propafational point of view)
+0) representation of a tensor contraction (propagational point of view)
 0b) tensor theory of graphs
-1) tensor-train or other tensor decompositions
-2) graph product (approximate) factorization
+
+On convolutions on graphs:
+1) tensor-train or other tensor decompositions to accelerat SWX
+2) graph product (approximate) factorization (to make nd convolutions)
+3) decomposition of general graphs into circulant graphs
+4) shifts

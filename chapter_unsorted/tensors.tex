@@ -84,7 +84,7 @@ An inverse operation is called a \emph{de-flatten} operation.
 \begin{remark}\textbf{Row major ordering}\\
 The choice of $g$ determines in which order the indexing is made. $g$ is reminescent of how data of multidimensional arrays or tensors are stored internally by programming languages. In most tensor manipulation languages, incrementing the memory adress (\ie the output of $g$) will first increment the last index $i_r$ if $i_r < n_r$ (and if else $i_r = n_r$, then $i_r := 1$ and ranks are ordered in reverse lexicographic order to decide what indices are incremented). This is called \emph{row major ordering}, as opposed to \emph{column major ordering}. That is, in row major, $g$ is defined as
 \begin{align}
-  g(i_1, i_2, \ldots, i_r) = \displaystyle \sum_{p=1}^r \left( \prod_{k=p+1}^r n_k \right) i_p \label{rowmajor}
+  g(i_1, i_2, \ldots, i_r) = \displaystyle \sum_{p=1}^r \left( \prod_{k=p+1}^r n_k \right) i_p \label{eq:rowmajor}
 \end{align}
 \end{remark}
 
@@ -132,23 +132,23 @@ Using subscript notation for covariant indices and superscript notation for cont
 t_1 \hspace{0pt}_{i_1^{(1)} \cdots i_{r_1-s}^{(1)} } \hspace{0pt}^{ k_1 \cdots k_s} 
 t_2 \hspace{0pt}_{ k_1^{\phantom{(}} \cdots k_s^{\phantom{(}}} \hspace{0pt}^{i_{s+1}^{(2)} \cdots i_{r_2}^{(2)}} =
 t_3 \hspace{0pt}_ {i_1^{(1)} \cdots i_{r_1-s}^{(1)} } \hspace{0pt}^{i_{s+1}^{(2)} \cdots i_{r_2}^{(2)}}
-\label{indices}
+\label{eq:indices}
 \end{gather}
 Dot product $u_k v^k = \lambda $ and matrix product $A_i\hspace{0pt}^k B_k\hspace{0pt}^j = C_i\hspace{0pt}^j$ are common examples of tensor contractions.
 \end{remark}
 
-\begin{proposition}\textbf{Matrix product equivalence I}\\
-A tensor contraction can be rewritten as a matrix product.
+\begin{proposition}%\textbf{Matrix product equivalence I}\\
+A contraction can be rewritten as a matrix product.
 \label{prop:matprodeq}
 \end{proposition}
 \begin{proof}
-Using notation of \eqref{indices}, with the reshapings $t_1 \mapsto T_1$, $t_2 \mapsto T_2$ and $t_3 \mapsto T_3$ defined by grouping all covariant indices into a single index and all contravariant indices into another single index, we can rewrite
+Using notation of \eqref{eq:indices}, with the reshapings $t_1 \mapsto T_1$, $t_2 \mapsto T_2$ and $t_3 \mapsto T_3$ defined by grouping all covariant indices into a single index and all contravariant indices into another single index, we can rewrite
 $$
 T_1 \hspace{0pt}_{g_i(i_1^{(1)}, \ldots, i_{r_1-s}^{(1)})} \hspace{0pt}^{g_k(k_1, \ldots, k_s)} 
 T_2 \hspace{0pt}_{g_k(k_1^{\phantom{(}}, \ldots, k_s^{\phantom{(}})} \hspace{0pt}^{g_j(i_{s+1}^{(2)}, \ldots, i_{r_2}^{(2)})} =
 T_3 \hspace{0pt}_ {g_i(i_1^{(1)}, \ldots, i_{r_1-s}^{(1)})} \hspace{0pt}^{g_j(i_{s+1}^{(2)}, \ldots, i_{r_2}^{(2)})}
 $$
-where $g_i$, $g_k$ and $g_j$ are bijections defined similarly as in \eqref{rowmajor}.
+where $g_i$, $g_k$ and $g_j$ are bijections defined similarly as in \eqref{eq:rowmajor}.
 \end{proof}
 
 \begin{definition}\textbf{Convolution}\\
@@ -168,7 +168,7 @@ The \emph{$n$-dimensional convolution}, denoted $\ast^n$, between $t_1 \in \bbt_
 \label{def:convdef}
 \end{definition}
 
-\begin{proposition}\textbf{Matrix product equivalence II}\\
+\begin{proposition}%\textbf{Matrix product equivalence II}\\
 A convolution can be rewritten as a matrix product.
 \label{prop:matprodeq2}
 \end{proposition}

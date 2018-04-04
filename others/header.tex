@@ -25,18 +25,19 @@
 % Bibliography
 \usepackage[backend=bibtex,style=authoryear,natbib=true,maxcitenames=3,mincitenames=3,maxbibnames=99,backref=true]{biblatex}
 \addbibresource{refs/datasets.bib}
-\addbibresource{refs/dl_architecture.bib}
 \addbibresource{refs/dl_history.bib}
-\addbibresource{refs/dl_models.bib}
+\addbibresource{refs/dl_understanding.bib}
+\addbibresource{refs/dl_irr.bib}
 \addbibresource{refs/gsp.bib}
-\addbibresource{refs/irr_dl.bib}
-\addbibresource{refs/maybe.bib}
-\addbibresource{refs/others.bib}
 \addbibresource{refs/toClassify.bib}
 \addbibresource{refs/maths.bib}
+\addbibresource{refs/scattering.bib}
+\addbibresource{refs/prog_languages.bib}
 
-% no indent
+% style
 \setlength\parindent{0pt}
+\newcommand{\subsubsubsection}[1]{\paragraph{#1}\mbox{}\\}
+\newcommand{\subsubsubsubsection}[1]{\subparagraph{#1}\mbox{}\\}
 
 % theorems
 \usepackage{amsthm}

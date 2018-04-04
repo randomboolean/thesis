@@ -1,16 +1,18 @@
 \subsection{Neural Networks}
 
-A neural network could originally be formalized as a composite function chaining linear and non-linear functions~\citep{hornik1989multilayer, lecun1995convolutional}, even up until important breakthroughs in the field of computer vision \citep{krizhevsky2012imagenet, simonyan2014very}. However, in more recent advances, more complex architectures have emerged \citep{he2016deep,zoph2016neural,huang2017densely}, such that the former formalization does not suffice. We provide a definition for the first kind of neural networks (\defref{def:nn}) and use it to present its related concepts. Then we give a more generic definition (\defref{def:nn2}).
+A feed-forward neural network could originally be formalized as a composite function chaining linear and non-linear functions \citep{rumelhart1985learning,lecun1989backpropagation,lecun1995convolutional}, even up until the important breakthroughs that generated a surge of interest in the field \citep{hinton2012deep,krizhevsky2012imagenet,simonyan2014very}. However, in more recent advances, more complex architectures have emerged \citep{szegedy2015going,he2016deep,zoph2016neural,huang2017densely}, such that the former formalization does not suffice. We provide a definition for the first kind of neural networks (\defref{def:nn}) and use it to present its related concepts. Then we give a more generic definition (\defref{def:nn2}).
 
-Note that in this manuscript, we will only consider neural networks that are \emph{feed forward} \citep{wiki:fnn, zell1994simulation}.
+Note that in this manuscript, we only consider neural networks that are \emph{feed-forward} \citep{zell1994simulation, wiki:fnn}.
 
 \subsubsection{Description}
 
 We denote by $I_f$ the \textit{domain of definition} of a function $f$ ("I" stands for "input") and by $O_f = f(I_f)$ its \textit{image} ("O" stands for "output"), and we represent it as $I_f~\xrightarrow{f}~O_f$.
 
+\subsubsubsection{Original formalization}
+
 \begin{definition}\textbf{Neural network (simply connected)}\\
 Let $F$ be a function such that $I_f$ and $O_f$ are vector or tensor spaces.\\
-$F$ is a \emph{functional formulation} of a \emph{simply connected neural network} if there are a series of linear or affine functions $(g_k)_{k=1,2,..,L}$ and a series of non-linear derivable univariate functions $(h_k)_{k=1,2,..,L}$ such that:
+$F$ is a \emph{simply connected neural network function} if there are a series of linear or affine functions $(g_k)_{k=1,2,..,L}$ and a series of non-linear derivable univariate functions $(h_k)_{k=1,2,..,L}$ such that:
 \begin{gather*}
 \left\{
   \begin{array}{l}
@@ -20,13 +22,10 @@ $F$ is a \emph{functional formulation} of a \emph{simply connected neural networ
   \end{array}
 \right.
 \end{gather*}
-The couple $(g_k, h_k)$ is called the \emph{$k$-th layer} of the neural network.
+The couple $(g_k, h_k)$ is called the \emph{$k$-th layer} of the neural network. $L$ is its depth.
 For $x \in I_f$, we denote by $x_k = f_k \circ ... \circ f_{2} \circ f_1 (x)$ the \emph{activations} of the $k$-th layer.
 \label{def:nn}
 \end{definition}
-
-\todo{introduce what is their purpose ie classifiers, why is training, and make a little plan of what follows}
-\todo{remarks on universal approximators and refs, overfitting, generalization}
 
 \begin{definition}\textbf{Activation function}\\
 Let a layer $(g,h)$. $h$ is called the \emph{activation function} of the layer. It is non-linear, derivable and univariate. Of common use for univariate functions is the functional notation $h(v)[i_1, i_2, \ldots, i_r] = h(v[i_1, i_2, \ldots, i_r])$.
@@ -36,6 +35,20 @@ Let a layer $(g,h)$. $h$ is called the \emph{activation function} of the layer. 
 \todo{blabla: refs activation functions}
 \end{remark}
 
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\draw (0,0) -- (4,0) -- (4,4) -- (0,4) -- (0,0);
+\node at (2,2){placeholder};
+\end{tikzpicture}
+\caption{Activation functions}
+\label{fig:neuron}
+\end{figure}
+
+\begin{remark}\textbf{Universal approximation}\\
+Early researches have shown that neural networks with one level of depth can approximate any real-valued function defined on a compact subset of~$\bbr^n$. This result was first proved for sigmoidal activations \citep{cybenko1989approximation}, and then it was shown it did not depend on the activation functions \citep{hornik1989multilayer,hornik1991approximation}. Indeed, for the application of supervised learning, when a neural network is trained from data (see \secref{sec:training}), this result is quite important because it brings theoretical justification. However, it does not account for the capability of neural networks to generalize well to unseen data.
+\end{remark}
+
 \begin{definition}\textbf{Layer}\\
 A couple $(g,h)$, where $g$ is an affine or linear function, and $h$ is an activation function is called a \emph{layer}. The set of layers is denoted~$\cl$.
 \end{definition}
@@ -43,6 +56,10 @@ A couple $(g,h)$, where $g$ is an affine or linear function, and $h$ is an activ
 \begin{remark}\textbf{Bias}\\
 Affine functions $\widetilde{g}$ can be written as a sum between a linear function $g$ and a constant vector $b$ which is called the \emph{bias}. Its role is to augment the expressivity of the neural network's family of functions. For notational conveniency, we will omit the biases in the rest of this section and thus only consider linear functions.
 \end{remark}
+
+\subsubsubsection{Interpretation}
+
+Until now, we have formally introduced a neural network as mathematical function. As its name suggests, such function can be interpreted from a connectivity standpoint \citep{lecun-87}.
 
 \begin{definition}\textbf{Connectivity matrix}\\
 Let $g$ a linear function. Without loss of generality subject to a flattening, let's suppose $I_g$ and $O_g$ are vector spaces. Then there exists a \emph{connectivity matrix}~$W_g$, such that:
@@ -74,6 +91,8 @@ A neuron is illustrated on \figref{fig:neuron}.
 \label{fig:neuron}
 \end{figure}
 
+\subsubsubsection{Generic definition}
+
 The former neural networks are said to be \emph{simply connected} because each layer only takes as input the output of the previous one. We'll give a more general definition after first defining branching operations.
 
 \begin{definition}\textbf{Branching}\\
@@ -101,11 +120,12 @@ The set of \emph{neural network functions} $\cn$ is defined inductively as follo
 \end{definition}
 
 \begin{remark}\textbf{Examples}\\
-\todo{blabla: residual connections, skip connections,branching layers}
+\todo{blabla: residual connections, skip connections, branching layers, tensor mixture explanation}
 \label{rq:branching_ex}
 \end{remark}
 
 \subsubsection{Training}
+\label{sec:training}
 
 \todo{blabla}
 
@@ -251,13 +271,13 @@ Let's consider the slices indexed by $p$ and $q$, and to simplify the notations,
    0 & \text{otherwise}
  \end{cases}
 \end{align*}
-Using Einstein summation convention as in~\eqref{indices} and permuting indices, we recognize the following tensor contraction
+Using Einstein summation convention as in~\eqref{eq:indices} and permuting indices, we recognize the following tensor contraction
 \begin{align}
 y_{j_1 \cdots j_n} = x_{i_1 \cdots i_n} \widetilde{w} \hspace{1pt}^{i_1 \cdots i_n} \hspace{0pt}_{j_1 \cdots j_n} \label{eq:toep1}
 \end{align}
-Following \propref{prop:matprodeq}, we reshape~\eqref{eq:toep1} as a matrix product. To reshape $y \mapsto Y$, we use the row major order bijections $g_j$ as in~\eqref{rowmajor} defined onto $\{(j_1, \ldots, j_n), \forall t, 1 \le j_t \le n_t^{(y)}\}$. To reshape $x \mapsto X$, we use the same row major order bijection $g_j$, however defined on the indices that support non zero-padded values, so that zero-padded values are lost after reshaping. That is, we use a bijection $g_i$ such that $g_i(i_1, i_2, \ldots, i_n) = g_j(i_1 - o_1, i_2 - o_2, \ldots, i_n - o_n)$ defined if and only if $\forall t, 1 + o_t \le i_t \le n_t^{(y)}$, where the $\{o_t\}$ are the starting offsets of the non zero-padded values. $\widetilde{w} \mapsto W$ is reshaped by using $g_j$ for its covariant indices, and $g_i$ for its contravariant indices. The entries lost by using $g_i$ do not matter because they would have been nullified by the resulting matrix product. We remark that $W$ is exactly the block $(p,q)$ of $W_g$ (and not of $W_{g'}$). Now let's prove that it is a Toeplitz matrix.
+Following \propref{prop:matprodeq}, we reshape~\eqref{eq:toep1} as a matrix product. To reshape $y \mapsto Y$, we use the row major order bijections $g_j$ as in~\eqref{eq:rowmajor} defined onto $\{(j_1, \ldots, j_n), \forall t, 1 \le j_t \le n_t^{(y)}\}$. To reshape $x \mapsto X$, we use the same row major order bijection $g_j$, however defined on the indices that support non zero-padded values, so that zero-padded values are lost after reshaping. That is, we use a bijection $g_i$ such that $g_i(i_1, i_2, \ldots, i_n) = g_j(i_1 - o_1, i_2 - o_2, \ldots, i_n - o_n)$ defined if and only if $\forall t, 1 + o_t \le i_t \le n_t^{(y)}$, where the $\{o_t\}$ are the starting offsets of the non zero-padded values. $\widetilde{w} \mapsto W$ is reshaped by using $g_j$ for its covariant indices, and $g_i$ for its contravariant indices. The entries lost by using $g_i$ do not matter because they would have been nullified by the resulting matrix product. We remark that $W$ is exactly the block $(p,q)$ of $W_g$ (and not of $W_{g'}$). Now let's prove that it is a Toeplitz matrix.
 
-Thanks to the linearity of the expression~\eqref{rowmajor} of $g_j$, by denoting $i'_t = i_t - o_t$, we obtain
+Thanks to the linearity of the expression~\eqref{eq:rowmajor} of $g_j$, by denoting $i'_t = i_t - o_t$, we obtain
 \begin{gather}
   g_i(i_1, i_2, \ldots, i_n) - g_j(j_1, j_2, \ldots, j_n) = g_j(i'_1 - j_1, i'_2 - j_2, \ldots, i'_n - j_n)
 \label{eq:toep2}
