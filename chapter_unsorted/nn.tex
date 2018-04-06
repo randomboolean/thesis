@@ -8,7 +8,7 @@ Note that in this manuscript, we only consider neural networks that are \emph{fe
 
 We denote by $I_f$ the \textit{domain of definition} of a function $f$ ("I" stands for "input") and by $O_f = f(I_f)$ its \textit{image} ("O" stands for "output"), and we represent it as $I_f~\xrightarrow{f}~O_f$.
 
-\subsubsubsection{Original formalization}
+\subsubsubsection{Simple formalization}
 
 \begin{definition}\textbf{Neural network (simply connected)}\\
 Let $F$ be a function such that $I_f$ and $O_f$ are vector or tensor spaces.\\
@@ -46,7 +46,7 @@ A couple $(g,h)$, where $g$ is an affine or linear function, and $h$ is an activ
 \end{definition}
 
 \begin{remark}\textbf{Bias}\\
-Affine functions $\widetilde{g}$ can be written as a sum between a linear function $g$ and a constant vector $b$ which is called the \emph{bias}. Its role is to augment the expressivity of the neural network's family of functions. For notational conveniency, we will omit the biases and thus only consider linear functions.
+Affine functions $\widetilde{g}$ can be written as a sum between a linear function $g$ and a constant vector $b$ which is called the \emph{bias}. Its role is to augment the expressivity (see \secref{sec:expr}) of the neural network's family of functions. For notational conveniency, we will often omit the biases and thus only consider linear functions.
 \end{remark}
 
 \begin{remark}\textbf{Universal approximation}\\
@@ -60,20 +60,16 @@ However, reaching such objective is a computationally difficult problem, which d
 \end{remark}
 
 \begin{remark}\textbf{Adoption of ReLU activations}\\
-Historically, sigmoidal and tanh activations were mostly used \citep{cybenko1989approximation, lecun1989backpropagation}. However in recent practice, the rectified linear unit (ReLU) \citep{glorot2011deep}, which implements the rectifier function $h: x \mapsto max(0,x)$ with convention $h'(0) = 0$, is the most used activation, as it was demonstrated to be faster and to obtain better results. ReLU originated numerous variants \eg parametric rectified linear unit (PReLU)  \citep{he2015delving}, exponential linear unit (ELU) \citep{clevert2015fast}, scaled exponential linear unit (SELU) \citep{Klambauer2017self}.
+Historically, sigmoidal and tanh activations were mostly used \citep{cybenko1989approximation, lecun1989backpropagation}. However in recent practice, the \emph{rectified linear unit} (ReLU), which implements the \emph{rectifier} function $h: x \mapsto max(0,x)$ with convention $h'(0) = 0$ (first introduced as the \emph{positive part}, \cite{jarrett2009best}), is the most used activation, as it was demonstrated to be faster and to obtain better results \citep{glorot2011deep}. ReLU originated numerous variants \eg \emph{leaky rectified linear unit} \citep{maas2013rectifier}, \emph{parametric rectified linear unit} (PReLU, \cite{he2015delving}), \emph{exponential linear unit} (ELU, \cite{clevert2015fast}), \emph{scaled exponential linear unit} (SELU, \cite{Klambauer2017self}).
 \end{remark}
 
 \begin{remark}
-Of particular interest for the intuition is a result stating that a simply connected neural networks with only ReLU activations (ReNN) is a piecewise linear functions (PWL), and that conversely any PWL is also a ReNN such that an upper bound of its depth is logarithmically related to the input dimension (\cite{arora2018understanding}, th. 2.1.).
-\end{remark}
-
-\begin{remark}\textbf{Benefits of depth}\\
-
+Of particular interest for the intuition is a result stating that a simply connected neural networks with only ReLU activations (ReNN) is a piecewise linear functions (PWL) \citep{pascanu2013number}, and that conversely any PWL is also a ReNN such that an upper bound of its depth is logarithmically related to the input dimension (\cite{arora2018understanding}, th. 2.1.).
 \end{remark}
 
 \subsubsubsection{Interpretation}
 
-Until now, we have formally introduced a neural network as a mathematical function. As its name suggests, such function can be interpreted from a connectivity standpoint \citep{lecun-87}.
+Until now, we have formally introduced a neural network as a mathematical function. As its name suggests, such function can be interpreted from a connectivity viewpoint \citep{lecun-87}.
 
 \begin{definition}\textbf{Connectivity matrix}\\
 Let $g$ a linear function. Without loss of generality subject to a flattening, let's suppose $I_g$ and $O_g$ are vector spaces. Then there exists a \emph{connectivity matrix}~$W_g$, such that:
@@ -105,7 +101,7 @@ A neuron is illustrated on \figref{fig:neuron}.
 \label{fig:neuron}
 \end{figure}
 
-\subsubsubsection{Generic definition}
+\subsubsubsection{Generic formalization}
 
 The former neural networks are said to be \emph{simply connected} because each layer only takes as input the output of the previous one. We'll give a more general definition after first defining branching operations.
 
@@ -131,16 +127,34 @@ The set of \emph{neural network functions} $\cn$ is defined inductively as follo
 \label{rq:branching_ex}
 \end{remark}
 
+\subsubsubsection{Expressive analysis}
+\label{sec:expr}
 
-\begin{remark}\textbf{Expressivity}\\
-\todo{}
+Given a set or a family of neural networks $N \subset \cn$, the role of expressive analysis is to study the range of functions that objects of $N$ are capable to approximate.
+
+\begin{definition}\textbf{Expressivity}\\
+
+\end{definition}
+
+\begin{remark}\textbf{Benefits of depth}\\
+
+\end{remark}
+
+\begin{remark}\textbf{Benefits of branching}\\
+
 \citep{cohen2018boosting}
 \end{remark}
 
 \subsubsection{Training}
 \label{sec:training}
 
-\todo{blabla}
+Given a objective function $f$, training is the process of incrementally modifying a neural network $F$ upon obtaining a better approximation of $f$. In other word, training refers to searching the best approximation in a (possibly infinite) set $N \subset \cn$ generated by training. Hence, the expressivity of $N$ is crucial.
+
+In what follows, we present notions related to training algoritms based on gradient descent.
+
+\todo{blabla related to expressivity}
+%\todo{def training algorithm}
+%The following notions describes notion related to gradient descent based training algorithms
 
 \begin{definition}\textbf{Weights}\\
 Let consider the $k$-th layer of a neural networks. We define its weights as coordinates of a vector $\theta_k$, called the \emph{weight kernel}, such that:
@@ -155,7 +169,7 @@ Let consider the $k$-th layer of a neural networks. We define its weights as coo
 A weight $p$ that appears multiple times in $W_k$ is said to be \emph{shared}. Two parameters of $W_k$ that share a same weight $p$ are said to be \emph{tied}. The number of weights of the $k$-th layer is $n_1^{(\theta_k)}$.
 
 \begin{remark}\textbf{Learning}\\
-A \emph{loss} function $\mathcal{L}$ penalizes the output $x_L = F(x)$ relatively to what can be expected. Gradient w.r.t.~$\theta_k$, denoted $\vec{\bigtriangledown}_{\theta_k}$, is used to update the weights via an optimization algorithm based on gradient descent and a learning rate $\alpha$, that is:
+A \emph{loss} function $\mathcal{L}$ penalizes the output $x_L = F(x)$ relatively to the approximation error $|F(x) - f(x)|$. Gradient w.r.t.~$\theta_k$, denoted $\vec{\bigtriangledown}_{\theta_k}$, is used to update the weights via an optimization algorithm based on gradient descent and a learning rate $\alpha$, that is:
 \begin{gather}
 \theta_k^{(\text{new})} = \theta_k^{(\text{old})} - \alpha \cdot \vec{\bigtriangledown}_{\theta_k} \left( \mathcal{L}\left( x_L, \theta_k^{(\text{old})} \right) + R\left( \theta_k^{(\text{old})} \right) \right)
 \end{gather}
@@ -260,7 +274,7 @@ A convolutional layer with \emph{padding} $(g, h)$ is such that $g$ can be decom
 \end{definition}
 
 \begin{remark}
-One asset of padding operations is that they limit the possible loss of information on the borders of the subsequent convolutions, as well as preventing a decrease in size. Moreover, preserving shape is needed to build some neural network architectures, especially for ones with branching operations \eg \remref{rq:branching_ex}. On the other hand, they increase memory and computational footprints.
+One asset of padding operations is that they limit the possible loss of information on the borders of the subsequent convolutions, as well as preventing a decrease in size. Moreover, preserving shape is needed to build some neural network architectures, especially for ones with branching operations \eg \rqref{rq:branching_ex}. On the other hand, they increase memory and computational footprints.
 \end{remark}
 
 \begin{proposition}\textbf{Connectivity matrix of a convolution with padding}\\
