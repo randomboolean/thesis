@@ -28,7 +28,7 @@ For $x \in I_f$, we denote by $x_k = f_k \circ ... \circ f_{2} \circ f_1 (x)$ th
 \end{definition}
 
 \begin{definition}\textbf{Activation function}\\
-Let a layer $(g,h)$. $h$ is called the \emph{activation function} of the layer. It is non-linear, derivable and univariate. Of common use for univariate functions is the functional notation $h(v)[i_1, i_2, \ldots, i_r] = h(v[i_1, i_2, \ldots, i_r])$.
+An \emph{activation function} $h$ is a real-valued univariate function that is non-linear and derivable, that is also defined by extension on any linear space with the functional notation $h(v)[i] = h(v[i])$.
 \end{definition}
 %
 % \begin{figure}[H]
@@ -46,25 +46,29 @@ A couple $(g,h)$, where $g$ is an affine or linear function, and $h$ is an activ
 \end{definition}
 
 \begin{remark}\textbf{Bias}\\
-Affine functions $\widetilde{g}$ can be written as a sum between a linear function $g$ and a constant vector $b$ which is called the \emph{bias}. Its role is to augment the expressivity of the neural network's family of functions. For notational conveniency, we will omit the biases in the rest of this section and thus only consider linear functions.
+Affine functions $\widetilde{g}$ can be written as a sum between a linear function $g$ and a constant vector $b$ which is called the \emph{bias}. Its role is to augment the expressivity of the neural network's family of functions. For notational conveniency, we will omit the biases and thus only consider linear functions.
 \end{remark}
 
 \begin{remark}\textbf{Universal approximation}\\
 Early researches have shown that neural networks with one level of depth can approximate any real-valued function defined on a compact subset of~$\bbr^n$. This result was first proved for sigmoidal activations \citep{cybenko1989approximation}, and then it was shown it did not depend on the sigmoidal activations \citep{hornik1989multilayer,hornik1991approximation}.
 \end{remark}
 
-For example, for the application of supervised learning when a neural network is trained from data (see \secref{sec:training}), this result is quite important because it brings theoretical justification that the approximate function exists.
+For example, for the application of supervised learning when a neural network is trained from data (see \secref{sec:training}), this result is quite important because it brings theoretical justification that the objective exists (even though it doesn't inform whether an algorithm to approach it exists).
 
 \begin{remark}\textbf{Computational difficulty}\\
-However, reaching such function is a computationally difficult problem, which drove back interest from the field. It was only after finding better initialization schemes that speed up learning that researchers started to report more successes with deep neural networks \citep{hinton2006fast,bengio2009learning,glorot2010understanding}, which ultimately came to a revival of the interest in the field after a significant breakthrough on the imagenet dataset \citep{deng2009imagenet} with a deep convolutional architecture \citep{krizhevsky2012imagenet}. The use of the fast ReLU activation function \citep{glorot2011deep} as well as leveraging graphical processing units with CUDA \citep{nickolls2008scalable} were also key factors in overcoming this computational difficulty.
+However, reaching such objective is a computationally difficult problem, which drove back interest from the field. Thank to better harware and to using better initialization schemes that speed up learning, researchers started to report more successes with deep neural networks \citep{hinton2006fast,glorot2010understanding} ; see \citep{bengio2009learning} for a review of this period. It ultimately came to a surge of interest in the field after a significant breakthrough on the imagenet dataset \citep{deng2009imagenet} with a deep convolutional architecture \citep{krizhevsky2012imagenet}. The use of the fast ReLU activation function \citep{glorot2011deep} as well as leveraging graphical processing units with CUDA \citep{nickolls2008scalable} were also key factors in overcoming this computational difficulty.
 \end{remark}
 
 \begin{remark}\textbf{Adoption of ReLU activations}\\
-Historically, sigmoidal and tanh activations were mostly used \citep{cybenko1989approximation, lecun1989backpropagation}. However in recent practice, the rectifier linear unit (ReLU) \citep{glorot2011deep}, which implements the function $h: x \mapsto max(0,x)$ with convention $h'(0) = 0$, is the most used activation, as it was demonstrated to be faster and to obtain better results. ReLU originated numerous variants \eg parametric rectifier linear unit (PReLU)  \citep{he2015delving}, exponential linear unit (ELU) \citep{clevert2015fast}, scaled exponential linear unit (SELU) \citep{Klambauer2017self}.
+Historically, sigmoidal and tanh activations were mostly used \citep{cybenko1989approximation, lecun1989backpropagation}. However in recent practice, the rectified linear unit (ReLU) \citep{glorot2011deep}, which implements the rectifier function $h: x \mapsto max(0,x)$ with convention $h'(0) = 0$, is the most used activation, as it was demonstrated to be faster and to obtain better results. ReLU originated numerous variants \eg parametric rectified linear unit (PReLU)  \citep{he2015delving}, exponential linear unit (ELU) \citep{clevert2015fast}, scaled exponential linear unit (SELU) \citep{Klambauer2017self}.
 \end{remark}
 
 \begin{remark}
-Of particular interest for the intuition is a result stating that simply connected neural networks with only ReLU activations are exactly the piecewise linear functions, such that an upper bound of their depth is logarithmically related to the input dimension (\cite{arora2018understanding}, th. 2.1.).
+Of particular interest for the intuition is a result stating that a simply connected neural networks with only ReLU activations (ReNN) is a piecewise linear functions (PWL), and that conversely any PWL is also a ReNN such that an upper bound of its depth is logarithmically related to the input dimension (\cite{arora2018understanding}, th. 2.1.).
+\end{remark}
+
+\begin{remark}\textbf{Benefits of depth}\\
+
 \end{remark}
 
 \subsubsubsection{Interpretation}
