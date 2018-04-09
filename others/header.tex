@@ -23,7 +23,15 @@
 \usepackage{hyperref}
 
 % Bibliography
-\usepackage[backend=bibtex,style=authoryear,natbib=true,maxcitenames=1,mincitenames=1,maxbibnames=99,backref=true]{biblatex}
+\usepackage[backend=bibtex,
+            %sorting=ynt, %nty
+            style=authoryear,
+            natbib=true,
+            maxcitenames=1,
+            mincitenames=1,
+            maxbibnames=99,
+            backref=true]
+            {biblatex}
 \addbibresource{refs/datasets.bib}
 \addbibresource{refs/dl_history.bib}
 \addbibresource{refs/dl_understanding.bib}
@@ -82,6 +90,7 @@
 \newcommand{\algref}[1]{Algorithm~\ref{#1}}
 \newcommand{\thref}[1]{Theorem~\ref{#1}}
 \newcommand{\propref}[1]{Proposition~\ref{#1}}
+\newcommand{\remref}[1]{Remark~\ref{#1}}
 \newcommand{\rqref}[1]{Remark~\ref{#1}}
 \newcommand{\defref}[1]{Definition~\ref{#1}}
 \newcommand{\corref}[1]{Corrolary~\ref{#1}}
