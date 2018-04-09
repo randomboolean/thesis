@@ -53,14 +53,14 @@ Historically, sigmoidal and tanh activations were mostly used \citep{cybenko1989
 Early researches have shown that neural networks with one level of depth can approximate any real-valued function defined on a compact subset of~$\bbr^n$. This result was first proved for sigmoidal activations \citep{cybenko1989approximation}, and then it was shown it did not depend on the sigmoidal activations \citep{hornik1989multilayer,hornik1991approximation}.
 \end{remark}
 
-For example, for the application of supervised learning when a neural network is trained from data (see \secref{sec:training}), this result is quite important because it brings theoretical justification that the objective exists (even though it doesn't inform whether an algorithm to approach it exists).
+For example, for the application of supervised learning when a neural network is trained from data (see \secref{sec:training}), this result is quite important because it brings theoretical justification that the objective exists (even though it doesn't inform whether an algorithm to approach it exists or is efficient).
 
 \begin{remark}\textbf{Computational difficulty}\\
-However, reaching such objective is a computationally difficult problem, which drove back interest from the field. Thank to better harware and to using better initialization schemes that speed up learning, researchers started to report more successes with deep neural networks \citep{hinton2006fast,glorot2010understanding} ; see \citep{bengio2009learning} for a review of this period. It ultimately came to a surge of interest in the field after a significant breakthrough on the imagenet dataset \citep{deng2009imagenet} with a deep convolutional architecture \citep{krizhevsky2012imagenet}. The use of the fast ReLU activation function \citep{glorot2011deep} as well as leveraging graphical processing units with CUDA \citep{nickolls2008scalable} were also key factors in overcoming this computational difficulty.
+However, reaching such objective is a computationally difficult problem, which drove back interest from the field. Thanks to better harware and to using better initialization schemes that speed up learning, researchers started to report more successes with deep neural networks \citep{hinton2006fast,glorot2010understanding} ; see \citep{bengio2009learning} for a review of this period. It ultimately came to a surge of interest in the field after a significant breakthrough on the imagenet dataset \citep{deng2009imagenet} with a deep convolutional architecture \citep{krizhevsky2012imagenet}, see \secref{sec:nn_arch}. The use of the fast ReLU activation function \citep{glorot2011deep} as well as leveraging graphical processing units with CUDA \citep{nickolls2008scalable} were also key factors in overcoming this computational difficulty.
 \end{remark}
 
 \begin{remark}\textbf{Expressivity and expressive efficiency}\\
-The study of the \emph{expressivity} (also called \emph{representational power}) of families of neural networks is the field that is interested in the range of functions that can be realized or approximated by this family \citep{haastad1991power,pascanu2013number}. In general, given a maximal error~$\epsilon$ and an objective~$f$, the more expressive is a family $N \subset \cn$, the more likely it is to contain an approximation $F \in N$ such that $d(F,f) < \epsilon$. However, if we consider the approximation $F_m \in N$ that have the lowest number of neurons, it is possible that~$F_m$ is still too large and may be unpractical. For this reason, expressivity is often studied along the related notion of \emph{expressive efficiency} \citep{delalleau2011shallow}.
+The study of the \emph{expressivity} (also called \emph{representational power}) of families of neural networks is the field that is interested in the range of functions that can be realized or approximated by this family \citep{haastad1991power,pascanu2013number}. In general, given a maximal error~$\epsilon$ and an objective~$f$, the more expressive is a family $N \subset \cn$, the more likely it is to contain an approximation $F \in N$ such that $d(F,f) < \epsilon$. However, if we consider the approximation $F_m \in N$ that have the lowest number of neurons, it is possible that~$F_m$ is still too large and may be unpractical. For this reason, expressivity is often studied along the related notion of \emph{expressive efficiency \citep{delalleau2011shallow}.
 \label{rem:expr}
 \end{remark}
 
@@ -89,7 +89,7 @@ Let $g$ a linear function. Without loss of generality subject to a flattening, l
 We denote $W_k$ the connectivity matrix of the $k$-th layer.
 
 \begin{remark}\textbf{Biological inspiration}\\
-A \emph{(computational) neuron} is a computational unit that is biologically inspired \citep{mcculloch1943logical}. Each neuron should be capable of:
+A \emph{(computational) neuron} is a computational unit that is biologically inspired \citep{mcculloch1943logical}. Each neuron is capable of:
 \begin{enumerate}
 \item receiving modulated signals from other neurons and aggregate them,
 \item applying to the result a derivable activation,
@@ -144,11 +144,11 @@ Recent works \citep{cohen2018boosting,orhan2018skip} have provided rationales su
 \subsubsection{Training}
 \label{sec:training}
 
-Given an objective function $f$, training is the process of incrementally modifying a neural network $F$ upon obtaining a better approximation of $f$. In other word, training refers to searching the best approximation in a (possibly infinite) set $N \subset \cn$ generated by training. Hence, the expressivity of $N$ is crucial.
+Given an objective function $f$, training is the process of incrementally modifying a neural network $F$ upon obtaining a better approximation of $f$. In other word, training refers to searching the best approximation in a (possibly infinite) family $N \subset \cn$ generated by training. Hence, the expressivity of $N$ is crucial.
 
 In what follows, we present notions related to training algoritms based on gradient descent \citep{widrow1960adaptive}.
 
-\todo{blabla related to expressivity}
+\todo{refactor}
 %\todo{def training algorithm}
 %The following notions describes notion related to gradient descent based training algorithms
 
