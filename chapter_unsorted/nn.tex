@@ -115,13 +115,13 @@ A neuron is illustrated on \figref{fig:neuron}.
 The former neural networks are said to be \emph{simply connected} because each layer only takes as input the output of the previous one. We'll give a more general definition after first defining branching operations.
 
 \begin{definition}\textbf{Branching}\\
-A \emph{binary branching operation} of a neural network is an operation between two activations, $x_{k_1} \Join x_{k_2}$, that outputs, subject to shape compatibility, either their addition, either their concatenation along a rank, or their concatenation as a list.
+A \emph{binary branching operation} is an operation between two tensors, $x_{k_1} \Join x_{k_2}$, that outputs, subject to shape compatibility, either their addition, either their concatenation along a rank, or their concatenation as a list.
 
-A \emph{branching operation} of a neural network between $n$ activations, $x_{k_1} \Join x_{k_2} \Join \cdots \Join x_{k_n}$, is a composition of binary branching operations, or is the identity function $Id$ if $n = 1$.
+A \emph{branching operation} between $n$ tensors, $x_{k_1} \Join x_{k_2} \Join \cdots \Join x_{k_n}$, is a composition of binary branching operations, or is the identity function $Id$ if $n = 1$.
 \end{definition}
 
 \begin{definition}\textbf{Neural network (generic definition)}\\
-The set of \emph{neural network functions} $\cn$ is defined inductively as follow
+The set of \emph{neural network} functions $\cn$ is defined inductively as follow
 \begin{enumerate}
   \item $Id \in \cn$
   \item $f \in \cn \wedge (g,h) \in \cl \wedge O_f \subset I_g \Rightarrow h \circ g \circ f \in \cn$
@@ -132,6 +132,9 @@ The set of \emph{neural network functions} $\cn$ is defined inductively as follo
 \end{definition}
 
 \begin{remark}\textbf{Examples}\\
+
+
+
 
 \todo{blabla: residual connections, skip connections, branching layers, tensor mixture explanation}
 \label{rem:branching_ex}
