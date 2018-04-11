@@ -12,3 +12,4 @@ example_header0.tex
 *.blg
 main-blx.bib
 */*.aux
+*.bak
