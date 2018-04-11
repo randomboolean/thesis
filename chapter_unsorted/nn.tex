@@ -56,7 +56,7 @@ Early researches have shown that neural networks with one level of depth can app
 For example, for the application of supervised learning when a neural network is trained from data (see \secref{sec:training}), this result is quite important because it brings theoretical justification that the objective exists (even though it doesn't inform whether an algorithm to approach it exists or is efficient).
 
 \begin{remark}\textbf{Computational difficulty}\\
-However, reaching such objective is a computationally difficult problem, which drove back interest from the field. Thanks to better harware and to using better initialization schemes that speed up learning, researchers started to report more successes with deep neural networks \citep{hinton2006fast,glorot2010understanding} ; see \citep{bengio2009learning} for a review of this period. It ultimately came to a surge of interest in the field after a significant breakthrough on the imagenet dataset \citep{deng2009imagenet} with a deep convolutional architecture \citep{krizhevsky2012imagenet}, see \secref{sec:nn_arch}. The use of the fast ReLU activation function \citep{glorot2011deep} as well as leveraging graphical processing units with CUDA \citep{nickolls2008scalable} were also key factors in overcoming this computational difficulty.
+However, reaching such objective is a computationally difficult problem, which drove back interest from the field. Thanks to better hardware and to using better initialization schemes that speed up learning, researchers started to report more successes with deep neural networks \citep{hinton2006fast,glorot2010understanding} ; see \citep{bengio2009learning} for a review of this period. It ultimately came to a surge of interest in the field after a significant breakthrough on the imagenet dataset \citep{deng2009imagenet} with a deep convolutional architecture \citep{krizhevsky2012imagenet}, see \secref{sec:nn_arch}. The use of the fast ReLU activation function \citep{glorot2011deep} as well as leveraging graphical processing units with CUDA \citep{nickolls2008scalable} were also key factors in overcoming this computational difficulty.
 \end{remark}
 
 \begin{remark}\textbf{Expressivity and expressive efficiency}\\
@@ -69,11 +69,11 @@ Of particular interest for the intuition is a result stating that a simply conne
 \end{remark}
 
 \begin{remark}\textbf{Benefits of depth}\\
-Expressive efficiency analysis have demonstrated the benefits of depth, \ie a shallow neural network would need an unfeasibly large number of neurons to approximate the function of a deep neural network (\eg \cite{delalleau2011shallow,bianchini2014complexity,poggio2015theory,eldan2016power,poole2016exponential,raghu2016expressive,cohen2016convolutional,mhaskar2016learning,lin2017does,arora2018understanding}).
+Expressive efficiency analysis have demonstrated the benefits of depth, \ie a shallow neural network would need an unfeasible large number of neurons to approximate the function of a deep neural network (\eg \cite{delalleau2011shallow,bianchini2014complexity,poggio2015theory,eldan2016power,poole2016exponential,raghu2016expressive,cohen2016convolutional,mhaskar2016learning,lin2017does,arora2018understanding}).
 \end{remark}
 
 \begin{remark}\textbf{Bias}\\
-Affine functions $\widetilde{g}$ can be written as a sum between a linear function $g$ and a constant vector $b$ which is called the \emph{bias}. It augments the expressivity of the neural network's family of functions. For notational conveniency, we will often omit to write down the biases in the layer's equations.
+Affine functions $\widetilde{g}$ can be written as a sum between a linear function $g$ and a constant vector $b$ which is called the \emph{bias}. It augments the expressivity of the neural network's family of functions. For notational convenience, we will often omit to write down the biases in the layer's equations.
 \end{remark}
 
 \subsubsubsection{Interpretation}
@@ -95,7 +95,7 @@ A \emph{(computational) neuron} is a computational unit that is biologically ins
 \item applying to the result a derivable activation,
 \item passing the signal to other neurons.
 \end{enumerate}
-That is to say, each domain $\{I_{f_k}\}$ and $O_F$ can be interpreted as a layer of neurons, with one neuron for each dimension. The connectivity matrices $\{W_k\}$ describe the connexions between each successive layers.
+That is to say, each domain $\{I_{f_k}\}$ and $O_F$ can be interpreted as a layer of neurons, with one neuron for each dimension. The connectivity matrices $\{W_k\}$ describe the connections between each successive layers.
 %The parameters of $\Theta_g$ are the modulation weights that characterize the connections.
 A neuron is illustrated on \figref{fig:neuron}.
 \end{remark}
@@ -134,7 +134,7 @@ The set of \emph{neural network} functions $\cn$ is defined inductively as follo
 \end{definition}
 
 \begin{remark}\textbf{Examples}\\
-The neural network proposed in \citep{szegedy2015going}, called \emph{Inception}, use depth-wise concatenation of feature maps. Residual networks (ResNets, \cite{he2016deep}) make use of \emph{residual connections}, also called \emph{skip connections}, \ie an activation that is used as input in a lower level is added to another activation at an upper level. Densely connected networks (DenseNets, \cite{huang2017densely}) have their activations concatenated with all lower level activations. These neural networks had demonstrated state of the art peformances on the imagenet classification challenge \citep{deng2009imagenet}, outperforming simply connected neural networks.
+The neural network proposed in \citep{szegedy2015going}, called \emph{Inception}, use depth-wise concatenation of feature maps. Residual networks (ResNets, \cite{he2016deep}) make use of \emph{residual connections}, also called \emph{skip connections}, \ie an activation that is used as input in a lower level is added to another activation at an upper level. Densely connected networks (DenseNets, \cite{huang2017densely}) have their activations concatenated with all lower level activations. These neural networks had demonstrated state of the art performances on the imagenet classification challenge \citep{deng2009imagenet}, outperforming simply connected neural networks.
 \label{rem:branching_ex}
 \end{remark}
 
@@ -148,7 +148,7 @@ Recent works have provided rationales supporting benefits of using branching ope
 
 Given an objective function $f$, training is the process of incrementally modifying a neural network $F$ upon obtaining a better approximation of $f$. In other word, training refers to searching the best approximation in a (possibly infinite) family $N \subset \cn$ generated by training. Hence, the expressivity of $N$ is crucial.
 
-In what follows, we present notions related to training algoritms based on gradient descent \citep{widrow1960adaptive}.
+In what follows, we present notions related to training algorithms based on gradient descent \citep{widrow1960adaptive}.
 
 \todo{refactor}
 %\todo{def training algorithm}
@@ -174,7 +174,7 @@ A \emph{loss} function $\mathcal{L}$ penalizes the output $x_L = F(x)$ relativel
 where $\alpha$~can be a scalar or a vector, $\cdot$~can denote outer or pointwise product, and $R$~is a regularizer. They depend on the optimization algorithm.
 \end{remark}
 
-\todo{examples of optimizations}
+\todo{examples of optimization}
 
 \begin{remark}\textbf{Linear complexity}\\
 {The complexity of computing the gradients is linear with the number of weights.}
@@ -327,7 +327,7 @@ The former proof makes clear that the result doesn't hold in case there is no pa
 \end{remark}
 
 \begin{remark}
-Comparitively with dense layers, convolution layers enjoy a significant decrease in the number of weights. For example, an input $2 \times 2$ convolution on images with $3$-color input channels, would breed only $12$ weights per feature maps, independently of the numbers of input neurons. On image datsets, their usage also breeds a significant boost in performance compared with dense layers~\citep{krizhevsky2012imagenet}, for they allow to take advantage of the topology of the inputs while dense layers don't~\citep{lecun1995convolutional}. A more thorough comparison and explanation of their assets will be discussed in \secref{sec:gnn}.
+Comparatively with dense layers, convolution layers enjoy a significant decrease in the number of weights. For example, an input $2 \times 2$ convolution on images with $3$-color input channels, would breed only $12$ weights per feature maps, independently of the numbers of input neurons. On image datasets, their usage also breeds a significant boost in performance compared with dense layers~\citep{krizhevsky2012imagenet}, for they allow to take advantage of the topology of the inputs while dense layers don't~\citep{lecun1995convolutional}. A more thorough comparison and explanation of their assets will be discussed in \secref{sec:gnn}.
 \end{remark}
 
 \begin{definition}\textbf{Stride}\\
@@ -339,12 +339,12 @@ A layer with \textit{pooling} $(g,h)$ is such that $g$ can be decomposed as $g =
 \end{definition}
 
 \begin{remark}\textbf{Downscaling}\\
-Layers with stride or pooling downscale the signals that passes through the layer. These types of layers allows to compute features at a coarser level, giving the intuition that the deeper a layer is in the network, the more abstract are the infomations captured by the weights of the layer.
+Layers with stride or pooling downscale the signals that passes through the layer. These types of layers allows to compute features at a coarser level, giving the intuition that the deeper a layer is in the network, the more abstract is the information captured by the weights of the layer.
 \end{remark}
 
 \todo{below}
 
-\subsubsection{Example of regularizations}
+\subsubsection{Example of regularization}
 
 \begin{remark}\textbf{Overfitting}
 \todo{}

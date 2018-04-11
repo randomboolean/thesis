@@ -25,7 +25,7 @@ This simpler definition is indeed equivalent with the definition of the tensor p
 \end{remark}
 
 \begin{remark}
-For naming conveniency, from now on, we will distinguish between the terms \emph{linear space} and \emph{vector space} \ie we will abusively use the term \emph{vector space} only to refer to a linear space that is seen as a tensor space of rank $1$. If we don't know its rank, we rather use the term \emph{linear space}.
+For naming convenience, from now on, we will distinguish between the terms \emph{linear space} and \emph{vector space} \ie we will abusively use the term \emph{vector space} only to refer to a linear space that is seen as a tensor space of rank $1$. If we don't know its rank, we rather use the term \emph{linear space}.
 We also make a clear distinction between the terms \emph{dimension} (that is, for a tensor space it is equal to $\displaystyle \prod_{k=1}^r n_k$) and the term \emph{rank} (equal to $r$). Note that some authors use the term \emph{order} instead of \emph{rank} (\eg \cite{hackbusch2012tensor}) as the latter is affected to another notion.
 \end{remark}
 
@@ -84,7 +84,7 @@ We call an inverse operation a \emph{de-flatten} operation.
 \end{definition}
 
 \begin{remark}\textbf{Row major ordering}\\
-The choice of $g$ determines in which order the indexing is made. $g$ is reminescent of how data of multidimensional arrays or tensors are stored internally by programming languages. In most tensor manipulation languages, incrementing the memory adress (\ie the output of $g$) will first increment the last index $i_r$ if $i_r < n_r$ (and if else $i_r = n_r$, then $i_r := 1$ and ranks are ordered in reverse lexicographic order to decide what indices are incremented). This is called \emph{row major ordering}, as opposed to \emph{column major ordering}. That is, in row major, $g$ is defined as
+The choice of $g$ determines in which order the indexing is made. $g$ is reminiscent of how data of multidimensional arrays or tensors are stored internally by programming languages. In most tensor manipulation languages, incrementing the memory address (\ie the output of $g$) will first increment the last index $i_r$ if $i_r < n_r$ (and if else $i_r = n_r$, then $i_r := 1$ and ranks are ordered in reverse lexicographic order to decide what indices are incremented). This is called \emph{row major ordering}, as opposed to \emph{column major ordering}. That is, in row major, $g$ is defined as
 \begin{align}
   g(i_1, i_2, \ldots, i_r) = \displaystyle \sum_{p=1}^r \left( \prod_{k=p+1}^r n_k \right) i_p \label{eq:rowmajor}
 \end{align}
@@ -202,7 +202,7 @@ The $n$-dimensional \emph{strided} convolution, with strides $s = (s_1, s_2, \ld
 \end{definition}
 
 \begin{remark}
-Unformally, a strided convolution is defined as if it were a regular subsampling of a convolution. They match if $s = (1,1,\ldots,1)$.
+Informally, a strided convolution is defined as if it were a regular subsampling of a convolution. They match if $s = (1,1,\ldots,1)$.
 \end{remark}
 
 \begin{definition}\textbf{Pooling}\\
