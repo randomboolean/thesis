@@ -4,11 +4,9 @@ A feed-forward neural network could originally be formalized as a composite func
 
 Note that in this manuscript, we only consider neural networks that are \emph{feed-forward} \citep{zell1994simulation, wiki:fnn}.
 
-\subsubsection{Description}
+\subsubsection{Simple formalization}
 
 We denote by $I_f$ the \textit{domain of definition} of a function $f$ ("I" stands for "input") and by $O_f = f(I_f)$ its \textit{image} ("O" stands for "output"), and we represent it as $I_f~\xrightarrow{f}~O_f$.
-
-\subsubsubsection{Simple formalization}
 
 \begin{definition}\textbf{Neural network (simply connected)}\\
 Let $f$ be a function such that $I_f$ and $O_f$ are vector or tensor spaces.\\
@@ -76,7 +74,40 @@ Expressive efficiency analysis have demonstrated the benefits of depth, \ie a sh
 Affine functions $\widetilde{g}$ can be written as a sum between a linear function $g$ and a constant vector $b$ which is called the \emph{bias}. It augments the expressivity of the neural network's family of functions. For notational convenience, we will often omit to write down the biases in the layer's equations.
 \end{remark}
 
-\subsubsubsection{Interpretation}
+\subsubsection{Generic formalization}
+
+The former neural networks are said to be \emph{simply connected} because each layer only takes as input the output of the previous one. We'll give a more general definition after first defining branching operations.
+
+\begin{definition}\textbf{Branching}\\
+A \emph{binary branching operation} between two tensors, $x_{k_1} \Join x_{k_2}$, outputs, subject to shape compatibility, either their addition, either their concatenation along a rank, or their concatenation as a list.
+
+A \emph{branching operation} between $n$ tensors, $x_{k_1} \Join x_{k_2} \Join \cdots \Join x_{k_n}$, is a composition of binary branching operations, or is the identity function $Id$ if $n = 1$.
+
+Branching operations are also naturally defined on tensor-valued functions through their realizations.
+\end{definition}
+
+\begin{definition}\textbf{Neural network (generic definition)}\\
+The set of \emph{neural network} functions $\cn$ is defined inductively as follows
+\begin{enumerate}
+  \item $Id \in \cn$
+  \item $f \in \cn \wedge (g,h) \in \cl \wedge O_f \subset I_g \Rightarrow h \circ g \circ f \in \cn$
+  \item for all shape compatible branching operations:\\
+  $\quad f_1, f_2, \ldots, f_n \in \cn \Rightarrow  f_1 \Join f_2 \Join \cdots \Join f_n \in \cn$
+\end{enumerate}
+\label{def:nn2}
+\end{definition}
+
+\begin{remark}\textbf{Examples}\\
+The neural network proposed in \citep{szegedy2015going}, called \emph{Inception}, use depth-wise concatenation of feature maps. Residual networks (ResNets, \cite{he2016deep}) make use of \emph{residual connections}, also called \emph{skip connections}, \ie an activation that is used as input in a lower level is added to another activation at an upper level. Densely connected networks (DenseNets, \cite{huang2017densely}) have their activations concatenated with all lower level activations. These neural networks had demonstrated state of the art performances on the imagenet classification challenge \citep{deng2009imagenet}, outperforming simply connected neural networks.
+\label{rem:branching_ex}
+\end{remark}
+
+\begin{remark}\textbf{Benefits of branching operations}\\
+Recent works have provided rationales supporting benefits of using branching operations, thus giving justifications for architectures obtained with the generic formalization. In particular, \citep{cohen2018boosting} have analyzed the impact of residual connections used in Wavenet-like architectures \citep{van2016wavenet} in terms of expressive efficiency (see \remref{rem:expr}) using tools from the field of tensor analysis ; \citep{orhan2018skip} have empirically demonstrated that skip connections can resolve some inefficiency problems inherent of fully-connected networks (dead activations, activations that are always equal, linearly dependent sets of activations).
+
+\end{remark}
+
+\subsubsection{Interpretation}
 
 Until now, we have formally introduced a neural network as a mathematical function. As its name suggests, such function can be interpreted from a connectivity viewpoint \citep{lecun-87}.
 
@@ -110,41 +141,10 @@ A neuron is illustrated on \figref{fig:neuron}.
 \label{fig:neuron}
 \end{figure}
 
-\subsubsubsection{Generic formalization}
-
-The former neural networks are said to be \emph{simply connected} because each layer only takes as input the output of the previous one. We'll give a more general definition after first defining branching operations.
-
-\begin{definition}\textbf{Branching}\\
-A \emph{binary branching operation} between two tensors, $x_{k_1} \Join x_{k_2}$, outputs, subject to shape compatibility, either their addition, either their concatenation along a rank, or their concatenation as a list.
-
-A \emph{branching operation} between $n$ tensors, $x_{k_1} \Join x_{k_2} \Join \cdots \Join x_{k_n}$, is a composition of binary branching operations, or is the identity function $Id$ if $n = 1$.
-
-Branching operations are also naturally defined on tensor-valued functions through their realizations.
-\end{definition}
-
-\begin{definition}\textbf{Neural network (generic definition)}\\
-The set of \emph{neural network} functions $\cn$ is defined inductively as follows
-\begin{enumerate}
-  \item $Id \in \cn$
-  \item $f \in \cn \wedge (g,h) \in \cl \wedge O_f \subset I_g \Rightarrow h \circ g \circ f \in \cn$
-  \item for all shape compatible branching operations:\\
-  $\quad f_1, f_2, \ldots, f_n \in \cn \Rightarrow  f_1 \Join f_2 \Join \cdots \Join f_n \in \cn$
-\end{enumerate}
-\label{def:nn2}
-\end{definition}
-
-\begin{remark}\textbf{Examples}\\
-The neural network proposed in \citep{szegedy2015going}, called \emph{Inception}, use depth-wise concatenation of feature maps. Residual networks (ResNets, \cite{he2016deep}) make use of \emph{residual connections}, also called \emph{skip connections}, \ie an activation that is used as input in a lower level is added to another activation at an upper level. Densely connected networks (DenseNets, \cite{huang2017densely}) have their activations concatenated with all lower level activations. These neural networks had demonstrated state of the art performances on the imagenet classification challenge \citep{deng2009imagenet}, outperforming simply connected neural networks.
-\label{rem:branching_ex}
-\end{remark}
-
-\begin{remark}\textbf{Benefits of branching operations}\\
-Recent works have provided rationales supporting benefits of using branching operations, thus giving justifications for architectures obtained with the generic formalization. In particular, \citep{cohen2018boosting} have analyzed the impact of residual connections used in Wavenet-like architectures \citep{van2016wavenet} in terms of expressive efficiency (see \remref{rem:expr}) using tools from the field of tensor analysis ; \citep{orhan2018skip} have empirically demonstrated that skip connections can resolve some inefficiency problems inherent of fully-connected networks (dead activations, activations that are always equal, linearly dependent sets of activations).
-
-\end{remark}
-
 \subsubsection{Training}
 \label{sec:training}
+
+For convenience, we use the simple formalization in this section.
 
 Given an objective function $F$, training is the process of incrementally modifying a neural network $f$ upon obtaining a better approximation of $F$. In other word, training refers to searching the best approximation in a (possibly infinite) family $N \subset \cn$ generated by training. Hence, the expressivity of $N$ is crucial.
 
@@ -155,7 +155,7 @@ In what follows, we present notions related to training algorithms based on grad
 %The following notions describes notion related to gradient descent based training algorithms
 
 \begin{definition}\textbf{Weights}\\
-Let consider the $k$-th layer of a neural networks. We define its weights as coordinates of a vector $\theta_k$, called the \emph{weight kernel}, such that:
+Let consider the $k$-th layer of a neural network $f$. We define its weights as coordinates of a vector $\theta_k$, called the \emph{weight kernel}, such that:
 \begin{gather*}
   \forall (i,j),
     \begin{cases}
@@ -201,7 +201,7 @@ where $J_{\text{wrt}}(.)$ are the respective jacobians which can be determined w
 This allows to compute the gradients with a complexity that is linear with the number of weights (only one computation of the activations), instead of being quadratic if it were done with the difference quotient expression of the derivatives (one more computation of the activations for each weight).
 \end{remark}
 
-\begin{remark}\textbf{Back propagation}\\
+\begin{remark}\textbf{Backpropagation}\\
 We can remark that \eqref{eq:bp} rewrites as
 \begin{align}
   \begin{split}
@@ -220,7 +220,7 @@ where $x'_k = W_k x_k$, and these jacobians can be expressed as:
 That means that we can write $\vec{\bigtriangledown}_{x_k} = (\widetilde{h}_k \circ \widetilde{g}_k)(\vec{\bigtriangledown}_{x_{k+1}})$ such that the connectivity matrix $\widetilde{W}_k$ is obtained by transposition. This can be interpreted as gradient calculation being a \emph{back-propagation} on the same neural network, in opposition of the \emph{forward-propagation} done to compute the output.
 \end{remark}
 
-\subsubsection{Example of layers}
+\subsubsection{Examples of layer}
 
 \begin{definition}\textbf{Connections}\\
 The set of \emph{connections} of a layer $(g,h)$, denoted $C_g$, is defined as:
@@ -242,14 +242,14 @@ A \emph{sparsely connected layer} $(g,h)$ is a layer such that $|C_g| \ll n_1^{(
 
 \begin{definition}\textbf{Convolutional layer}\\
 A \emph{$n$-dimensional convolutional layer} $(g,h)$ is such that the weight kernel~$\theta_g$ can be reshaped into a tensor $w$ of rank $n+2$, and such that
-$$
+\begin{gather*}
 \left\{
 \begin{array}{l}
   I_g \mbox{ and } O_g \mbox{ are tensor spaces of rank }n+1 \\
   \forall x \in I_g, g(x) = (g(x)_q = \sum\limits_p{x_p \ast^n w_{p,q}})_{\forall q}
 \end{array}
 \right.
-$$
+\end{gather*}
 where $p$ and $q$ index slices along the last ranks.
 \label{def:convlayer}
 \end{definition}
@@ -344,16 +344,15 @@ Layers with stride or pooling downscale the signals that passes through the laye
 
 \todo{below}
 
-\subsubsection{Example of regularization}
+\subsubsection{Examples of regularization}
 
 \begin{remark}\textbf{Overfitting}
 \todo{}
 \end{remark}
 
-
 A layer with \textit{dropout} $(g,h)$ is such that $h = h_1 \circ h_2$, where $(g,h_2)$ is a layer and $h_1$ is a dropout operation~\citep{srivastava2014dropout}. When dropout is used, a certain number of neurons are randomly set to zero during the training phase, compensated at test time by scaling down the whole layer. This is done to prevent overfitting.
 
-\subsubsection{Example of architectures}
+\subsubsection{Examples of architecture}
 \label{sec:nn_arch}
 
 \todo{rephrase}
