@@ -115,9 +115,11 @@ A neuron is illustrated on \figref{fig:neuron}.
 The former neural networks are said to be \emph{simply connected} because each layer only takes as input the output of the previous one. We'll give a more general definition after first defining branching operations.
 
 \begin{definition}\textbf{Branching}\\
-A \emph{binary branching operation} of a neural network is an operation between two activations, $x_{k_1} \Join x_{k_2}$, that outputs, subject to shape compatibility, either their addition, either their concatenation along a rank, or their concatenation as a list.
+A \emph{binary branching operation} between two tensors, $x_{k_1} \Join x_{k_2}$, outputs, subject to shape compatibility, either their addition, either their concatenation along a rank, or their concatenation as a list.
 
-A \emph{branching operation} of a neural network between $n$ activation, $x_{k_1} \Join x_{k_2} \Join \cdots \Join x_{k_n}$, is a composition of binary branching operations, or is the identity function $Id$ if $n = 1$.
+A \emph{branching operation} between $n$ tensors, $x_{k_1} \Join x_{k_2} \Join \cdots \Join x_{k_n}$, is a composition of binary branching operations, or is the identity function $Id$ if $n = 1$.
+
+Branching operations are also naturally defined on tensor-valued functions through their realizations.
 \end{definition}
 
 \begin{definition}\textbf{Neural network (generic definition)}\\
@@ -137,7 +139,8 @@ The neural network proposed in \citep{szegedy2015going}, called \emph{Inception}
 \end{remark}
 
 \begin{remark}\textbf{Benefits of branching operations}\\
-Recent works have provided rationales supporting benefits of using branching operations, thus giving justifications for architectures obtained with the generic formalization. In particular, \citep{cohen2018boosting} have analyzed the impact of residual connections used in Wavenet-like architectures \citep{van2016wavenet} in terms of expressive efficiency (see \remref{rem:expr}) using tools from the field of tensor analysis ; \citep{orhan2018skip} have empirically demonstrated that skip connections can resolve some inefficiency problems inherent of fully-connected networks (dead activations, activations that are always equal, linearly dependent set of activations).
+Recent works have provided rationales supporting benefits of using branching operations, thus giving justifications for architectures obtained with the generic formalization. In particular, \citep{cohen2018boosting} have analyzed the impact of residual connections used in Wavenet-like architectures \citep{van2016wavenet} in terms of expressive efficiency (see \remref{rem:expr}) using tools from the field of tensor analysis ; \citep{orhan2018skip} have empirically demonstrated that skip connections can resolve some inefficiency problems inherent of fully-connected networks (dead activations, activations that are always equal, linearly dependent sets of activations).
+
 \end{remark}
 
 \subsubsection{Training}
