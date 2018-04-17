@@ -4,13 +4,81 @@
 \begin{document}
 \selectlanguage{english}
 
+%
 % Table of contents
+%
+
 \dominitoc
 \tableofcontents
 
-% Chapters
-\include{chapter_0/introduction}
-\include{chapter_unsorted/main_0}
+%
+% Introduction
+%
+
+%\chapter*{Introduction}
+%\input{}
+
+%
+% Chapter 1
+%
+
+%
+% Chapter 2
+%
+
+\setcounter{chapter}{1}
+\chapter{Formal presentation}
+
+In this section, we present notions related to our domains of interest. In particular, for tensors we give original definitions that are more appropriate for our study. In the neural network's section, we present the concepts necessary to understand the evolution of the state of the art research in this field. In the last section, we present graphs for their usage of in deep learning.
+
+Vector spaces considered in what follows are assumed to be finite-dimensional and over the field of real numbers $\bbr$.
+
+\vfill
+\minitoc
+\newpage
+
+\input{chapter_unsorted/tensors}
+\newpage
+
+\input{chapter_unsorted/nn}
+\newpage
+
+\input{chapter_unsorted/graphs}
+\newpage
+
+%
+% Chapter 3
+%
+
+%
+% Chapter 4
+%
+
+%
+% Chapter 5
+%
+
+%
+% Chapter 6
+%
+
+%
+% Bin
+%
+
+\setcounter{chapter}{-1}
+\chapter{Drafts}
+\input{chapter_unsorted/conv}
+\newpage
+
+%
+% Post body
+%
+
+% Temptative previsional plan
+\addcontentsline{toc}{chapter}{Temptative previsional plan}
+\chapter*{}
+\setcounter{chapter}{0}
 \include{plan/plan}
 
 % Bibliography

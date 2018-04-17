@@ -12,10 +12,10 @@
 
 % In this section we recall the basic naming convention in~\ref{basic}, of some definitions in~\ref{regularity}, and categorize the models we will review by the tasks for what they are designed in~\ref{tasks}.
 
-\subsection{Naming conventions}
+\section{Naming conventions}
 \label{basic}
 
-\subsubsection{Basic notions}
+\subsection{Basic notions}
 
 Let's recall the naming conventions of basic notions.
 
@@ -39,7 +39,7 @@ For example, images are signals defined on a set of pixels. Typically, an image~
 
 \end{figure}
 
-\subsubsection{Graphs and graph signals}
+\subsection{Graphs and graph signals}
 
 %
 \textcolor{red}{TODO: more defs on grid graphs and other graphs}
@@ -57,7 +57,7 @@ Although this is rarely seen, a signal can also be defined on the edges of a gra
 
 \emph{Graph-structured data} can refer to any of these type of signals.
 
-\subsubsection{Data and datasets}
+\subsection{Data and datasets}
 
 % Adjacency matrix, laplacian, etc ...
 A dataset of signals is said to be \emph{static} if all its signals share the same underlying structure, it is said to be \emph{non-static} otherwise.\\
@@ -67,12 +67,12 @@ The point in specifying that objects of a dataset of a machine learning task are
 
 \textcolor{red}{TODO: figure}
 
-\subsection{Disambiguation of the subject}
+\section{Disambiguation of the subject}
 
 This thesis is entitled \emph{Deep learning models for data without a regular structure}.
 So either the data of interest in this manuscript do not have any structure, or either their structure is not regular.
 
-\subsubsection{Irregularly structured data}
+\subsection{Irregularly structured data}
 
 By structured data, we mean that there exists an underlying structure over which the data is defined. This kind of data are usually modelized as signals defined over a domain. These domains are then composed of objects that are related together by some sort of structural properties. For example, pixels of images can be seen as located on a grid with integer spatial coordinates (a 2d cartesian grid graph).
 
@@ -98,7 +98,7 @@ It is said to be \emph{irregularly structured} otherwise.
 \textcolor{red}{TODO: examples}
 %% example images , example time series, example graph signals, example manifolds
 
-\subsubsection{Unstructured data}
+\subsection{Unstructured data}
 
 Data can also be unstructured. If the data is not yet embedded into a finite dimensional vector space, then we will be interested in embedding techniques used in representation learning. In the other case, it is often possible to fall back to the case of irregularly structured data. For example, vectors can be seen as signals defined over the canonical basis of the vector space, and the vectors of this basis can be related together by their covariances through the dataset. It is typical to use the graph structure that has the canonical basis for nodes, with edges obtained by covariance thresholding.
 
@@ -113,26 +113,26 @@ Data can also be unstructured. If the data is not yet embedded into a finite dim
 \textcolor{red}{What follows is a draft}
 
 
-%\subsection{Theoretical results on regularity and convolutions}
+%\section{Theoretical results on regularity and convolutions}
 
 % idea : regularity of a domain implies with poset
 % prop: if a domain has a poset, define translations and convolutions
 % proving the converse too
 
-\subsection{Datasets}
+\section{Datasets}
 
-\subsection{Tasks} %% probably too early
+\section{Tasks} %% probably too early
 \label{tasks}
 
 
 
-\subsection{Goals}
+\section{Goals}
 
-\subsection{Invariance}
+\section{Invariance}
 
 In order to be observed, invariances must be defined relatively to an observation. Let's give a formal definition to support our discussion.
 
 ...
 
-\subsection{Methods}
+\section{Methods}
 \label{methods}

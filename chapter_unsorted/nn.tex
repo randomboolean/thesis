@@ -1,10 +1,10 @@
-\subsection{Neural Networks}
+\section{Neural Networks}
 
 A feed-forward neural network could originally be formalized as a composite function chaining linear and non-linear functions \citep{rumelhart1985learning,lecun1989backpropagation,lecun1995convolutional}, even up until the important breakthroughs that generated a surge of interest in the field \citep{hinton2012deep,krizhevsky2012imagenet,simonyan2014very}. However, in more recent advances, more complex architectures have emerged \citep{szegedy2015going,he2016deep,zoph2016neural,huang2017densely}, such that the former formalization does not suffice. We provide a definition for the first kind of neural networks (\defref{def:nn}) and use it to present its related concepts. Then we give a more generic definition (\defref{def:nn2}).
 
 Note that in this manuscript, we only consider neural networks that are \emph{feed-forward} \citep{zell1994simulation, wiki:fnn}.
 
-\subsubsection{Simple formalization}
+\subsection{Simple formalization}
 
 We denote by $I_f$ the \textit{domain of definition} of a function $f$ ("I" stands for "input") and by $O_f = f(I_f)$ its \textit{image} ("O" stands for "output"), and we represent it as $I_f~\xrightarrow{f}~O_f$.
 
@@ -74,7 +74,7 @@ Expressive efficiency analysis have demonstrated the benefits of depth, \ie a sh
 Affine functions $\widetilde{g}$ can be written as a sum between a linear function $g$ and a constant vector $b$ which is called the \emph{bias}. It augments the expressivity of the neural network's family of functions. For notational convenience, we will often omit to write down the biases in the layer's equations.
 \end{remark}
 
-\subsubsection{Generic formalization}
+\subsection{Generic formalization}
 
 The former neural networks are said to be \emph{simply connected} because each layer only takes as input the output of the previous one. We'll give a more general definition after first defining branching operations.
 
@@ -109,7 +109,7 @@ Recent works have provided rationales supporting benefits of using branching ope
 
 For layer indexing convenience, we still use the simple formalization in the subsequent subsections, even though the presentation would be similar with the generic formalization.
 
-\subsubsection{Interpretation}
+\subsection{Interpretation}
 
 Until now, we have formally introduced a neural network as a mathematical function. As its name suggests, such function can be interpreted from a connectivity viewpoint \citep{lecun-87}.
 
@@ -143,10 +143,18 @@ A neuron is illustrated on \figref{fig:neuron}.
 \label{fig:neuron}
 \end{figure}
 
-\subsubsection{Training}
+\subsection{Parameterization and training}
 \label{sec:training}
 
 Given an objective function $F$, training is the process of incrementally modifying a neural network $f$ upon obtaining a better approximation of $F$.
+The most used training algorithms are based on gradient descent, as proposed in \citep{widrow1960adaptive}. These algorithms became popular since \citep{rumelhart1985learning}. Informally, $f$ is parameterized with initial weights that characterize its linear parts. These weights are modified step by step in the opposite direction of their gradient with respect to a loss. All possible realizations of $f$ through its weights draw a family $N$ which expressivity is crucial for the success of the training. The common points between $f$ and other objects of $N$ define what is called a neural network \emph{architecture}. That is
+
+We present gradient based learning more formally in what follows.
+
+\begin{definition}\textbf{Architecture}
+Let $f \in \cn$ with weights $(\theta_k)_k \in $.
+\end{definition}
+
 
 \begin{remark}\textbf{Gradient descent}\\
 The most used training algorithms are based on gradient descent, as proposed in \citep{widrow1960adaptive}. These algorithms became popular since \citep{rumelhart1985learning}. In order to be trained, $f$ is parameterized with initial weights that characterize its linear parts. These weights are modified step by step in the opposite direction of their gradient with respect to a loss.
@@ -228,7 +236,7 @@ That means that we can write $\vec{\bigtriangledown}_{x_k} = (\widetilde{h}_k \c
 
 \todo{Overfitting remark}
 
-\subsubsection{Examples of layer}
+\subsection{Examples of layer}
 
 \begin{definition}\textbf{Connections}\\
 The set of \emph{connections} of a layer $(g,h)$, denoted $C_g$, is defined as:
@@ -352,7 +360,7 @@ Layers with stride or pooling downscale the signals that passes through the laye
 
 \todo{below}
 
-\subsubsection{Examples of regularization}
+\subsection{Examples of regularization}
 
 \begin{remark}\textbf{Overfitting}
 \todo{}
@@ -360,7 +368,7 @@ Layers with stride or pooling downscale the signals that passes through the laye
 
 A layer with \textit{dropout} $(g,h)$ is such that $h = h_1 \circ h_2$, where $(g,h_2)$ is a layer and $h_1$ is a dropout operation~\citep{srivastava2014dropout}. When dropout is used, a certain number of neurons are randomly set to zero during the training phase, compensated at test time by scaling down the whole layer. This is done to prevent overfitting.
 
-\subsubsection{Examples of architecture}
+\subsection{Examples of architecture}
 \label{sec:nn_arch}
 
 \todo{rephrase}
