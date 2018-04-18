@@ -36,31 +36,30 @@
 % Chapter 2
 %
 
+% cover
 \setcounter{chapter}{1}
 \chapter{Presentation of the field}
+\input{chapter2/intro2.tex}
+\vfill\minitoc\newpage
 
-In this section, we present notions related to our domains of interest. In particular, for tensors we give original definitions that are more appropriate for our study. In the neural network's section, we present the concepts necessary to understand the evolution of the state of the art research in this field. In the last section, we present graphs for their usage in deep learning.
-
-Vector spaces considered in what follows are assumed to be finite-dimensional and over the field of real numbers $\bbr$.
-
-\vfill
-\minitoc
-\newpage
-
-\input{chapter2/tensors}
-\newpage
-
-\input{chapter2/nn}
-\newpage
-
-\input{chapter2/graphs}
-\newpage
+% body
+\input{chapter2/tensors}\newpage
+\input{chapter2/nn}\newpage
+\input{chapter2/graphs}\newpage
 
 %
 % Chapter 3
 %
 
+% cover
+\chapter{Deep learning on graphs}
+%\input{chapter3/intro3}
+\vfill\minitoc\newpage
 
+% body
+%\input{chapter3/structuration}\newpage
+\setcounter{section}{4}
+\input{chapter3/expressivity}\newpage
 
 %
 % Chapter 4
@@ -79,9 +78,11 @@ Vector spaces considered in what follows are assumed to be finite-dimensional an
 %
 
 \setcounter{chapter}{-1}
-\chapter{Drafts}
-\input{chapter_unsorted/conv}
-\newpage
+\chapter{Trash bin}
+... that we may use in some section.
+\vfill\minitoc\newpage
+
+\input{chapter_unsorted/conv}\newpage
 
 %
 % Post body

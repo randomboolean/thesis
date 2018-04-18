@@ -1,0 +1,50 @@
+% could be renamed: why not dense layers ?
+
+
+\section{Expressivity analysis of dense versus sparse connectivity}
+
+Let consider a tensor input $x$ of a neural network layer $l$. Without loss of generality, we consider that $x$ is a matrix of shape $n \times p$. Its rows are supposed structured by a graph $G = <V, E>$, with $|V| = n$, its columns are its feature maps.
+
+In what follows, we discuss the expressivity and efficiency of a dense layer with $x$ as input versus a layer that would leverage $G$. We start with the regular case and continue onto non-regular structures.
+
+\subsection{Strong regular case}
+
+In the strong regular case, $G$ is a lattice graph such that a convolution is defined naturally on it. For example, this is the case where rows of $x$ defines ticks of a time series, or flattened pixels of an image.
+
+Let consider a convolutional layer $c = (g_c,h_c)$ with padding, defined by $q$ filters of width $k$. Define $y_c$ its output of shape $n \times q$.
+
+We are interested in knowing if there exists a dense layer that can efficiently replicate $c$.
+
+Its connectivity matrix $W_c$ is of shape $np x nq$. Obviously, the function $g_c$ can be replicated by a dummy dense layer $d = (g_c,h_d)$ through $W_c$. However, whereas $c$ has only $kpq$ weights, $d$ has $n^2pq$. If we consider the families of neural networks $\cc$, $\cd$ spaned by their weights $\theta_c$, $\theta_d$, then we realize the $\cc$ is less expressive, but in the same time it is more efficient at representing its functions.
+
+Let's define the notion of partial expressivity with respect to a family of functions.
+
+Let $\cf$ a family of functions, $\cl$ a family of layer functions, and $\epsilon$ the approximation coefficient. For $f \in \cf$, define $S_{\epsilon}(\cl,f) = \{l \in \cl, d(l,f) < \epsilon \}$ and $S_{\epsilon}(\cl,\cf) = \displaystyle \bigcup_{f \in \cf} S_{\epsilon}(\cl,f)$.
+
+\todo{reword above}
+
+By abusing and anticipating future correction of this manuscript, we consider that $\cc$ and $\cd$ are vector spaces. We are interesting in 1. proving that $S_{\epsilon}(\cc,\cf)$ and $S_{\epsilon}(\cd,\cf)$ are also vector spaces, and 2. analysing for which $\cf$, $\frac{dim(S_{\epsilon}(\cc,\cf))}{dim(S_{\epsilon}(\cd,\cf))}$ is maximized.
+
+Obviously 1. is false, so 2. is ill-posed (this draft is to be reworded afterward). Instead of using $dim$, we should rather use $card$. However they are potentially infinite families so we should rather use a notion of volume, except if we discretize. So let's discretize.
+
+By the way, `'modified`' 2. is trivially maximized for $\cf = \cc$ (and then the ratio equals $1$), so let's weaken $\cf$ and say it's any family with translation equivariance. We are then interested in proving that if $\cf$ is the family on translation equivariant function (on this domains that has to be specified when rewriting this section), then $\frac{card(S_{\epsilon}(\cc,\cf))}{card(S_{\epsilon}(\cd,\cf))}$ is close to $1$. Equivariant in our context means commuting with translations (we should rather use the latter expression btw).
+
+The result might be obtained without discretizing as convolutions with padding commutes with translations. Let's guess that they are close to other commuters. In fact that is even it. Proof with Fourier analysis.
+
+% Let's discretize. We assume that entries of $x$ takes their values into a finite set $M = \{m_1, m_2, \ldots, m_r\}$.
+
+
+% To unburden the notation, we'll assume $p=q=1$ and reshape to matrix-vector operations. A function $f \in \cf$ is defined by the values assigned to dimensions of $x$. For each $i \in \{1, 2, \ldots, n\}$, we define the grid tensor $\ca^f_i$, such that
+% \begin{gather*}
+% \forall j \in \{1, 2, \ldots, n\}, \forall i_j \in \{1, 2, \ldots, r\} \\
+% \ca^f_i[i_1,i_2,\ldots,i_n] = f(x)[i] \Leftrightarrow \forall s \in \{1, 2, \ldots, n\}, x[s] = m_{i_s}
+% \end{gather*}
+
+
+
+
+\subsection{Draft}
+
+The only dense layer that replicate $g_c$ is obtained through the connectivity matrix $W_c$. $\cd$ is more expressive, however less efficient as we are looking for equivariant functions. It happens that equivariant functions are exactly convolutions with padding.
+
+
