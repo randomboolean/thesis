@@ -130,3 +130,19 @@
 \newcommand{\quoref}[1]{Quote~\ref{#1}}
 \newcommand{\tabref}[1]{Table~\ref{#1}}
 %\newcommand{\eqref}[1]{(\ref{#1})} %already defined
+
+% Keywords
+\newcommand{\keywords}[1]{\textbf{\textit{Index terms---}} #1}
+
+% For temptative plans
+\newcommand{\fakechapter}[1]{%
+  \par\refstepcounter{chapter}% Increase subsection counter
+  \subsectionmark{#1}% Add subsection mark (header)
+  \addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}#1}% Add subsection to ToC
+}
+
+\newcommand{\fakesection}[1]{%
+  \par\refstepcounter{section}% Increase section counter
+  \sectionmark{#1}% Add section mark (header)
+  \addcontentsline{toc}{section}{\protect\numberline{\thesection}#1}% Add section to ToC
+}

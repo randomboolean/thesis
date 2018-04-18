@@ -5,6 +5,14 @@
 \selectlanguage{english}
 
 %
+% Title
+%
+
+% ?
+% (On) Deep Learning for non-regularly structured data
+% ... see temptative titles chapter
+
+%
 % Table of contents
 %
 
@@ -22,14 +30,16 @@
 % Chapter 1
 %
 
+%\chapter{Subject disambiguation}
+
 %
 % Chapter 2
 %
 
 \setcounter{chapter}{1}
-\chapter{Formal presentation}
+\chapter{Presentation of the field}
 
-In this section, we present notions related to our domains of interest. In particular, for tensors we give original definitions that are more appropriate for our study. In the neural network's section, we present the concepts necessary to understand the evolution of the state of the art research in this field. In the last section, we present graphs for their usage of in deep learning.
+In this section, we present notions related to our domains of interest. In particular, for tensors we give original definitions that are more appropriate for our study. In the neural network's section, we present the concepts necessary to understand the evolution of the state of the art research in this field. In the last section, we present graphs for their usage in deep learning.
 
 Vector spaces considered in what follows are assumed to be finite-dimensional and over the field of real numbers $\bbr$.
 
@@ -49,6 +59,8 @@ Vector spaces considered in what follows are assumed to be finite-dimensional an
 %
 % Chapter 3
 %
+
+
 
 %
 % Chapter 4
@@ -76,10 +88,20 @@ Vector spaces considered in what follows are assumed to be finite-dimensional an
 %
 
 % Temptative previsional plan
-\addcontentsline{toc}{chapter}{Temptative previsional plan}
+\addcontentsline{toc}{chapter}{Temptative previsional plan I}
 \chapter*{}
 \setcounter{chapter}{0}
-\include{plan/plan}
+\input{others/plan}
+
+% Temptative previsional plan
+\addcontentsline{toc}{chapter}{Temptative previsional plan II}
+\chapter*{}
+\setcounter{chapter}{-1}
+\input{others/plan2}
+
+% keywords and temptative titles
+\input{others/keywords} % to be put somewhere else
+\input{others/titles}
 
 % Bibliography
 \printbibliography[heading=bibintoc]
