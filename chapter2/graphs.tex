@@ -1,20 +1,97 @@
 \section{Graphs}
 
-\todo{check this subsection}
+\subsection{Basic definitions}
 
-A graph $G$ is defined as a couple $(V,E)$ where $V$ represents the set of nodes and $E \subseteq\binom{V}{2}$ is the set of edges connecting these nodes.
+\begin{definition}\textbf{Graph}\\
+A \emph{graph} $G$ is defined as a couple of finite sets $\langle V,E \rangle$ where $V$ is the set of \emph{vertices}, also called \emph{nodes}, and $E \subseteq\binom{V}{2}$ is the set of \emph{edges}. It is associated with a weight mapping $w: E \rightarrow \bbr^*$. The number of vertices $|V|$ is called its \emph{order}.
+\end{definition}
 
-\todo{Example of figure}
+\figref{fig:graph} illustrates an example of a graph. Note that we employ interchangeably the terms \emph{vertex} and \emph{node}.
 
-We encounter the notion of graphs several times in deep learning:
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\draw (0,0) -- (4,0) -- (4,4) -- (0,4) -- (0,0);
+\node at (2,2){placeholder};
+\end{tikzpicture}
+\caption{Example of a graph}
+\label{fig:graph}
+\end{figure}
+
+\begin{definition}\textbf{Adjacency matrix}\\
+The \emph{adjacency matrix} of a graph $G = \langle V,E \rangle$ of order $n$, is a $n \times n$ real-valued matrix $A$ associated to an indexing of $V = \{v_1, v_2, \ldots v_n\}$, such that
+\begin{gather*}
+A[i,j] =
+ \begin{cases}
+   w\left(\{v_i,v_j\}\right) & \text{if } \{v_i,v_j\} \in E \\
+   0 & \text{otherwise}
+ \end{cases}
+\end{gather*}
+ \end{definition}
+
+\begin{definition}\textbf{Degree and degree matrix}\\
+The \emph{degree} of a vertex $v \in V$ is defined as $\deg(v) = |\{u \in V, \{u,v\} \in E\}|$.
+
+The \emph{degree matrix} of a graph $G = \langle V,E \rangle$ of order $n$, is the diagonal matrix $D$, associated to an indexing of $V = \{v_1, v_2, \ldots v_n\}$, such that $D = \diag(\deg(v_1), \deg(v_2), \ldots, \deg(v_n))$.
+\end{definition}
+
+\begin{definition}\textbf{Laplacian matrix}\\
+The \emph{laplacian matrix} of a graph $G = \langle V,E \rangle$ of order $n$, associated to an indexing of $V = \{v_1, v_2, \ldots v_n\}$, is defined as $L = D - A$, where $D$ is the degree matrix and $A$ is the adjacency matrix.
+\end{definition}
+
+\begin{definition}\textbf{Digraph}\\
+A digraph is an oriented graph \ie $E \subseteq V \times V - \{(v,v), v \in V\}$, and its weight mapping $w$ and adjacency matrix $A$ are not symmetric. Notions defined on graphs naturally extends to digraphs where possible.
+\end{definition}
+
+\begin{definition}\textbf{Bipartite graph}\\
+A \emph{bipartite graph} is a triplet of finite sets $\langle V^{(1)}, V^{(2)}, E \rangle$, where $V^{(1)}$ and $V^{(2)}$ are sets of vertices, $V^{(1)} \cap V^{(2)} \neq \emptyset$, and $E \subseteq V^{(1)} \times V^{(2)}$. It is associated with a weight mapping $w: E \rightarrow \bbr^*$. Its adjacency matrix $A$ is associated to indexings of $V^{(1)} = \{v^{(1)}_1, v^{(1)}_2, \ldots v^{(1)}_n\}$ and $V^{(2)} = \{v^{(2)}_1, v^{(2)}_2, \ldots v^{(2)}_n\}$, such that
+\begin{gather*}
+A[i,j] =
+ \begin{cases}
+   w\left((v^{(1)}_i,v^{(2)}_j)\right) & \text{if } (v^{(1)}_i,v^{(2)}_j) \in E \\
+   0 & \text{otherwise}
+ \end{cases}
+\end{gather*}
+\end{definition}
+
+\subsection{Special classes of graphs}
+
+Our goal is to define lattice graphs using group theory.
+
+\begin{definition}\textbf{Infinite graph}\\
+An \emph{infinite graph} is defined by natural extension of the notion of graph $G=\langle V,E \rangle$ where $V$ and $E$ can be infinite. We denote $\order{G} = \infty$.
+\end{definition}
+
+\begin{definition}\textbf{Graph automorphism}\\
+A graph automorphism of a graph $G$ is a bijection in the vertex domain $\phi: V \arrow V$ such that $\{u,v\} \in E \Leftrightarrow \{\phi(u), \phi(v)\} \in E$
+\end{definition}
+
+\begin{definition}\textbf{Lattice graph}\\
+A lattice graph is a graph, possibly infinite, that admits an automorphism, or is an induced finite subgraph of such.
+\end{definition}
+
+%\subsubsection{Grids}
+
+%\subsubsection{Lattices}
+
+%\subsubsection{Spatial graphs}
+
+%\subsubsection{Projections of spatial graphs}
+
+
+\subsection{Graphs in deep learning}
+
+We come across the notion of graphs several times in deep learning:
 \begin{itemize}
-\item Connections between two layers of a deep learning model can be represented as a bipartite graph, coined \emph{connectivity graph}. It encodes how the information is propagated through a layer to another. See \secref{con_graph}.
-\item A computation graph is used by deep learning frameworks to keep track of the dependencies between layers of a deep learning models, in order to compute forward and back-propagation. See \secref{comp_graph}.
-\item A graph can represent the underlying structure of an object (often a vector), whose nodes represent its features. See \secref{inductive_graph}.
-\item Datasets can also be graph-structured, where the nodes represent the objects of the dataset. See \secref{transductive_graph}.
+\item Connections between two layers of a deep learning model can be represented as a bipartite graph, the \emph{connectivity graph}. It encodes how the information is propagated through a layer to another. See \secref{con_graph}.
+\item Neural architectures can be represented by a graph. In particular, a computation graph is used by deep learning programming languages to keep track of the dependencies between layers of a deep learning model, in order to compute forward and back-propagation. See \secref{comp_graph}.
+\item A graph can represent the underlying structure of an object (often a vector or a signal). The nodes represent its features, and the edges represent some structural property. See \secref{inductive_graph}.
+\item Datasets can also be graph-structured. The nodes represent the objects of the dataset, and its edge represent some sort of relation between them. See \secref{transductive_graph}.
 \end{itemize}
 
-\subsection{Connectivity graph}
+%\subsection{Graphs related to models}
+
+\subsubsection{Connectivity graph}
 \label{con_graph}
 
 A Connectivity graph is the bipartite graph whose adjacency matrix is the connectivity matrix of a layer of neurons.
@@ -106,21 +183,15 @@ Connectivity graphs also allow to graphically modelize how weights are tied in a
 
 \todo{Add weight sharing scheme in \figref{cnn}}
 
-\subsection{Computation graph}
+\subsubsection{Computation graph}
 \label{comp_graph}
 
-\subsection{Underlying graph structure}
+%\subsection{Graphs related to data}
+
+\subsubsection{Underlying graph structure and signals}
 \label{inductive_graph}
 
-\subsection{Graph-structured dataset}
+\subsubsection{Graph-structured dataset}
 \label{transductive_graph}
 
-transductive vs inductive
-
-\section{Special classes of graphs}
-
-\subsection{Grid graphs}
-
-\subsection{Spatial graphs}
-
-\subsection{Projections of spatial graphs}
+%transductive vs inductive

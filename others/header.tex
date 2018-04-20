@@ -45,7 +45,7 @@
 \addbibresource{refs/scattering.bib}
 \addbibresource{refs/prog_languages.bib}
 
-% style
+% Style
 \setlength\parindent{0pt}
 \newcommand{\subsubsubsection}[1]{\paragraph{#1}\mbox{}\\}
 \newcommand{\subsubsubsubsection}[1]{\subparagraph{#1}\mbox{}\\}
@@ -76,7 +76,7 @@
 \patchBothAmsMathEnvironmentsForLineno{multline}%
 }
 
-% theorems
+% Theorems
 \usepackage{amsthm}
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}[section]
@@ -89,7 +89,10 @@
 
 \allowdisplaybreaks[1]
 
-% Comands
+% Annotations
+\newcommand{\todo}[1]{\textcolor{red}{TODO: #1\\}}
+
+% Maths
 \newcommand{\bbn}{\mathbb{N}}
 \newcommand{\bbr}{\mathbb{R}}
 \newcommand{\bbt}{\mathbb{T}}
@@ -105,7 +108,12 @@
 \newcommand{\cn}{\mathcal{N}}
 \newcommand{\cf}{\mathcal{F}}
 
-\newcommand{\todo}[1]{\textcolor{red}{TODO: #1\\}}
+\newcommand{\seq}[1]{\{1, 2, \ldots, #1\}}
+\newcommand{\sq}[1]{\{1, \ldots, #1\}}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\order}{order}
+%\DeclareMathOperator{\deg}{deg}
+\DeclareMathOperator{\shape}{shape}
 
 % Acronyms
 \newcommand{\iid}{\emph{i.i.d.}~}
@@ -149,7 +157,6 @@
   \sectionmark{#1}% Add section mark (header)
   \addcontentsline{toc}{section}{\protect\numberline{\thesection}#1}% Add section to ToC
 }
-
 
 \newcommand{\fakesubsection}[1]{%
   \par\refstepcounter{subsection}% Increase section counter
