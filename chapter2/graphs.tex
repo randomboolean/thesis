@@ -3,7 +3,7 @@
 \subsection{Basic definitions}
 
 \begin{definition}\textbf{Graph}\\
-A \emph{graph} $G$ is defined as a couple of finite sets $\langle V,E \rangle$ where $V$ is the set of \emph{vertices}, also called \emph{nodes}, and $E \subseteq\binom{V}{2}$ is the set of \emph{edges}. It is associated with a weight mapping $w: E \rightarrow \bbr^*$. The number of vertices $|V|$ is called its \emph{order}.
+A \emph{graph} $G$ is defined as a couple of sets $\langle V,E \rangle$ where $V$ is the set of \emph{vertices}, also called \emph{nodes}, and $E \subseteq\binom{V}{2}$ is the set of \emph{edges}. It is associated with a weight mapping $w: E \rightarrow \bbr^*$.
 \end{definition}
 
 \figref{fig:graph} illustrates an example of a graph. Note that we employ interchangeably the terms \emph{vertex} and \emph{node}.
@@ -17,6 +17,17 @@ A \emph{graph} $G$ is defined as a couple of finite sets $\langle V,E \rangle$ w
 \caption{Example of a graph}
 \label{fig:graph}
 \end{figure}
+
+\begin{definition}\textbf{Order}\\
+The order of a graph $G = \langle V,E \rangle$ is define as
+\begin{gather*}
+\order{G} = \begin{cases} |V| & \text{if $V$ is finite}\\ \infnty & \text{otherwise} \end{cases} 
+\end{gather*}
+\end{definition}
+
+\begin{definition}\textbf{Regular graph}\\
+A graph is said to be regular if all its vertices belongs to the same number of edges. In that case this number is called its degree.
+\end{definition}
 
 \begin{definition}\textbf{Adjacency matrix}\\
 The \emph{adjacency matrix} of a graph $G = \langle V,E \rangle$ of order $n$, is a $n \times n$ real-valued matrix $A$ associated to an indexing of $V = \{v_1, v_2, \ldots v_n\}$, such that
@@ -44,7 +55,7 @@ A digraph is an oriented graph \ie $E \subseteq V \times V - \{(v,v), v \in V\}$
 \end{definition}
 
 \begin{definition}\textbf{Bipartite graph}\\
-A \emph{bipartite graph} is a triplet of finite sets $\langle V^{(1)}, V^{(2)}, E \rangle$, where $V^{(1)}$ and $V^{(2)}$ are sets of vertices, $V^{(1)} \cap V^{(2)} \neq \emptyset$, and $E \subseteq V^{(1)} \times V^{(2)}$. It is associated with a weight mapping $w: E \rightarrow \bbr^*$. Its adjacency matrix $A$ is associated to indexings of $V^{(1)} = \{v^{(1)}_1, v^{(1)}_2, \ldots v^{(1)}_n\}$ and $V^{(2)} = \{v^{(2)}_1, v^{(2)}_2, \ldots v^{(2)}_n\}$, such that
+A \emph{bipartite graph} is a triplet of sets $\langle V^{(1)}, V^{(2)}, E \rangle$, where $V^{(1)}$ and $V^{(2)}$ are sets of vertices, $V^{(1)} \cap V^{(2)} \neq \emptyset$, and $E \subseteq V^{(1)} \times V^{(2)}$. It is associated with a weight mapping $w: E \rightarrow \bbr^*$. Its adjacency matrix $A$ is associated to indexings of $V^{(1)} = \{v^{(1)}_1, v^{(1)}_2, \ldots v^{(1)}_n\}$ and $V^{(2)} = \{v^{(2)}_1, v^{(2)}_2, \ldots v^{(2)}_n\}$, such that
 \begin{gather*}
 A[i,j] =
  \begin{cases}
@@ -56,19 +67,30 @@ A[i,j] =
 
 \subsection{Special classes of graphs}
 
-Our goal is to define lattice graphs using group theory.
+% \begin{definition}\textbf{Infinite graph}\\
+% An \emph{infinite graph} is defined by natural extension of the notion of graph $G=\langle V,E \rangle$ where $V$ and $E$ can be infinite. We denote $\order{G} = \infty$.
+% \end{definition}
 
-\begin{definition}\textbf{Infinite graph}\\
-An \emph{infinite graph} is defined by natural extension of the notion of graph $G=\langle V,E \rangle$ where $V$ and $E$ can be infinite. We denote $\order{G} = \infty$.
+\begin{definition}\textbf{Graph automorphisms}\\
+A graph automorphism of a graph $G = \langle V,E \rangle$ is a bijection in the vertex domain $\phi: V \arrow V$ such that $\{u,v\} \in E \Leftrightarrow \{\phi(u), \phi(v)\} \in E$. We denote $\ca{G}$ the group of automorphism on $G$.
+
+We denote by $\ce(\phi)$ the set of input-output mapping of $\phi$, defined as $\ce(\phi) = \{ (x,y) \in V^2, \phi(x) = y \}$.
+
+A graph automorphism $\phi$ is said to be \emph{edge-constrained} (EC) if $\ce(\phi) \suseteq E$. We denote $\ca_\EC{G}$ the set of edge-constrained automorphism on $G$.
 \end{definition}
 
-\begin{definition}\textbf{Graph automorphism}\\
-A graph automorphism of a graph $G$ is a bijection in the vertex domain $\phi: V \arrow V$ such that $\{u,v\} \in E \Leftrightarrow \{\phi(u), \phi(v)\} \in E$
+\begin{definition}\textbf{Orthogonality}\\
+Two graph automorphism $\phi_1$ and $\phi_2$ are said to be orthogonal, if and only if $\ce(\phi_1) \cap \ce(\phi_2) = \emptyset$, denoted $\phi_1 \bot \phi_2$. They are said to be aligned otherwise.
+
+Similarly, we define orthogonality of $r$ automophisms as $\phi_1 \bot \cdots \bot \phi_r \Leftrightarrow \ce(\phi_1) \cap \cdots \cap \ce(\phi_r) = \emptyset$
+\end{defintion}
+
+\begin{definition}\textbf{Lattice-regular graph}\\
+A lattice-regular graph is a regular graph that admits $r$ orthogonal edge-constrained automorphisms, where $r$ is its degree.
 \end{definition}
 
-\begin{definition}\textbf{Lattice graph}\\
-A lattice graph is a graph, possibly infinite, that admits an automorphism, or is an induced finite subgraph of such.
-\end{definition}
+
+
 
 %\subsubsection{Grids}
 
