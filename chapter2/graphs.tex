@@ -21,7 +21,7 @@ A \emph{graph} $G$ is defined as a couple of sets $\langle V,E \rangle$ where $V
 \begin{definition}\textbf{Order}\\
 The order of a graph $G = \langle V,E \rangle$ is define as
 \begin{gather*}
-\order{G} = \begin{cases} |V| & \text{if $V$ is finite}\\ \infnty & \text{otherwise} \end{cases} 
+\order{G} = \begin{cases} |V| & \text{if $V$ is finite}\\ \infty & \text{otherwise} \end{cases} 
 \end{gather*}
 \end{definition}
 
@@ -72,18 +72,18 @@ A[i,j] =
 % \end{definition}
 
 \begin{definition}\textbf{Graph automorphisms}\\
-A graph automorphism of a graph $G = \langle V,E \rangle$ is a bijection in the vertex domain $\phi: V \arrow V$ such that $\{u,v\} \in E \Leftrightarrow \{\phi(u), \phi(v)\} \in E$. We denote $\ca{G}$ the group of automorphism on $G$.
+A graph automorphism of a graph $G = \langle V,E \rangle$ is a bijection in the vertex domain $\phi: V \rightarrow V$ such that $\{u,v\} \in E \Leftrightarrow \{\phi(u), \phi(v)\} \in E$. We denote $\ca(G)$ the group of automorphism on $G$.
 
 We denote by $\ce(\phi)$ the set of input-output mapping of $\phi$, defined as $\ce(\phi) = \{ (x,y) \in V^2, \phi(x) = y \}$.
 
-A graph automorphism $\phi$ is said to be \emph{edge-constrained} (EC) if $\ce(\phi) \suseteq E$. We denote $\ca_\EC{G}$ the set of edge-constrained automorphism on $G$.
+A graph automorphism $\phi$ is said to be \emph{edge-constrained} (EC) if $\ce(\phi) \subseteq E$. We denote $\ca_{\EC}(G)$ the set of edge-constrained automorphism on $G$.
 \end{definition}
 
 \begin{definition}\textbf{Orthogonality}\\
 Two graph automorphism $\phi_1$ and $\phi_2$ are said to be orthogonal, if and only if $\ce(\phi_1) \cap \ce(\phi_2) = \emptyset$, denoted $\phi_1 \bot \phi_2$. They are said to be aligned otherwise.
 
 Similarly, we define orthogonality of $r$ automophisms as $\phi_1 \bot \cdots \bot \phi_r \Leftrightarrow \ce(\phi_1) \cap \cdots \cap \ce(\phi_r) = \emptyset$
-\end{defintion}
+\end{definition}
 
 \begin{definition}\textbf{Lattice-regular graph}\\
 A lattice-regular graph is a regular graph that admits $r$ orthogonal edge-constrained automorphisms, where $r$ is its degree.
