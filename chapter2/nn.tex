@@ -14,7 +14,7 @@ $f$ is a \emph{(simply connected) neural network function} if there are a series
 \begin{gather*}
 \left\{
   \begin{array}{l}
-    \forall k \in \{1, 2, \ldots, L\}, f_k = h_k \circ g_k, \\
+    \forall k \in \llbracket 1, L \rrbracket, f_k = h_k \circ g_k, \\
     I_f = I_{f_1} \xrightarrow{f_1} O_{f_1} \cong I_{f_2} \xrightarrow{f_2} \dots \xrightarrow{f_L} O_{f_L} = O_f, \\
     f = f_{L} \circ ... \circ f_{2} \circ f_1
   \end{array}
@@ -62,8 +62,8 @@ The study of the \emph{expressivity} (also called \emph{representational power})
 \label{rem:expr}
 \end{remark}
 
-\begin{remark}\textbf{The class of piecewise linear functions}\\
-Of particular interest for the intuition is a result stating that a simply connected neural networks with only ReLU activations (ReNN) is a piecewise linear function (PWL) \citep{pascanu2013number,montufar2014number}, and that conversely any PWL is also a ReNN such that an upper bound of its depth is logarithmically related to the input dimension (\cite{arora2018understanding}, th. 2.1.).
+\begin{remark}\textbf{Rectifier neural netowrks}\\
+Of particular interest for the intuition is a result stating that a simply connected neural networks with only ReLU activations (a rectifier neural network) is a piecewise linear function \citep{pascanu2013number,montufar2014number}, and that conversely any piecewise linear function is also a rectifier neural network such that an upper bound of its depth is logarithmically related to the input dimension (\cite{arora2018understanding}, th. 2.1.). Their expressive efficiency have also been demonstrated compared to neural networks using threshold or sigmoid activations~\citep{pan2016expressiveness}.
 \end{remark}
 
 \begin{remark}\textbf{Benefits of depth}\\
@@ -71,7 +71,7 @@ Expressive efficiency analysis have demonstrated the benefits of depth, \ie a sh
 \end{remark}
 
 \begin{remark}\textbf{Bias}\\
-Affine functions $\widetilde{g}$ can be written as a sum between a linear function $g$ and a constant vector $b$ which is called the \emph{bias}. It augments the expressivity of the neural network's family of functions. For notational convenience, we will often omit to write down the biases in the layer's equations.
+Note that affine functions $\widetilde{g}$ can be written as a sum between a linear function $g$ and a constant vector $b$ which is called the \emph{bias}. It augments the expressivity of the neural network's family of functions. For notational convenience, we will often omit to write down the biases in the layer's equations.
 \end{remark}
 
 \subsection{Generic formalization}

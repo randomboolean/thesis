@@ -1,0 +1,92 @@
+\section{The convolution challenge on graphs (draft)}
+
+Defining a convolution on graphs is a challenging problem. Obviously, the underlying structure determined by a graph is not necessarily isomorphic to a set onto which the convolution is already defined. 
+
+Related works: moura, spectral convolution with laplacian.
+
+A convolution may comprise the following properties: bilinear, equivariant with respect to a certain class of isomorphism.
+
+We shall first study classes of graphs onto which the convolution can be naturally defined before generalizing.
+
+*Convolution on grids
+
+*Convolution on lattice-regular graphs
+
+*Convolution on product graphs
+
+*Convolution on linear combination of circulant graphs
+
+\subsection{Convolution on grids}
+
+We first consider a grid graph $G = \langle V,E \rangle$ agnostically of its edges \ie $G \cong \bbz^2$.
+
+\begin{definition}\textbf{Translation on $\cs(\bbz^2)$}\\
+A translation on $\bbz^2$ is defined as a function $t: \bbz^2 \rightarrow \bbz^2$ such that
+\begin{gather*}
+\exists (a,b) \in \bbz^2, \forall (x,y) \in \bbz^2, t(x,y) = (x+a,y+b)
+\end{gather*}
+Its definition is naturally extended to signal functions $t: \cs(\bbz^2) \rightarrow \cs(\bbz^2)$ with the notation 
+\begin{gather*}
+\forall s \in \cs(\bbz^2), t(s)[x,y] = s[x-a, y-b]
+\end{gather*}
+For any set $E$, we denote by $\ct(E)$ its translations.
+\end{definition}
+
+\begin{proposition}\textbf{Equivariance to translations}\\
+On signals over $\bbz^2$, the class of linear functions that are equivariant to translations is exactly the class of convolutive operations on signals \ie
+\begin{gather*}
+\begin{cases}
+ f \in \cl(\cs(\bbz^2))\\
+ \forall t \in \ct(\cs(\bbz^2)), f \circ t = t \circ f
+\end{cases}
+ \Leftrightarrow \exists w \in \cs(\bbz^2), \forall s \in \cs(\bbz^2), f(s) = w \ast s
+\end{gather*}
+\end{proposition}
+
+\begin{proof}
+\todo{proof without fourier transform}
+\end{proof}
+
+\begin{remark}
+CNN vs MLP, expressive efficiency
+\end{remark}
+
+
+
+
+\subsection{Special classes of graphs}
+
+% \begin{definition}\textbf{Infinite graph}\\
+% An \emph{infinite graph} is defined by natural extension of the notion of graph $G=\langle V,E \rangle$ where $V$ and $E$ can be infinite. We denote $\order{G} = \infty$.
+% \end{definition}
+
+\begin{definition}\textbf{Graph automorphisms}\\
+A graph automorphism of a graph $G = \langle V,E \rangle$ is a bijection in the vertex domain $\phi: V \rightarrow V$ such that $\{u,v\} \in E \Leftrightarrow \{\phi(u), \phi(v)\} \in E$. We denote $\ca(G)$ the group of automorphism on $G$.
+
+We denote by $\ce(\phi)$ the set of input-output mapping of $\phi$, defined as $\ce(\phi) = \{ (x,y) \in V^2, \phi(x) = y \}$.
+
+A graph automorphism $\phi$ is said to be \emph{edge-constrained} (EC) if $\ce(\phi) \subseteq E$. We denote $\ca_{\EC}(G)$ the set of edge-constrained automorphism on $G$.
+\end{definition}
+
+\begin{definition}\textbf{Orthogonality}\\
+Two graph automorphisms $\phi_1$ and $\phi_2$ are said to be orthogonal, if and only if $\ce(\phi_1) \cap \ce(\phi_2) = \emptyset$, denoted $\phi_1 \bot \phi_2$. They are said to be aligned otherwise.
+
+Similarly, we define orthogonality of $r$ automophisms as $\phi_1 \bot \cdots \bot \phi_r \Leftrightarrow \ce(\phi_1) \cap \cdots \cap \ce(\phi_r) = \emptyset$
+\end{definition}
+
+
+\subsection{Lattice-regular graph}
+
+
+\begin{definition}\textbf{Lattice-regular graph}\\
+A lattice-regular graph is a regular graph that admits $r$ orthogonal edge-constrained automorphisms, where $r$ is its degree.
+\end{definition}
+
+
+%\subsubsection{Grids}
+
+%\subsubsection{Lattices}
+
+%\subsubsection{Spatial graphs}
+
+%\subsubsection{Projections of spatial graphs}

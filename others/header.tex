@@ -5,6 +5,8 @@
 \usepackage{amsfonts}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{stmaryrd}
+
 \usepackage{tikz}
 \usepackage{graphicx}
 \usepackage{color}
@@ -76,6 +78,10 @@
 \patchBothAmsMathEnvironmentsForLineno{multline}%
 }
 
+% linebreaks in math mode
+%\binoppenalty=\maxdimen %700
+%\relpenalty=\maxdimen %500
+
 % Theorems
 \usepackage{amsthm}
 \theoremstyle{definition}
@@ -93,21 +99,40 @@
 \newcommand{\todo}[1]{\textcolor{red}{TODO: #1\\}}
 
 % Maths
+\newcommand{\bbe}{\mathbb{E}}
+\newcommand{\bbi}{\mathbb{I}}
 \newcommand{\bbn}{\mathbb{N}}
 \newcommand{\bbr}{\mathbb{R}}
 \newcommand{\bbt}{\mathbb{T}}
 \newcommand{\bbv}{\mathbb{V}}
-\newcommand{\bbi}{\mathbb{I}}
-\newcommand{\bbe}{\mathbb{E}}
+\newcommand{\bbz}{\mathbb{Z}}
 
 \newcommand{\ca}{\mathcal{A}}
+\newcommand{\cb}{\mathcal{B}}
 \newcommand{\cc}{\mathcal{C}}
 \newcommand{\cd}{\mathcal{D}}
 \newcommand{\ce}{\mathcal{E}}
-\newcommand{\ci}{\mathcal{I}}
-\newcommand{\cl}{\mathcal{L}}
-\newcommand{\cn}{\mathcal{N}}
 \newcommand{\cf}{\mathcal{F}}
+\newcommand{\cg}{\mathcal{G}}
+\newcommand{\ch}{\mathcal{H}}
+\newcommand{\ci}{\mathcal{I}}
+\newcommand{\cj}{\mathcal{J}}
+\newcommand{\ck}{\mathcal{K}}
+\newcommand{\cl}{\mathcal{L}}
+\newcommand{\cm}{\mathcal{M}}
+\newcommand{\cn}{\mathcal{N}}
+\newcommand{\co}{\mathcal{O}}
+\newcommand{\cp}{\mathcal{P}}
+\newcommand{\cq}{\mathcal{Q}}
+\newcommand{\ccr}{\mathcal{R}}
+\newcommand{\cs}{\mathcal{S}}
+\newcommand{\ct}{\mathcal{T}}
+\newcommand{\cu}{\mathcal{U}}
+\newcommand{\cv}{\mathcal{V}}
+\newcommand{\cW}{\mathcal{W}}
+\newcommand{\cx}{\mathcal{X}}
+\newcommand{\cy}{\mathcal{Y}}
+\newcommand{\cz}{\mathcal{Z}}
 
 \newcommand{\seq}[1]{\{1, 2, \ldots, #1\}}
 \newcommand{\sq}[1]{\{1, \ldots, #1\}}
@@ -115,7 +140,13 @@
 \DeclareMathOperator{\order}{order}
 %\DeclareMathOperator{\deg}{deg}
 \DeclareMathOperator{\shape}{shape}
-\DeclareMathOperator{\EC}{EC}
+\DeclareMathOperator{\EC}{\textsc{ec}}
+\DeclareMathOperator{\OR}{\textsc{or}}
+\DeclareMathOperator{\XOR}{\textsc{xor}}
+\DeclareMathOperator{\AND}{\textsc{and}}
+
+\DeclareMathOperator{\scr}{\textsc{R}}
+\DeclareMathOperator{\scs}{\textsc{S}}
 
 % Acronyms
 \newcommand{\iid}{\emph{i.i.d.}~}

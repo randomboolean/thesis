@@ -47,11 +47,11 @@ More precisely, if $\bbt = \displaystyle \bigotimes_{k=1}^r \bbv_k$, with bases 
 t =  \displaystyle \sum_{i_1=1}^{n_1} \cdots \sum_{i_r=1}^{n_r} t[i_1, i_2, \ldots, i_r] (e_1^{i_1}, \ldots, e_r^{i_r})
 \end{gather*}
 
-The cartesian product $\bbi=\displaystyle \prod_{k=1}^r \{1, \ldots, n_k \}$ is called the \emph{index space} of~$\bbt$
+The cartesian product $\bbi=\displaystyle \prod_{k=1}^r \llbracket 1, n_k \rrbracket$ is called the \emph{index space} of~$\bbt$
 \end{definition}
 
 \begin{remark}
-When using an index $i_k$ for an entry of a tensor $t$, we implicitly assume that $i_k \in \{1, 2, \cdots, n_k^{(t)}\}$ if nothing is specified.
+When using an index $i_k$ for an entry of a tensor $t$, we implicitly assume that $i_k \in \llbracket 1, n_k^{(t)} \rrbracket$ if nothing is specified.
 \end{remark}
 
 \begin{definition}\textbf{Subtensor}\\
@@ -75,7 +75,7 @@ $s(\bbt)$ is called a \emph{slice subspace}.
 \end{definition}
 
 \begin{definition}\textbf{Flattening}\\
-A \emph{flatten} operation is an isomorphism $f: \bbt \rightarrow \bbv$, between a tensor space $\bbt$ of rank~$r$ and an $n$-dimensional vector space $\bbv$, where $n =\displaystyle \prod_{k=1}^r n_k$. It is characterized by a bijection in the index spaces $g: \displaystyle \prod_{k=1}^r \{1, \ldots, n_k \} \rightarrow\{1, \ldots, n \}$ such that
+A \emph{flatten} operation is an isomorphism $f: \bbt \rightarrow \bbv$, between a tensor space $\bbt$ of rank~$r$ and an $n$-dimensional vector space $\bbv$, where $n =\displaystyle \prod_{k=1}^r n_k$. It is characterized by a bijection in the index spaces $g: \displaystyle \prod_{k=1}^r \llbracket 1, n_k \rrbracket \rightarrow \llbracket 1, n \rrbracket$ such that
 \begin{gather*}
   \forall t \in \bbt, f(t)[g(i_1, i_2, \ldots, i_r)] = f(t[i_1, i_2, \ldots, i_r])
 \end{gather*}
@@ -101,7 +101,7 @@ We define binary operations on tensors that we'll later have use for. In particu
 \begin{definition}\textbf{Contraction}\\
 A \emph{tensor contraction} between two tensors, along ranks of same dimensions, is defined by natural extension of the dot product operation to tensors.
 
-More precisely, let $\bbt_1$ a tensor space of shape $n_1^{(1)} \times n_2^{(1)} \times \cdots \times n_{r_1}^{(1)}$, and $\bbt_2$ a tensor space of shape $n_1^{(2)} \times n_2^{(2)} \times \cdots \times n_{r_2}^{(2)}$, such that $\forall k \in \{1, 2, \ldots, s\}, n_{r_1-(s-k)}^{(1)} = n_k^{(2)}$, then the tensor contraction between $t_1 \in \bbt_1$ and $t_2 \in \bbt_2$ is defined as:
+More precisely, let $\bbt_1$ a tensor space of shape $n_1^{(1)} \times n_2^{(1)} \times \cdots \times n_{r_1}^{(1)}$, and $\bbt_2$ a tensor space of shape $n_1^{(2)} \times n_2^{(2)} \times \cdots \times n_{r_2}^{(2)}$, such that $\forall k \in \llbracket 1, s \rrbracket, n_{r_1-(s-k)}^{(1)} = n_k^{(2)}$, then the tensor contraction between $t_1 \in \bbt_1$ and $t_2 \in \bbt_2$ is defined as:
 \begin{gather*}
 \left\{
   \begin{array}{l}
@@ -154,13 +154,13 @@ where $g_i$, $g_k$ and $g_j$ are bijections defined similarly as in \eqref{eq:ro
 \end{proof}
 
 \begin{definition}\textbf{Convolution}\\
-The \emph{$n$-dimensional convolution}, denoted $\ast^n$, between $t_1 \in \bbt_1$ and $t_2 \in \bbt_2$, where $\bbt_1$ and $\bbt_2$ are of the same rank $n$ such that $\forall p \in \{1, 2, \ldots, n\}, n_p^{(1)} \ge n_p^{(2)}$, is defined as:
+The \emph{$n$-dimensional convolution}, denoted $\ast^n$, between $t_1 \in \bbt_1$ and $t_2 \in \bbt_2$, where $\bbt_1$ and $\bbt_2$ are of the same rank $n$ such that $\forall p \in \llbracket 1, n \rrbracket, n_p^{(1)} \ge n_p^{(2)}$, is defined as:
 \begin{gather*}
 \left\{
   \begin{array}{l}
     t_1 \ast^n t_2 = t_3 \in  \bbt_3 \text{ of shape } n_1^{(3)} \times \cdots \times n_n^{(3)}
     \text{ where} \\
-    \forall p \in \{1, 2, \ldots, n\}, n_p^{(3)} = n_p^{(1)} - n_p^{(2)} + 1 \\
+    \forall p \in \llbracket 1, n \rrbracket, n_p^{(3)} = n_p^{(1)} - n_p^{(2)} + 1 \\
     t_3[i_1, \ldots, i_n] =
     \displaystyle \sum_{k_1=1}^{n_1^{(2)}} \cdots \sum_{k_n=1}^{n_n^{(2)}}
     t_1[i_1 + n_1^{(2)} - k_1, \ldots, i_n + n_n^{(2)} - k_n] \hspace{2pt} t_2[k_1, \ldots, k_n] \\
@@ -188,13 +188,13 @@ where we recognize a tensor contraction. \propref{prop:matprodeq} concludes.
 The two following operations are meant to further decrease the shape of the resulting output.
 
 \begin{definition}\textbf{Strided convolution}\\
-The $n$-dimensional \emph{strided} convolution, with strides $s = (s_1, s_2, \ldots, s_n)$, denoted $\ast^n_s$, between $t_1 \in \bbt_1$ and $t_2 \in \bbt_2$, where $\bbt_1$ and $\bbt_2$ are of the same rank $n$ such that $\forall p \in \{1, 2, \ldots, n\}, n_p^{(1)} \ge n_p^{(2)}$, is defined as:
+The $n$-dimensional \emph{strided} convolution, with strides $s = (s_1, s_2, \ldots, s_n)$, denoted $\ast^n_s$, between $t_1 \in \bbt_1$ and $t_2 \in \bbt_2$, where $\bbt_1$ and $\bbt_2$ are of the same rank $n$ such that $\forall p \in \llbracket 1, n \rrbracket, n_p^{(1)} \ge n_p^{(2)}$, is defined as:
 \begin{gather*}
 \left\{
   \begin{array}{l}
     t_1 \ast^n_s t_2 = t_4 \in  \bbt_4 \text{ of shape } n_1^{(4)} \times \cdots \times n_n^{(4)}
     \text{ where} \\
-    \forall p \in \{1, 2, \ldots, n\}, n_p^{(4)} = \lfloor\frac{n_p^{(1)} - n_p^{(2)} + 1}{s_p}\rfloor \\
+    \forall p \in \llbracket 1, n \rrbracket, n_p^{(4)} = \lfloor\frac{n_p^{(1)} - n_p^{(2)} + 1}{s_p}\rfloor \\
     t_4[i_1, \ldots, i_n] = (t_1 \ast^n t_2)[(i_1 - 1)s_n + 1, \ldots, (i_n - 1)s_n + 1]\\
   \end{array}
 \right.
