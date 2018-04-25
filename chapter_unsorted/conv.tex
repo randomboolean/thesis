@@ -1,4 +1,4 @@
-\section{The convolution challenge on graphs (draft)}
+\section{Convolutions on graphs (draft)}
 
 Defining a convolution on graphs is a challenging problem. Obviously, the underlying structure determined by a graph is not necessarily isomorphic to a set onto which the convolution is already defined. 
 
@@ -18,41 +18,92 @@ We shall first study classes of graphs onto which the convolution can be natural
 
 \subsection{Convolution on grids}
 
-We first consider a grid graph $G = \langle V,E \rangle$ agnostically of its edges \ie $G \cong \bbz^2$.
+We first consider a grid graph $G = \langle V,E \rangle$ agnostically of its edges \ie $G \cong \bbz^2$. By restriction to compactly supported signals, this case encompass the case of images.
+
+\begin{definition}\textbf{Transformation}\\
+A transformation $f: V \rightarrow V$ is a function with same domain and codomain.
+
+Its definition is naturally extended to real-valued signals $f: \cs(V) \rightarrow \cs(V)$ with the notation
+\begin{gather*}
+\forall s \in \cs(V), \forall v \in V, f(s)[v] = \sum_{u \in f^{-1}\{v\}}{s[u]}
+\end{gather*}
+\end{definition}
 
 \begin{definition}\textbf{Translation on $\cs(\bbz^2)$}\\
-A translation on $\bbz^2$ is defined as a function $t: \bbz^2 \rightarrow \bbz^2$ such that
+A translation on $\bbz^2$ is defined as a transformation $t: \bbz^2 \rightarrow \bbz^2$ such that
 \begin{gather*}
 \exists (a,b) \in \bbz^2, \forall (x,y) \in \bbz^2, t(x,y) = (x+a,y+b)
 \end{gather*}
-Its definition is naturally extended to signal functions $t: \cs(\bbz^2) \rightarrow \cs(\bbz^2)$ with the notation 
+It is extended to $\cs(\bbz^2)$ and denoted $t_{a,b}$ \ie
 \begin{gather*}
-\forall s \in \cs(\bbz^2), t(s)[x,y] = s[x-a, y-b]
+\forall s \in \cs(\bbz^2), \forall (x,y) \in \bbz^2, t_{a,b}(s)[x,y] = s[x-a, y-b]
 \end{gather*}
 For any set $E$, we denote by $\ct(E)$ its translations.
 \end{definition}
 
-\begin{proposition}\textbf{Equivariance to translations}\\
-On signals over $\bbz^2$, the class of linear functions that are equivariant to translations is exactly the class of convolutive operations on signals \ie
+\begin{proposition}\textbf{Characterization of convolution operators on $\cs(\bbz^2)$}\\
+On real-valued signals over $\bbz^2$, the class of linear transformations that are equivariant to translations is exactly the class of convolutive operations \ie
 \begin{gather*}
 \begin{cases}
  f \in \cl(\cs(\bbz^2))\\
  \forall t \in \ct(\cs(\bbz^2)), f \circ t = t \circ f
 \end{cases}
- \Leftrightarrow \exists w \in \cs(\bbz^2), \forall s \in \cs(\bbz^2), f(s) = w \ast s
+ \Leftrightarrow \exists w \in \cs(\bbz^2), f = . \ast w
 \end{gather*}
+\label{prop:equi}
 \end{proposition}
 
 \begin{proof}
-\todo{proof without fourier transform}
+The fact that a convolution operator is equivariant to translations is a direct consequence of their definitions. We prove that the converse is also true.
+Let $f \in \cl(\cs(\bbz^2))$, $s \in \cs(\bbz^2)$. We suppose that $f$ commutes with translations.
+
+For $(x,y) \in \bbz^2$ we denote by $\delta_{x,y}$ the dirac signal
+\begin{gather*}
+\delta_{x,y}[i,j] = \begin{cases} 1 & \text{if } (x,y) = (i,j)\\ 0 & \text{otherwise} \end{cases}
+\end{gather*}
+Then,
+\begin{gather*}
+s = \displaystyle \sum_i \sum_j s[i,j] \h{2} \delta_{i,j}
+\end{gather*}
+By linearity of $f$, and equivariantness to translations:
+\begin{align*}
+f(s) & = \displaystyle \sum_i \sum_j s[i,j] \h{2} f(\delta_{i,j})\\
+ & = \displaystyle \sum_i \sum_j s[i,j] \h{2} f \circ t_{i,j} (\delta_{0,0})\\
+ & = \displaystyle \sum_i \sum_j s[i,j] \h{2} t_{i,j} \circ f (\delta_{0,0})
+\end{align*}
+By denoting $w = f (\delta_{0,0}) \in \cs(\bbz^2)$, we obtain:
+\begin{align*}
+\forall (a,b) \in \bbz^2, f(s)[a,b] & = \displaystyle \sum_i \sum_j s[i,j] \h{2} t_{i,j}(w)[a,b]\\
+ & = \displaystyle \sum_i \sum_j s[i,j] \h{2} w[a-i, b-j]\\
+\text{\ie } f(s) & = s \ast w
+\end{align*}
 \end{proof}
 
-\begin{remark}
-CNN vs MLP, expressive efficiency
-\end{remark}
+One important argument in favor of convolutional neural networks is that convolutional layers are equivariant to translations. Intuitively, that means that an object in an image should produce the same features independently of its position in the image. In fact, any neural layer that is equivariant to translations is also a convolutional layer, as a consequence of~\propref{prop:equi}. It shall then be natural that convolutions are constructed from this characterization.
 
+To construct convolution operators on any graph $G$ with this characterization, we note from the former proof that all we need is the definition of the translations $t_{i,j}$, which have no reason whatsoever to be defined naturally on~$G$. More generally, any class of transformations on the vertices that would be entirely determined by their image on a certain vertex would be enough to construct a class of convolution operators. This give rize to the following definition.
 
+\begin{definition}\textbf{(Generalized) $\cp$-equivariant convolution operator}\\
+Let $G = \langle V,E \rangle$ a graph, not necessarily a grid. Let $v_0 \in V$. Let $\cp$ a set of transformations on $V$ and extended on $\cs(V)$, such that $\forall v \in V, \exists! p_v \in \cp, p_v(v_0) = v$. Then, the  $\cp$-equivariant convolution operator $f_w$ is defined as
+\begin{gather*}
+\forall s \in \cs(V), f_w(s) = s \ast_{\cp} w = \displaystyle \sum_v s[v] \h{2} p_v(w)
+\end{gather*}
+\end{definition}
 
+\begin{proposition}\textbf{Characterization of $\cp$-eq. convolution operator}\\
+Let $\cp$ as previously.
+\begin{gather*}
+\begin{cases}
+ f \in \cl(\cs(V))\\
+ \forall p \in \cp, f \circ p = p \circ f
+\end{cases}
+ \Leftrightarrow \exists w \in \cs(\bbz^2), f = . \ast_{\cp} w
+\end{gather*}
+\label{prop:equi}
+\end{proposition}
+
+*note on drawbacks. If transformations were a group -> group convolution.
+*note on morphisms
 
 \subsection{Special classes of graphs}
 
