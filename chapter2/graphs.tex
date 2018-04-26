@@ -1,6 +1,8 @@
-\section{Graphs}
+\section{Graphs and signals}
 
 \subsection{Basic definitions}
+
+\subsubsection{Graphs}
 
 \begin{definition}\textbf{Graph}\\
 A \emph{graph} $G$ is defined as a couple of sets $\langle V,E \rangle$ where $V$ is the set of \emph{vertices}, also called \emph{nodes}, and $E \subseteq\binom{V}{2}$ is the set of \emph{edges}. For all $u, v \in V$ we define the relation $u \sim v \Leftrightarrow \{u,v\} \in E$. Unless stated otherwise, we will consider only \emph{weighted} graphs \ie each graph $G$ is associated with a weight mapping $w: E \rightarrow \bbr^*$.
@@ -85,6 +87,40 @@ A \emph{(rectangular) grid graph} of size $n \times m$ is the subgraph of a grid
 
 A \emph{square grid graph} is a rectangular grid graph of square size.
 \end{definition}
+
+\subsubsection{(Real-valued) Signals}
+
+\begin{definition}\textbf{Signal space}\\
+The \emph{signal space} $\cs(V)$, over the set $V$, is the linear space of real-valued functions defined on $V$.
+\end{definition}
+
+We have $\dim(\cs(V)) = |V| \in \bbn \cup \{+\infty\}$.
+
+\begin{remark}
+In particular, a vector space, and more generally a tensor space, are finite-dimensional signal spaces over any of their bases.
+\end{remark}
+
+\begin{definition}\textbf{Signal}\\
+A \emph{signal} over $V$, $s \in \cs(V)$, is a function $s: V \rightarrow \bbr$.
+
+An \emph{entry} of a signal $s$ is an image by $s$ of some $v \in V$ and we denote $s[v]$. If~$v$~is represented by a $n$-tuple, we can also write $s[v_1, v_2, \ldots, v_n]$.
+
+The \emph{support} of a signal $s \in \cs(V)$ is $\supp(s) = \{ v \in V, s[v] \neq 0 \}$.
+\end{definition}
+
+\begin{definition}\textbf{Graph signal}\\ 
+A \emph{graph signal} over $G$ is a signal over its vertex set. We denote by $\cs(G)$ the graph signal space.
+\end{definition}
+
+We have $\dim(\cs(G)) = \order(G) \in \bbn \cup \{+\infty\}$.
+
+\begin{definition}\textbf{Underlying structure}\\
+An \emph{(underlying) structure} of a signal $s$ over a set $V$, is a graph $G$ with vertex set $V$.
+\end{definition}
+
+\begin{remark}\textbf{Example of images, time series and graph signals}\\
+When their is a unique clear underlying structure, we say it is \emph{the} underlying structure. For example, images are compactly supported signals over $\bbz^2$ and their underlying structure is a rectangular grid graph. Time series are signals over $\bbn$ and their underlying structure is a line graph. The underlying structure of a graph signal is obviously the graph itself.
+\end{remark}
 
 \subsection{Graphs in deep learning}
 
