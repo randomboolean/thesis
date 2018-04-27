@@ -21,11 +21,11 @@ A \emph{graph} $G$ is defined as a couple of sets $\langle V,E \rangle$ where $V
 \end{figure}
 
 \begin{definition}\textbf{Order}\\
-The order of a graph $G = \langle V,E \rangle$ is define as $\order(G) = |V| \in \bbn \cup \{+\infty\}$
+The order of a graph $\gve$ is define as $\order(G) = |V| \in \bbn \cup \{+\infty\}$
 \end{definition}
 
 \begin{definition}\textbf{Adjacency matrix}\\
-The \emph{adjacency matrix} of a finite graph $G = \langle V,E \rangle$ of order $n$, is a $n \times n$ real-valued matrix $A$ associated to an indexing of $V = \{v_1, v_2, \ldots v_n\}$, such that
+The \emph{adjacency matrix} of a finite graph $\gve$ of order $n$, is a $n \times n$ real-valued matrix $A$ associated to an indexing of $V = \{v_1, v_2, \ldots v_n\}$, such that
 \begin{gather*}
 A[i,j] =
  \begin{cases}
@@ -36,7 +36,7 @@ A[i,j] =
  \end{definition}
 
 \begin{definition}\textbf{Degree}\\
-The \emph{degree} of a vertex $v \in V$ of a graph $G = \langle V,E \rangle$ is defined as $\deg(v) = |\{u \in V, u \sim v\}| \in \bbn \cup \{+\infty\}$.
+The \emph{degree} of a vertex $v \in V$ of a graph $\gve$ is defined as $\deg(v) = |\{u \in V, u \sim v\}| \in \bbn \cup \{+\infty\}$.
 
 The \emph{degree} of the graph $G$ is defined as $\deg(G) = \displaystyle \max_{v \in V}\{\deg(v)\}$.
 
@@ -44,11 +44,11 @@ A graph is said to be \emph{regular} if $\deg$ is constant on the vertices.
 \end{definition}
 
 \begin{definition}\textbf{Degree matrix}\\
-The \emph{degree matrix} of a finite graph $G = \langle V,E \rangle$ of order $n$, is the diagonal matrix $D$, associated to an indexing of $V = \{v_1, v_2, \ldots v_n\}$, such that $D = \diag(\deg(v_1), \deg(v_2), \ldots, \deg(v_n))$.
+The \emph{degree matrix} of a finite graph $\gve$ of order $n$, is the diagonal matrix $D$, associated to an indexing of $V = \{v_1, v_2, \ldots v_n\}$, such that $D = \diag(\deg(v_1), \deg(v_2), \ldots, \deg(v_n))$.
 \end{definition}
 
 \begin{definition}\textbf{Laplacian matrix}\\
-The \emph{laplacian matrix} of a graph $G = \langle V,E \rangle$ of order $n$, associated to an indexing of $V = \{v_1, v_2, \ldots v_n\}$, is defined as $L = D - A$, where $D$ is the degree matrix and $A$ is the adjacency matrix.
+The \emph{laplacian matrix} of a graph $\gve$ of order $n$, associated to an indexing of $V = \{v_1, v_2, \ldots v_n\}$, is defined as $L = D - A$, where $D$ is the degree matrix and $A$ is the adjacency matrix.
 \end{definition}
 
 \begin{definition}\textbf{Digraph}\\
@@ -67,11 +67,11 @@ A[i,j] =
 \end{definition}
 
 \begin{definition}\textbf{Induced subgraph}\\
-The \emph{subgraph} $\widetilde{G} = \langle \widetilde{V},\widetilde{E} \rangle$ of a graph $G = \langle V,E \rangle$, \emph{induced} by $\widetilde{V} \subseteq V$, is such that $\forall (u,v) \in \widetilde{V}^2, u \overset{\widetilde{G}}{\sim} v \Leftrightarrow u \overset{G}{\sim} v$.
+The \emph{subgraph} $\widetilde{G} = \langle \widetilde{V},\widetilde{E} \rangle$ of a graph $\gve$, \emph{induced} by $\widetilde{V} \subseteq V$, is such that $\forall (u,v) \in \widetilde{V}^2, u \overset{\widetilde{G}}{\sim} v \Leftrightarrow u \overset{G}{\sim} v$.
 \end{definition}
 
 \begin{definition}\textbf{Grid graph}\\
-A \emph{grid graph} $G = \langle V,E \rangle$ is 
+A \emph{grid graph} $\gve$ is 
 such that $V \cong \bbz^2$, $v_1 \sim v_2 \Rightarrow \|v_2 -v_1\|_\infty \in \{0, 1\}$ and either one of the following is true:
 \begin{gather*}
 \left\{
