@@ -122,6 +122,24 @@ An \emph{(underlying) structure} of a signal $s$ over a set $V$, is a graph $G$ 
 When their is a unique clear underlying structure, we say it is \emph{the} underlying structure. For example, images are compactly supported signals over $\bbz^2$ and their underlying structure is a rectangular grid graph. Time series are signals over $\bbn$ and their underlying structure is a line graph. The underlying structure of a graph signal is obviously the graph itself.
 \end{remark}
 
+Let's recall what is a transformation, and how it acts on signals.
+
+\begin{definition}\textbf{Transformation}\\
+A \emph{transformation} $f: V \rightarrow V$ is a function with same domain and codomain. The set of transformations is denoted $\Phi(V)$. The set of bijective transformations is denoted $\Phi^*(V) \subset \Phi(V)$.
+
+In case $f \in \Phi^*(V)$, it can act on $\cs(V)$ through the linear operator $L_f \in \cl(\cs(V))$ defined as:
+\begin{gather*}
+\forall s \in \cs(V), \forall v \in V, f(s)[v] := L_f s[v] = s[f^{-1}(v)]
+\end{gather*}
+\ie an entry of a transformed signal is obtained by doing a lookup of the entry of the original signal.
+
+In case $f \notin \Phi^*(V)$, we can still define $L_f \in \cl(\cs(V))$, however we need to linearly aggregate the entries on the fibers:
+\begin{gather*}
+\forall s \in \cs(V), \forall v \in V, f(s)[v] := L_f s[v] = \agg\{s[u], u \in f^{-1}\{v\}\}
+\end{gather*}
+where $\agg$ can be for example the sum, the average, or the max, and $\agg(\emptyset) = 0$.
+\end{definition}
+
 \subsection{Graphs in deep learning}
 
 \todo{below}

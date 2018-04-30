@@ -18,25 +18,9 @@ We shall first study classes of graphs onto which the convolution can be natural
 
 *Convolution on linear combination of circulant graphs
 
-\subsection{Convolution without the edges}
+\subsection{Regular convolutions}
 
 We first consider a grid graph $\gve$ agnostically of its edges \ie $G \cong \bbz^2$. By restriction to compactly supported signals, this case encompass the case of images.
-
-\begin{definition}\textbf{Transformation}\\
-A \emph{transformation} $f: V \rightarrow V$ is a function with same domain and codomain. The set of transformations is denoted $\Phi(V)$. The set of bijective transformations is denoted $\Phi^*(V) \subset \Phi(V)$.
-
-In case $f \in \Phi^*(V)$, it can act on $\cs(V)$ through the linear operator $L_f \in \cl(\cs(V))$ defined as:
-\begin{gather*}
-\forall s \in \cs(V), \forall v \in V, f(s)[v] := L_f s[v] = s[f^{-1}(v)]
-\end{gather*}
-\ie an entry of a transformed signal is obtained by doing a lookup of the entry of the original signal.
-
-In case $f \notin \Phi^*(V)$, we can still define $L_f \in \cl(\cs(V))$, however we need to linearly aggregate the entries on the fibers:
-\begin{gather*}
-\forall s \in \cs(V), \forall v \in V, f(s)[v] := L_f s[v] = \agg\{s[u], u \in f^{-1}\{v\}\}
-\end{gather*}
-where $\agg$ can be for example the sum, the average, or the max, and $\agg(\emptyset) = 0$.
-\end{definition}
 
 \begin{definition}\textbf{Translation on $\cs(\bbz^2)$}\\
 A translation on $\bbz^2$ is defined as a transformation $t \in \Phi^*(\bbz^2)$ such that
@@ -47,7 +31,14 @@ It also acts on $\cs(\bbz^2)$ with the notation $t_{a,b}$ \ie
 \begin{gather*}
 \forall s \in \cs(\bbz^2), \forall (x,y) \in \bbz^2, t_{a,b}(s)[x,y] = s[x-a, y-b]
 \end{gather*}
-For any set $E$, we denote by $\ct(E)$ its translations.
+For any set $E$, we denote by $\ct(E)$ its translations if they are defined.
+\end{definition}
+
+\begin{definition}\textbf{Convolution on $\cs(\bbz^2)$}\\
+Recall that the convolution between two signals $s_1$ and $s_2$ over $\bbz^2$ is a binary operator in $\cs(\bbz^2)$ defined as:
+\begin{align*}
+\forall (a,b) \in \bbz^2, (s_1 * s_2) [a,b] & = \displaystyle \sum_i \sum_j s_1[i,j] \h{2} s_2[a-i, b-j]
+\end{align*}
 \end{definition}
 
 The next proposition can be seen as a discretization of a classic result in distribution theory.
@@ -65,10 +56,10 @@ On real-valued signals over $\bbz^2$, the class of linear transformations that a
 \end{proposition}
 
 \begin{proof}
-The converse is a direct consequence of the definitions:
+The result from right to left is a direct consequence of the definitions:
 \begin{align}
 \forall s \in \cs(\bbz^2), \forall (a,b) \in \bbz^2, & \forall (\alpha, \beta) \in \bbz^2, \forall s' \in \cs(\bbz^2),\nonumber\\
- f_w(s)[a,b] & = \displaystyle \sum_i \sum_j s[i,j] \h{2} w[a-i, b-j] \tag{definition}\\
+ %f_w(s)[a,b] & = \displaystyle \sum_i \sum_j s[i,j] \h{2} w[a-i, b-j] \tag{definition}\\
  f_w(\alpha s + \beta s')[a,b] & = \displaystyle \sum_i \sum_j (\alpha s + \beta s')[i,j] \h{2} w[a-i, b-j]\nonumber\\
  & = \alpha f_w(s)[a,b] + \beta f_w(s')[a,b] \tag{linearity}\\
 f_w \circ t_{\alpha,\beta} (s)[a,b] & = \displaystyle \sum_i \sum_j t_{\alpha,\beta}(s)[i,j] \h{2} w[a-i, b-j]\nonumber\\
@@ -77,16 +68,12 @@ f_w \circ t_{\alpha,\beta} (s)[a,b] & = \displaystyle \sum_i \sum_j t_{\alpha,\b
  & = f_w (s)[a - \alpha,b - \beta]\nonumber\\
  & = t_{\alpha,\beta} \circ f_w (s)[a,b] \tag{equivariance}
 \end{align}
-Now let's prove the direct sense.
-Let $f \in \cl(\cs(\bbz^2))$, $s \in \cs(\bbz^2)$. We suppose that $f$ commutes with translations.
+Now let's prove the result from left to right.
 
-For $(x,y) \in \bbz^2$ we denote by $\delta_{x,y}$ the dirac signal
+Let $f \in \cl(\cs(\bbz^2))$, $s \in \cs(\bbz^2)$. We suppose that $f$ commutes with translations. Recall that $s$ can be linearly decomposed on the infinite family of dirac signals:
 \begin{gather*}
-\delta_{x,y}[i,j] = \begin{cases} 1 & \text{if } (x,y) = (i,j)\\ 0 & \text{otherwise} \end{cases}
-\end{gather*}
-Then,
-\begin{gather*}
-s = \displaystyle \sum_i \sum_j s[i,j] \h{2} \delta_{i,j}
+s = \displaystyle \sum_i \sum_j s[i,j] \h{2} \delta_{i,j} \text{, where }
+\delta_{i,j}[x,y] = \begin{cases} 1 & \text{if } (x,y) = (i,j)\\ 0 & \text{otherwise} \end{cases}
 \end{gather*}
 By linearity of $f$ and then equivariance to translations:
 \begin{align*}
@@ -103,13 +90,12 @@ By denoting $w = f (\delta_{0,0}) \in \cs(\bbz^2)$, we obtain:
 \end{proof}
 
 \begin{remark}\textbf{Superiority of CNNs over MLPs}\\
-In deep learning, an important argument in favor of CNNs is that convolutional layers are equivariant to translations. Intuitively, that means that an object in an image should produce the same features independently of its position in the image. In fact, as a consequence of~\propref{prop:equi} any neural layer that is equivariant to translations is also a convolutional layer. So every equivariant functions are in the search space of each layers of CNNs. When such property is known to hold for the objective function, then the reduction of parameters from an MLP to a CNN is done with strictly no loss of effective expressivity. On the contrary, it helps the training to search in a much more confined space.
+In deep learning, an important argument in favor of CNNs is that convolutional layers are equivariant to translations. Intuitively, that means that an object in an image should produce the same features independently of its position in the image. The converse result, as a consequence of~\propref{prop:equi}, is never mentioned in deep learning literature. However it is also a strong result: it implies that the reduction of parameters from an MLP to a CNN is done with strictly no loss of expressivity as every equivariant objective functions are in the search space of each layers of CNNs. Besides, it helps the training to search in a much more confined space.
 \end{remark}
 
-\begin{remark}\textbf{Construction of convolutions}\\
-As \propref{prop:equi} is a complete characterization of convolutions, it can be used to define them. This can be a lead to define convolutions on graphs, either by defining meaningful translations on graphs (see \secref{}), or by a construction that would be equivariant to a certain class of transformations. For the later possibility, we see in the proof of \propref{prop:equi} that the reindexing of \eqref{eq:bij} requires bijective transformations
+\begin{remark}\textbf{Construction of convolutions and generalized convolution}\\
+As \propref{prop:equi} is a complete characterization of convolutions, it can be used to define them. This can be a used to define convolutions on graphs, either by defining meaningful translations on graphs (see \secref{}), or by a construction that would be equivariant to a certain class of transformations. For the later possibility, we see in the proof of \propref{prop:equi} that the reindexing of \eqref{eq:bij} requires bijective transformations, and that \ref{eq:conv} requires that the transformation of the kernel signal $w$ is vertex dependent.
 \end{remark}
-
 
 It shall then be natural that convolutions are constructed from this characterization.
 
