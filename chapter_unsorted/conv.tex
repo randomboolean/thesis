@@ -67,6 +67,8 @@ Recall that the convolution between two signals $s_1$ and $s_2$ over $\bbz^2$ is
 
 The next proposition can be seen as a discretization of a classic result in distribution theory.
 
+\todo{check usage of $\cl$ and $\Phi$}
+
 \begin{proposition}\textbf{Characterization of convolution operators on $\cs(\bbz^2)$}\\
 On real-valued signals over $\bbz^2$, the class of linear transformations that are equivariant to translations is exactly the class of convolutive operations \ie
 \begin{gather*}
@@ -114,7 +116,7 @@ By denoting $w = f (\delta_{0,0}) \in \cs(\bbz^2)$, we obtain:
 \end{proof}
 
 \begin{remark}\textbf{Superiority of CNNs over MLPs}\\
-In deep learning, an important argument in favor of CNNs is that convolutional layers are equivariant to translations. Intuitively, that means that an object in an image should produce the same features independently of its position in the image. The converse result, as a consequence of~\propref{prop:equi}, is never mentioned in deep learning literature. However it is also a strong result: it implies that the reduction of parameters from an MLP to a CNN is done with strictly no loss of expressivity as every equivariant objective functions are in the search space of each layers of CNNs. Besides, it helps the training to search in a much more confined space.
+In deep learning, an important argument in favor of CNNs is that convolutional layers are equivariant to translations. Intuitively, that means that a detail of an object in an image should produce the same features independently of its position in the image. The converse result, as a consequence of~\propref{prop:equi}, is never mentioned in deep learning literature. However it is also a strong result: it implies that the reduction of parameters from an MLP to a CNN is done with strictly no loss of expressivity as every equivariant objective functions are in the search space of each layers of CNNs. Besides, it helps the training to search in a much more confined space.
 \end{remark}
 
 \subsubsection{Construction}
@@ -134,12 +136,17 @@ provided one of the signals has finite support if $\group$ is not finite.
 
 For a graph $\gve$ and a subgroup $\Gamma \subset \Phi^*(V)$, this definition is applicable for $\cs(\Gamma)$, but not yet for $\cs(V)$. To alleviate this issue, let's introduce the neutral elements $\delta$ of the convolution, and the neutral element $\id \in \Phi^*(V)$.
 
+\todo{lemme on existence of uncountable linearly independent irrational family ?}
+
 \begin{proposition} The group convolution on $\cs(\Gamma)$ has a unique neutral element which is the dirac signal on the identity tranformation.
 \end{proposition}
 \begin{proof}
 Denote $\delta$ a neutral element. Note as per associativity of the group convolution, a left neutral element is also a right neutral element. We have $$s[h] = (\delta \ast s)[h] = \displaystyle \sum_{g \in \Gamma} \delta[g] \h{2} s[g^{-1}h]$$ which is true for any real valued signal. By chosing a signal $\pi$ having linearly independant irrational entries (and using the axiom of choice in case G is not finite), we obtain that $$\delta[g] = \begin{cases} 1 \text{ if } g = \id\\ 0 \text{ otherwise}\end{cases} \ie \quad \delta = \delta_{\id}$$
 Conversely, $(\delta_{\id} \ast s)[h] = 1 . s[{\id}^{-1}h] = s[h]$.
 \end{proof}
+
+With the help of $\delta$, we follow the same process as in the proof of \propref{prop:equi}, see \eqref{eq:conv}, to construct the class of group convolutional operators which defines exactly the class of linear transformations that are equivariant to certain group.
+
 
 % \begin{definition}\textbf{Group convolution}\\
 
