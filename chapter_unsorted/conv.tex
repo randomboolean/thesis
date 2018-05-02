@@ -18,9 +18,33 @@ We shall first study classes of graphs onto which the convolution can be natural
 
 *Convolution on linear combination of circulant graphs
 
-\subsection{Regular convolutions}
+\todo{brief outline}
 
-We first consider a grid graph $\gve$ agnostically of its edges \ie $G \cong \bbz^2$. By restriction to compactly supported signals, this case encompass the case of images.
+\subsection{Convolution on vertex sets}
+
+We first consider in this subsection a graph $G$ agnostically of its edges \ie $G \cong V$.
+
+Let's recall what is a transformation, and how it acts on signals.
+
+\begin{definition}\textbf{Transformation}\\
+A \emph{transformation} $f: V \rightarrow V$ is a function with same domain and codomain. The set of transformations is denoted $\Phi(V)$. The set of bijective transformations is denoted $\Phi^*(V) \subset \Phi(V)$.
+
+In case $f \in \Phi^*(V)$, it can act on $\cs(V)$ through the linear operator $L_f \in \cl(\cs(V))$ defined as:
+\begin{gather*}
+\forall s \in \cs(V), \forall v \in V, f(s)[v] := L_f s[v] = s[f^{-1}(v)]
+\end{gather*}
+\ie an entry of a transformed signal is obtained by doing a lookup of the entry of the original signal.
+
+In case $f \notin \Phi^*(V)$, we can still define $L_f \in \cl(\cs(V))$, however we need to linearly aggregate the entries on the fibers:
+\begin{gather*}
+\forall s \in \cs(V), \forall v \in V, f(s)[v] := L_f s[v] = \agg\{s[u], u \in f^{-1}\{v\}\}
+\end{gather*}
+where $\agg$ can be for example the sum, the average, or the max, and $\agg(\emptyset) = 0$.
+\end{definition}
+
+\subsubsection{Characterization on grid graphs}
+
+Consider an edge-less grid graph \ie $G \cong \bbz^2$. By restriction to compactly supported signals, this case encompass the case of images.
 
 \begin{definition}\textbf{Translation on $\cs(\bbz^2)$}\\
 A translation on $\bbz^2$ is defined as a transformation $t \in \Phi^*(\bbz^2)$ such that
@@ -93,13 +117,51 @@ By denoting $w = f (\delta_{0,0}) \in \cs(\bbz^2)$, we obtain:
 In deep learning, an important argument in favor of CNNs is that convolutional layers are equivariant to translations. Intuitively, that means that an object in an image should produce the same features independently of its position in the image. The converse result, as a consequence of~\propref{prop:equi}, is never mentioned in deep learning literature. However it is also a strong result: it implies that the reduction of parameters from an MLP to a CNN is done with strictly no loss of expressivity as every equivariant objective functions are in the search space of each layers of CNNs. Besides, it helps the training to search in a much more confined space.
 \end{remark}
 
-\begin{remark}\textbf{Construction of convolutions and generalized convolution}\\
-As \propref{prop:equi} is a complete characterization of convolutions, it can be used to define them. This can be a used to define convolutions on graphs, either by defining meaningful translations on graphs (see \secref{}), or by a construction that would be equivariant to a certain class of transformations. For the later possibility, we see in the proof of \propref{prop:equi} that the reindexing of \eqref{eq:bij} requires bijective transformations, and that \ref{eq:conv} requires that the transformation of the kernel signal $w$ is vertex dependent.
-\end{remark}
+\subsubsection{Construction}
 
-It shall then be natural that convolutions are constructed from this characterization.
+As \propref{prop:equi} is a complete characterization of convolutions, it can be used to define them \ie convolutive operations can be constructed as the set of linear transformations that are equivariant to translations. However, in the general case where $G$ is not a grid graph, translations are not defined, so that construction needs to be generalized beyond translational equivariances.
 
-To construct convolution operators on any graph $G$ with this characterization, we note from the former proof that all we need is the definition of the translations $t_{i,j}$, which have no reason whatsoever to be defined naturally on~$G$. More generally, any class of transformations on the vertices that would be entirely determined by their image on a certain vertex would be enough to construct a class of convolution operators. Such transformations would replace the translations $t_{i,j}$ in the construction of a convolution operator in line \eqref{eq:conv} of the previous proof. This give rize to the following definitions.
+A classic result from group theory is that this characterization hold for groups of (bijective) transformations, where the group of translations is a particular case. More generally, it also holds for groupoids.
+
+\begin{definition}\textbf{Group convolution}\\
+Let a group $\group$, the group convolution between two signals $s_1$ and $s_2 \in \cs(\group))$ is defined as:
+\begin{align*}
+\forall h \in \group, (s_1 \ast s_2)[h] & = \displaystyle \sum_{g \in \group} s_1[g] \h{2} s_2[g^{-1}h]%\\
+%& = \displaystyle \sum_{ab = h} s_1[a] \h{2} s_2[b]
+\end{align*}
+provided one of the signals has finite support if $\group$ is not finite.
+\end{definition}
+
+For a graph $\gve$ and a subgroup $\Gamma \subset \Phi^*(V)$, this definition is applicable for $\cs(\Gamma)$, but not yet for $\cs(V)$. To alleviate this issue, let's introduce the neutral elements $\delta$ of the convolution, and the neutral element $\id \in \Phi^*(V)$.
+
+\begin{proposition} The group convolution on $\cs(\Gamma)$ has a unique neutral element which is the dirac signal on the identity tranformation.
+\end{proposition}
+\begin{proof}
+Denote $\delta$ a neutral element. Note as per associativity of the group convolution, a left neutral element is also a right neutral element. We have $$s[h] = (\delta \ast s)[h] = \displaystyle \sum_{g \in \Gamma} \delta[g] \h{2} s[g^{-1}h]$$ which is true for any real valued signal. By chosing a signal $\pi$ having linearly independant irrational entries (and using the axiom of choice in case G is not finite), we obtain that $$\delta[g] = \begin{cases} 1 \text{ if } g = \id\\ 0 \text{ otherwise}\end{cases} \ie \quad \delta = \delta_{\id}$$
+Conversely, $(\delta_{\id} \ast s)[h] = 1 . s[{\id}^{-1}h] = s[h]$.
+\end{proof}
+
+% \begin{definition}\textbf{Group convolution}\\
+
+
+
+% \end{definition}
+
+
+
+
+
+
+
+
+On graphs, this could be used provided we defined meaningful translations beforehand (see \secref{}). Another possibilty would be to search for invariances with respect to graph equivariances and derive a convolution operator similarly than for translations. This approach, which uses group convolutions~\citep{weinstein1996groupoids}, has already been discussed on regular domain to extend CNNs to other invariances than translational ones~\citep{cohen2016group,hoogeboom2018hexaconv}, as well as on spherical domain with rotation equivariant CNNs~\citep{cohen2018spherical}. As stated from the previous remark, the big advantage of this approach is that there is no loss of expressivity. However on graphs, this would be more challenging as it's not likely there exists transformations with equivariances. However, let's suppose we found such a set of transformations on a graph, then for \propref{prop:equi} to hold (instead as for regular translations), we see in the proof that they need to be bijective \eqref{eq:bij} and vertex dependent \ref{eq:conv}.
+
+
+
+
+\subsection{}
+
+
 
 \begin{definition}\textbf{Grounded set of transformations}\\
 A set of transformations over a graph $\gve$, \emph{grounded} on a vertex $v_0 \in V$, denoted $\cp_{v_0} \subset \Phi(V)$, is a set that is in one-to-one correspondence with $V$, such that $\forall v \in V, \exists! p_v \in \cp_{v_0}, p_v(v_0) = v$.
