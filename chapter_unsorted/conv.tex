@@ -115,14 +115,14 @@ By denoting $w = f (\delta_{0,0}) \in \cs(\bbz^2)$, we obtain:
 \end{proof}
 
 \begin{remark}\textbf{Superiority of CNNs over MLPs}\\
-In deep learning, an important argument in favor of CNNs is that convolutional layers are equivariant to translations. Intuitively, that means that a detail of an object in an image should produce the same features independently of its position in the image. The converse result, as a consequence of~\propref{prop:equi}, is never mentioned in deep learning literature. However it is also a strong result: it implies that the reduction of parameters from an MLP to a CNN is done with strictly no loss of expressivity as every equivariant objective functions are in the search space of each layers of CNNs. Besides, it helps the training to search in a much more confined space.
+In deep learning, an important argument in favor of CNNs is that convolutional layers are equivariant to translations. Intuitively, that means that a detail of an object in an image should produce the same features independently of its position in the image. The converse result, as a consequence of~\propref{prop:equi}, is never mentioned in deep learning literature. However it is also a strong one: it implies that the reduction of parameters from an MLP to a CNN is done with strictly no loss of expressivity as it means that layers of CNNs have every translational equivariant functions in their search space. Besides, it helps the training to search in a much more confined space.
 \end{remark}
 
 \subsubsection{Construction}
 
 As \propref{prop:equi} is a complete characterization of convolutions, it can be used to define them \ie convolutive operations can be constructed as the set of linear transformations that are equivariant to translations. However, in the general case where $G$ is not a grid graph, translations are not defined, so that construction needs to be generalized beyond translational equivariances.
 
-A classic result from group theory is that this characterization hold for groups of (bijective) transformations, where the group of translations is a particular case. More generally, it also holds for groupoids \citep{weinstein1996groupoids}.
+A classic result from group theory is that one sense of this characterization (equivariance) hold for groups of (bijective) transformations, where the group of translations is a particular case. More generally, it also holds for groupoids \citep{weinstein1996groupoids}. The converse sense will be discussed later.
 
 \begin{definition}\textbf{Group convolution I}\\
 Let a group $\group$, the group convolution between two signals $s_1$ and $s_2 \in \cs(\group)$ is defined as:
