@@ -67,8 +67,6 @@ Recall that the convolution between two signals $s_1$ and $s_2$ over $\bbz^2$ is
 
 The next proposition can be seen as a discretization of a classic result in distribution theory.
 
-\todo{check usage of $\cl$ and $\Phi$}
-
 \begin{proposition}\textbf{Characterization of convolution operators on $\cs(\bbz^2)$}\\
 On real-valued signals over $\bbz^2$, the class of linear transformations that are equivariant to translations is exactly the class of convolutive operations \ie
 \begin{gather*}
@@ -84,10 +82,11 @@ On real-valued signals over $\bbz^2$, the class of linear transformations that a
 \begin{proof}
 The result from right to left is a direct consequence of the definitions:
 \begin{align}
-\forall s \in \cs(\bbz^2), \forall (a,b) \in \bbz^2, & \forall (\alpha, \beta) \in \bbz^2, \forall s' \in \cs(\bbz^2),\nonumber\\
+\forall s \in \cs(\bbz^2), \forall s' \in \cs(\bbz^2), & \forall (\alpha, \beta) \in \bbr^2,\forall (a,b) \in \bbz^2,\nonumber\\
  %f_w(s)[a,b] & = \displaystyle \sum_i \sum_j s[i,j] \h{2} w[a-i, b-j] \tag{definition}\\
  f_w(\alpha s + \beta s')[a,b] & = \displaystyle \sum_i \sum_j (\alpha s + \beta s')[i,j] \h{2} w[a-i, b-j]\nonumber\\
  & = \alpha f_w(s)[a,b] + \beta f_w(s')[a,b] \tag{linearity}\\
+\forall s \in \cs(\bbz^2), \forall (\alpha, \beta) \in \bbz^2, & \forall (a,b) \in \bbz^2,\nonumber\\
 f_w \circ t_{\alpha,\beta} (s)[a,b] & = \displaystyle \sum_i \sum_j t_{\alpha,\beta}(s)[i,j] \h{2} w[a-i, b-j]\nonumber\\
  & = \displaystyle \sum_i \sum_j s[i - \alpha,j - \beta] \h{2} w[a-i, b-j]\nonumber\\
  & = \displaystyle \sum_{i'} \sum_{j'} s[i',j'] \h{2} w[a - i' - \alpha, b - j'- \beta]\label{eq:bij}\\
@@ -123,10 +122,10 @@ In deep learning, an important argument in favor of CNNs is that convolutional l
 
 As \propref{prop:equi} is a complete characterization of convolutions, it can be used to define them \ie convolutive operations can be constructed as the set of linear transformations that are equivariant to translations. However, in the general case where $G$ is not a grid graph, translations are not defined, so that construction needs to be generalized beyond translational equivariances.
 
-A classic result from group theory is that this characterization hold for groups of (bijective) transformations, where the group of translations is a particular case. More generally, it also holds for groupoids.
+A classic result from group theory is that this characterization hold for groups of (bijective) transformations, where the group of translations is a particular case. More generally, it also holds for groupoids \citep{weinstein1996groupoids}.
 
-\begin{definition}\textbf{Group convolution}\\
-Let a group $\group$, the group convolution between two signals $s_1$ and $s_2 \in \cs(\group))$ is defined as:
+\begin{definition}\textbf{Group convolution on $\cs(\group)$}\\
+Let a group $\group$, the group convolution between two signals $s_1$ and $s_2 \in \cs(\group)$ is defined as:
 \begin{align*}
 \forall h \in \group, (s_1 \ast s_2)[h] & = \displaystyle \sum_{g \in \group} s_1[g] \h{2} s_2[g^{-1}h]%\\
 %& = \displaystyle \sum_{ab = h} s_1[a] \h{2} s_2[b]
@@ -134,67 +133,82 @@ Let a group $\group$, the group convolution between two signals $s_1$ and $s_2 \
 provided one of the signals has finite support if $\group$ is not finite.
 \end{definition}
 
-For a graph $\gve$ and a subgroup $\Gamma \subset \Phi^*(V)$, this definition is applicable for $\cs(\Gamma)$, but not yet for $\cs(V)$. To alleviate this issue, let's introduce the neutral elements $\delta$ of the convolution, and the neutral element $\id \in \Phi^*(V)$.
+For a graph $\gve$ and a subgroup $\Gamma \subset \Phi^*(V)$, this definition is applicable for $\cs(\Gamma)$, but not for $\cs(V)$ as $V$ is not a group.
 
-\todo{lemme on existence of uncountable linearly independent irrational family ?}
+Nonetheless, let's assume we can provide $V$ with a group structure by exhibiting an isomorphism $\varphi$ from $\Gamma$ to $V$. Then, the linear morphism $\widetilde\varphi$ from $\cs(\Gamma)$ to $\cs(V)$ defined by $\widetilde\varphi(\delta_g) = \delta_{\varphi(g)}$ is also an isomorphism. Hence, $V$ and $\cs(V)$ would inherit the same inherent structural properties as $\Gamma$ and $\cs(\Gamma)$, in addition of being related in the same way. For notational simplicity, we will use the same symbol $\varphi$ for $\varphi$ and $\widetilde\varphi$ (as done between $f$ and $L_f$). A relational diagram between the sets is depicted on \figref{fig:iso}.
 
-\begin{proposition} The group convolution on $\cs(\Gamma)$ has a unique neutral element which is the dirac signal on the identity tranformation.
-\end{proposition}
-\begin{proof}
-Denote $\delta$ a neutral element. Note as per associativity of the group convolution, a left neutral element is also a right neutral element. We have $$s[h] = (\delta \ast s)[h] = \displaystyle \sum_{g \in \Gamma} \delta[g] \h{2} s[g^{-1}h]$$ which is true for any real valued signal. By chosing a signal $\pi$ having linearly independant irrational entries (and using the axiom of choice in case G is not finite), we obtain that $$\delta[g] = \begin{cases} 1 \text{ if } g = \id\\ 0 \text{ otherwise}\end{cases} \ie \quad \delta = \delta_{\id}$$
-Conversely, $(\delta_{\id} \ast s)[h] = 1 . s[{\id}^{-1}h] = s[h]$.
-\end{proof}
+\begin{figure}[H]
+\centering
+\begin{tikzcd}%
+    \Gamma \arrow{r}{\varphi}  \arrow{d}[swap]{\cs}  & V \arrow{d}{\cs}\\  
+    \cs(\Gamma) \arrow{r}[swap]{\varphi}  & \cs(V) 
+\end{tikzcd}%
+\caption{Relational diagram}
+\label{fig:iso}
+\end{figure}
 
-With the help of $\delta$, we follow the same process as in the proof of \propref{prop:equi}, see \eqref{eq:conv}, to construct the class of group convolutional operators which defines exactly the class of linear transformations that are equivariant to certain group.
+Hence, we can define the group convolution as follows:
 
-
-% \begin{definition}\textbf{Group convolution}\\
-
-
-
-% \end{definition}
-
-
-
-
-
-
-
-
-On graphs, this could be used provided we defined meaningful translations beforehand (see \secref{}). Another possibilty would be to search for invariances with respect to graph equivariances and derive a convolution operator similarly than for translations. This approach, which uses group convolutions~\citep{weinstein1996groupoids}, has already been discussed on regular domain to extend CNNs to other invariances than translational ones~\citep{cohen2016group,hoogeboom2018hexaconv}, as well as on spherical domain with rotation equivariant CNNs~\citep{cohen2018spherical}. As stated from the previous remark, the big advantage of this approach is that there is no loss of expressivity. However on graphs, this would be more challenging as it's not likely there exists transformations with equivariances. However, let's suppose we found such a set of transformations on a graph, then for \propref{prop:equi} to hold (instead as for regular translations), we see in the proof that they need to be bijective \eqref{eq:bij} and vertex dependent \ref{eq:conv}.
-
-
-
-
-\subsection{}
-
-
-
-\begin{definition}\textbf{Grounded set of transformations}\\
-A set of transformations over a graph $\gve$, \emph{grounded} on a vertex $v_0 \in V$, denoted $\cp_{v_0} \subset \Phi(V)$, is a set that is in one-to-one correspondence with $V$, such that $\forall v \in V, \exists! p_v \in \cp_{v_0}, p_v(v_0) = v$.
+\begin{definition}\textbf{Group convolution on $\cs(V \cong \Gamma)$}\\
+Let $\Gamma \subset \Phi^*(V)$ such that $V \cong \Gamma$ through an isomorphism $g_v \overset{\varphi}\mapsto v$.
+The group convolution between two signals $s_1$ and $s_2 \in \cs(V)$ is defined as:
+\begin{align*}
+(s_1 \ast s_2) [u] & = \displaystyle \sum_{v \in V} s_1[v] \h{2} s_2[\varphi(g_v^{-1}g_u)]\\
+& = \displaystyle \sum_{\substack{(a,b) \in V^2 \\ \st g_ag_b=g_u }} s_1[a] \h{2} s_2[b]
+\end{align*}
 \end{definition}
 
-We have $\cp_{v_0} = \order(G) \in \bbn \cup \{+\infty\}$. For notational convenience we drop the subscript $_{v_0}$ in what follows.
-
-\begin{definition}\textbf{$\cp$-equivariant convolution operator}\\
-Let $\gve$ a graph, not necessarily a grid. Let $\cp$ a grounded set of transformations. Then, the  $\cp$-equivariant convolution operator $f_w$ is defined as
+\begin{proposition}\textbf{Characterization on $\cs(V \cong \Gamma)$}\\
+On real-valued signals over $V$, the class of linear transformations that are equivariant to $\varphi(\Gamma)$ is exactly the class of convolutive operations \ie
 \begin{gather*}
-\forall s \in \cs(V), f_w(s) = s \ast_{\cp} w = \displaystyle \sum_v s[v] \h{2} p_v(w)
+\begin{cases}
+ f \in \cl(\cs(V))\\
+ \forall v \in V, f \circ \varphi(g_v) = \varphi(g_v) \circ f
+\end{cases}
+ \Leftrightarrow \exists w \in \cs(V), f = . \ast w
 \end{gather*}
-\end{definition}
-
-\begin{claim}\textbf{Characterization of $\cp$-eq. convolution operator}\\
-The class of linear graph signal transformations that are equivariant to a grounded set $\cp$ is exactly the class of $\cp$-equivariant convolutive operations.
-\end{claim}
+\label{prop:equi}
+\end{proposition}
 
 \begin{proof}
-By construction of $\cp$-equivariant convolutions, the proof is similar to the one of \propref{prop:equi}.
+i) From right to left (the demonstration of the linearity is omited).
+\begin{align*}
+\forall s \in \cs(V), \forall u \in V & ,\forall v \in V,\\
+f_w \circ \varphi(g_u) (s) [v] & = \sum_{\substack{(a,b) \in V^2 \\ \st g_ag_b=g_v }} \varphi(g_u)(s)[a] \h{2} w[b]\\
+& = \sum_{\substack{(a,b) \in V^2 \\ \st g_ag_b=g_v }} s[\varphi(g_u)^{-1}(a)] \h{2} w[b]\\
+& = \sum_{\substack{(a,b) \in V^2 \\ \st g_{\varphi(g_u)(a)}g_b=g_v }} s[a] \h{2} w[b]\\
+\end{align*}
+Because $\varphi$ is an isomorphism, its inverse $c \mapsto g_c$ is also an isomorphism and so $g_{\varphi(g_u)(a)}g_b=g_v \Leftrightarrow g_{a}g_b=g_{\varphi(g_u)^{-1}(v)}$. So we have:
+\begin{align*}
+f_w \circ \varphi(g_u) (s) [v] & = \sum_{\substack{(a,b) \in V^2 \\ \st g_{a}g_b=g_{\varphi(g_u)^{-1}(v)} }} s[a] \h{2} w[b]\\
+& = s \ast w [\varphi(g_u)^{-1}(v)]\\
+& = g_u \circ f_w (s) [v]
+\end{align*}
+
+ii) From left to right.
+
+Let $f \in \cl(\cs(V))$, $s \in \cs(V)$. We suppose that $f$ is equivariant to $\varphi(\Gamma)$.
+Similarly as for the proof of \propref{prop:equi}, we have:
+
+\begin{align*}
+f(s) & = \displaystyle \sum_{v \in V} s[v] \h{2} f(\delta_v)\\
+ & = \displaystyle \sum_{v \in V} s[v] \h{2} f(\delta_{\varphi(g_v)})\\
+ & = \displaystyle \sum_{v \in V} s[v] \h{2} f(\varphi(\delta_{g_v}))\\
+ %& = \displaystyle \sum_{v \in V} s[v] \h{2} f \circ g_{v} (\delta_{v_0})\\
+ %& = \displaystyle \sum_{v \in V} s[v] \h{2} g_{v} \circ f (\delta_{v_0})
+\end{align*}
+% By denoting $w = f (\delta_{v_0}) \in \cs(V)$, we obtain:
+% \begin{align}
+% \forall v \in V, f(s)[v] & = \displaystyle \sum_{u \in V} s[u] \h{2} g_{u}(w)[v] \label{eq:conv}\\
+% % & = \displaystyle \sum_{u \in V} s[u] \h{2} w[a-i, b-j] \nonumber\\
+% \text{\ie } f(s) & = s \ast w \nonumber
+% \end{align}
 \end{proof}
 
+\todo{finish this section}
 
+*note needing edges
 
-*note on drawbacks. If transformations were a group -> group convolution.
-*note on morphisms
 
 \subsection{Special classes of graphs}
 
