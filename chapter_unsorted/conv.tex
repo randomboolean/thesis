@@ -124,7 +124,7 @@ As \propref{prop:equi} is a complete characterization of convolutions, it can be
 
 A classic result from group theory is that this characterization hold for groups of (bijective) transformations, where the group of translations is a particular case. More generally, it also holds for groupoids \citep{weinstein1996groupoids}.
 
-\begin{definition}\textbf{Group convolution on $\cs(\group)$}\\
+\begin{definition}\textbf{Group convolution I}\\
 Let a group $\group$, the group convolution between two signals $s_1$ and $s_2 \in \cs(\group)$ is defined as:
 \begin{align*}
 \forall h \in \group, (s_1 \ast s_2)[h] & = \displaystyle \sum_{g \in \group} s_1[g] \h{2} s_2[g^{-1}h]%\\
@@ -149,29 +149,24 @@ Nonetheless, let's assume we can provide $V$ with a group structure by exhibitin
 
 Hence, we can define the group convolution as follows:
 
-\begin{definition}\textbf{Group convolution on $\cs(V \cong \Gamma)$}\\
+\begin{definition}\textbf{Group convolution II}\\
 Let $\Gamma \subset \Phi^*(V)$ such that $V \cong \Gamma$ through an isomorphism $g_v \overset{\varphi}\mapsto v$.
 The group convolution between two signals $s_1$ and $s_2 \in \cs(V)$ is defined as:
 \begin{align*}
-(s_1 \ast s_2) [u] & = \displaystyle \sum_{v \in V} s_1[v] \h{2} s_2[\varphi(g_v^{-1}g_u)]\\
+\forall u \in V, (s_1 \ast s_2) [u] & = \displaystyle \sum_{v \in V} s_1[v] \h{2} s_2[\varphi(g_v^{-1}g_u)]\\
 & = \displaystyle \sum_{\substack{(a,b) \in V^2 \\ \st g_ag_b=g_u }} s_1[a] \h{2} s_2[b]
 \end{align*}
 \end{definition}
 
-\begin{proposition}\textbf{Characterization on $\cs(V \cong \Gamma)$}\\
-On real-valued signals over $V$, the class of linear transformations that are equivariant to $\varphi(\Gamma)$ is exactly the class of convolutive operations \ie
+\begin{proposition}\textbf{Equivariance to $\varphi(\Gamma)$}\\
+Convolution operators on $\cs(V)$ are equivariant to $\varphi(\Gamma)$ \ie
 \begin{gather*}
-\begin{cases}
- f \in \cl(\cs(V))\\
- \forall v \in V, f \circ \varphi(g_v) = \varphi(g_v) \circ f
-\end{cases}
- \Leftrightarrow \exists w \in \cs(V), f = . \ast w
+\exists w \in \cs(V), f = . \ast w \Rightarrow \forall v \in V, f \circ \varphi(g_v) = \varphi(g_v) \circ f
 \end{gather*}
 \label{prop:equi}
 \end{proposition}
 
 \begin{proof}
-i) From right to left (the demonstration of the linearity is omited).
 \begin{align*}
 \forall s \in \cs(V), \forall u \in V & ,\forall v \in V,\\
 f_w \circ \varphi(g_u) (s) [v] & = \sum_{\substack{(a,b) \in V^2 \\ \st g_ag_b=g_v }} \varphi(g_u)(s)[a] \h{2} w[b]\\
@@ -184,33 +179,49 @@ f_w \circ \varphi(g_u) (s) [v] & = \sum_{\substack{(a,b) \in V^2 \\ \st g_{a}g_b
 & = s \ast w [\varphi(g_u)^{-1}(v)]\\
 & = g_u \circ f_w (s) [v]
 \end{align*}
-
-ii) From left to right.
-
-Let $f \in \cl(\cs(V))$, $s \in \cs(V)$. We suppose that $f$ is equivariant to $\varphi(\Gamma)$.
-Similarly as for the proof of \propref{prop:equi}, we have:
-
-\begin{align*}
-f(s) & = \displaystyle \sum_{v \in V} s[v] \h{2} f(\delta_v)\\
- & = \displaystyle \sum_{v \in V} s[v] \h{2} f(\delta_{\varphi(g_v)})\\
- & = \displaystyle \sum_{v \in V} s[v] \h{2} f(\varphi(\delta_{g_v}))\\
- %& = \displaystyle \sum_{v \in V} s[v] \h{2} f \circ g_{v} (\delta_{v_0})\\
- %& = \displaystyle \sum_{v \in V} s[v] \h{2} g_{v} \circ f (\delta_{v_0})
-\end{align*}
-% By denoting $w = f (\delta_{v_0}) \in \cs(V)$, we obtain:
-% \begin{align}
-% \forall v \in V, f(s)[v] & = \displaystyle \sum_{u \in V} s[u] \h{2} g_{u}(w)[v] \label{eq:conv}\\
-% % & = \displaystyle \sum_{u \in V} s[u] \h{2} w[a-i, b-j] \nonumber\\
-% \text{\ie } f(s) & = s \ast w \nonumber
-% \end{align}
 \end{proof}
+
+In fact, both group convolutions are the same as the latter one borrows the algebraic structure of the first one, regardless of the fact that the group $\Gamma$ contains bijective transformations of $V$. We can exploit this fact to obtain equivariance to $\Gamma$ for both (instead of only to $\varphi(\Gamma)$ for the latter). By noticing that $g \in \Gamma$ can act on both $\cs(\Gamma)$ through the linear transformation of the left multiplication and on $\cs(V)$ as being an object of $\Phi^{*}(V)$, we define:
+
+\begin{definition}\textbf{Group convolution III}\\
+Let $\Gamma \subset \Phi^*(V)$ such that $V \cong \Gamma$ through an isomorphism $g_v \overset{\varphi}\mapsto v$ which verifies the property $$\forall v \in V, \forall u \in V, g_v(u) = \varphi(g_vg_u)$$
+The group convolution between two signals $s_1$ and $s_2 \in \cs(V)$ is defined as:
+\begin{gather*}
+\forall u \in V, (s_1 \ast s_2) [u] = \displaystyle \sum_{v \in V} s_1[v] \h{2} s_2[\varphi(g_v^{-1}g_u)] = \displaystyle \sum_{v \in V} s_1[v] \h{2} s_2[g_v^{-1}(u)]\\
+\ie s_1 \ast s_2 = \displaystyle \sum_{v \in V} s_1[v] \h{2} g_v(s_2)
+%= \displaystyle \sum_{g \in \Gamma} s_1[\varphi(g)] \h{2} g(s_2) %This one is to use latter
+\end{gather*}
+\end{definition}
+
+\begin{remark}
+For example, this property holds for translations as $t_{i,j}(a,b) = \varphi(t_{i,j} \circ t_{a,b})$ (with $\varphi(t_{i,j}) = (i,j)$).
+\end{remark}
+
+\begin{proposition}\textbf{Equivariance to $\Gamma$}\\
+Convolution operators on $\cs(V)$ are equivariant to $\Gamma$ \ie
+\begin{gather*}
+\exists w \in \cs(V), f = . \ast w \Rightarrow \forall v \in V, f \circ g_v = g_v \circ f
+\end{gather*}
+\label{prop:equi}
+\end{proposition}
+
+\begin{proof}
+\end{proof}
+
+Mini patron:
+\begin{itemize}
+\item Equivariance to $\Gamma$ holds, proof
+\item Converse of characterization does not hold yet, except on orbits
+\item property for it to hold
+\item relaxing one-to-one correspondence constraint but keeping other properties
+\item other avenue instead of property: should make use of edges to build a group structure
+\item ideal graph (lattice-regular)
+\item if group is too much then just groupoid structure from edges is enough
+\end{itemize}
 
 \todo{finish this section}
 
-*note needing edges
-
-
-\subsection{Special classes of graphs}
+\subsection{To rename}
 
 % \begin{definition}\textbf{Infinite graph}\\
 % An \emph{infinite graph} is defined by natural extension of the notion of graph $G=\langle V,E \rangle$ where $V$ and $E$ can be infinite. We denote $\order{G} = \infty$.
