@@ -262,11 +262,14 @@ Let a graph $\gve$. By identifying vertices with paths of length $1$, a path can
 \begin{definition}\textbf{Graph $k$-groupoid convolution}\\
 Let a graph $\gve$. Let a subgroupoid $\Gamma \subseteq \cp_k(G)$. The graph $k$-groupoid convolution between two signals $s_1$ and $s_2 \in \cs(G)$ is defined as:
 \begin{align*}
-\forall u \in V, (s_1 \ast s_2) [u] & = \displaystyle \sum_{\substack{(a,b) \in \Gamma^2 \\ \st ab=u }} s_1[\varphi(a)] \h{2} s_2[\varphi(b)]
+\forall u \in V, (s_1 \ast s_2) [u] & = \displaystyle \sum_{\substack{(a,b) \in \Gamma^2 \\ \st \varphi(ab)=u }} s_1[\varphi(a)] \h{2} s_2[\varphi(b)]
 \end{align*}
-where $\varphi$ maps a path to its last vertex, and $u$ on the summation subscript represents the path of length $1$ containing $u \in V$.
+where $\varphi$ maps a path to its last vertex.
 \label{def:pconv}
 \end{definition}
+
+\begin{remark}Note that the domain of the summation is restricted by the definition domain of the composition law of $\cp_k(G)$.
+\end{remark}
 
 
 
