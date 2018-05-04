@@ -1,0 +1,125 @@
+\section{Conv drafts}
+
+
+\todo{point}
+
+In particular, we have
+\begin{align*}
+\forall s \in \cs(\Gamma), \widetilde\varphi(s) & = \widetilde\varphi\left( \displaystyle \sum_{g \in \Gamma} s[g] \delta_g \right)\\
+& = \displaystyle \sum_{g \in \Gamma} s[g] \widetilde\varphi\left(\delta_g \right)\\
+& = \displaystyle \sum_{g \in \Gamma} s[g] \delta_{\varphi(g)}\\
+& = \displaystyle \sum_{v \in V} s[\varphi^{-1}(v)] \delta_{v}\\
+\widetilde\varphi(s) & = \displaystyle \sum_{v \in V} \widetilde\varphi(s)[v] \delta_v\\
+\end{align*}
+
+So $\widetilde\varphi(s)[v] = s[\varphi^{-1}(v)]$ and $\widetilde\varphi(s)[\varphi(g)] = s[g]$. Let's simplify the notations with $\widetilde\varphi(s) = t$ and $\varphi(g) = v$, \ie $t[v] = s[g]$ as expected. We then define the group convolution on $\cs(V)$ as
+\begin{align*}
+(t_1 \ast t_2)[v] & = (s_1 \ast s_2)[g]\\
+& = \displaystyle \sum_{h \in \group} s_1[h] \h{2} s_2[h^{-1}g]\\
+& = \displaystyle \sum_{u \in V} s_1[\varphi^{-1}(u)] \h{2} h_u(s_2)[\varphi^{-1}(v)]\\
+& = \displaystyle \sum_{u \in V} t_1[u] \h{2} \widetilde\varphi(h_u(s_2))[v]\\
+\end{align*}
+
+
+
+\begin{gather}
+(t_1 \ast t_2)[v] = \displaystyle \sum_{u \in V} t_1[u] \h{2} h_u(t_2)[v]\\
+\end{gather}
+
+
+\todo{stop sign}
+
+
+
+
+Recall that
+\begin{align*}
+\delta_{g}[h] & = \begin{cases} 1 & \text{if } h = g \Leftrightarrow \varphi(h) = \varphi(g)\\ 0 & \text{otherwise} \end{cases}\\
+              & = \delta_{\varphi(g)}[\varphi(h)]
+\end{align*}
+
+\begin{align*}
+s & = \displaystyle \sum_{v \in V} s[v] \h{2} \delta_v
+\end{align*}
+
+
+
+
+
+
+\todo{lemme on existence of uncountable linearly independent irrational family ?}
+
+\begin{proposition} The group convolution on $\cs(\Gamma)$ has a unique neutral element which is the dirac signal on the identity tranformation.
+\end{proposition}
+\begin{proof}
+Denote $\delta$ a neutral element for the group convolution. Note as because of the commutativity the group convolution, a left neutral element is also a right neutral element. We have $$s[h] = (\delta \ast s)[h] = \displaystyle \sum_{g \in \Gamma} \delta[g] \h{2} s[g^{-1}h]$$ which is true for any real valued signal. By chosing a signal $\pi$ having linearly independant irrational entries (and using the axiom of choice in case G is not finite), we obtain that $$\delta[g] = \begin{cases} 1 \text{ if } g = \id\\ 0 \text{ otherwise}\end{cases} \ie \quad \delta = \delta_{\id}$$
+Conversely, $(\delta_{\id} \ast s)[h] = 1 . s[{\id}^{-1}h] = s[h]$.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+In other therms, if there is an isomorphism between $\Gamma$ and $V$, the group structure pass to $V$ as well as the definition of the group convolution.
+
+
+
+
+
+
+To alleviate this issue, let's introduce the neutral elements $\delta$ of the convolution, and the neutral element $\id \in \Phi^*(V)$.
+
+
+With the help of $\delta$, we follow the same process as in the proof of \propref{prop:equi}, see \eqref{eq:conv}, to construct the class of group convolutional operators which defines exactly the class of linear transformations that are equivariant to a certain group.
+
+
+% \begin{definition}\textbf{Group convolution}\\
+
+
+
+% \end{definition}
+
+
+
+
+
+
+
+
+On graphs, this could be used provided we defined meaningful translations beforehand (see \secref{}). Another possibilty would be to search for invariances with respect to graph equivariances and derive a convolution operator similarly than for translations. This approach, which uses group convolutions~\citep{weinstein1996groupoids}, has already been discussed on regular domain to extend CNNs to other invariances than translational ones~\citep{cohen2016group,hoogeboom2018hexaconv}, as well as on spherical domain with rotation equivariant CNNs~\citep{cohen2018spherical}. As stated from the previous remark, the big advantage of this approach is that there is no loss of expressivity. However on graphs, this would be more challenging as it's not likely there exists transformations with equivariances. However, let's suppose we found such a set of transformations on a graph, then for \propref{prop:equi} to hold (instead as for regular translations), we see in the proof that they need to be bijective \eqref{eq:bij} and vertex dependent \ref{eq:conv}.
+
+
+
+
+\subsection{}
+
+
+
+\begin{definition}\textbf{Grounded set of transformations}\\
+A set of transformations over a graph $\gve$, \emph{grounded} on a vertex $v_0 \in V$, denoted $\cp_{v_0} \subset \Phi(V)$, is a set that is in one-to-one correspondence with $V$, such that $\forall v \in V, \exists! p_v \in \cp_{v_0}, p_v(v_0) = v$.
+\end{definition}
+
+We have $\cp_{v_0} = \order(G) \in \bbn \cup \{+\infty\}$. For notational convenience we drop the subscript $_{v_0}$ in what follows.
+
+\begin{definition}\textbf{$\cp$-equivariant convolution operator}\\
+Let $\gve$ a graph, not necessarily a grid. Let $\cp$ a grounded set of transformations. Then, the  $\cp$-equivariant convolution operator $f_w$ is defined as
+\begin{gather*}
+\forall s \in \cs(V), f_w(s) = s \ast_{\cp} w = \displaystyle \sum_v s[v] \h{2} p_v(w)
+\end{gather*}
+\end{definition}
+
+\begin{claim}\textbf{Characterization of $\cp$-eq. convolution operator}\\
+The class of linear graph signal transformations that are equivariant to a grounded set $\cp$ is exactly the class of $\cp$-equivariant convolutive operations.
+\end{claim}
+
+\begin{proof}
+By construction of $\cp$-equivariant convolutions, the proof is similar to the one of \propref{prop:equi}.
+\end{proof}
+
+
