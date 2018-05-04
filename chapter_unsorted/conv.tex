@@ -235,7 +235,7 @@ At this point we might finally want to consider the edge set.
 
 \subsubsection{Construction on graph groupoids}
 
-On graphs, we notice that the property $g(u) = \varphi(gh)$ can be realized by transformations defined on edges. The following definitions clarify our discussion.
+On graphs, we notice that the property $g(\varphi(h)) = \varphi(gh)$ can be realized by transformations defined on edges. The following definitions clarify our discussion.
 
 \begin{definition}\textbf{Groupoid}\\
 A groupoid is a set equiped with a closed partial composition law, a unique identity element, and every unique inverses.
@@ -245,10 +245,13 @@ A groupoid is a set equiped with a closed partial composition law, a unique iden
 \end{remark}
 
 \begin{definition}\textbf{Graph groupoid}\\
-The \emph{groupoid} $\cp(G)$ of a graph $\gve$ is the set of its paths equiped with a closed partial composition law defined on $\{(u_1 \cdots u_n,v_1 \cdots v_m) \in \cp(G)^2, u_n = v_1\}$ which concatenates the paths and removes adjacent duplicates. The identity element is the path of length $0$ and the inverse of a path is its reverse.
+The \emph{groupoid} $\cp(G)$ of a graph $\gve$ is the set of its paths equiped with a closed partial composition law defined for all $u = u_1 \cdots u_n$ and $v = v_1 \cdots v_m$ in $\cp(G)$ such that $u_1 = v_m$, written $uv$, which concatenates the paths and removes adjacent duplicates. The identity element is the path of length $0$ and the inverse of a path is its reverse.
 \end{definition}
 
 \begin{remark}Recall from \defref{def:path} that a path can't contain adjacent duplicates.
+\end{remark}
+
+\begin{remark}For $u_1=v_m$ we write $uv$ instead of $vu$ because we'll need $u$ to act on $v$ as $u(v)$. The resulting path $uv$ has elements of $v$ before those of $u$ though.
 \end{remark}
 
 \begin{definition}\textbf{Graph $k$-groupoid}\\
