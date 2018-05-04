@@ -237,30 +237,42 @@ At this point we might finally want to consider the edge set.
 
 On graphs, we notice that the property $g(u) = \varphi(gh)$ can be realized by transformations defined on edges. The following definitions clarify our discussion.
 
-\begin{definition}\textbf{Graph groupoid}\\
-The \emph{groupoid} of a graph \gve is the set of ordered pairs of connected vertices equiped with:
-\begin{itemize}
-\item a map $\psi: (u,v) \mapsto u$ and another map $\varphi: (u,v) \mapsto v$
-\item a closed composition law $gh = (\psi(g),\varphi(h))$ defined on $\{(g,h), \varphi(g) = \psi(h)\}$
-\end{itemize}
+\begin{definition}\textbf{Groupoid}\\
+A groupoid is a set equiped with a closed partial composition law, a unique identity element, and every unique inverses.
+\end{definition}
 
+\begin{remark}We use the convention than left and right inverses must be the same.
+\end{remark}
+
+\begin{definition}\textbf{Graph groupoid}\\
+The \emph{groupoid} $\cp(G)$ of a graph $\gve$ is the set of its paths equiped with a closed partial composition law defined on $\{(u_1 \cdots u_n,v_1 \cdots v_m) \in \cp(G)^2, u_n = v_1\}$ which concatenates the paths and removes adjacent duplicates. The identity element is the path of length $0$ and the inverse of a path is its reverse.
+\end{definition}
+
+\begin{remark}Recall from \defref{def:path} that a path can't contain adjacent duplicates.
+\end{remark}
+
+\begin{definition}\textbf{Graph $k$-groupoid}\\
+The \emph{$k$-groupoid} $\cp_k(G)$ of a graph $\gve$, for $k \in \bbn^*$, is the groupoid obtained by restricting $\cp(G)$ to paths of length at most $k$ (the definition domain of its composition law is also further restricted by the length of the resulting path in $\cp(G)$).
+\end{definition}
+
+\begin{claim}\textbf{Path transformation}\\
+Let a graph $\gve$. By identifying vertices with paths of length $1$, a path can act as a transformation on $V$ through the composition law of the graph groupoid $\cp(G)$. By extenstion to signals, it can also act on $\cs(G)$.
+\end{claim}
+
+\begin{definition}\textbf{Graph $k$-groupoid convolution}\\
+Let a graph $\gve$. Let a subgroupoid $\Gamma \subseteq \cp_k(G)$. The graph $k$-groupoid convolution between two signals $s_1$ and $s_2 \in \cs(G)$ is defined as:
+\begin{align*}
+\forall u \in V, (s_1 \ast s_2) [u] & = \displaystyle \sum_{\substack{(a,b) \in \Gamma^2 \\ \st ab=u }} s_1[\varphi(a)] \h{2} s_2[\varphi(b)]
+\end{align*}
+where $\varphi$ maps a path to its last vertex, and $u$ on the summation subscript represents the path of length $1$ containing $u \in V$.
+\label{def:pconv}
 \end{definition}
 
 
 
-% $$
-% \displaystyle \sum_{g \in \Gamma} s_1[\varphi(g)] \h{2} g(s_2)
-% $$
 
 
-%Armed with the last definition, let's consider a graph \vge. 
-
-
-
-
-
-
-Mini patron:
+Mini patron of todo:
 \begin{itemize}
 \item Equivariance to $\Gamma$ holds, proof
 \item Converse of characterization does not hold yet, except on orbits

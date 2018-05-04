@@ -20,6 +20,17 @@ A \emph{graph} $G$ is defined as a couple of sets $\langle V,E \rangle$ where $V
 \label{fig:graph}
 \end{figure}
 
+\begin{remark}According to this definition, we consider simple graphs \ie no two edges share the same set of vertices and there is no self-loop.
+\end{remark}
+
+\begin{definition}\textbf{Path}\\
+A \emph{path} of length $n \in \bbn$ in a graph $\gve$ is a sequence $v_1 v_2 \cdots v_n$ in $V$ such that $\forall i, v_i \sim v_{i+1}$.
+\label{def:path}
+\end{definition}
+
+\begin{remark}Our definition of graphs admit no self-loop so $\forall i, v_i \neq v_{i+1}$
+\end{remark}
+
 \begin{definition}\textbf{Order}\\
 The order of a graph $\gve$ is define as $\order(G) = |V| \in \bbn \cup \{+\infty\}$
 \end{definition}
