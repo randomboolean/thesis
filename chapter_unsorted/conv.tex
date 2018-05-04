@@ -20,9 +20,9 @@ We shall first study classes of graphs onto which the convolution can be natural
 
 \todo{brief outline}
 
-\subsection{Convolution on vertex sets}
+\subsection{Analysis of the classical convolution operator}
 
-We first consider in this subsection a graph $G$ agnostically of its edges \ie $G \cong V$.
+In this subsection, we are exposing a few properties of the classical convolution that a generalization to graphs would likely try to preserve. For now let's consider a graph $G$ agnostically of its edges \ie $G \cong V$ is just the set of its vertices.
 
 Let's recall what is a transformation, and how it acts on signals.
 
@@ -70,17 +70,17 @@ The next proposition can be seen as a discretization of a classic result in dist
 \begin{proposition}\textbf{Characterization of convolution operators on $\cs(\bbz^2)$}\\
 On real-valued signals over $\bbz^2$, the class of linear transformations that are equivariant to translations is exactly the class of convolutive operations \ie
 \begin{gather*}
+\exists w \in \cs(\bbz^2), f = . \ast w \Leftrightarrow
 \begin{cases}
  f \in \cl(\cs(\bbz^2))\\
  \forall t \in \ct(\cs(\bbz^2)), f \circ t = t \circ f
 \end{cases}
- \Leftrightarrow \exists w \in \cs(\bbz^2), f = . \ast w
 \end{gather*}
 \label{prop:equi}
 \end{proposition}
 
 \begin{proof}
-The result from right to left is a direct consequence of the definitions:
+The result from left to right is a direct consequence of the definitions:
 \begin{align}
 \forall s \in \cs(\bbz^2), \forall s' \in \cs(\bbz^2), & \forall (\alpha, \beta) \in \bbr^2,\forall (a,b) \in \bbz^2,\nonumber\\
  %f_w(s)[a,b] & = \displaystyle \sum_i \sum_j s[i,j] \h{2} w[a-i, b-j] \tag{definition}\\
@@ -93,7 +93,7 @@ f_w \circ t_{\alpha,\beta} (s)[a,b] & = \displaystyle \sum_i \sum_j t_{\alpha,\b
  & = f_w (s)[a - \alpha,b - \beta]\nonumber\\
  & = t_{\alpha,\beta} \circ f_w (s)[a,b] \tag{equivariance}
 \end{align}
-Now let's prove the result from left to right.
+Now let's prove the result from right to left .
 
 Let $f \in \cl(\cs(\bbz^2))$, $s \in \cs(\bbz^2)$. We suppose that $f$ commutes with translations. Recall that $s$ can be linearly decomposed on the infinite family of dirac signals:
 \begin{gather*}
@@ -114,15 +114,22 @@ By denoting $w = f (\delta_{0,0}) \in \cs(\bbz^2)$, we obtain:
 \end{align}
 \end{proof}
 
-\begin{remark}\textbf{Superiority of CNNs over MLPs}\\
-In deep learning, an important argument in favor of CNNs is that convolutional layers are equivariant to translations. Intuitively, that means that a detail of an object in an image should produce the same features independently of its position in the image. The converse result, as a consequence of~\propref{prop:equi}, is never mentioned in deep learning literature. However it is also a strong one: it implies that the reduction of parameters from an MLP to a CNN is done with strictly no loss of expressivity as it means that layers of CNNs have every translational equivariant functions in their search space. Besides, it helps the training to search in a much more confined space.
+\begin{remark}\textbf{Equivariance property of CNNs}\\
+In deep learning, an important argument in favor of CNNs is that convolutional layers are equivariant to translations. Intuitively, that means that a detail of an object in an image should produce the same features independently of its position in the image.
 \end{remark}
 
-\subsubsection{Construction}
+\begin{remark}\textbf{Lossless superiority of CNNs over MLPs}\\
+The converse result, as a consequence of~\propref{prop:equi}, is never mentioned in deep learning literature. However it is also a strong one: it means that layers of CNNs have every translational equivariant functions in their search space, so it implies that the reduction of parameters from an MLP to a CNN is done with strictly no loss of expressivity (provided the objective function is know to bear this property). Besides, it helps the training to search in a much more confined space.
+\end{remark}
+
+\subsubsection{Construction on groups}
 
 As \propref{prop:equi} is a complete characterization of convolutions, it can be used to define them \ie convolutive operations can be constructed as the set of linear transformations that are equivariant to translations. However, in the general case where $G$ is not a grid graph, translations are not defined, so that construction needs to be generalized beyond translational equivariances.
 
+\todo{reword sentence below (not exactly true)}
 A classic result from group theory is that one sense of this characterization (equivariance) hold for groups of (bijective) transformations, where the group of translations is a particular case. More generally, it also holds for groupoids \citep{weinstein1996groupoids}. The converse sense will be discussed later.
+
+Note that our approach is different than in \citep{cohen2016group}, where the authors define group-equivariant convolutions from an already defined one. On graphs, convolutions aren't already defined. We are studying group convolutions in view of constructing one.
 
 \begin{definition}\textbf{Group convolution I}\\
 Let a group $\group$, the group convolution between two signals $s_1$ and $s_2 \in \cs(\group)$ is defined as:
@@ -131,11 +138,12 @@ Let a group $\group$, the group convolution between two signals $s_1$ and $s_2 \
 %& = \displaystyle \sum_{ab = h} s_1[a] \h{2} s_2[b]
 \end{align*}
 provided one of the signals has finite support if $\group$ is not finite.
+\label{def:conv1}
 \end{definition}
 
 For a graph $\gve$ and a subgroup $\Gamma \subset \Phi^*(V)$, this definition is applicable for $\cs(\Gamma)$, but not for $\cs(V)$ as $V$ is not a group.
 
-Nonetheless, let's assume we can provide $V$ with a group structure by exhibiting an isomorphism $\varphi$ from $\Gamma$ to $V$. Then, the linear morphism $\widetilde\varphi$ from $\cs(\Gamma)$ to $\cs(V)$ defined by $\widetilde\varphi(\delta_g) = \delta_{\varphi(g)}$ is also an isomorphism. Hence, $V$ and $\cs(V)$ would inherit the same inherent structural properties as $\Gamma$ and $\cs(\Gamma)$, in addition of being related in the same way. For notational simplicity, we will use the same symbol $\varphi$ for $\varphi$ and $\widetilde\varphi$ (as done between $f$ and $L_f$). A relational diagram between the sets is depicted on \figref{fig:iso}.
+Nonetheless, let's assume we can provide $V$ with a group structure by exhibiting an isomorphism $\varphi$ from $\Gamma$ to $V$. Then, the linear morphism $\widetilde\varphi$ from $\cs(\Gamma)$ to $\cs(V)$ defined by $\widetilde\varphi(\delta_g) = \delta_{\varphi(g)}$ is also an isomorphism. Hence, $V$ and $\cs(V)$ would inherit the same inherent structural properties as $\Gamma$ and $\cs(\Gamma)$, in addition of being related in the same way. For notational simplicity, we will use the same symbol $\varphi$ for $\varphi$ and $\widetilde\varphi$ (as done between $f$ and $L_f$). A Commutative diagram between the sets is depicted on \figref{fig:iso}.
 
 \begin{figure}[H]
 \centering
@@ -143,7 +151,7 @@ Nonetheless, let's assume we can provide $V$ with a group structure by exhibitin
     \Gamma \arrow{r}{\varphi}  \arrow{d}[swap]{\cs}  & V \arrow{d}{\cs}\\  
     \cs(\Gamma) \arrow{r}[swap]{\varphi}  & \cs(V) 
 \end{tikzcd}%
-\caption{Relational diagram}
+\caption{Commutative diagram}
 \label{fig:iso}
 \end{figure}
 
@@ -156,10 +164,11 @@ The group convolution between two signals $s_1$ and $s_2 \in \cs(V)$ is defined 
 \forall u \in V, (s_1 \ast s_2) [u] & = \displaystyle \sum_{v \in V} s_1[v] \h{2} s_2[\varphi(g_v^{-1}g_u)]\\
 & = \displaystyle \sum_{\substack{(a,b) \in V^2 \\ \st g_ag_b=g_u }} s_1[a] \h{2} s_2[b]
 \end{align*}
+\label{def:conv2}
 \end{definition}
 
 \begin{proposition}\textbf{Equivariance to $\varphi(\Gamma)$}\\
-Convolution operators on $\cs(V)$ are equivariant to $\varphi(\Gamma)$ \ie
+With \defref{def:conv2}, convolution operators on $\cs(V)$ are equivariant to $\varphi(\Gamma)$ \ie
 \begin{gather*}
 \exists w \in \cs(V), f = . \ast w \Rightarrow \forall v \in V, f \circ \varphi(g_v) = \varphi(g_v) \circ f
 \end{gather*}
@@ -184,13 +193,15 @@ f_w \circ \varphi(g_u) (s) [v] & = \sum_{\substack{(a,b) \in V^2 \\ \st g_{a}g_b
 In fact, both group convolutions are the same as the latter one borrows the algebraic structure of the first one, regardless of the fact that the group $\Gamma$ contains bijective transformations of $V$. We can exploit this fact to obtain equivariance to $\Gamma$ for both (instead of only to $\varphi(\Gamma)$ for the latter). By noticing that $g \in \Gamma$ can act on both $\cs(\Gamma)$ through the linear transformation of the left multiplication and on $\cs(V)$ as being an object of $\Phi^{*}(V)$, we define:
 
 \begin{definition}\textbf{Group convolution III}\\
-Let $\Gamma \subset \Phi^*(V)$ such that $V \cong \Gamma$ through an isomorphism $g_v \overset{\varphi}\mapsto v$ which verifies the property $$\forall v \in V, \forall u \in V, g_v(u) = \varphi(g_vg_u)$$
+Let $\Gamma \subset \Phi^*(V)$ such that $V \cong \Gamma$ through an isomorphism $g_v \overset{\varphi}\mapsto v$ which verifies the property: $$\forall v \in V, \forall u \in V, g_v(u) = \varphi(g_vg_u)$$
 The group convolution between two signals $s_1$ and $s_2 \in \cs(V)$ is defined as:
-\begin{gather*}
-\forall u \in V, (s_1 \ast s_2) [u] = \displaystyle \sum_{v \in V} s_1[v] \h{2} s_2[\varphi(g_v^{-1}g_u)] = \displaystyle \sum_{v \in V} s_1[v] \h{2} s_2[g_v^{-1}(u)]\\
-\ie s_1 \ast s_2 = \displaystyle \sum_{v \in V} s_1[v] \h{2} g_v(s_2)
-%= \displaystyle \sum_{g \in \Gamma} s_1[\varphi(g)] \h{2} g(s_2) %This one is to use latter
-\end{gather*}
+\begin{align*}
+\forall u \in V, (s_1 \ast s_2) [u] & = \displaystyle \sum_{v \in V} s_1[v] \h{2} s_2[\varphi(g_v^{-1}g_u)]\\
+& = \displaystyle \sum_{v \in V} s_1[v] \h{2} s_2[g_v^{-1}(u)]\\
+\ie s_1 \ast s_2 & = \displaystyle \sum_{v \in V} s_1[v] \h{2} g_v(s_2)\\
+& = \displaystyle \sum_{g \in \Gamma} s_1[\varphi(g)] \h{2} g(s_2) %This one is to use latter
+\end{align*}
+\label{def:conv3}
 \end{definition}
 
 \begin{remark}
@@ -198,7 +209,7 @@ For example, this property holds for translations as $t_{i,j}(a,b) = \varphi(t_{
 \end{remark}
 
 \begin{proposition}\textbf{Equivariance to $\Gamma$}\\
-Convolution operators on $\cs(V)$ are equivariant to $\Gamma$ \ie
+With \defref{def:conv3}, convolution operators on $\cs(V)$ are equivariant to $\Gamma$ \ie
 \begin{gather*}
 \exists w \in \cs(V), f = . \ast w \Rightarrow \forall v \in V, f \circ g_v = g_v \circ f
 \end{gather*}
@@ -206,7 +217,48 @@ Convolution operators on $\cs(V)$ are equivariant to $\Gamma$ \ie
 \end{proposition}
 
 \begin{proof}
+In the following equations, \eqref{eq:left} is obtained because left multiplication in a group is an isomorphism, and \eqref{eq:pty} is obtained from the property of \defref{def:conv3}.
+\begin{align}
+\forall g \in \Gamma, \forall s \in \cs(V), & \nonumber\\
+f_w \circ g (s) & = \displaystyle \sum_{h \in \Gamma} g(s)[\varphi(h)] \h{2} h(w)\nonumber\\
+ & = \displaystyle \sum_{h \in \Gamma} g(s)[\varphi(gh)] \h{2} gh(w)\label{eq:left}\\
+ & = \displaystyle \sum_{h \in \Gamma} g(s)[g(\varphi(h))] \h{2} gh(w)\label{eq:pty}\\
+ & = \displaystyle \sum_{h \in \Gamma} s[\varphi(h)] \h{2} gh(w)\nonumber\\
+\forall g \in \Gamma, \forall s \in \cs(V), & \forall u \in V, \nonumber\\
+f_w \circ g (s) [u] & = \displaystyle \sum_{h \in \Gamma} s[\varphi(h)] \h{2} h(w)[g^{-1}(u)]\nonumber\\
+& = f_w (s) [g^{-1}(u)]\nonumber\\
+& = g \circ f_w (s) [u]\nonumber
+\end{align}
 \end{proof}
+
+At this point we might finally want to consider the edge set.
+
+\subsubsection{Construction on graph groupoids}
+
+On graphs, we notice that the property $g(u) = \varphi(gh)$ can be realized by transformations defined on edges. The following definitions clarify our discussion.
+
+\begin{definition}\textbf{Graph groupoid}\\
+The \emph{groupoid} of a graph \gve is the set of ordered pairs of connected vertices equiped with:
+\begin{itemize}
+\item a map $\psi: (u,v) \mapsto u$ and another map $\varphi: (u,v) \mapsto v$
+\item a closed composition law $gh = (\psi(g),\varphi(h))$ defined on $\{(g,h), \varphi(g) = \psi(h)\}$
+\end{itemize}
+
+\end{definition}
+
+
+
+% $$
+% \displaystyle \sum_{g \in \Gamma} s_1[\varphi(g)] \h{2} g(s_2)
+% $$
+
+
+%Armed with the last definition, let's consider a graph \vge. 
+
+
+
+
+
 
 Mini patron:
 \begin{itemize}
@@ -244,13 +296,12 @@ Similarly, we define orthogonality of $r$ automophisms as $\phi_1 \bot \cdots \b
 
 \subsection{Lattice-regular graph}
 
-
 \begin{definition}\textbf{Lattice-regular graph}\\
 A lattice-regular graph is a regular graph that admits $r$ orthogonal edge-constrained automorphisms, where $r$ is its degree.
 \end{definition}
 
 
-%\subsubsection{Grids}
+%\subsubsection{Grids}{}
 
 %\subsubsection{Lattices}
 
