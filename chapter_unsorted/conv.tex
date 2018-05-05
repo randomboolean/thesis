@@ -235,7 +235,7 @@ At this point we might finally want to consider the edge set.
 
 \subsubsection{Construction on graph groupoids}
 
-On graphs, we notice that the property $g(\varphi(h)) = \varphi(gh)$ can be realized by transformations defined on edges. The following definitions clarify our discussion.
+On graphs, we notice that the property $g(\varphi(h)) = \varphi(gh)$ can be realized by transformations acting on edges. However, unless the graph is complete, these actions can't be replicated everywhere. The algebraic structure that posesses the same kind of properties than a group except that its composition law is not defined everywhere is called a groupoid. The following definitions clarify our discussion.
 
 \begin{definition}\textbf{Groupoid}\\
 A groupoid is a set equiped with a closed partial composition law, a unique identity element, and every unique inverses.
@@ -245,35 +245,66 @@ A groupoid is a set equiped with a closed partial composition law, a unique iden
 \end{remark}
 
 \begin{definition}\textbf{Graph groupoid}\\
-The \emph{groupoid} $\cp(G)$ of a graph $\gve$ is the set of its paths equiped with a closed partial composition law defined for all $u = (u_1 \cdots u_n)$ and $v = (v_1 \cdots v_m)$ in $\cp(G)$ such that $u_1 = v_m$, written $uv$, which concatenates the paths and removes adjacent duplicates. The identity element is the path of length $0$ and the inverse of a path is its reverse.
+The \emph{groupoid} $\cp(G)$ of a graph $\gve$ is the set of its paths equiped with:
+\begin{enumerate}
+\item two maps $\psi$ and $\varphi$ that respectively map a path to its first and last element,
+\item a closed partial composition law $gh$ defined if and only if $\psi(g) = \varphi(h)$, which concatenates $g$ behind $h$ and removes adjacent duplicate vertices,
+\item an inverse operator $\h{0}^{-1}$ which maps a path to its reverse,
+\item an identity element $\id$ which is the path of length $0$.
+\end{enumerate}
 \end{definition}
 
 \begin{remark}Recall from \defref{def:path} that a path can't contain adjacent duplicates.
 \end{remark}
 
-\begin{remark}For $u_1=v_m$ we write $uv$ instead of $vu$ because we'll need the left operand to act on the right one as $u(v)$. The resulting path $uv$ has elements of $v$ before those of $u$ though.
+\begin{remark}Note that even though the composite path $gh$ has elements of $h$ before those of $g$ we write $gh$ instead of $hg$ because we'll need the left operand to act on the right one through functional notation $g(h)$.
 \end{remark}
 
 \begin{definition}\textbf{Graph $k$-groupoid}\\
-The \emph{$k$-groupoid} $\cp_k(G)$ of a graph $\gve$, for $k \in \bbn^*$, is the groupoid obtained by restricting $\cp(G)$ to paths of length at most $k$ (the definition domain of its composition law is also further restricted by the length of the resulting path in $\cp(G)$).
+The \emph{$k$-groupoid} $\cp_k(G)$ of a graph $\gve$, for $k \in \bbn^*$, is the groupoid obtained by restricting $\cp(G)$ to paths of length at most $k$ (the definition domain of its composition law is also further restricted by the length of the resulting paths in $\cp(G)$).
 \end{definition}
 
-\begin{claim}\textbf{Path transformation}\\
-Let a graph $\gve$. By identifying vertices with paths of length $1$, a path can act as a transformation on $V$ through the composition law of the graph groupoid $\cp(G)$. By extenstion to signals, it can also act on $\cs(G)$.
-\end{claim}
-
-\begin{definition}\textbf{Graph $k$-groupoid convolution}\\
-Let a graph $\gve$. Let a subgroupoid $\Gamma \subseteq \cp_k(G)$. The graph $k$-groupoid convolution between two signals $s_1$ and $s_2 \in \cs(G)$ is defined as:
+\begin{definition}\textbf{$k$-Groupoid convolution}\\
+Let a graph $\gve$. Let a subgroupoid $\Gamma \subseteq \cp_k(G)$. The $k$-groupoid convolution between two signals $s_1$ and $s_2 \in \cs(\Gamma)$ is defined as:
 \begin{align*}
-\forall u \in V, (s_1 \ast s_2) [u] & = \displaystyle \sum_{\substack{(a,b) \in \Gamma^2 \\ \st \varphi(ab)=u }} s_1[\varphi(a)] \h{2} s_2[\varphi(b)]
+\forall h \in \Gamma, (s_1 \ast s_2) [h] & = \displaystyle \sum_{\substack{(a,b) \in \Gamma^2 \\ \st ab=h }} s_1[a] \h{2} s_2[b] \\
+& = \displaystyle \sum_{\substack{g \in \Gamma\\ \st \varphi(g) = \varphi(h)}} s_1[g] \h{2} s_2[g^{-1}h]\\
+& = \displaystyle \sum_{\substack{g \in \Gamma\\ \st \psi(g) = \psi(h)}} s_1[hg^{-1}] \h{2} s_2[g]
 \end{align*}
-where $\varphi$ maps a path to its last vertex.
 \label{def:pconv}
 \end{definition}
 
-\begin{remark}Note that the domain of the summation is restricted by the definition domain of the composition law of $\cp_k(G)$.
-\end{remark}
+\begin{claim}\textbf{Path transformation}\\
+Let a graph $\gve$. By identifying vertices with paths of length $1$, a path $g \in \cp(G)$ can act as a transformation on $v \in V$ through the composition law of $\cp(G)$. Also note that $g(v) = g(v^{-1})$.
+\end{claim}
 
+We can nom define the $k$-Groupoid convolution operator on $\cs(G)$ by restriction of the second operand from $\cs(\Gamma)$ to paths of length $1$:
+
+\begin{definition}\textbf{$k$-Groupoid convolution operator}\\
+Let a graph $\gve$. Let a subgroupoid $\Gamma \subseteq \cp_k(G)$. The $k$-groupoid convolution operator $f_w$ with parameter $w \in \cs(\Gamma)$ is defined as:
+\begin{gather*}
+\forall s \in \cs(\Gamma), \forall h \in \Gamma, f_w(s)[h] = (s \ast w)[h]
+\end{gather*}
+And when restricted to $\cs(G)$ it is defined as:
+\begin{gather*}
+\forall s \in \cs(G), \forall v \in V, f_w(s)[v] = \displaystyle \sum_{\substack{g \in \Gamma\\ \st \psi(g) = v}} s[g(v)] \h{2} w[g]\\
+\forall s \in \cs(G), \forall v \in V, f_w(s)[v] = \displaystyle \sum_{\substack{g \in \Gamma\\ \st \varphi(g) = v}} s[g] \h{2} w[g^{-1}(v)]
+\end{gather*}
+\end{definition}
+
+\begin{proposition}\textbf{Groupoid equivariance to $\Gamma$}\\
+$k$-Groupoid convolution operators on $\cs(G)$ are groupoid equivariant to $\Gamma$ \ie
+\begin{gather*}
+\exists w \in \cs(\Gamma), f = w \ast . \Rightarrow
+\forall v \in V, \forall g \in \Gamma \st \psi(g^{-1}) = v,
+f \circ g [v]= g \circ f [v]
+\end{gather*}
+\label{prop:equi}
+\end{proposition}
+
+\begin{gather}
+g(h(v)) maybe false
+\end{gather}
 
 
 
