@@ -1,4 +1,4 @@
-\section{Convolutions on graphs (draft)}
+\section{Convolutions on graphs (draft that will be splitted in multiple sections)}
 
 Defining a convolution on graphs is a challenging problem. Obviously, the underlying structure determined by a graph is not necessarily isomorphic to a set onto which the convolution is already defined. 
 
@@ -155,7 +155,7 @@ Nonetheless, let's assume we can provide $V$ with a group structure by exhibitin
 \label{fig:iso}
 \end{figure}
 
-Hence, we can define the group convolution as follows:
+Hence, we can steer the definition of the group convolution from $\cs(\Gamma)$ to $\cs(V)$ as follows:
 
 \begin{definition}\textbf{Group convolution II}\\
 Let $\Gamma \subset \Phi^*(V)$ such that $V \cong \Gamma$ through an isomorphism $g_v \overset{\varphi}\mapsto v$.
@@ -193,7 +193,10 @@ f_w \circ \varphi(g_u) (s) [v] & = \sum_{\substack{(a,b) \in V^2 \\ \st g_{a}g_b
 In fact, both group convolutions are the same as the latter one borrows the algebraic structure of the first one, regardless of the fact that the group $\Gamma$ contains bijective transformations of $V$. We can exploit this fact to obtain equivariance to $\Gamma$ for both (instead of only to $\varphi(\Gamma)$ for the latter). By noticing that $g \in \Gamma$ can act on both $\cs(\Gamma)$ through the linear transformation of the left multiplication and on $\cs(V)$ as being an object of $\Phi^{*}(V)$, we define:
 
 \begin{definition}\textbf{Group convolution III}\\
-Let $\Gamma \subset \Phi^*(V)$ such that $V \cong \Gamma$ through an isomorphism $g_v \overset{\varphi}\mapsto v$ which verifies the property: $$\forall v \in V, \forall u \in V, g_v(u) = \varphi(g_vg_u)$$
+Let $\Gamma \subset \Phi^*(V)$ such that $V \cong \Gamma$ through an isomorphism $g_v \overset{\varphi}\mapsto v$ which verifies the property: 
+\begin{gather*}
+\forall v \in V, \forall u \in V, g_v(u) = \varphi(g_vg_u) \tag{P}\label{eq:P}
+\end{gather*}
 The group convolution between two signals $s_1$ and $s_2 \in \cs(V)$ is defined as:
 \begin{align*}
 \forall u \in V, (s_1 \ast s_2) [u] & = \displaystyle \sum_{v \in V} s_1[v] \h{2} s_2[\varphi(g_v^{-1}g_u)]\\
@@ -231,11 +234,44 @@ f_w \circ g (s) [u] & = \displaystyle \sum_{h \in \Gamma} s[\varphi(h)] \h{2} h(
 \end{align}
 \end{proof}
 
-At this point we might finally want to consider the edge set.
+At this point, there are a two drawbacks: (D1) that $V \cong \Gamma$, (D2) the converse of of the characterization don't hold. Let's now consider the edge set in our construction and keep these drawbacks in mind.
+
+\subsubsection{Construction on Cayley graphs}
+
+The property \eqref{eq:P} naturally holds for Cayley (di)graphs.
+
+\begin{definition}\textbf{Cayley graph}\\
+$a \sim c \Leftrightarrow \exists b \in \cu \subset \Gamma, g_ag_b = g_c$, and the corresponding digraph $\vec{G}$
+\end{definition}
+
+The convolution from \defref{def:conv3} is defined on Cayley graphs. We can alleviate (D1) by summing onto the generating set $\cu$ instead of onto~$\Gamma$, which makes the convolution edge-constrained.
+
+\begin{definition}\textbf{Cayley graph convolution}\\
+\begin{align*}
+\forall u \in V, (s_1 \ast s_2) [u] & = \displaystyle \sum_{g \in \cu} s_1[g] \h{2} g(s_2)
+\end{align*}
+\end{definition}
+
+\todo{operator and characterization}
+\todo{which graph is a Cayley graph ?}
+
+\subsubsection{Mixed convolution}
+
+Draft:
+
+Hypothesis: $w \in \cs(\Gamma), s \in \cs(V), w \ast s \in \cs(V), V \ncong \Gamma$
+
+$$
+\forall v \in V, (w \ast s) [u] = \displaystyle \sum_{g \in \Gamma} w[g] \h{2} s[g^{-1}(u)]
+$$
+
+Bastnet in here.
 
 \subsubsection{Construction on graph groupoids}
 
-On graphs, we notice that the property $g(\varphi(h)) = \varphi(gh)$ can be realized by transformations acting on edges. However, unless the graph is complete, these actions can't be replicated everywhere. The algebraic structure that posesses the same kind of properties than a group except that its composition law is not defined everywhere is called a groupoid. The following definitions clarify our discussion.
+\todo{work in progress}
+
+On graphs, we notice that the property \eqref{eq:P} can be realized by transformations acting on edges. However, unless the graph is complete, these actions can't be composed everywhere to form another edge constrained action. The algebraic structure that posesses the same kind of properties than a group except that its composition law is not defined everywhere is called a groupoid. The following definitions clarify our discussion.
 
 \begin{definition}\textbf{Groupoid}\\
 A groupoid is a set equiped with a closed partial composition law, a unique identity element, and every unique inverses.
@@ -248,7 +284,7 @@ A groupoid is a set equiped with a closed partial composition law, a unique iden
 The \emph{groupoid} $\cp(G)$ of a graph $\gve$ is the set of its paths equiped with:
 \begin{enumerate}
 \item two maps $\psi$ and $\varphi$ that respectively map a path to its first and last element,
-\item a closed partial composition law $gh$ defined if and only if $\psi(g) = \varphi(h)$, which concatenates $g$ behind $h$ and removes adjacent duplicate vertices,
+\item a closed partial composition law $gh$ defined if and only if $\psi(g) = \varphi(h)$, which concatenates $g$ behind $h$ and \sout{removes adjacent duplicate vertices} \textcolor{red}{to rewrite},
 \item an inverse operator $\h{0}^{-1}$ which maps a path to its reverse,
 \item an identity element $\id$ which is the path of length $0$.
 \end{enumerate}
