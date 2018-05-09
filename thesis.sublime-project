@@ -1,0 +1,12 @@
+{
+	"folders":
+	[
+		{
+			"path": ".",
+      "file_exclude_patterns": ["*.mtc*", "*.bbl", "*.blg", "*.log", "*.maf", "*.aux", "*.toc", "*.out", "*-blx.bib", "*.xml"]
+		}
+	],
+  "settings": {
+        "TEXroot": "main.tex"
+  }
+}
