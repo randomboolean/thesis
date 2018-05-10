@@ -6,3 +6,10 @@ On convolutions on graphs:
 2) graph product (approximate) factorization (to make nd convolutions)
 3) decomposition of general graphs into circulant graphs
 4) shifts
+
+
+Todo
+X Emphasize on lossless superiority before
+X Add more figures
+X Rewrite remark on expressivity to better explain the refs
+X Reformat the ordering of the sections
