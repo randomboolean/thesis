@@ -1,0 +1,115 @@
+\section{Analysis of the classical convolution}
+
+In this section, we are exposing a few properties of the classical convolution that a generalization to graphs would likely try to preserve. For now let's consider a graph $G$ agnostically of its edges \ie $G \cong V$ is just the set of its vertices.
+
+\subsection{Properties of the convolution}
+
+Consider an edge-less grid graph \ie $G \cong \bbz^2$. By restriction to compactly supported signals, this case encompass the case of images.
+
+\begin{definition}\textbf{Convolution on $\cs(\bbz^2)$}\\
+Recall that the convolution between two signals $s_1$ and $s_2$ over $\bbz^2$ is a binary operator in $\cs(\bbz^2)$ defined as:
+\begin{align*}
+\forall (a,b) \in \bbz^2, (s_1 * s_2) [a,b] & = \displaystyle \sum_i \sum_j s_1[i,j] \h{2} s_2[a-i, b-j]
+\end{align*}
+\end{definition}
+
+\todo{list some properties}
+
+\subsection{Characterization on grid graphs}
+
+Let's recall first what is a transformation, and how it acts on signals.
+
+\begin{definition}\textbf{Transformation}\\
+A \emph{transformation} $f: V \rightarrow V$ is a function with same domain and codomain. The set of transformations is denoted $\Phi(V)$. The set of bijective transformations is denoted $\Phi^*(V) \subset \Phi(V)$.
+
+In case $f \in \Phi^*(V)$, it can act on $\cs(V)$ through the linear operator $L_f \in \cl(\cs(V))$ defined as:
+\begin{gather*}
+\forall s \in \cs(V), \forall v \in V, f(s)[v] := L_f s[v] = s[f^{-1}(v)]
+\end{gather*}
+\ie an entry of a transformed signal is obtained by doing a lookup of the entry of the original signal.
+
+In case $f \notin \Phi^*(V)$, we can still define $L_f \in \cl(\cs(V))$, however we need to linearly aggregate the entries on the fibers:
+\begin{gather*}
+\forall s \in \cs(V), \forall v \in V, f(s)[v] := L_f s[v] = \agg\{s[u], u \in f^{-1}\{v\}\}
+\end{gather*}
+where $\agg$ can be for example the sum, the average, or the max, and $\agg(\emptyset) = 0$.
+\end{definition}
+
+We also recall the formalism of translations.
+
+\begin{definition}\textbf{Translation on $\cs(\bbz^2)$}\\
+A translation on $\bbz^2$ is defined as a transformation $t \in \Phi^*(\bbz^2)$ such that
+\begin{gather*}
+\exists (a,b) \in \bbz^2, \forall (x,y) \in \bbz^2, t(x,y) = (x+a,y+b)
+\end{gather*}
+It also acts on $\cs(\bbz^2)$ with the notation $t_{a,b}$ \ie
+\begin{gather*}
+\forall s \in \cs(\bbz^2), \forall (x,y) \in \bbz^2, t_{a,b}(s)[x,y] = s[x-a, y-b]
+\end{gather*}
+For any set $E$, we denote by $\ct(E)$ its translations if they are defined.
+\end{definition}
+
+The next proposition fully characterizes convolution operators with their translational equivariance property. This can be seen as a discretization of a classic result from the theory of distributions.
+
+\begin{proposition}\textbf{Characterization of convolution operators on $\cs(\bbz^2)$}\\
+On real-valued signals over $\bbz^2$, the class of linear transformations that are equivariant to translations is exactly the class of convolutive operations \ie
+\begin{gather*}
+\exists w \in \cs(\bbz^2), f = . \ast w \Leftrightarrow
+\begin{cases}
+ f \in \cl(\cs(\bbz^2))\\
+ \forall t \in \ct(\cs(\bbz^2)), f \circ t = t \circ f
+\end{cases}
+\end{gather*}
+\label{prop:equi}
+\end{proposition}
+
+\begin{proof}
+The result from left to right is a direct consequence of the definitions:
+\begin{align}
+\forall s \in \cs(\bbz^2), \forall s' \in \cs(\bbz^2), & \forall (\alpha, \beta) \in \bbr^2,\forall (a,b) \in \bbz^2,\nonumber\\
+ %f_w(s)[a,b] & = \displaystyle \sum_i \sum_j s[i,j] \h{2} w[a-i, b-j] \tag{definition}\\
+ f_w(\alpha s + \beta s')[a,b] & = \displaystyle \sum_i \sum_j (\alpha s + \beta s')[i,j] \h{2} w[a-i, b-j]\nonumber\\
+ & = \alpha f_w(s)[a,b] + \beta f_w(s')[a,b] \tag{linearity}\\
+\forall s \in \cs(\bbz^2), \forall (\alpha, \beta) \in \bbz^2, & \forall (a,b) \in \bbz^2,\nonumber\\
+f_w \circ t_{\alpha,\beta} (s)[a,b] & = \displaystyle \sum_i \sum_j t_{\alpha,\beta}(s)[i,j] \h{2} w[a-i, b-j]\nonumber\\
+ & = \displaystyle \sum_i \sum_j s[i - \alpha,j - \beta] \h{2} w[a-i, b-j]\nonumber\\
+ & = \displaystyle \sum_{i'} \sum_{j'} s[i',j'] \h{2} w[a - i' - \alpha, b - j'- \beta]\label{eq:bij}\\
+ & = f_w (s)[a - \alpha,b - \beta]\nonumber\\
+ & = t_{\alpha,\beta} \circ f_w (s)[a,b] \tag{equivariance}
+\end{align}
+Now let's prove the result from right to left .
+
+Let $f \in \cl(\cs(\bbz^2))$, $s \in \cs(\bbz^2)$. We suppose that $f$ commutes with translations. Recall that $s$ can be linearly decomposed on the infinite family of dirac signals:
+\begin{gather*}
+s = \displaystyle \sum_i \sum_j s[i,j] \h{2} \delta_{i,j} \text{, where }
+\delta_{i,j}[x,y] = \begin{cases} 1 & \text{if } (x,y) = (i,j)\\ 0 & \text{otherwise} \end{cases}
+\end{gather*}
+By linearity of $f$ and then equivariance to translations:
+\begin{align*}
+f(s) & = \displaystyle \sum_i \sum_j s[i,j] \h{2} f(\delta_{i,j})\\
+ & = \displaystyle \sum_i \sum_j s[i,j] \h{2} f \circ t_{i,j} (\delta_{0,0})\\
+ & = \displaystyle \sum_i \sum_j s[i,j] \h{2} t_{i,j} \circ f (\delta_{0,0})
+\end{align*}
+By denoting $w = f (\delta_{0,0}) \in \cs(\bbz^2)$, we obtain:
+\begin{align}
+\forall (a,b) \in \bbz^2, f(s)[a,b] & = \displaystyle \sum_i \sum_j s[i,j] \h{2} t_{i,j}(w)[a,b] \label{eq:conv}\\
+ & = \displaystyle \sum_i \sum_j s[i,j] \h{2} w[a-i, b-j] \nonumber\\
+\text{\ie } f(s) & = s \ast w \nonumber
+\end{align}
+\end{proof}
+
+\subsection{Usefulness of convolutions in deep learning}
+
+\begin{remark}\textbf{Equivariance property of CNNs}\\
+In deep learning, an important argument in favor of CNNs is that convolutional layers are equivariant to translations. Intuitively, that means that a detail of an object in an image should produce the same features independently of its position in the image.
+\end{remark}
+
+\begin{remark}\textbf{Lossless superiority of CNNs over MLPs}\\
+The converse result, as a consequence of~\propref{prop:equi}, is never mentioned in deep learning literature. However it is also a strong one: it means that layers of CNNs have every translational equivariant functions in their search space, so it implies that the reduction of parameters from an MLP to a CNN is done with strictly no loss of expressivity (provided the objective function is know to bear this property). Besides, it helps the training to search in a much more confined space.
+\end{remark}
+
+Hence, in our construction, we will try to preserve the characterization from \propref{prop:equi} as it is mostly the reason why they are succesful in deep leraning. Note that the reduction of parameters compared to a dense layer is also a consequence of this characterization.
+
+\subsection{Related work generalising the discrete convolution on graphs}
+
+\todo{}
