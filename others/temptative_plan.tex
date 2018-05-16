@@ -1,0 +1,33 @@
+\documentclass[12pt]{book}
+\input{header}
+
+\begin{document}
+\tableofcontents
+
+% Temptative previsional plan I
+\addcontentsline{toc}{part}{Temptative previsional plan I}
+\chapter*{}
+\setcounter{chapter}{0}
+\input{plan}
+
+% Temptative previsional plan II
+\addtocontents{toc}{\protect\newpage}
+\addcontentsline{toc}{part}{Temptative previsional plan II}
+\chapter*{}
+\setcounter{chapter}{-1}
+\input{plan2}
+
+% Temptative previsional plan III
+\addtocontents{toc}{\protect\newpage}
+\addcontentsline{toc}{part}{Temptative previsional plan III}
+\chapter*{}
+\setcounter{chapter}{-1}
+\input{plan3}
+
+% Temptative previsional plan IV
+\addtocontents{toc}{\protect\newpage}
+\addcontentsline{toc}{part}{Temptative previsional plan IV}
+\chapter*{}
+\setcounter{chapter}{-1}
+\input{plan4}
+\end{document}

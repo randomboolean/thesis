@@ -1,1 +1,2 @@
+rm main.mtc*
 pdflatex main.tex && bibtex main.aux && pdflatex main.tex && pdflatex main.tex

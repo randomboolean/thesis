@@ -23,7 +23,10 @@
 % Introduction
 %
 
-%\chapter*{Introduction}
+\chapter*{Introduction}
+\label{chp:int}
+\addcontentsline{toc}{chapter}{\nameref{chp:int}}
+\todo{}
 %\input{}
 
 %
@@ -31,7 +34,6 @@
 %
 
 % cover
-%\setcounter{chapter}{1}
 \chapter{Presentation of the field}
 \input{chapter1/intro1.tex}
 \vfill\minitoc\newpage
@@ -59,12 +61,25 @@
 % Chapter 3
 %
 
-\chapter{Neural network on graphs}
+\chapter{Neural networks on graphs}
 \vfill\minitoc\newpage
 
 %
 % Chapter 4
 %
+
+\chapter{Industrial applications}
+\todo{}
+\vfill\minitoc\newpage
+
+%
+% Conclusion
+%
+
+\chapter*{Conclusion}
+\label{chp:ccl}
+\addcontentsline{toc}{chapter}{\nameref{chp:ccl}}
+\todo{}
 
 %
 % Bin
@@ -84,24 +99,13 @@
 %
 
 % Temptative previsional plan
-\addcontentsline{toc}{chapter}{Temptative previsional plan I}
-\chapter*{}
-\setcounter{chapter}{0}
-\input{others/plan}
-
-% Temptative previsional plan
-\addcontentsline{toc}{chapter}{Temptative previsional plan II}
-\chapter*{}
 \setcounter{chapter}{-1}
-\input{others/plan2}
-
-% Temptative previsional plan
-\addcontentsline{toc}{chapter}{Temptative previsional plan III}
-\chapter*{}
-\setcounter{chapter}{-1}
-\input{others/plan3}
+\fakechapter{Temptative previsional plans}
+\includepdf[pages=1-7]{others/temptative_plan.pdf}
 
 % keywords and temptative titles
+\setcounter{chapter}{-1}
+\chapter{Keywords and temptative titles}
 \input{others/keywords} % to be put somewhere else
 \input{others/titles}
 
