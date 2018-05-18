@@ -17,9 +17,11 @@ provided one of the signals has finite support if $\group$ is not finite.
 \label{def:conv1}
 \end{definition}
 
-For a graph $\gve$ and a subgroup $\Gamma \subset \Phi^*(V)$, this definition is applicable for $\cs(\Gamma)$, but not for $\cs(V)$ as $V$ is not a group.
+For a graph $\gve$ and a subgroup $\Gamma \subset \Phi^*(V)$, this definition is applicable for $\cs(\Gamma)$, but not for $\cs(V)$ as $V$ is not a group. Nonetheless, our point here is that we will use the group convolution on $\cs(\Gamma)$ to construct the convolutions on $\cs(V)$.
 
-Nonetheless, let's assume we can provide $V$ with a group structure by exhibiting an isomorphism $\varphi$ from $\Gamma$ to $V$. Then, the linear morphism $\widetilde\varphi$ from $\cs(\Gamma)$ to $\cs(V)$ defined by $\widetilde\varphi(\delta_g) = \delta_{\varphi(g)}$ is also an isomorphism. Hence, $V$ and $\cs(V)$ would inherit the same inherent structural properties as $\Gamma$ and $\cs(\Gamma)$, in addition of being related in the same way. For notational simplicity, we will use the same symbol $\varphi$ for $\varphi$ and $\widetilde\varphi$ (as done between $f$ and $L_f$). A commutative diagram between the sets is depicted on \figref{fig:iso}.
+For now, let's assume $\Gamma$ is in one-to-one correspondence with $V$, and let's define an isomorphism $\varphi$ from $\Gamma$ to $V$, to equip $V$ with a group structure. We denote $\Gamma \overset{\varphi}{\cong} V$ and $g_v \overset{\varphi}\mapsto v$.
+
+Then, the linear morphism $\widetilde\varphi$ from $\cs(\Gamma)$ to $\cs(V)$ defined by $\widetilde\varphi(\delta_g) = \delta_{\varphi(g)}$ is also an isomorphism. Hence, $V$ and $\cs(V)$ would inherit the same inherent structural properties as $\Gamma$ and $\cs(\Gamma)$, in addition of being related in the same way. For notational simplicity, we will use the same symbol $\varphi$ for $\varphi$ and $\widetilde\varphi$ (as done between $f$ and $L_f$). A commutative diagram between the sets is depicted on \figref{fig:iso}.
 
 \begin{figure}[H]
 \centering
@@ -31,10 +33,24 @@ Nonetheless, let's assume we can provide $V$ with a group structure by exhibitin
 \label{fig:iso}
 \end{figure}
 
+\begin{lemma}\textbf{Relation between $\cs(\Gamma)$ and $\cs(V)$}\\
+$\forall s \in \cs(\Gamma), \forall u \in V, \varphi(s)[u] = s[\varphi^{-1}(u)] = s[g_u]$
+\label{lem:outer}
+\end{lemma}
+\begin{proof}
+\begin{align*}
+\forall s \in \cs(\Gamma), \varphi(s) & = \varphi(\displaystyle \sum_{g \in \Gamma} s[g] \h{2} \delta_g)\\
+ & = \displaystyle \sum_{g \in \Gamma} s[g] \h{2} \varphi(\delta_g)\\
+ & = \displaystyle \sum_{g \in \Gamma} s[g] \h{2} \delta_{\varphi(g)}\\
+ & = \displaystyle \sum_{v \in V} s[g_v] \h{2} \delta_v\\
+ \text{So }\forall v \in V, \varphi(s) [u] & = s[g_u]
+\end{align*}
+\end{proof}
+
 Hence, we can steer the definition of the group convolution from $\cs(\Gamma)$ to $\cs(V)$ as follows:
 
 \begin{definition}\textbf{Group convolution II}\\
-Let a subgroup $\Gamma \subset \Phi^*(V)$ such that $V \cong \Gamma$ through an isomorphism $g_v \overset{\varphi}\mapsto v$.
+Let a subgroup $\Gamma \subset \Phi^*(V)$ such that $\Gamma \overset{\varphi}{\cong} V$.
 The group convolution II between two signals $s_1$ and $s_2 \in \cs(V)$ is defined as:
 \begin{align*}
 \forall u \in V, (s_1 \ast_{\II} s_2) [u] & = \displaystyle \sum_{v \in V} s_1[v] \h{2} s_2[\varphi(g_v^{-1}g_u)]\\
@@ -42,6 +58,24 @@ The group convolution II between two signals $s_1$ and $s_2 \in \cs(V)$ is defin
 \end{align*}
 \label{def:conv2}
 \end{definition}
+
+\begin{proposition}\textbf{Relation between group convolution I and II}\\
+Let a subgroup $\Gamma \subset \Phi^*(V)$ such that $\Gamma \overset{\varphi}{\cong} V$,
+\begin{gather*}
+\forall s_1, s_2 \in \cs(\Gamma), \forall u \in V,
+(\varphi(s_1) \ast_{\II} \varphi(s_2))[u] = (s_1 \ast_{\I} s_2)[g_u]
+\end{gather*}
+\end{proposition}
+
+\begin{proof}
+Using \lemref{lem:outer},
+\begin{align*}
+(\varphi(s_1) \ast_{\II} \varphi(s_2))[u] & = \displaystyle \sum_{v \in V} \varphi(s_1)[v] \h{2} \varphi(s_2)[\varphi(g_v^{-1}g_u)]\\
+ & = \displaystyle \sum_{v \in V} s_1[g_v] \h{2} s_2[g_v^{-1}g_u]\\
+ & = \displaystyle \sum_{g \in \Gamma} s_1[g] \h{2} s_2[g^{-1}g_u]\\
+ & = (s_1 \ast_{\I} s_2)[g_u]
+\end{align*}
+\end{proof}
 
 \begin{proposition}\textbf{Equivariance to $\varphi(\Gamma)$}\\
 With \defref{def:conv2}, convolution operators acting on the right of $\cs(V)$ are equivariant to $\varphi(\Gamma)$ \ie
@@ -85,8 +119,10 @@ Hence, note that $g \in \Gamma$ can act on both $\Gamma$ through the left multip
 
 With this in mind we obtain the following definitions.
 
-\begin{definition}\textbf{$\varphi$-coherent action}\\
-A subgroup $\Gamma \subset \Phi^*(V)$ is said to be \emph{$\varphi$-coherent} if $V \cong \Gamma$ through an isomorphism $g_v \overset{\varphi}\mapsto v$  and if it verifies the property:
+\todo{define equivariant map, then isomorph-equivalence}
+
+\begin{definition}\textbf{Equivalence and equivariant map}\\
+Let a subgroup $\Gamma \subset \Phi^*(V)$ such that $\Gamma \cong V$ through an isomorphism $g_v \overset{\varphi}\mapsto v$  and if it verifies the property:
 \begin{gather*}
 \forall v \in V, \forall u \in V, g_v(u) = \varphi(g_vg_u) \tag{P}\label{eq:P}
 \end{gather*}

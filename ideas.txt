@@ -5,8 +5,9 @@ On convolutions on graphs:
 1) tensor-train or other tensor decompositions to accelerat SWX
 2) graph product (approximate) factorization (to make nd convolutions)
 3) decomposition of general graphs into circulant graphs
-4) shifts
+4) shifts (done already)
 
+-1) translation on the covariance graph : preserve classes (class invariant)
 
 Todo
 X Emphasize on lossless superiority before
