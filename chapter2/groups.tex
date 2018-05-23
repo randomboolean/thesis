@@ -142,7 +142,7 @@ For example, translations on the grid graph, with $\varphi(t_{i,j}) = (i,j)$, ar
 \end{remark}
 
 \begin{definition}\textbf{Group convolution III}\\
-Let a subgroup $\Gamma \subset \Phi^*(V)$ such that $V \cong \Gamma$ through an isomorphism $g_v \overset{\varphi}\mapsto v$.
+Let a subgroup $\Gamma \subset \Phi^*(V)$ such that $\Gamma \overset{\varphi}{\cong} V$.
 The group convolution III between two signals $s_1$ and $s_2 \in \cs(V)$ is defined as:
 \begin{align}
 s_1 \ast_{\III} s_2 & = \displaystyle \sum_{v \in V} s_1[v] \h{2} g_v(s_2)\label{eq:vdom}\\
@@ -154,7 +154,7 @@ s_1 \ast_{\III} s_2 & = \displaystyle \sum_{v \in V} s_1[v] \h{2} g_v(s_2)\label
 The two expressions differ on the domain upon which the summation is done. The expression \eqref{eq:vdom} put the emphasis on each vertex and its action, whereas the expression \eqref{eq:premix} emphasizes on each object of $\Gamma$.
 
 \begin{lemma}\textbf{Relation with group convolution II}\\
-$\Gamma \text{ is } \varphi \text{-equivalent} \Leftrightarrow \ast_{\II} = \ast_{\III}$
+$\Gamma \overset{\varphi}{\equiv} V \Leftrightarrow \ast_{\II} = \ast_{\III}$
 \label{lem:rel}
 \end{lemma}
 
@@ -176,7 +176,7 @@ This time, we obtain equivariance to $\Gamma$.
 If $\Gamma$ is $\varphi$-equivalent, convolution operators acting on the right of $\cs(V)$ are equivariant to $\Gamma$ \ie
 \begin{gather*}
 \begin{cases}
-\Gamma \text{ is } \varphi \text{-equivalent}\\
+\Gamma \overset{\varphi}{\equiv} V\\
 \exists w \in \cs(V), f = . \ast w
 \end{cases}
 \Rightarrow \forall g \in \Gamma, f \circ g = g \circ f
@@ -221,7 +221,7 @@ $\forall \varphi \in \iso(\Gamma, V), r \ast_{\M} s = \varphi(r) \ast_{\II} s$
 
 \begin{proposition}\textbf{Relation with group convolution I}\\
 Let $\varphi \in \iso(\Gamma, V)$, we have\\
-$r \ast_{\M} s = r \ast_{\I} \varphi^{-1}(s) \Leftrightarrow \Gamma \text{ is } \varphi \text{-equivalent}$
+$r \ast_{\M} s = r \ast_{\I} \varphi^{-1}(s) \Leftrightarrow \Gamma \overset{\varphi}{\equiv} V$
 \end{proposition}
 
 \begin{proof}
