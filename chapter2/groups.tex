@@ -1,4 +1,4 @@
-\section{Construction on the vertex set through groups}
+\section{Construction from the vertex set}
 
 \subsection{Introduction}
 
@@ -31,7 +31,7 @@ provided at least one of the signals has finite support if $\group$ is not finit
 \label{def:conv1}
 \end{definition}
 
-\subsection{Steered construction}
+\subsection{Steered construction from groups}
 
 For a graph $\gve$ and a subgroup $\Gamma \subset \Phi^*(V)$, \defref{def:conv1} is applicable for $\cs(\Gamma)$, but not for $\cs(V)$ as $V$ is not a group. Nonetheless, our point here is that we will use the group convolution on $\cs(\Gamma)$ to construct the convolutions on $\cs(V)$.
 
@@ -286,3 +286,8 @@ f_w \circ g (s) & = \displaystyle \sum_{h \in \Gamma} w[h] \h{2} hg(s) \label{eq
  & = g \circ f_w (s) \nn
 \end{align}
 \end{proof}
+
+\begin{remark}Note that similarly, $*_{\I}$, $*_{\II}$ and $*_{\III}$ are equivariant to $\Gamma$ through left action, if and only if, $\Gamma$ is abelian.
+\end{remark}
+
+Depending on the applications, we will build upon either $*_{\III}$ or upon $*_{\M}$ if the abelian condition can be verified.
