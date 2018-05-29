@@ -1,0 +1,88 @@
+\section{Related works}
+
+\todo{Presentation and note on older graph neural network models}
+
+
+%\subsection{Methodology}
+
+\subsection{Analysis of spectral techniques}
+
+Given a graph $\gve$, spectral techniques are based on the graph Fourier transform, derived from the laplacian matrix of $G$. Spectral CNNs make use of a convolution defined as pointwise multiplication in the spectral domain defined by the graph Fourier transform~\citep{chung1996spectral,shuman2013emerging}. Neural networks based on such methods were first introduced by \cite{bruna2013spectral}. \cite{henaff2015deep} later extended them to large scale classification tasks, and investigate the problem of estimating a suitable $G$ from data.
+
+Let a graph $\gve$ of order $n$, with adjacency matrix $A$, degree matrix $D$, and let $L$ denote either its normalized laplacian matrix or its unnormalized laplacian matrix. As a real symmetric matrix, $L$ is diagonalized as $L = U^{\T} \Lambda U$, where columns of $U$ are the eigenvectors and $\Lambda = \diag(\lambda_1, \ldots , \lambda_n)$ is a diagonal matrix of the corresponding eigenvalues. 
+
+\begin{definition}\textbf{Graph Fourier transform}\\
+The graph Fourier transform of a signal defined on the vertices of $G$, represented by a column vector $x \in \cs(G)$, is defined as $\cf(x) = Ux$.
+\end{definition}
+
+The spectral convolution can then be constructed by similarity with the convolution theorem from classical Fourier analysis~\citep{wiki:conv}.
+
+\begin{definition}\textbf{Spectral convolution}\\
+The spectral convolution between two signals $x_1, x_2 \in \cs(G)$ is defined as
+\begin{align*}
+x_1 \star x_2 & = U^{\T}(Ux_1 \circ Ux_2)\\
+ & = U^{\T} \diag(Ux_1) \h{2} Ux_2
+\end{align*}
+where here $\circ$ denotes Hadamard product and $\forall v \in \bbr^n, \diag(v) = \diag(v[1], \ldots, v[n])$.
+\end{definition}
+
+This gives rize to a class of convolution layers. In the following definition we reinterpret them with the formalism introduced in \secref{sec:nn}.
+
+\begin{definition}\textbf{Spectral convolution layer with $\co(n)$ weights}\\
+A spectral convolution layer $(g,h)$ is such that its connectivity matrix is of the form:
+\begin{gather*}
+W_g = U^{\T} \diag(\theta) \h{2} U
+\end{gather*}
+where $\theta$ contains $n$ learnable weights.
+\end{definition}
+
+\begin{remark}Spectral convolution layer are also extended with feature maps and input channels. In fact $W_g := W_g^{p,q}$ where $W_g^{p,q}$ is the $(p,q)$ block corresponding to input channel $p$, and feature map $q$, of a larger connectivity matrix. But we omit the superscript for the sake of simplicity.
+\end{remark}
+
+Such layers have two main drawbacks:
+\begin{enumerate}
+  \item they produce $\co(n)$ weights instead of $\co(1)$ as in the case of classical two-dimensional convolutions,
+  \item connections of $W_g$ do not depend on a locality notion based on the original adjacency matrix $A$.
+\end{enumerate}
+
+Hence, \cite{bruna2013spectral} suggest to alleviate these issues with the following construction (reinterpreted with our formalism):
+
+\begin{definition}\textbf{Spectral convolution layer with $\co(1)$ weights}\\
+A spectral convolution layer $(g,h)$ is such that its connectivity matrix is of the form:
+\begin{gather*}
+W_g = U^{\T} \diag(\omega) \h{2} U
+\end{gather*}
+where $\omega$ is obtained from smooth interpolation between a weight vector $\theta$ of size $r = \co(1)$ and a smoothing kernel $K \in \bbr^{n \times r}$ ie $\omega = K \theta$.
+\end{definition}
+
+In particular, \cite{bruna2013spectral}, argue that the second issue is answered by the fact that ``in order to learn a layer in which features will be not only shared across locations but also well localized in the original domain, one can learn spectral multipliers which are smooth''. An argument that was also taken up by \cite{henaff2015deep}. This argument is suggested by similarity with the classical Fourier transform for which spatial decay relates with smoothness in the spectral domain. Although this argument is true for a grid of infinite size (corresponding to the case of the discrete Fourier transform), it is not necessarily true for a general graph in finite settings.
+
+More precisely, as mentioned by \cite{henaff2015deep}, this argument in classical Fourier analysis is grounded by the following expression:
+\begin{gather}
+\bigg|\frac{\partial^k{\hat{x}}}{\partial{\xi^k}}\bigg| \leq C \int |u|^k|x(u)|du \label{eq:regf}
+\end{gather}
+
+On infinite domains, the existence of the left hand of \eqref{eq:regf} requires the summing integral to be well defined, and thus imposes $x$ to be compactly supported, or every $|u|^k$ to be matched by the spatial decrease of $x$. This argument doesn't need to hold on finite domains as finite sums are always defined.
+
+\begin{claim} (False) Smooth multipliers in the graph spectral domain produce a spatially localized operator in the vertex domain.
+\end{claim}
+
+\begin{proof} We make use of our formalism, as spatial localization can be understood through the connectivity matrix $W_g$.
+
+Let's consider the power graph $G^n$, which is defined such that its connectivity matrix is $A^n$. Now let's suppose $G$ is such that $G$ and $G^n$ are regular graphs. Then, the laplacian matrix of $G^n$ commutes with the laplacian of $G$, as both are polynomials in $A$. Hence they are simultaneously diagonalizable in a common eigenvector basis $\cu$ where they also share a common definition of spectral convolution.
+
+However, $A$ and $A^n$ encapsulate notions of locality that can be very dissimilar for some graphs (even for example for a grid graph of finite sizes), which refutes the claim.
+\end{proof}
+
+\paragraph{Equivariance to $L$}
+
+\todo{}
+
+\paragraph{Polynomial spectral techniques}
+
+\todo{Chebnet Cayleynet}
+
+\subsection{Vertex domain techniques}
+
+\subsection{Others}
+

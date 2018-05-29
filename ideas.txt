@@ -11,6 +11,7 @@ On convolutions on graphs:
 
 Todo
 X Emphasize on lossless superiority before
-X Add more figures
+X Add figures
 X Rewrite remark on expressivity to better explain the refs
-X Reformat the ordering of the sections
+X Reformat the ordering of the subsections in chapter 1, clean toc on 3 levels
+x Pass on bib files, and add venues instead of arxiv when relevant
