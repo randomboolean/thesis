@@ -24,10 +24,9 @@ We use the notation $\bbt = \displaystyle \bigotimes_{k=1}^r \bbv_k$.
 This simpler definition is indeed equivalent with the definition of the tensor product given in~(\cite{hackbusch2012tensor}, p. 51). The drawback of our definition is that it depends on the canonical bases, which at first can seem limiting as being canon implies that they are bounded to a certain system of coordinates. However this is not a concern in our domain as we need not distinguish tensors from their representation.
 \end{remark}
 
-\begin{remark}
+\paragraph{Naming convention}
 For naming convenience, from now on, we will distinguish between the terms \emph{linear space} and \emph{vector space} \ie we will abusively use the term \emph{vector space} only to refer to a linear space that is seen as a tensor space of rank $1$. If we don't know its rank, we rather use the term \emph{linear space}.
 We also make a clear distinction between the terms \emph{dimension} (that is, for a tensor space it is equal to $\displaystyle \prod_{k=1}^r n_k$) and the term \emph{rank} (equal to $r$). Note that some authors use the term \emph{order} instead of \emph{rank} (\eg \cite{hackbusch2012tensor}) as the latter is affected to another notion.
-\end{remark}
 
 \begin{definition}\textbf{Tensor}\\
 A \emph{tensor} $t$ is an object of a tensor space. The \emph{shape} of $t$, which is the same as the shape of the tensor space it belongs to, is denoted $n_1^{(t)} \times n_2^{(t)} \times \cdots \times n_r^{(t)}$.
@@ -83,12 +82,11 @@ A \emph{flatten} operation is an isomorphism $f: \bbt \rightarrow \bbv$, between
 We call an inverse operation a \emph{de-flatten} operation.
 \end{definition}
 
-\begin{remark}\textbf{Row major ordering}\\
+\paragraph{Row major ordering}
 The choice of $g$ determines in which order the indexing is made. $g$ is reminiscent of how data of multidimensional arrays or tensors are stored internally by programming languages. In most tensor manipulation languages, incrementing the memory address (\ie the output of $g$) will first increment the last index $i_r$ if $i_r < n_r$ (and if else $i_r = n_r$, then $i_r := 1$ and ranks are ordered in reverse lexicographic order to decide what indices are incremented). This is called \emph{row major ordering}, as opposed to \emph{column major ordering}. That is, in row major, $g$ is defined as
 \begin{align}
   g(i_1, i_2, \ldots, i_r) = \displaystyle \sum_{p=1}^r \left( \prod_{k=p+1}^r n_k \right) i_p \label{eq:rowmajor}
 \end{align}
-\end{remark}
 
 \begin{definition}\textbf{Reshaping}\\
 A \emph{reshape} operation is an isomorphism defined on a tensor space $\bbt = \displaystyle \bigotimes_{k=1}^r \bbv_k$ such that some of its basis vector spaces $\{\bbv_k\}$ are de-flattened and some of its slice subspaces are flattened.
@@ -124,11 +122,11 @@ Given a tensor contraction $t_1 \otimes t_2$, indices of the left hand operand $
 The set of covariant and contravariant indices of both operands are called the \emph{transformation laws} of the tensor contraction.
 \end{definition}
 
-\begin{remark}\textbf{Transformation law independency}\\
+\begin{remark}
 Contrary to most mathematical definitions, tensors in deep learning are independent of any transformation law, so that they must be specified for tensor contractions.
 \end{remark}
 
-\begin{remark}\textbf{Einstein summation convention}\\
+\paragraph{Einstein summation convention}
 Using subscript notation for covariant indices and superscript notation for contravariant indices, the previous tensor contraction can be written using the Einstein summation convention as:
 \begin{gather}
 t_1 \hspace{0pt}_{i_1^{(1)} \cdots i_{r_1-s}^{(1)} } \hspace{0pt}^{ k_1 \cdots k_s} 
@@ -137,7 +135,6 @@ t_3 \hspace{0pt}_ {i_1^{(1)} \cdots i_{r_1-s}^{(1)} } \hspace{0pt}^{i_{s+1}^{(2)
 \label{eq:indices}
 \end{gather}
 Dot product $u_k v^k = \lambda $ and matrix product $A_i\hspace{0pt}^k B_k\hspace{0pt}^j = C_i\hspace{0pt}^j$ are common examples of tensor contractions.
-\end{remark}
 
 \begin{proposition}%\textbf{Matrix product equivalence I}\\
 A contraction can be rewritten as a matrix product.
