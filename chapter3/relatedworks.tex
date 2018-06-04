@@ -55,20 +55,32 @@ W_g = U^{\T} \diag(\omega) \h{2} U
 where $\omega$ is obtained from smooth interpolation between a weight vector $\theta$ of size $r = \co(1)$ and a smoothing kernel $K \in \bbr^{n \times r}$ ie $\omega = K \theta$.
 \end{definition}
 
-In particular, \cite{bruna2013spectral}, argue that the second issue is answered by the fact that ``in order to learn a layer in which features will be not only shared across locations but also well localized in the original domain, one can learn spectral multipliers which are smooth''. An argument that was also taken up by \cite{henaff2015deep}. This argument is suggested by similarity with the classical Fourier transform for which spatial decay relates with smoothness in the spectral domain. Although this argument is true for a grid of infinite size (corresponding to the case of the discrete Fourier transform (DFT)), it is not necessarily true for a general graph in finite settings.
+In particular, \cite{bruna2013spectral}, argue that the second issue is answered by the fact that \quotes{in order to learn a layer in which features will be not only shared across locations but also well localized in the original domain, one can learn spectral multipliers which are smooth}. An argument that was also taken up by \cite{henaff2015deep}. This argument is suggested by similarity with the classical Fourier transform for which spatial decay relates with smoothness in the spectral domain.
 
-More precisely, as mentioned by \cite{henaff2015deep}, this argument in classical Fourier analysis is grounded by the following expression:
+\begin{claim} Smooth multipliers in the graph spectral domain produce a spatially localized operator in the vertex domain.
+\label{cla:smooth}
+\end{claim}
+
+Although \claref{cla:smooth} is true for a grid of infinite size (corresponding to the case of the discrete Fourier transform (DFT)), it is not necessarily true for a general graph in finite settings. More precisely, as mentioned by \cite{henaff2015deep}, this argument in classical Fourier analysis is grounded by the following expression:
 \begin{gather}
 \bigg|\frac{\partial^k{\hat{x}}}{\partial{\xi^k}}\bigg| \leq C \int |u|^k|x(u)|du \label{eq:regf}
 \end{gather}
 
-On infinite domains, the integrability of the left hand of \eqref{eq:regf} requires the summing integral to be well defined, and thus imposes $x$ to be compactly supported, or every $|u|^k$ to be matched by the spatial decrease of $|x(u)|$ when $u$ diverges. This argument doesn't need to hold on finite domains as finite sums are always defined.
+On infinite domains, the integrability of the left hand of \eqref{eq:regf} requires the summing integral to be well defined, and thus imposes $x$ to be compactly supported, or every $|u|^k$ to be matched by the spatial decrease of $|x(u)|$ when $u$ diverges.
 
-\begin{claim} (False) Smooth multipliers in the graph spectral domain produce a spatially localized operator in the vertex domain.
-\end{claim}
+However this argument doesn't need to hold on finite domains as finite sums are always defined, so it is not clear whether $\ref{cla:smooth}$ is true for any graph.
 
-\begin{proof}[Refutation] In our formalism, spatial localization can be understood through the connectivity matrix $W_g$. Hence, to refute the claim, there suffices to notice that as $L$ and $L^n$ commutes, they can be simultaneously diagonalized in a common eigenbasis $\cu_{\C}$. Thus they also define a common GFT \wrt $\cu_{\C}$ along a common spectral convolution. However, their corresponding adjacency matrices $A = D - L$ and $A_n = \diag(L^n) - L^n$ encapsulate notions of locality that can be very dissimilar for some graphs (for example for a rectangular grid graph of finite sizes).
+\begin{proposition} If $G$ is a complete graph, then \claref{cla:smooth} is false.
+\end{proposition}
+
+\begin{proof}
+Consider a well chosen construction of $\cu$.
 \end{proof}
+
+\paragraph{Define spatial decay, try to prove for grids}
+
+\paragraph{Thinking ...}
+Consider two graphs and their laplacians $L_1$ and $L_2$. They define the same spectral conv, iff, $L_1L_2 = L_2L_1$ iff $L_3 = L_1L_2 $ is a symmetric matrix \ie a laplacian of another graph.
 
 \paragraph{In fact it's learned smoothness}
 

@@ -25,8 +25,8 @@
 \usepackage{minitoc}
 \setcounter{secnumdepth}{3}
 \setcounter{tocdepth}{3}
-\setcounter{minitocdepth}{1}
-\renewcommand{\mtctitle}{~} % Empty minitoc titles
+\setcounter{minitocdepth}{2}
+%\renewcommand{\mtctitle}{~} % Empty minitoc titles
 
 % References
 \usepackage{hyperref}
@@ -223,6 +223,7 @@
 \newcommand{\thref}[1]{Theorem~\ref{#1}}
 \newcommand{\propref}[1]{Proposition~\ref{#1}}
 \newcommand{\remref}[1]{Remark~\ref{#1}}
+\newcommand{\claref}[1]{Claim~\ref{#1}}
 \newcommand{\rqref}[1]{Remark~\ref{#1}}
 \newcommand{\defref}[1]{Definition~\ref{#1}}
 \newcommand{\corref}[1]{Corrolary~\ref{#1}}
@@ -239,8 +240,11 @@
 % hspaces
 \newcommand{\h}[1]{\hspace{#1pt}}
 
-% Keywords
+% keywords
 \newcommand{\keywords}[1]{\textbf{\textit{Index terms---}} #1}
+
+% quotes
+\newcommand{\quotes}[1]{``#1''}
 
 % For temptative plans
 \newcommand{\fakechapter}[1]{%
