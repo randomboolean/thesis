@@ -1,0 +1,229 @@
+\subsection{Proposed Method}
+
+We propose to introduce another type of layer, that we call \textit{receptive graph layer}. It is based on an adjacency matrix and aims at extending the principle of convolutional layers to any domain that can be described using a graph.
+
+Consider an adjacency matrix $A$ that is well fitted to the signals to be learned, in the sense that it describes an underlying graph structure between the input features. We define the receptive graph layer associated with $A$ using the product between a third rank tensor $S$ and a weight kernel $W$. For now, the tensor $W$ would be one-rank containing the weights of the layer and $S$ is of shape $n\times n \times \omega$, where $n\times n$ is the shape of the adjacency matrix and $\omega$ is the shape of $W$.
+
+On the first two ranks, the support of $S$ must not exceed that of $A$, such that $A_{ij} = 0 \Rightarrow \forall k, S_{ijk} = 0$.
+
+Overall, we obtain:
+\[
+\mathbf{y} = f(W\cdot S \cdot \mathbf{x} + \mathbf{b})\;,
+\]
+where here $\cdot$ denotes the tensor product.
+
+Intuitively, the values of the weight kernel $W$ are linearly distributed to pairs of neighbours in $A$ with respect to the values of $S$. For this reason, we call $S$ the \textit{scheme} (or \textit{weight sharing scheme}) of the receptive graph. In a sense, this scheme tensor is to the receptive graph what the adjacency matrix is to the graph. An example is depicted in Figure~\ref{proposed}.
+
+\begin{figure}[h]
+  \begin{center}
+    \begin{tikzpicture}
+      \tikzstyle{every node} = [draw, circle, thick, inner sep = 2pt]
+      \begin{scope}[yshift=3.5cm,xshift=-3cm]
+        \foreach \y in {0,...,4}{
+          \pgfmathtruncatemacro{\yplusone}{\y + 1}
+          
+          \node(\y) at (.8*\y,0) {\footnotesize\yplusone};
+        }
+        \path
+        (0) edge[loop above] (0)
+        edge (1);
+        \path
+        (1) edge[loop above] (1)
+        edge (2);
+        \path
+        (2) edge[loop above] (2)
+        edge (3);
+        \path
+        (3) edge[loop above] (3)
+        edge (4);
+        \path
+        (4) edge[loop above] (4);
+      \end{scope}
+      \begin{scope}[yshift=2.5cm, xshift=1.5cm]
+        \foreach \y in {0,...,4}{
+          \pgfmathtruncatemacro{\yplusone}{5 - \y}
+
+          \node(a\y) at (0,.5*\y) {\footnotesize\yplusone};
+      }
+        \foreach \y in {0,...,4}{
+          \pgfmathtruncatemacro{\yplusone}{5 - \y}
+                  
+          \node(\y) at (2,.5*\y) {\footnotesize\yplusone};
+      }
+      \path
+      (a0) edge (0)
+      (a0) edge (1);
+      \path
+      (a1) edge (0)
+      (a1) edge (1)
+      (a1) edge (2);
+      \path
+      (a2) edge (1)
+      (a2) edge (2)
+      (a2) edge (3);
+      \path
+      (a3) edge (2)
+      (a3) edge (3)
+      (a3) edge (4);
+      \path
+      (a4) edge (3)
+      (a4) edge (4);
+      \end{scope}
+      \tikzstyle{every node} = []
+      \node at (-1,1) {$\left(\begin{array}{ccccc}
+          \mathbf{s}_{11} & \mathbf{s}_{12} & 0 & 0 & 0\\
+          \mathbf{s}_{21} & \mathbf{s}_{22} & \mathbf{s}_{23} & 0 & 0\\
+          0 & \mathbf{s}_{32} & \mathbf{s}_{33} & \mathbf{s}_{34} & 0\\
+          0 & 0 & \mathbf{s}_{43} & \mathbf{s}_{44} & \mathbf{s}_{45}\\
+          0 & 0 & 0 & \mathbf{s}_{54} & \mathbf{s}_{55}
+        \end{array}\right)$};
+      \node(label) at (3.2,1.5) {$(W\cdot S)_{45} = \displaystyle{\sum_{k=1}^{\omega}{W_{k} S_{45 k}}}$};
+      \path[>=stealth, ->, thick]
+      (label) edge[bend left] (2.9,2.65);
+    \end{tikzpicture}
+  \end{center}
+  \caption{Depiction of a graph, the corresponding receptive graph of the propagation and its associated weight sharing scheme $S$. Note that $\mathbf{s}_{ij}=S_{ij\cdot}$ are vector slices of $S$ along the first two ranks, $\mathbf{s}_{ij}$ determines how much of each weight in $W$ is allocated for the edge linking vertex $i$ to vertex $j$.}
+  \label{proposed}
+\end{figure}
+
+Alike convolution on images, $W$ is extended as a third-rank tensor to include multiple input and output channels (also known as feature maps). It is worth mentioning that an implementation must be memory efficient to take care of a possibly large sparse $S$.
+
+\subsection{Training}
+
+The proposed formulation allows to learn both $S$ and $W$. We perform the two jointly. Learning $W$ amounts to learning weights as in regular CNNs, whereas learning $S$ amounts to learning how these weights are tied over the receptive fields. We also experiment a fine-tuning step, which consists in freezing $S$ in the last epochs. Indeed, when a weight sharing scheme can be decided directly from the underlying structure, it is not necessary to train $S$.
+
+Because of our inspiration from CNNs, we propose constraints on the parameters of $S$. Namely, we impose them to be between 0 and 1, and to sum to 1 along the third dimension. Therefore, the vectors on the third rank of $S$ can be interpreted as performing a weighted average of the parameters in $W$.
+
+We test two types of initialization for $S$. The first one consists in distributing one-hot-bit vectors along the third rank. We impose that for each receptive field, a particular one-hot-bit vector can only be distributed at most once more than any other. We refer to it as one-hot-bit initialization. The second one consists in using a uniform random distribution with limits as described in \cite{glorot2010understanding}.
+
+\subsection{Genericity}
+
+For simplicity we restricted our explanation to square adjacency matrices. In the case of oriented graphs, one could remove the rows and columns of zeros and obtain a receptive graph with a distinct number of neurons in the input ($n$) than in the output ($m$). As a result, receptive graph layers extend usual ones, as explained here:
+\begin{enumerate}
+\item To obtain a fully connected layer, one can choose $\omega$ to be of size $nm$ and $S$ the matrix of vectors that contains all possible one-hot-bit vectors.
+\item To obtain a convolutional layer, one can choose $\omega$ to be the size of the kernel. $S$ would be one-hot-bit encoded along its third rank and circulant along the first two ranks. A stride $> 1$ can be obtained by removing the corresponding rows.
+\item Similarly, most of the layers presented in related works can be obtained for an appropriate definition of $S$.
+\end{enumerate}
+
+In our case, $S$ is more similar to that obtained when considering convolutional layers, with the noticeable differences that we do not force which weight to allocate for which neighbor along its third rank and it is not necessarily circulant along the first two ranks.
+
+\subsection{Discussion}
+\label{discussion}
+
+Although we train $S$ and $W$, the layer propagation is ultimately handled by their tensor product. That is, its output is determined by $\Theta \cdot \mathbf{x}$ where $\Theta = S \cdot W$. For the weight sharing to make sense, we must then not over-parameterize $S$ and $W$ over $\Theta$. If we call $l$ the number of non-zeros in $A$ and $w\times p \times q$ the shape of $W$, then the former assumption requires $lw + wpq \leq lpq$ or equivalently $\frac{1}{w} \geq \frac{1}{pq} + \frac{1}{l}$. It implies that the number of weights per filter $w$ must be lower than the total number of filters $pq$ and than the number of edges $l$.% With the sum to 1 constraint, the condition rewrites $l(w-1) + wpq \leq lpq$ or equivalently $\frac{1}{w} \geq (\frac{1}{pq} + \frac{1}{l})\frac{pq}{pq+1}$.
+
+Note that without the constraint that the support of $S$ must not exceed that of $A$ (or if the used graph is complete), the proposed formulation could also be applied to structure learning of the input features space~\cite{richardson1996discovery,kwok1997constructive}. That is, operations on $S$ along the third rank might be exploitable in some way, e.g. dropping connections during training~\cite{han2015learning} or discovering some sort of structural correlations. However, even if this can be done for toy image datasets, such $S$ wouldn't be sparse and would lead to memory issues in higher dimensions. So we didn't include these avenues in the scope of this paper.
+
+\subsection{Experiments}
+
+\subsubsection*{Description}
+
+We are interested in comparing various receptive graph layers with convolutional ones. For this purpose, we use image datasets, but restrain priors about the underlying structure.
+
+We first present experiments on MNIST~\cite{lecun1998mnist}. It contains 10 classes of gray levels images (28x28 pixels) with 60'000 examples for training, 10'000 for testing. We also do experiments on a scrambled version to hide the underlying structure, as done in previous work~\cite{chen2014unsupervised}. Then we present experiments on Cifar10~\cite{krizhevsky2009learning}. It contains 10 classes of RGB images (32x32 pixels) with 50'000 examples for training, 10'000 for testing.
+
+Because receptive graph layers are wider than their convolutional counterparts ($lw$ more parameters from $S$), experiments are done on shallow (but wide) networks for this introductory paper. Also note that they require $w+1$ times more multiply operations than a convolution lowered to a matrix multiplication~\cite{chetlur2014cudnn}. In practice, they roughly took 2 to 2.5 more time.
+
+\subsubsection*{Experiments with grid graphs on MNIST}
+
+Here we use models composed of a single receptive graph (or convolutional) layer made of 50 feature maps, without pooling, followed by a fully connected layer of 300 neurons, and terminated by a softmax layer of 10 neurons. Rectified Linear Units~\cite{glorot2011deep} are used for the activations and a dropout~\cite{srivastava2014dropout} of 0.5 is applied on the fully-connected layer. Input layers are regularized by a factor weight of $10^{-5}$~\cite{ng2004feature}. We optimize with ADAM~\cite{kingma2014adam} up to 100 epochs and fine-tune (while $S$ is frozen) for up to 50 additional epochs.
+
+We consider a grid graph that connects each pixel to itself and its 4 nearest neighbors (or less on the borders). We also use the square of this graph (pixels are connected to their 13 nearest neighbors, including themselves), the cube of this graph (25 nearest neighbors), up to 10 powers (211 nearest neighbors).
+Here we use one-hot-bit initialization. We test the model under two setups: either the ordering of the node is unknown, and then the one-hot-bit vectors are distributed randomly and modified upon training ; either an ordering of the node is known, and then the one-hot-bit vectors are distributed in a circulant fashion in the third rank of $S$ which is freezed in this state. We use the number of nearest neighbors as for the dimension of the third rank of $S$.
+We also compare with a convolutional layer of size 5x5, thus containing as many weights as the cube of the grid graph. Table~\ref{toy} summarizes the obtained results. The ordering is unknown for the first result given, and known for the second result between parenthesis.
+
+\begin{table}[h]
+  \caption{Error rates on powers of the grid graphs on MNIST.}
+  \begin{center}
+    \bgroup
+    \def\arraystretch{1.5}%  1 is the default, change whatever you need
+    \begin{tabular}{|c|c|c|c|}
+      \hline
+      Conv5x5 & Grid$^1$ & Grid$^2$ & Grid$^3$\\
+      \hline
+      (0.87\%) & 1.24\% (1.21\%) & 1.02\% (0.91\%) & 0.93\% (0.91\%)\\
+      \hline
+      \hline
+      Grid$^4$ & Grid$^5$ & Grid$^6$ & Grid$^{10}$\\
+      \hline
+      0.90\% (0.87\%) & 0.93\% (0.80\%) & 1.00\% (0.74\%) & 0.93\% (0.84\%)\\
+      \hline
+    \end{tabular}
+    \egroup
+  \end{center}
+  \label{toy}
+\end{table}
+
+We observe that even without knowledge of the underlying euclidean structure, receptive grid graph layers obtain comparable performances as convolutional ones, and when the ordering is known, they match convolutions. We also noticed that after training, even though the one-hot-bit vectors used for initialization had changed  to floating point values, their most significant dimension was always the same. That suggests there is room to improve the initialization and the optimization.
+
+In Figure~\ref{functionofepoch}, we plot the test error rate for various normalizations when using the square of the grid graph, as a function of the number of epochs of training. We observe that they have little influence on the performance and sometimes improve it a bit. Thus, we use them as optional hyperparameters.
+
+\begin{figure}[h]
+  \begin{center}
+    \input{chapter3/functionofepoch}
+  \end{center}
+  \caption{Evolution of the test error rate when learning MNIST using the square of a grid graph and for various normalizations, as a function of the epoch of training. The legend reads: ``l2'' means $\ell_2$ normalization of weights is used (with weights $10^{-5}$), ``Pos'' means parameters in $S$ are forced to being positive, and ``Norm'' means that the $\ell_1$ norm of each vector in the third dimension of $S$ is forced to 1.}
+  \label{functionofepoch}
+\end{figure}
+
+\subsubsection*{Experiments with covariance graphs on Scrambled MNIST}
+
+ We use a thresholded covariance matrix obtained by using all the training examples. We choose the threshold so that the number of remaining edges corresponds to a certain density $p$ (5x5 convolutions correspond approximately to a density of $p=3\%$). We also infer a graph based on the $k$ nearest neighbors of the inverse of the values of this covariance matrix ($k$-NN). The latter two are using no prior about the signal underlying structure. The pixels of the input images are shuffled and the same re-ordering of the pixels is used for every image. Dimension of the third rank of $S$ is chosen equal to $k$ and its weights are initialized random uniformly~\cite{glorot2010understanding}.
+ The receptive graph layers are also compared with models obtained when replacing the first layer by a fully connected or convolutional one. Architecture used is the same as in the previous section. Results are reported on table~\ref{covar}.
+
+\begin{table}[h]
+  \caption{Error rates when topology is unknown on scrambled MNIST.}
+  \begin{center}
+    \bgroup
+    \def\arraystretch{1.5}%  1 is the default, change whatever you need
+    \begin{tabular}{|c|c|c|c|}
+      \hline
+      MLP & Conv5x5 & Thresholded ($p=3\%$) & $k$-NN ($k=25$)\\
+      \hline
+      1.44\% & 1.39\% & 1.06\% & 0.96\%\\
+      \hline
+    \end{tabular}
+    \egroup
+  \end{center}
+  \label{covar}
+  \end{table}
+
+We observe that the receptive graph layers outperforms the CNN and the MLP on scrambled MNIST. This is remarkable because that suggests it has been able to exploit information about the underlying structure thanks to its graph.% The first version seems to have discovered a bit less information about the underlying structure. This might be explained by the fact that it has receptive fields of unequal sizes and might have required additional normalization.
+
+\subsubsection*{Experiments with shallow architectures on Cifar10}
+
+On Cifar10, we made experiments on shallow CNN architectures and replaced convolutions by receptive graphs. The first architecture used is the same than in the previous experiments on MNIST, and the second one is a variant of AlexNet~\cite{krizhevsky2012imagenet} using little distortion on the input that we borrowed from a tutorial of tensorflow~\cite{tensorflow2015-whitepaper}.
+%On Cifar10, we use a variant of the AlexNet architecture applied on inputs with little distortion~\cite{krizhevsky2012imagenet}, borrowed from a tutorial of tensorflow~\cite{tensorflow2015-whitepaper}.
+The latter is composed of two 5x5 convolutional layers of 64 feature maps, with max pooling and local response normalization, followed by two fully connected layers of 384 and 192 neurons.
+%We switched each convolutional layer with receptive graph layers, but kept the pooling ones.
+We compare two different graph supports: the one obtained by using the underlying graph of a regular 5x5 convolution, and the support of the square of the grid graph. Optimization is done with stochastic gradient descent on 375 epochs where $S$ is freezed on the 125 last ones. Circulant one-hot-bit intialization is used. These are weak classifiers for Cifar10 but they are enough to analyse the usefulness of the proposed layer. Exploring deeper architectures is left for further work. Results are summarized in table~\ref{cifar}. ``Pos'' means parameters in $S$ are forced to being positive, ``Norm'' means that the $\ell_1$ norm of each vector in the third dimension of $S$ is forced to 1, ``Both'' means both constraints are applied, and ``None'' means none are used.
+
+\begin{table}[h]
+  \caption{Accuracies of shallow networks on CIFAR10.}
+  \begin{center}
+    \bgroup
+    \def\arraystretch{1.5}%  1 is the default, change whatever you need
+    \begin{tabular}{|c|c|c|c|c|c|c|}
+      \hline
+      Support & \# convs & Learning $S$ & None & Pos & Norm & Both\\
+      \hline
+      \hline
+      Conv5x5 & 1 & No & / & / & / & 66.1\%\\
+      %\hline
+      %Grid$^2$ & 1 & No & / & / & / & 66.8\%\\
+      \hline
+      Grid$^2$ & 1 & Yes & 67.3\% & 66.8\% & 67.1\% & 67.0\%\\
+      \hline
+      Conv5x5 & 2 & No & / & / & / & 87.0\%\\
+      \hline
+      Conv5x5 & 2 & Yes & 87.3\% & 86.9\% & 86.9\% & 87.5\%\\
+      \hline
+      Grid$^2$ & 2 & Yes & 87.1\% & 87.3\% & 87.6\% & 87.5\%\\
+      \hline
+    \end{tabular}
+    \egroup
+  \end{center}
+  \label{cifar}
+\end{table}
+
+The receptive graph layers are able to outperform the corresponding CNNs by a small amount in the tested configurations, opening the way for more complex architectures.
