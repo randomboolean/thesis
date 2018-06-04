@@ -16,9 +16,6 @@ X Rewrite remark on expressivity to better explain the refs
 X Reformat the ordering of the subsections in chapter 1, clean toc on 3 levels
 x Pass on bib files, and add venues instead of arxiv when relevant
 
-format
-x paragraphs instead of remarks
-
 notes for IV:
 x few notes on DTW loss vs conv1D
 

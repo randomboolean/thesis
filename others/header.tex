@@ -30,6 +30,14 @@
 
 % References
 \usepackage{hyperref}
+\usepackage{enumitem}
+\makeatletter
+\def\namedlabel#1#2{\begingroup
+    #2%
+    \def\@currentlabel{#2}%
+    \phantomsection\label{#1}\endgroup
+}
+\makeatother
 
 % Bibliography
 \usepackage[backend=bibtex,
@@ -208,6 +216,7 @@
 \DeclareMathOperator{\C}{\textsc{c}}
 \DeclareMathOperator{\T}{\mathsf{T}}
 \DeclareMathOperator{\iso}{\textsc{iso}}
+\DeclareMathOperator{\D}{\textsc{d}}
 
 \DeclareMathOperator{\scr}{\textsc{R}}
 \DeclareMathOperator{\scs}{\textsc{S}}

@@ -49,6 +49,8 @@ Then, the linear morphism $\widetilde\varphi$ from $\cs(\Gamma)$ to $\cs(V)$ def
 \label{fig:iso}
 \end{figure}
 
+Then we naturally obtain the following relation, which put in simpler words means that signals on $\cs(\Gamma)$ are mapped to $\cs(V)$ when $\varphi$ is simultaneously applied on both the signal space and its domain.
+
 \begin{lemma}\textbf{Relation between $\cs(\Gamma)$ and $\cs(V)$}\\
 $\forall s \in \cs(\Gamma), \forall u \in V, \varphi(s)[u] = s[\varphi^{-1}(u)] = s[g_u]$
 \label{lem:outer}
@@ -218,7 +220,7 @@ f_w \circ g (s) [u] & = \displaystyle \sum_{h \in \Gamma} s[\varphi(h)] \h{2} h(
 \end{align}
 \end{proof}
 
-\subsection{Mixed domain construction}
+\subsection{Mixed domain formulation}
 
 From $\eqref{eq:premix}$, we can define a mixed domain convolution \ie that is defined for $r \in \cs(\Gamma)$ and $s \in \cs(V)$, without the need of expliciting the isomorphisms $\varphi$.
 
@@ -244,10 +246,13 @@ Let $\varphi \in \iso(\Gamma, V),(r,s) \in \cs(\Gamma) \times \cs(V)$,
 \begin{align*}
 r \ast_{\M} s & = \displaystyle \sum_{g \in \Gamma} r[g] \h{2} g(s)
   = \displaystyle \sum_{v \in V} r[g_v] \h{2} g_v(s)
-  = \displaystyle \sum_{v \in V} \varphi(r)[v] \h{2} g_v(s)\\
+  \overset{(\diamond)}{=} \displaystyle \sum_{v \in V} \varphi(r)[v] \h{2} g_v(s)\\
 & =\varphi(r) \ast_{\III} s
 \end{align*}
+Where $\overset{(\diamond)}{=}$ comes from \lemref{lem:outer}.
 \end{proof}
+
+In other words, $\ast_{\M}$ is a convenient reformulation of $\ast_{\III}$.
 
 \begin{lemma}\textbf{Relation with group convolution I and II}\\
 Let $\varphi \in \iso(\Gamma, V),(r,s) \in \cs(\Gamma) \times \cs(V)$, we have both:
@@ -292,6 +297,12 @@ f_w \circ g (s) & = \displaystyle \sum_{h \in \Gamma} w[h] \h{2} hg(s) \label{eq
 
 Depending on the applications, we will build upon either $*_{\III}$ or upon $*_{\M}$ if the abelian condition can be verified.
 
-\begin{remark}
-At this point, there are a two drawbacks: (D1) that $V$ must be in one-to-one correspondence with $Gamma$, and (D2) the converse of the characterization doesn't hold. Let's now consider the edge set in our construction and keep these drawbacks in mind.
-\end{remark}
+\subsection{Current drawbacks}
+
+At this point, there are a two drawbacks we don't adress yet:
+\begin{description}[style=multiline]%, labelwidth=1.5cm]
+    \item[\namedlabel{itm:d1}{(d1)}] $V$ must be in one-to-one correspondence with $\Gamma$,
+    \item[\namedlabel{itm:d2}{(d2)}] the converse of the characterization doesn't hold.
+\end{description}
+
+In what follows, we now consider the edge set in our construction and keep these drawbacks in mind.
