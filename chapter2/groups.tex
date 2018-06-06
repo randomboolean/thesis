@@ -192,7 +192,7 @@ For the converse, given $u, v \in V$, we first realize \eqref{eq:free} for $s_1 
 
 This time, we obtain equivariance to $\Gamma$ as expected.
 
-\begin{proposition}\textbf{Equivariance to $\Gamma$}\\
+\begin{proposition}\textbf{Equivariance to $\Gamma$ through right action}\\
 If $\Gamma$ is $\varphi$-equivalent, convolution operators acting on the right of $\cs(V)$ are equivariant to $\Gamma$ \ie
 \begin{gather*}
 \begin{cases}
@@ -206,17 +206,16 @@ where $\ast$ denote either $\ast_{\II}$ or $\ast_{\III}$.
 \end{proposition}
 
 \begin{proof}
-In the following equations, \eqref{eq:rel} is obtained from \lemref{lem:rel23}, \eqref{eq:left} is obtained because left multiplication in a group is an isomorphism, and \eqref{eq:pty} is obtained because of \eqref{eq:P}.
+In the following equations, \eqref{eq:rel} is obtained from \lemref{lem:rel23}, \eqref{eq:left} is obtained because left multiplication in a group is bijective, and \eqref{eq:pty} is obtained because of \eqref{eq:P}.
 \begin{align}
 \forall g \in \Gamma, \forall s \in \cs(V), & \nonumber\\
 f_w \circ g (s) & = \displaystyle \sum_{h \in \Gamma} g(s)[\varphi(h)] \h{2} h(w)\label{eq:rel}\\
  & = \displaystyle \sum_{h \in \Gamma} g(s)[\varphi(gh)] \h{2} gh(w)\label{eq:left}\\
  & = \displaystyle \sum_{h \in \Gamma} g(s)[g(\varphi(h))] \h{2} gh(w)\label{eq:pty}\\
  & = \displaystyle \sum_{h \in \Gamma} s[\varphi(h)] \h{2} gh(w)\nonumber\\
-\forall g \in \Gamma, \forall s \in \cs(V), & \forall u \in V, \nonumber\\
-f_w \circ g (s) [u] & = \displaystyle \sum_{h \in \Gamma} s[\varphi(h)] \h{2} h(w)[g^{-1}(u)]\nonumber\\
-& = f_w (s) [g^{-1}(u)]\nonumber\\
-& = g \circ f_w (s) [u]\nonumber
+ & = \displaystyle \sum_{h \in \Gamma} s[\varphi(h)] \h{2} h(w)[g^{-1}(.)]\nonumber\\
+& = f_w (s) [g^{-1}(.)]\nonumber\\
+& = g \circ f_w (s) \nonumber
 \end{align}
 \end{proof}
 
@@ -272,7 +271,7 @@ On one hand, \lemref{lem:rel3m} gives $r \ast_{\M} s = \varphi(r) \ast_{\III} s$
 The converse sense is meaningful because it justifies that when the mixed domain convolution is employed, the property $\Gamma \equiv V$ underlies, without the need of expliciting $\varphi$.
 \end{remark}
 
-From mixed domain convolution, we can derive operators acting on the left of $\cs(V)$, of the form $s \mapsto w \ast_{\M} s$, parameterized by $w \in \cs(\Gamma)$. These operators would be relevant as layers of neural networks. On the contrary, derived operators acting on the right $r \mapsto r \ast_{\M} w$ wouldn't be useful. However, the equivariance to $\Gamma$ incurring from \lemref{lem:rel3m} and \propref{prop:equiG} only holds for operators acting on the right. So we need to intertwine an abelian condition as follows.
+From mixed domain convolution, we can derive operators acting on the left of $\cs(V)$, of the form $s \mapsto w \ast_{\M} s$, parameterized by $w \in \cs(\Gamma)$. In particular, these operators would be relevant as layers of neural networks. On the contrary, derived operators acting on the right such as $r \mapsto r \ast_{\M} w$ wouldn't make sense with this formulation as they would make $\varphi$ resurface. However, the equivariance to $\Gamma$ incurring from \lemref{lem:rel3m} and \propref{prop:equiG} only holds for operators acting on the right. So we need to intertwine an abelian condition as follows.
 
 \begin{proposition}\textbf{Equivariance to $\Gamma$ through left action}\\
 Let a subgroup $\Gamma \subset \Phi^*(V)$ such that $V \cong \Gamma$. $\Gamma$ is abelian, if and only if, mixed domain convolution operators acting on the left of $\cs(V)$ are equivariant to it \ie
@@ -297,12 +296,24 @@ f_w \circ g (s) & = \displaystyle \sum_{h \in \Gamma} w[h] \h{2} hg(s) \label{eq
 
 Depending on the applications, we will build upon either $*_{\III}$ or upon $*_{\M}$ if the abelian condition can be verified.
 
-\subsection{Current drawbacks}
+\subsection{Properties and drawbacks of the current construction}
 
-At this point, there are a two drawbacks we don't adress yet:
+At this point, the convolutions have been constructed as a summation over $\Gamma$. Because we will consider construction where the summation is done over a subset of $\Gamma$, let define $\Omega$ as the summation set.
+
+We can identify a list of properties (or constraints) that we want the convolution to have:
 \begin{description}[style=multiline]%, labelwidth=1.5cm]
-    \item[\namedlabel{itm:d1}{(d1)}] $V$ must be in one-to-one correspondence with $\Gamma$,
-    \item[\namedlabel{itm:d2}{(d2)}] the converse of the characterization doesn't hold.
+    \item[\namedlabel{itm:p1}{(p1)}] objects of $\Omega$ are invertible transformations of $V$
+    \item[\namedlabel{itm:p2}{(p2)}] $\Omega$ need not be in one-to-one correspondence with $V$
+    \item[\namedlabel{itm:p3l}{(p3l)}] right convolutions are equivariant to $\Gamma$
+    \item[\namedlabel{itm:p3r}{(p3r)}] left convolutions are equivariant to $\Gamma$
+    \item[\namedlabel{itm:p3l}{(p4r)}] linear transformations that are equivariant to $\Gamma$ are right convolutions
+    \item[\namedlabel{itm:p3l}{(p4l)}] linear transformations that are equivariant to $\Gamma$ are left convolutions
 \end{description}
 
-In what follows, we now consider the edge set in our construction and keep these drawbacks in mind.
+
+
+
+
+
+
+In what follows, we now consider the edge set in our construction and keep those in mind.
