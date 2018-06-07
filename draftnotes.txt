@@ -4,6 +4,7 @@
 
 2.1 Analysis of the classical convolution
     -1 Constraints (C1 up to C3 + C0 verified by groupoids)
+    Just let out groupoids for now
 
 2.2 Representation theory of generalized convolutions
     -1 Conditions for constraints (about C2 and C3, while C0 is checked and C1 is not)
