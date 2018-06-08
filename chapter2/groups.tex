@@ -2,7 +2,7 @@
 
 \subsection{Introduction}
 
-As \propref{prop:equi} is a complete characterization of convolutions, it can be used to define them \ie convolutive operations can be constructed as the set of linear transformations that are equivariant to translations. However, in the general case where $G$ is not a grid graph, translations are not defined, so that construction needs to be generalized beyond translational equivariances.
+As \propref{prop:equi} is a complete characterization of convolutions, it can be used to define them \ie convolution operators can be constructed as the set of linear transformations that are equivariant to translations. However, in the general case where $G$ is not a grid graph, translations are not defined, so that construction needs to be generalized beyond translational equivariances.
 
 In mathematics, convolutions are more generally defined for signals defined over a group structure. The classical convolution that is used in deep learning is just a narrow case where the domain group is an euclidean space. Therefore, constructing a convolution on graphs should start from the more general definition of convolution on groups rather than convolution on euclidean domains.
 
@@ -18,7 +18,7 @@ Our construction is motivated by the following questions:
 We first recall the notion of group and group convolution.
 
 \begin{definition}\textbf{Group}\\
-A group $\group$ is a set equipped with an closed and associative composition law that admits a unique left-right identity element and associates an inverse to each object of the set.
+A group $\group$ is a set equipped with a closed, associative and invertible composition law that admits a unique left-right identity element.
 \end{definition}
 
 \begin{definition}\textbf{Group convolution I}\\
@@ -33,11 +33,11 @@ provided at least one of the signals has finite support if $\group$ is not finit
 
 \subsection{Steered construction from groups}
 
-For a graph $\gve$ and a subgroup $\Gamma \subset \Phi^*(V)$, \defref{def:conv1} is applicable for $\cs(\Gamma)$, but not for $\cs(V)$ as $V$ is not a group. Nonetheless, our point here is that we will use the group convolution on $\cs(\Gamma)$ to construct the convolutions on $\cs(V)$.
+For a graph $\gve$ and a subgroup $\Gamma \subset \Phi^*(V)$ or its invertible transformations, \defref{def:conv1} is applicable for $\cs(\Gamma)$, but not for $\cs(V)$ as $V$ is not a group. Nonetheless, our point here is that we will use the group convolution on $\cs(\Gamma)$ to construct the convolutions on $\cs(V)$.
 
 For now, let's assume $\Gamma$ is in one-to-one correspondence with $V$, and let's define an isomorphism $\varphi$ from $\Gamma$ to $V$, to equip $V$ with a group structure. We denote $\Gamma \overset{\varphi}{\cong} V$ and $g_v \overset{\varphi}\mapsto v$.
 
-Then, the linear morphism $\widetilde\varphi$ from $\cs(\Gamma)$ to $\cs(V)$ defined on the Dirac bases by $\widetilde\varphi(\delta_g) = \delta_{\varphi(g)}$ is also an isomorphism. Hence, $V$ and $\cs(V)$ would inherit the same inherent structural properties as $\Gamma$ and $\cs(\Gamma)$, in addition of being related in the same way. For the sake of notational simplicity, we will use the same symbol $\varphi$ for $\varphi$ and $\widetilde\varphi$ (as done between $f$ and $L_f$). A commutative diagram between the sets is depicted on \figref{fig:iso}.
+Then, the linear morphism $\widetilde\varphi$ from $\cs(\Gamma)$ to $\cs(V)$ defined on the Dirac bases by $\widetilde\varphi(\delta_g) = \delta_{\varphi(g)}$ is also an isomorphism. Hence, $V$ and $\cs(V)$ would inherit the same inherent structural properties as $\Gamma$ and $\cs(\Gamma)$, in addition of being related in the same way. For the sake of notational simplicity, we will use the same symbol $\varphi$ for both $\varphi$ and $\widetilde\varphi$ (as done between $f$ and $L_f$). A commutative diagram between the sets is depicted on \figref{fig:iso}.
 
 \begin{figure}[H]
 \centering
@@ -112,7 +112,7 @@ With \defref{def:conv2}, convolution operators acting on the right of $\cs(V)$ a
 & = \sum_{\substack{(a,b) \in V^2 \\ \st g_ag_b=g_v }} s[\varphi(g_u)^{-1}(a)] \h{2} w[b]\\
 & = \sum_{\substack{(a,b) \in V^2 \\ \st g_{\varphi(g_u)(a)}g_b=g_v }} s[a] \h{2} w[b]\\
 \end{align*}
-Because $\varphi$ is an isomorphism, its inverse $c \mapsto g_c$ is also an isomorphism and so $g_{\varphi(g_u)(a)}g_b=g_v \Leftrightarrow g_{a}g_b=g_{\varphi(g_u)^{-1}(v)}$. So we have:
+Because $\varphi$ is an isomorphism, its inverse $c \mapsto g_c$ is also an isomorphism and so $g_{\varphi(g_u)(a)}g_b=g_v \Leftrightarrow g_{a}g_b=g_{\varphi(g_u)^{-1}(v)}$. So we have both:
 \begin{align*}
 (f_w \circ \varphi(g_u)) (s) [v] & = \sum_{\substack{(a,b) \in V^2 \\ \st g_{a}g_b=g_{\varphi(g_u)^{-1}(v)} }} s[a] \h{2} w[b]\\
 & = s \ast_{\II} w [\varphi(g_u)^{-1}(v)]\\
@@ -123,7 +123,7 @@ Because $\varphi$ is an isomorphism, its inverse $c \mapsto g_c$ is also an isom
 \begin{remark}Note that convolution operators of the form $f_w = . \ast_{\I} w$ are also equivariant to $\group$, but the proposition and the proof are omitted as they are similar to the latter.
 \end{remark}
 
-In fact, both group convolutions are the same as the latter one borrows the algebraic structure of the first one. Thus we only obtain equivariance to $\varphi(\Gamma)$, which is actually $V$ equipped with the group structure of $\Gamma$ mirrored via $\varphi$. To obtain equivariance to $\Gamma$, we need to take into account the fact that it contains bijective transformations of $V$.
+In fact, both group convolutions are the same as the latter one borrows the algebraic structure of the first one. Thus we only obtain equivariance to $\varphi(\Gamma)$, which is actually $V$ equipped with the group structure of $\Gamma$ mirrored via $\varphi$, and the converse don't hold. To obtain equivariance to $\Gamma$ (and its converse), we need to take into account the fact that it contains bijective transformations of $V$.
 
 Hence, note that $g \in \Gamma$ can act on both $\Gamma$ through the left multiplication and on $V$ as being an object of $\Phi^{*}(V)$. This ambivalence can be seen on a commutative diagram, see \figref{fig:com}.%, where all arrows except the one labeled with \eqref{eq:P} are always true.
 
@@ -190,23 +190,32 @@ Hence, the direct sense is obtained by applying \eqref{eq:P}.
 For the converse, given $u, v \in V$, we first realize \eqref{eq:free} for $s_1 := \delta_v$, obtaining $s_2[\varphi(g_v^{-1}g_u)] = s_2[g_v^{-1}(u)]$, which we then realize for a real signal $s_2$ having no two equal entries, obtaining $\varphi(g_v^{-1}g_u) = g_v^{-1}(u)$. From the latter we finally obtain \eqref{eq:P} with the one-to-one correspondence $v := v^{-1}$, where $v^{-1} = \varphi(g_v^{-1})$ and using the fact that $\varphi$ and $\varphi^{-1}$ are isomorphisms.
 \end{proof}
 
-This time, we obtain equivariance to $\Gamma$ as expected.
+We can then coin it as $\varphi$-convolution.
 
-\begin{proposition}\textbf{Equivariance to $\Gamma$ through right action}\\
-If $\Gamma$ is $\varphi$-equivalent, convolution operators acting on the right of $\cs(V)$ are equivariant to $\Gamma$ \ie
-\begin{gather*}
+\begin{definition}\textbf{$\varphi$-convolution}\\
+Let $\varphi \in \iso(\Gamma, V), \Gamma \overset{\varphi}{\equiv} V$, the \emph{$\varphi$-convolution} between two signals $s_1$ and $s_2 \in \cs(V)$ is defined as:
+\begin{align*}
+s_1 \ast_{\varphi} s_2 = s_1 \ast_{\II} s_2 = s_1 \ast_{\III} s_2
+\end{align*}
+\end{definition}
+
+This time, we do obtain equivariance to $\Gamma$ as expected, and the full characterization as well.
+
+\begin{proposition}\textbf{Characterization by right-action equivariance to $\Gamma$}\\
+If $\Gamma$ is $\varphi$-equivalent, the class of linear transformations that are equivariant to $\Gamma$ is exactly the class of $\varphi$-convolution operators acting on the right of $\cs(V)$ \ie
+\begin{align*}
+& \text{If } \Gamma \overset{\varphi}{\equiv} V,\\
+& \exists w \in \cs(V), f = . \ast_{\varphi} w \Leftrightarrow
 \begin{cases}
-\Gamma \overset{\varphi}{\equiv} V\\
-\exists w \in \cs(V), f = . \ast w
+f \in \cl(\cs(V))\\
+\forall g \in \Gamma, f \circ g = g \circ f
 \end{cases}
-\Rightarrow \forall g \in \Gamma, f \circ g = g \circ f
-\end{gather*}
-where $\ast$ denote either $\ast_{\II}$ or $\ast_{\III}$.
+\end{align*}
 \label{prop:equiG}
 \end{proposition}
 
-\begin{proof}
-In the following equations, \eqref{eq:rel} is obtained from \lemref{lem:rel23}, \eqref{eq:left} is obtained because left multiplication in a group is bijective, and \eqref{eq:pty} is obtained because of \eqref{eq:P}.
+\begin{proof}\begin{enumerate}\item From left to right:\\
+In the following equations, \eqref{eq:rel} is obtained by definition, \eqref{eq:left} is obtained because left multiplication in a group is bijective, and \eqref{eq:pty} is obtained because of \eqref{eq:P}.
 \begin{align}
 \forall g \in \Gamma, \forall s \in \cs(V), & \nonumber\\
 f_w \circ g (s) & = \displaystyle \sum_{h \in \Gamma} g(s)[\varphi(h)] \h{2} h(w)\label{eq:rel}\\
@@ -217,7 +226,32 @@ f_w \circ g (s) & = \displaystyle \sum_{h \in \Gamma} g(s)[\varphi(h)] \h{2} h(w
 & = f_w (s) [g^{-1}(.)]\nonumber\\
 & = g \circ f_w (s) \nonumber
 \end{align}
+\item From right to left:\\
+Let $f \in \cl(\cs(V)), s \in \cs(V)$. By linearity of $f$, we distribute $f(s)$ on the infinite family of dirac signals:
+\begin{gather}
+f(s) = \displaystyle\sum_{v \in V} s[v]f(\delta_v) \label{eq:fdirac}
+\end{gather}
+Thanks to \eqref{eq:P}, we have that:
+\begin{align*}
+g_v(&\varphi(\id)) = \varphi(g_v\id) = v\\
+\text{So, } & v = u \Leftrightarrow  \varphi(\id) = g_v^{-1}(u)\\
+\text{So, } & \delta_v = g_v(\delta_{\varphi(\id)})
+\end{align*}
+By denoting $w = f(\delta_{\varphi(\id)})$, and using the hypothesis of equivariance, we obtain from \eqref{eq:fdirac} that:
+\begin{align*}
+f(s) & = \displaystyle\sum_{v \in V} s[v] \h{2} f \circ g_v(\delta_{\varphi(\id)})\\
+ & = \displaystyle\sum_{v \in V} s[v] \h{2} g_v \circ f(\delta_{\varphi(\id)})\\
+ & = \displaystyle\sum_{v \in V} s[v] \h{2} g_v(w)\\
+ & = s \ast_{\varphi} w
+\end{align*}
+\end{enumerate}
 \end{proof}
+
+\paragraph{Construction of $\varphi$-convolutions on vertex domains}
+\propref{prop:equiG} tells us that in order to define a convolution on the vertex domain of a graph $\gve$, all we need is a subgroup $\Gamma$ of transformations of $V$, in one-to-one equivalent-correspondence with $V$. The choice of $\Gamma$ can be done with respect of some graph symmetries related to $E$. This will be discussed in more details in \secref{sec:edges}.
+
+\paragraph{Exposure of $\varphi$}
+However this construction relies on exposing $\varphi$. In the next subsection, we show that we need not expose $\varphi$ to preserve the characterization, under the condition that $\Gamma$ is abelian.
 
 \subsection{Mixed domain formulation}
 
@@ -225,14 +259,14 @@ From $\eqref{eq:premix}$, we can define a mixed domain convolution \ie that is d
 
 \begin{definition}\textbf{Mixed domain convolution}\\
 Let a subgroup $\Gamma \subset \Phi^*(V)$ such that $V \cong \Gamma$.
-The mixed domain convolution between two signals $r \in \cs(\Gamma)$ and $s \in \cs(V)$ results in a signal $r \ast_{\M} s \in \cs(V)$ and is defined as:
+The \emph{mixed domain convolution} between two signals $r \in \cs(\Gamma)$ and $s \in \cs(V)$ results in a signal $r \ast_{\M} s \in \cs(V)$ and is defined as:
 \begin{gather*}
 r \ast_{\M} s = \displaystyle \sum_{g \in \Gamma} r[g] \h{2} g(s)
 \end{gather*}
 \label{def:convm}
 \end{definition}
 
-From a practical point of view, this expression of the convolution is the most useful because it relegates $\varphi$ as an underpinning object. Therefore, only $V$ and some of its transformations are enough to define a convolution.
+From a practical point of view, this expression of the convolution is useful because it relegates $\varphi$ as an underpinning object. Therefore, only $V$ and some of its transformations are enough to define a convolution.
 
 \begin{lemma}\textbf{Relation with group convolution III}\\
 $\forall \varphi \in \iso(\Gamma, V), \forall (r,s) \in \cs(\Gamma) \times \cs(V),$\\
@@ -251,13 +285,13 @@ r \ast_{\M} s & = \displaystyle \sum_{g \in \Gamma} r[g] \h{2} g(s)
 Where $\overset{(\diamond)}{=}$ comes from \lemref{lem:outer}.
 \end{proof}
 
-In other words, $\ast_{\M}$ is a convenient reformulation of $\ast_{\III}$.
+In other words, $\ast_{\M}$ is a convenient reformulation of $\ast_{\III}$ which does not depend on a particular $\varphi$.
 
-\begin{lemma}\textbf{Relation with group convolution I and II}\\
-Let $\varphi \in \iso(\Gamma, V),(r,s) \in \cs(\Gamma) \times \cs(V)$, we have both:
+\begin{lemma}\textbf{Relation with group convolution I, II and $\varphi$-convolution}\\
+Let $\varphi \in \iso(\Gamma, V),(r,s) \in \cs(\Gamma) \times \cs(V)$, we have:
 \begin{align*}
 \Gamma \overset{\varphi}{\equiv} V & \Leftrightarrow \forall v \in V, (r \ast_{\M} s)[v] = (r \ast_{\I} \varphi^{-1}(s))[g_v]\\
-& \Leftrightarrow r \ast_{\M} s = \varphi(r) \ast_{\II} s
+& \Leftrightarrow r \ast_{\M} s = \varphi(r) \ast_{\II} s = \varphi(r) \ast_{\varphi} s
 \end{align*}
 \label{lem:rel12m}
 \end{lemma}
@@ -281,7 +315,7 @@ Let a subgroup $\Gamma \subset \Phi^*(V)$ such that $V \cong \Gamma$. $\Gamma$ i
 \end{proposition}
 
 \begin{proof}
-Let $w, g \in \Gamma$, and define $f_w: s \mapsto w \ast_{\M} s$. In the following expressions, \eqref{eq:aba} and \eqref{eq:abb} are equal if and only if $\Gamma$ is abelian:
+Let $w, g \in \Gamma$, and define $f_w: s \mapsto w \ast_{\M} s$. In the following expressions, $\Gamma$ is abelian if and only if \eqref{eq:aba} and \eqref{eq:abb} are equal (the converse is obtained by particularizing on well chosen signals):
 \begin{align}
 f_w \circ g (s) & = \displaystyle \sum_{h \in \Gamma} w[h] \h{2} hg(s) \label{eq:aba}\\
  & = \displaystyle \sum_{h \in \Gamma} w[h] \h{2} gh(s) \label{eq:abb}\\
@@ -291,29 +325,39 @@ f_w \circ g (s) & = \displaystyle \sum_{h \in \Gamma} w[h] \h{2} hg(s) \label{eq
 \end{align}
 \end{proof}
 
-\begin{remark}Note that similarly, $*_{\I}$, $*_{\II}$ and $*_{\III}$ are equivariant to $\Gamma$ through left action, if and only if, $\Gamma$ is abelian.
+\begin{remark}Similarly, $\ast_{\varphi}$ is also equivariant to $\Gamma$ through left action if and only if $\Gamma$ is abelian, as a consequence of being commutative if and only if $\Gamma$ is abelian. On the contrary, note that commutativity of $\ast_{\M}$ doesn't make sense.
 \end{remark}
 
-Depending on the applications, we will build upon either $*_{\III}$ or upon $*_{\M}$ if the abelian condition can be verified.
+\begin{corrolary}\textbf{Characterization by left-action equivariance to $\Gamma$}\\
+Let $\Gamma \equiv V$. If $\Gamma$ is abelian, the class of linear transformations that are equivariant to $\Gamma$ is exactly the class of mixed domain convolution operators acting on the left of $\cs(V)$ \ie
+\begin{align*}
+& \text{If } \Gamma \equiv V \text{ and $\Gamma$ is abelian,}\\
+& \exists w \in \cs(\Gamma), f = w \ast_{\M} . \Leftrightarrow
+\begin{cases}
+f \in \cl(\cs(V))\\
+\forall g \in \Gamma, f \circ g = g \circ f
+\end{cases}
+\end{align*}
+\end{corrolary}
 
-\subsection{Properties and drawbacks of the current construction}
+\begin{proof} By picking $\varphi$ such that $\Gamma \overset{\varphi}{\equiv} V$ and relating $\ast_{\M}$ to $\ast_{\varphi}$.
+\end{proof}
 
-At this point, the convolutions have been constructed as a summation over $\Gamma$. Because we will consider construction where the summation is done over a subset of $\Gamma$, let define $\Omega$ as the summation set.
+Depending on the applications, we will build upon either $\ast_{\varphi}$ or $\ast_{\M}$ if the abelian condition can be verified.
 
-We can identify a list of properties (or constraints) that we want the convolution to have:
-\begin{description}[style=multiline]%, labelwidth=1.5cm]
-    \item[\namedlabel{itm:p1}{(p1)}] objects of $\Omega$ are invertible transformations of $V$
-    \item[\namedlabel{itm:p2}{(p2)}] $\Omega$ need not be in one-to-one correspondence with $V$
-    \item[\namedlabel{itm:p3l}{(p3l)}] right convolutions are equivariant to $\Gamma$
-    \item[\namedlabel{itm:p3r}{(p3r)}] left convolutions are equivariant to $\Gamma$
-    \item[\namedlabel{itm:p3l}{(p4r)}] linear transformations that are equivariant to $\Gamma$ are right convolutions
-    \item[\namedlabel{itm:p3l}{(p4l)}] linear transformations that are equivariant to $\Gamma$ are left convolutions
-\end{description}
+%\subsection{Properties and drawbacks of the current construction}
 
+%\todo{drop the draft of this subsection and rewrite it more clearly}
+% At this point, the convolutions have been constructed as a summation over $\Gamma$. Because we will consider construction where the summation is done over a subset of $\Gamma$, let define $\Omega$ as the summation set.
 
+% We can identify a list of properties (or constraints) that we want the convolution to have:
+% \begin{description}[style=multiline, labelwidth=1cm]
+%     \item[\namedlabel{itm:p1}{(p1)}] objects of $\Omega$ are invertible transformations of $V$
+%     \item[\namedlabel{itm:p2}{(p2)}] $\Omega$ need not be in one-to-one correspondence with $V$
+%     \item[\namedlabel{itm:p3l}{(p3l)}] right convolutions are equivariant to $\Gamma$
+%     \item[\namedlabel{itm:p3r}{(p3r)}] left convolutions are equivariant to $\Gamma$
+%     \item[\namedlabel{itm:p3l}{(p4r)}] linear transformations that are equivariant to $\Gamma$ are right convolutions
+%     \item[\namedlabel{itm:p3l}{(p4l)}] linear transformations that are equivariant to $\Gamma$ are left convolutions
+% \end{description}
 
-
-
-
-
-In what follows, we now consider the edge set in our construction and keep those in mind.
+%In what follows, we now consider the edge set in our construction and keep those in mind.

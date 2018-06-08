@@ -7,13 +7,29 @@ In this section, we are exposing a few properties of the classical convolution t
 Consider an edge-less grid graph \ie $G \cong \bbz^2$. By restriction to compactly supported signals, this case encompass the case of images.
 
 \begin{definition}\textbf{Convolution on $\cs(\bbz^2)$}\\
-Recall that the convolution between two signals $s_1$ and $s_2$ over $\bbz^2$ is a binary operator in $\cs(\bbz^2)$ defined as:
+Recall that the (discrete) convolution between two signals $s_1$ and $s_2$ over $\bbz^2$ is a binary operation in $\cs(\bbz^2)$ defined as:
 \begin{align*}
-\forall (a,b) \in \bbz^2, (s_1 * s_2) [a,b] & = \displaystyle \sum_i \sum_j s_1[i,j] \h{2} s_2[a-i, b-j]
+\forall (a,b) \in \bbz^2, (s_1 \ast s_2) [a,b] & = \displaystyle \sum_i \sum_j s_1[i,j] \h{2} s_2[a-i, b-j]
 \end{align*}
 \end{definition}
 
-\todo{list some properties}
+\begin{definition}\textbf{Convolution operator}\\
+A \emph{convolution operator} is a function of the form $f_w: x \mapsto x \ast w$, where $x$ and $w$ are signals of domains for which the convolution $\ast$ is defined. When $\ast$ is not commutative, we differentiate the \emph{right-action} operator $x \mapsto x \ast w$ from the \emph{left-action} one $x \mapsto w \ast x$.
+\end{definition}
+
+The following properties of the convolution on $\bbz^2$ are of particular interest for our study.
+
+\paragraph{Linearity}
+Operators produced by the convolution are linear. So they can be used as linear parts of layers of neural networks.
+
+\paragraph{Locality and weight sharing}
+When $w$ is compactly supported on $K$, an impulse response $f_w(x)[a,b]$ amounts to a $w$-weighted aggregation of entries of $x$ in a neighbourhood of $(a,b)$, called the \emph{local receptive field}.
+
+\paragraph{Commutativity}
+The convolution is commutative. However, it won't necessarily be the case on other domains.
+
+\paragraph{Equivariance to translations}
+Convolution operators are equivariant to translations. Below, we show that the converse of this result also holds with \propref{prop:equi}.
 
 \subsection{Characterization on grid graphs}
 
@@ -49,8 +65,8 @@ It also acts on $\cs(\bbz^2)$ with the notation $t_{a,b}$ \ie
 For any set $E$, we denote by $\ct(E)$ its translations if they are defined.
 \end{definition}
 
-The next proposition fully characterizes convolution operators with their translational equivariance property. This can be seen as a discretization of a classic result from the theory of distributions.
-
+The next proposition fully characterizes convolution operators with their translational equivariance property. This can be seen as a discretization of a classic result from the theory of distributions~\citep{schwartz1957theorie}.
+{}
 \begin{proposition}\textbf{Characterization of convolution operators on $\cs(\bbz^2)$}\\
 On real-valued signals over $\bbz^2$, the class of linear transformations that are equivariant to translations is exactly the class of convolutive operations \ie
 \begin{gather*}
