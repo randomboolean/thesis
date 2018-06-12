@@ -77,7 +77,7 @@ Let's define the group action $L$ inductively on $V_c = \langle \cu \rangle$ as 
   \item Whenever $L_g$ and $L_h$ are defined, the action of $gh$ is defined by homomorphism as $L_{gh}= L_g \circ L_h$
 \end{enumerate}
 
-Note that the induction also tranfers the property \ref{enum:a} to all $g \in V_c$ because
+Note that the induction also tranfers the property \ref{enum:a} to all $g \in V_c$ in a transitive manner because
 \begin{gather*}
 L_{gh}(u) = L_g(L_h(u)) = w \Leftrightarrow \exists v \in V_s
 \begin{cases}
@@ -121,11 +121,13 @@ That is, $\varphi$ is a bijective equivariant map and $ \langle L_{\cu} \rangle 
 \end{enumerate}
 \end{proof}
 
+%\subsection{Looking for Cayley subgraphs}
+
+\paragraph{Which graphs are Cayley graphs?}
+
+\paragraph{Other graph symmetries}
 
 \todo{below to reword}
-
-
-
 
 % Let's suppose that from a vertex set $V$, we have constructed a convolution of the form $*_{\III}$, with $\Gamma \overset{\varphi}{\equiv} V$. One particular underlying graph structure would be define as the digraph $\vgve$, with $E=\{ (u,v), \exists g \in \Gamma, g(u) = v \}$. However, such graph would just be the complete digraph. To keep the information about the group $\Gamma$ somehow in $E$, without obtaining a complete digraph, we need to at least consider a generating set $\cu$. Hence, it is enough to define the edge set as $E=\{ (u,v), \exists g \in \cu, g(u) = v \}$. Conversely, an edge set $E$ with these hypotheses would then naturally support a graph convolution. This leads us to study the particular class of Cayley graphs~\citep{cayley1878desiderata,wiki:cayley}.
 
