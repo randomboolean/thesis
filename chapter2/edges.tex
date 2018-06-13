@@ -16,7 +16,7 @@ There are two approaches. Either $\Gamma$ describes an underlying graph structur
 %%% What follows is to be reworded and put in the neural network section !
 % However we must keep in mind that the resulting convolution would be meant to breed a class of operators that are equivariant to $\Gamma$. In an application where this property is not relevant, such operators would produce layers that are less expressive than dense counterparts. So it is not always possible to leverage a graph structure coming with a dataset if one cannot build meaningful transformations from it. 
 
-\subsection{Edge-constrained convolutions}
+\subsection{Convolution on Cayley subgraphs}
 
 In this subsection, we are trying to answser the following question:
 \begin{itemize}
@@ -43,7 +43,7 @@ Let a group $\Gamma$ and one of its generating set $\cu$. The \emph{Cayley graph
 \begin{gather*}
 u \rightarrow v \Leftrightarrow \exists g \in \cu, ga = b
 \end{gather*}
-Also, if $\Gamma$ is abelian, we call it an \emph{abelian Cayley graph}.
+Also, if $\Gamma$ is abelian, we call it an \emph{abelian Cayley graph}. We call Cayley subgraph, a subgraph that is isomorph to a Cayley graph.
 \end{definition}
 
 \begin{remark}
@@ -121,11 +121,27 @@ That is, $\varphi$ is a bijective equivariant map and $ \langle L_{\cu} \rangle 
 \end{enumerate}
 \end{proof}
 
-%\subsection{Looking for Cayley subgraphs}
+\paragraph{Locality and weight sharing also hold}
+Let $f_w$ be a $\varphi$-or-$\M$-convolution operator on a Cayley graph (or Cayley subgraph). If the support of $w$ is included in, or equal to $\cu$, then $f_w(s)[v]$ amounts to a dot product between a weight vector $\widetilde{w}$ made of the non-zero entries of $w$ and another one $s_v$ made of entries of $s$ that are located on vertices connected by an edge to $v$. The same weight vector $\widetilde{w}$ is shared for the calculation of every other $f_w(s)[u]$.
+
+\todo{figure}
 
 \paragraph{Which graphs are Cayley graphs?}
+\todo{}
 
-\paragraph{Other graph symmetries}
+\paragraph{Limitation of this characterization}
+\todo{order-regular graphs}
+
+\subsection{Groupoid convolution on irregular subgraphs}
+
+
+
+
+
+
+%\subsection{Looking for Cayley subgraphs}
+%\paragraph{Which graphs are Cayley graphs?}
+%\paragraph{Other graph symmetries}
 
 \todo{below to reword}
 

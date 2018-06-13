@@ -135,7 +135,7 @@ In fact, both group convolutions are the same as the latter one borrows the alge
 
 \begin{definition}\textbf{Group action}\\
 An \emph{action} of a group $\Gamma$ on a set $V$, is a function $L: \Gamma \times V \rightarrow V, (g,v) \mapsto L_g(v)$, such that the map $g \mapsto L_g$ is a homomorphism.\\
-Given $g \in \Gamma$, the transformation $L_g$ is called the action of $g$ on $V$.
+Given $g \in \Gamma$, the transformation $L_g$ is called the action of $g$ by $L$ on $V$.
 \end{definition}
 
 \begin{remark}
@@ -157,9 +157,9 @@ Hence, note that $g \in \Gamma$ can act on both $\Gamma$ through the left multip
 For \eqref{eq:P} to be true means that $\varphi$ is an equivariant map \ie whether the mapping is done before or after the action of $\Gamma$ has no impact on the result. When such $\varphi$ exists, $\Gamma$ and $V$ are said to be equivalent and we denote $\Gamma \equiv V$.
 
 \begin{definition}\textbf{Equivariant map}\\
-A map $\varphi$ from a group $\cg$ acting on the destination set $V$ is said to be an \emph{equivariant map} if
+A map $\varphi$ from a group $\Gamma$ acting on the destination set $V$ is said to be an \emph{equivariant map} if
 \begin{gather*}
-\forall g, h \in \cg, g(\varphi(h)) = \varphi(gh)
+\forall g, h \in \Gamma, g(\varphi(h)) = \varphi(gh)
 \end{gather*}
 \end{definition}
 
