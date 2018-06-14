@@ -149,6 +149,14 @@
 \theoremstyle{plain}
 
 \allowdisplaybreaks[1]
+\usepackage{etoolbox}% http://ctan.org/pkg/etoolbox
+\usepackage{needspace}% http://ctan.org/pkg/needspace
+\AtBeginEnvironment{definition}{\Needspace{5\baselineskip}}% \break if fewer than 5\baselineskip is available on page
+\AtBeginEnvironment{proposition}{\Needspace{5\baselineskip}}
+\AtBeginEnvironment{corrolary}{\Needspace{5\baselineskip}}
+\AtBeginEnvironment{lemma}{\Needspace{5\baselineskip}}
+\AtBeginEnvironment{claim}{\Needspace{5\baselineskip}}
+\AtBeginEnvironment{remark}{\Needspace{5\baselineskip}}
 
 % Annotations
 \newcommand{\todo}[1]{\textcolor{red}{TODO: #1\\}}
@@ -222,6 +230,9 @@
 
 \DeclareMathOperator{\scr}{\textsc{R}}
 \DeclareMathOperator{\scs}{\textsc{S}}
+
+\DeclareMathOperator{\IN}{\textsc{in}}
+\DeclareMathOperator{\OUT}{\textsc{out}}
 
 % Acronyms
 \newcommand{\iid}{\emph{i.i.d.}~}
