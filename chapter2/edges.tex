@@ -168,7 +168,7 @@ g_v^{-1}(u) \in \cm & \Leftrightarrow u \in g_v(\cm) = g_v(\varphi(\cn)) = \varp
 \end{align*}
 where $\cn^{-1}$ reverses the edges of $\cn$. Let's denote $\ck_u = g_u(\varphi(\cn^{-1})) \subset V$.
 
-By composing edge reversal and graph isomorphisms (as $\varphi$ and its inverse are graph isomorphisms by \propref{cor:cayley}), the compactness and diameter of~$\cm$ is preserved for $\ck_u$.
+By composing edge reversal and graph isomorphisms (as $\varphi$ and its inverse are graph isomorphisms by \propref{cor:cayley}), the compactness and diameter of~$\cm$ is preserved for $\ck_u$. We note that the reverse subgraph structure is also preserve, which is a stronger result than what we were interested in proving.
 \end{proof}
 
 Let's define $\cm$, $\cn$ and $\ck_u$ as in the previous proof.
@@ -193,20 +193,15 @@ g_{\ck_\alpha}^{-1}(\alpha) = g_{\ck_a}^{-1}(a)
 \end{align*}
 \end{proof}
 
-We can precise a definition of a convolution operator that is locally supported.
-
-\begin{definition}\textbf{Local convolution operator}\\
-The local convolution operator is a convolution operator for which $w$ has compact support, which is either \ref{enum:i} $\cm \subset \varphi(\cu)$, or \ref{enum:ii} $\cn \subset \cu$, so that:
+We can rewrite the expressions of the local convolution operators:
 \begin{enumerate}[label=(\roman*)]
-  \item $\forall s \in \cs(V), \forall u \in V, f_w(s)[u]
+  \item $$ $\forall s \in \cs(V), \forall u \in V, f_w(s)[u]
           \overset{(\varphi)}= \displaystyle\sum_{v \in \ck_u} s[v] \h{2} w[g_v^{-1}(u)]$ \label{enum:i}
   \item $\forall s \in \cs(V), f_w(s) \overset{(\M)}= \displaystyle\sum_{g \in \cn} w[g] \h{2} g(s)$ \label{enum:ii}
 \end{enumerate}
-where $\ck_u = g_u(\varphi(\cn^{-1}))$ and \ref{enum:ii} applies in the abelian case.
-\end{definition}
 
 \begin{remark}
-Note that in the abelian case, we can see from \ref{enum:ii} that locality and weight sharing is straightforward.
+Note that in the abelian case, we can see from \ref{enum:ii} that a definition of the supporting set and local patch would coincide, so that locality and weight sharing is straightforward.
 \end{remark}
 
 From these expressions, it is clear that $\Gamma$ need not to be fully determined to calculate $f_w(s)[u]$. The case \ref{enum:ii} is the simplest as the only requirement is a supporting set $\cn$ of (EC) invertible transformations. In the case \ref{enum:i}, we need to determine $\ck_u$.
@@ -215,7 +210,7 @@ From these expressions, it is clear that $\Gamma$ need not to be fully determine
 
 \todo{}
 
-\paragraph{Extent of the construction}
+\paragraph{Extent of the construction and limitation}
 
 
 \subsection{Groupoid convolution on graphs}
