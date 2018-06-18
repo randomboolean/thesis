@@ -228,17 +228,29 @@ From these expressions, it is clear that $\Gamma$ need not to be fully determine
 
 \subsection{Groupoid convolutions}
 
-One limitation coming from Cayley subgraphs is that they are order-regular \ie the in and out degree $d = |\cu|$ of each vertex is the same. That is, for a general graph $G$, the size of the weight kernel $w$ of a convolution operator $f_w$ is bounded by $d$, which in turn is bounded by the mininimal degree of $G$. One strategy to overcome this limitation is to use the $k$-power graphs, \ie by connecting each vertex with its $k$-hop neighbors. Another one would be to allow the support of $w$ to exceed $\cu$. These strategies require to acknowledge that the topological structure supported by $G$ is not the best one to support a convolution.
+One possible limitation coming from Cayley subgraphs is that they are order-regular \ie the in and out degree $d = |\cu|$ of each vertex is the same. That is, for a general graph $G$, the size of the weight kernel $w$ of a convolution operator $f_w$ is bounded by $d$, which in turn is bounded by the mininimal degree of $G$. One strategy to overcome this limitation is to use the $k$-power graphs, \ie by connecting each vertex with its $k$-hop neighbors. Another one would be to allow the support of $w$ to exceed $\cu$. These strategies require to acknowledge that the topological structure supported by $G$ is not the best one to support a convolution.
 
-However, it is possible to use the same kind of construction without modifying $G$, which was constrained by $d$. The latter constraint is a consequence that every vertex of the Cayley subgraph $\vec{G}$ must be composable with every generator from $\cu$. Therefore, the solution consists in considering groupoids~\citep{weinstein1996groupoids} instead of groups. Roughly speaking, a groupoid is almost a group except that its composition law that is not defined everywhere.
+\todo{Formulation here with Question/answer to make the explanation more lively}
+
+However, it is possible to use the same kind of construction without modifying $G$, which min degree is constrained by $d$. The latter constraint is a consequence that every vertex of the Cayley subgraph $\vec{G}$ must be composable with every generator from $\cu$. Therefore, the solution consists in considering groupoids~\citep{weinstein1996groupoids} instead of groups. Roughly speaking, a groupoid is almost a group except that its composition law need not be defined everywhere.
 
 \begin{definition}\textbf{Groupoid}\\
 A groupoid $\Upsilon$ is a set equipped with a partial composition law with domain $\cd \subset \Upsilon \times \Upsilon$ that is
 \begin{enumerate}
-	\item closed if defined \ie $\forall (g, h) \in \cd, gh \in \Upsilon$
-	\item associative \ie $\forall f \in \Upsilon, \forall (g,h) \in \cd: (f, gh) \in \cd \Rightarrow \begin{cases} (f, g) \in \cd\\ (fg, h) \in \cd\\ f(gh) = (fg)h \end{cases}$
-	\item invertible \ie $\forall g \in \Upsilon, \exists g^{-1} \in \Upsilon, (g,g^{-1}), (g^{-1},g)  \in \cd$
-	\item cancellative \ie $\forall g,h \in \cd, g^{-1}gh = h, ghh^{-1}$
+	\item closed into $\Upsilon$ \ie $\forall (g, h) \in \cd, gh \in \Upsilon$
+	\item associative \ie 
+		$\forall f \in \Upsilon, \forall (g,h) \in \cd: (f, gh) \in \cd \Rightarrow
+			\begin{cases}
+				(f, g), (fg, h) \in \cd\\
+				f(gh) = (fg)h
+			\end{cases}$
+	\item invertible \ie
+		$\forall g \in \Upsilon, \exists! g^{-1} \in \Upsilon \quad\st
+			\begin{cases}
+				(g,g^{-1}) (g^{-1},g)  \in \cd\\
+				(g,h) \in \cd \Rightarrow g^{-1}gh = h\\
+				(h,g) \in \cd \Rightarrow hgg^{-1} = h
+			\end{cases}$
 \end{enumerate}
 \end{definition}
 
