@@ -64,7 +64,7 @@ Let a graph $\gve$, then:
 \end{proposition}
 
 \begin{proof}
-We show the result only in the non-abelian case as the proof for the abelian case is similar.
+We show the result only in the general case as the proof for the abelian case is similar.
 \begin{enumerate}
 	\item From left to right: as a direct application of the definitions.
 
@@ -154,7 +154,7 @@ f_w(s)[u] & = (s \ast_{\varphi} w) [u]\nonumber\\
 From this expression, it is not obvious that $f_w$ is a local operator. To see this, we can show for example the following proposition.
 
 \begin{proposition}\textbf{Locality}\\
-When the support of $w$ is a compact (in the sense that its induced subgraph in $G$ is connected), of diameter $d$, the same holds for the support of the sum in~\eqref{eq:sum}.
+When the support of $w$ is a compact (in the sense that its induced subgraph in $G$ is connected), of diameter $d$, the same holds for the support of the sum $\Sigma$ in~\eqref{eq:sum}. More precisely, the subgraph induced by the support of $\Sigma$ is isomorphic to the transpose of the subgraph induced by the support of $w$.
 \end{proposition}
 
 \begin{proof}
@@ -168,7 +168,7 @@ g_v^{-1}(u) \in \cm & \Leftrightarrow u \in g_v(\cm) = g_v(\varphi(\cn)) = \varp
 \end{align*}
 where $\cn^{-1}$ reverses the edges of $\cn$. Let's denote $\ck_u = g_u(\varphi(\cn^{-1})) \subset V$.
 
-By composing edge reversal and graph isomorphisms (as $\varphi$ and its inverse are graph isomorphisms by \propref{cor:cayley}), the compactness and diameter of~$\cm$ is preserved for $\ck_u$. We note that the reverse subgraph structure is also preserve, which is a stronger result than what we were interested in proving.
+By composing edge reversal and graph isomorphisms (as $\varphi$ and its inverse are graph isomorphisms by \propref{cor:cayley}), the compactness and diameter of~$\cm$ is preserved for $\ck_u$. More preceisely, the transposed subgraph structure is also preserved.
 \end{proof}
 
 Let's define $\cm$, $\cn$ and $\ck_u$ as in the previous proof.
@@ -193,9 +193,11 @@ g_{\ck_\alpha}^{-1}(\alpha) = g_{\ck_a}^{-1}(a)
 \end{align*}
 \end{proof}
 
-We can rewrite the expressions of the local convolution operators:
+\paragraph{Operators supported on the generating set $\cu$ of a Cayley subgraph}
+Let $f_w$ be a convolutional operator supported on $\cu$. In the general case~\ref{enum:i}, $w \in \cs(V)$, so we can consider that its support is $\cm = \varphi(\cn)$ such that $\cn \subseteq \cu$. In the abelian case~\ref{enum:ii}, we use instead $w \in \cs(\Gamma)$, and thus we consider $\cn$ as its support.
+Therefore, we can rewrite the expressions of the convolution operator as:
 \begin{enumerate}[label=(\roman*)]
-  \item $$ $\forall s \in \cs(V), \forall u \in V, f_w(s)[u]
+  \item $\forall s \in \cs(V), \forall u \in V, f_w(s)[u]
           \overset{(\varphi)}= \displaystyle\sum_{v \in \ck_u} s[v] \h{2} w[g_v^{-1}(u)]$ \label{enum:i}
   \item $\forall s \in \cs(V), f_w(s) \overset{(\M)}= \displaystyle\sum_{g \in \cn} w[g] \h{2} g(s)$ \label{enum:ii}
 \end{enumerate}
@@ -204,19 +206,42 @@ We can rewrite the expressions of the local convolution operators:
 Note that in the abelian case, we can see from \ref{enum:ii} that a definition of the supporting set and local patch would coincide, so that locality and weight sharing is straightforward.
 \end{remark}
 
-From these expressions, it is clear that $\Gamma$ need not to be fully determined to calculate $f_w(s)[u]$. The case \ref{enum:ii} is the simplest as the only requirement is a supporting set $\cn$ of (EC) invertible transformations. In the case \ref{enum:i}, we need to determine $\ck_u$.
+From these expressions, it is clear that $\Gamma$ need not to be fully determined to calculate $f_w(s)[u]$. The case \ref{enum:ii} is the simplest as the only requirement is a supporting set $\cn$ of (EC) invertible transformations. In the case \ref{enum:i}, we only need to determine $\ck_u$.
 
 \paragraph{What exactly is the local patch $\ck_u$ ?}
 
 \todo{}
 
-\paragraph{Extent of the construction and limitation}
+%\subsection{On the choice of the supporting set $\cn$}
+
+%\paragraph{Exploiting subgraph symmetries}
+
+% \begin{proposition}
+% Let a Cayley graph $\vec{G} = \langle \Gamma = \langle \cu \rangle, E \rangle$, it bears the following interesting graph symmetries:
+% \begin{enumerate}
+% 	\item it is vertex-transitive \ie $\forall g, h \in \Gamma, \exists \varphi \in 
+%   \item it is order-regular
+% \end{enumerate}
+% \end{proposition}
+
+%\todo{}
+
+\subsection{Groupoid convolutions}
+
+One limitation coming from Cayley subgraphs is that they are order-regular \ie the in and out degree $d = |\cu|$ of each vertex is the same. That is, for a general graph $G$, the size of the weight kernel $w$ of a convolution operator $f_w$ is bounded by $d$, which in turn is bounded by the mininimal degree of $G$. One strategy to overcome this limitation is to use the $k$-power graphs, \ie by connecting each vertex with its $k$-hop neighbors. Another one would be to allow the support of $w$ to exceed $\cu$. These strategies require to acknowledge that the topological structure supported by $G$ is not the best one to support a convolution.
+
+However, it is possible to use the same kind of construction without modifying $G$, which was constrained by $d$. The latter constraint is a consequence that every vertex of the Cayley subgraph $\vec{G}$ must be composable with every generator from $\cu$. Therefore, the solution consists in considering groupoids~\citep{weinstein1996groupoids} instead of groups. Roughly speaking, a groupoid is almost a group except that its composition law that is not defined everywhere.
+
+\begin{definition}\textbf{Groupoid}\\
+A groupoid $\Upsilon$ is a set equipped with a partial composition law with domain $\cd \subset \Upsilon \times \Upsilon$ that is
+\begin{enumerate}
+	\item closed if defined \ie $\forall (g, h) \in \cd, gh \in \Upsilon$
+	\item associative \ie $\forall f \in \Upsilon, \forall (g,h) \in \cd: (f, gh) \in \cd \Rightarrow \begin{cases} (f, g) \in \cd\\ (fg, h) \in \cd\\ f(gh) = (fg)h \end{cases}$
+	\item invertible \ie $\forall g \in \Upsilon, \exists g^{-1} \in \Upsilon, (g,g^{-1}), (g^{-1},g)  \in \cd$
+	\item cancellative \ie $\forall g,h \in \cd, g^{-1}gh = h, ghh^{-1}$
+\end{enumerate}
+\end{definition}
+
+\todo{groupoid action}
 
 
-\subsection{Groupoid convolution on graphs}
-
-
-\subsection{On the choice of the supporting set $\cn$}
-
-
-\todo{}
