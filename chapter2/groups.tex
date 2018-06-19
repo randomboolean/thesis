@@ -1,6 +1,6 @@
 \section{Construction from the vertex set}
 
-\subsection{Introduction}
+%\subsection{Introduction}
 
 As \propref{prop:equi} is a complete characterization of convolutions, it can be used to define them \ie convolution operators can be constructed as the set of linear transformations that are equivariant to translations. However, in the general case where $G$ is not a grid graph, translations are not defined, so that construction needs to be generalized beyond translational equivariances.
 
@@ -18,18 +18,18 @@ Our construction is motivated by the following questions:
 We first recall the notion of group and group convolution.
 
 \begin{definition}\textbf{Group}\\
-A group $\group$ is a set equipped with a closed, associative and invertible composition law that admits a unique left-right identity element.
+A group $\Gamma$ is a set equipped with a closed, associative and invertible composition law that admits a unique left-right identity element.
 \end{definition}
 
 The group convolution extends the notion of the classical discrete convolution.
 
 \begin{definition}\textbf{Group convolution I}\\
-Let a group $\group$, the group convolution I between two signals $s_1$ and $s_2 \in \cs(\group)$ is defined as:
+Let a group $\Gamma$, the group convolution I between two signals $s_1$ and $s_2 \in \cs(\Gamma)$ is defined as:
 \begin{align*}
-\forall h \in \group, (s_1 \ast_{\I} s_2)[h] & = \displaystyle \sum_{g \in \group} s_1[g] \h{2} s_2[g^{-1}h]%\\
+\forall h \in \Gamma, (s_1 \ast_{\I} s_2)[h] & = \displaystyle \sum_{g \in \Gamma} s_1[g] \h{2} s_2[g^{-1}h]%\\
 %& = \displaystyle \sum_{ab = h} s_1[a] \h{2} s_2[b]
 \end{align*}
-provided at least one of the signals has finite support if $\group$ is not finite.
+provided at least one of the signals has finite support if $\Gamma$ is not finite.
 \label{def:conv1}
 \end{definition}
 
@@ -126,7 +126,7 @@ Because $\varphi$ is an isomorphism, its inverse $c \mapsto g_c$ is also an isom
 \end{align*}
 \end{proof}
 
-\begin{remark}Note that convolution operators of the form $f_w = . \ast_{\I} w$ are also equivariant to $\group$, but the proposition and the proof are omitted as they are similar to the latter.
+\begin{remark}Note that convolution operators of the form $f_w = . \ast_{\I} w$ are also equivariant to $\Gamma$, but the proposition and the proof are omitted as they are similar to the latter.
 \end{remark}
 
 In fact, both group convolutions are the same as the latter one borrows the algebraic structure of the first one. Thus we only obtain equivariance to $\varphi(\Gamma)$ when $\varphi$ also transfer the group structure from $\Gamma$ to $V$, and the converse don't hold. To obtain equivariance to $\Gamma$ (and its converse), we will drop the direct homomorphism condition, and instead we will take into account the fact that it contains invertible transformations of $V$.
@@ -161,6 +161,7 @@ A map $\varphi$ from a group $\Gamma$ acting on the destination set $V$ is said 
 \begin{gather*}
 \forall g, h \in \Gamma, g(\varphi(h)) = \varphi(gh)
 \end{gather*}
+\label{def:eqmap}
 \end{definition}
 
 In our case we have $\Gamma \overset{\varphi}{\cong} V$. If we also have that $\Gamma \equiv V$, we are interested to know if then~$\varphi$~exhibits the equivalence.
@@ -266,7 +267,7 @@ f(s) & = \displaystyle\sum_{v \in V} s[v] \h{2} f \circ g_v(\delta_{\varphi(\id)
 \end{proof}
 
 \paragraph{Construction of $\varphi$-convolutions on vertex domains}
-\propref{prop:equiG} tells us that in order to define a convolution on the vertex domain of a graph $\gve$, all we need is a subgroup $\Gamma$ of invertible transformations of $V$, that is equivalent to $V$. The choice of $\Gamma$ can be done with respect to~$E$. This will be discussed in more details in \secref{sec:edges}.
+\propref{prop:equiG} tells us that in order to define a convolution on the vertex domain of a graph $\gve$, all we need is a subgroup $\Gamma$ of invertible transformations of $V$, that is equivalent to $V$. The choice of $\Gamma$ can be done with respect to~$E$. This is discussed in more details in \secref{sec:edges}, where we will see that in fact, we only need a generating set of $\Gamma$.
 
 \paragraph{Exposure of $\varphi$}
 This construction relies on exposing a bijective equivariant map $\varphi$ between $\Gamma$ and $V$. In the next subsection, we show that in cases where $\Gamma$ is abelian, we even need not expose $\varphi$ and the characterization still holds.
@@ -363,20 +364,3 @@ f \in \cl(\cs(V))\\
 \end{proof}
 
 Depending on the applications, we will build upon either $\ast_{\varphi}$ or $\ast_{\M}$ when the abelian condition is satisfied.
-
-%\subsection{Properties and drawbacks of the current construction}
-
-%\todo{drop the draft of this subsection and rewrite it more clearly}
-% At this point, the convolutions have been constructed as a summation over $\Gamma$. Because we will consider construction where the summation is done over a subset of $\Gamma$, let define $\Omega$ as the summation set.
-
-% We can identify a list of properties (or constraints) that we want the convolution to have:
-% \begin{description}[style=multiline, labelwidth=1cm]
-%     \item[\namedlabel{itm:p1}{(p1)}] objects of $\Omega$ are invertible transformations of $V$
-%     \item[\namedlabel{itm:p2}{(p2)}] $\Omega$ need not be in one-to-one correspondence with $V$
-%     \item[\namedlabel{itm:p3l}{(p3l)}] right convolutions are equivariant to $\Gamma$
-%     \item[\namedlabel{itm:p3r}{(p3r)}] left convolutions are equivariant to $\Gamma$
-%     \item[\namedlabel{itm:p3l}{(p4r)}] linear transformations that are equivariant to $\Gamma$ are right convolutions
-%     \item[\namedlabel{itm:p3l}{(p4l)}] linear transformations that are equivariant to $\Gamma$ are left convolutions
-% \end{description}
-
-%In what follows, we now consider the edge set in our construction and keep those in mind.
