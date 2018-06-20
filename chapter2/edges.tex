@@ -133,13 +133,6 @@ $G$ admits an (EC) $\varphi$-convolution, if and only if, $\varphi$ is a graph i
 \label{cor:cayley}
 \end{corrolary}
 
-% \begin{proof}
-% \todo{or not to do ?}
-% \end{proof}
-
-% \paragraph{Locality and weight sharing also hold}
-% Let $f_w$ be a $\varphi$-or-$\M$-convolution operator on a Cayley graph (or Cayley subgraph). If the support of $w$ is included in, or equal to $\cu$, then $f_w(s)[v]$ amounts to a dot product between a weight vector $\widetilde{w}$ made of the non-zero entries of $w$ and another one $s_v$ made of entries of $s$ that are located on vertices connected by an edge to $v$. The same weight vector $\widetilde{w}$ is shared for the calculation of every other $f_w(s)[u]$.
-
 \subsection{Intrinsic properties}
 
 \begin{itemize}
@@ -262,15 +255,15 @@ The latter constraint is a consequence that every vertex of the Cayley subgraph 
 \begin{definition}\textbf{Groupoid}\\
 A groupoid $\Upsilon$ is a set equipped with a partial composition law with domain $\cd \subset \Upsilon \times \Upsilon$ that is
 \begin{enumerate}
-	\item closed into $\Upsilon$ \ie $\forall (g, h) \in \cd, gh \in \Upsilon$
-	\item associative \ie
+	\item\label{enum:g1} valued in $\Upsilon$ \ie $\forall (g, h) \in \cd, gh \in \Upsilon$
+	\item\label{enum:g2} associative \ie
     $\forall f,g,h \in \Upsilon,
       \begin{cases}
         (f, g), (g, h) \in \cd \Leftrightarrow (fg,h), (f, gh) \in \cd\\
         (f, g), (fg, h) \in \cd \Leftrightarrow (g,h), (f, gh) \in \cd\\
         \text{when defined, } (fg)h = f(gh)
       \end{cases}$ \label{enum:2}
-	\item invertible \ie
+	\item\label{enum:g3} invertible \ie
 		$\forall g \in \Upsilon, \exists! g^{-1} \in \Upsilon \quad\st
 			\begin{cases}
 				(g,g^{-1}), (g^{-1},g)  \in \cd\\
@@ -310,43 +303,51 @@ Also, $\varphi$-equivalence between a subgroupoid and a set is defined similarly
 \paragraph{Partial transformations groupoid}
 We denote by $\Psi(V)$ the set of partially defined transformations on $v$, and $\Psi^*(V)$ the groupoid of its invertible ones (\ie injective ones).
 
-Extending a partial transformation $g$ on the signal space $\cs(V)$ is a bit tricky, because only the signal entries corresponding to $\cd_g$ are moved. A convenient way to do this is to consider the groupoid closure obtained with the zero of an embedding semigroup. We explain this construction with the following definitions.
+Extending a partial transformation $g$ on the signal space $\cs(V)$ (and thus the convolutions) is a bit tricky, because only the signal entries corresponding to $\cd_g$ are moved. A convenient way to do this is to consider the groupoid closure obtained with the addition of an absorbing element.% zero of an embedding semigroup. We explain this construction with the following definitions.
 
-\begin{definition}\textbf{Semigroup with zero}\\
-A semigroup $\cg$ is a set equipped with a closed and associative composition law. The zero $0$ of $\cg$, if it exists, is the unique absorbing element \ie
-\begin{gather*}
-\forall g \in \cg, 0g = g0 = 0
-\end{gather*}
-\end{definition}
+% \begin{definition}\textbf{Semigroup with zero}\\
+% A semigroup $\cg$ is a set equipped with a closed and associative composition law. The zero $0$ of $\cg$, if it exists, is the unique absorbing element \ie
+% \begin{gather*}
+% \forall g \in \cg, 0g = g0 = 0
+% \end{gather*}
+% \end{definition}
 
-\begin{remark}
-A group is a semigroup for which every element is invertible. However a group cannot have a zero.
-\end{remark}
+% \begin{remark}
+% A group is a semigroup for which every element is invertible. However a group cannot have a zero.
+% \end{remark}
 
 \begin{definition}\textbf{Zero-closure}\\
-The \emph{zero-closure} of a groupoid $\Upsilon$, denoted $\Upsilon^0$, is the semigroup $\Upsilon \cup {0}$, such that
-\begin{gather*}
-\forall (g,h) \notin \cd, gh = 0
-\end{gather*}
+The \emph{zero-closure} of a groupoid $\Upsilon$, denoted $\Upsilon^0$, is the set $\Upsilon \cup {0}$, such that the groupoid axioms \ref{enum:g1}, \ref{enum:g2} and \ref{enum:g3}, and the domain $\cd$ are left unchanged, and
+\begin{enumerate}\setcounter{enumi}{3}
+\item the composition law is extended to $\Upsilon^0 \times \Upsilon^0$ with $\forall (g,h) \notin \cd, gh = 0$
+\end{enumerate}
 \end{definition}
 
-\begin{lemma}\textbf{Zero-extension of $\varphi$}\\
-Let a partial equivariant map $\varphi: \Upsilon \rightarrow V$. It can be extended to a (total) equivariant map $\varphi: \Upsilon^0 \rightarrow V \cup \varphi(0)$ and imposes $L_0 = \varphi(0)$. Additionaly, it also imposes that $\varphi(0) \notin V$, and so we can denote $0 =\varphi(0)$.
+\begin{remark}Note that this is coherent as the properties \ref{enum:g2} and \ref{enum:g3} still depend on the original domain $\cd$.
+\end{remark}
+
+Now, we will also extend every other algebraic object used in the expression of the $\varphi$-convolution and the $\M$-convolution, so that we can directly apply our previous constructions.
+
+\begin{lemma}\textbf{Extension of $\varphi$ and $V$}\\
+Let a partial equivariant map $\varphi: \Upsilon \rightarrow V$. It can be extended to a (total) equivariant map $\varphi: \Upsilon^0 \rightarrow V^0 = V \cup \varphi(0)$, such that $\varphi(0) \notin V$, that we denote $0_V = \varphi(0)$, and such that
+\begin{gather*}
+	\forall g \in \Upsilon^0, \forall v \in V^0, g(v) = \begin{cases} \varphi(gg_v) &\text{ if } g_v \in \cd_g\\ 0_v &\text{ else}\end{cases}
+\end{gather*}
 \end{lemma}
 \begin{proof}
 We have $\varphi(0) \notin V$ because $\varphi$ is bijective. Additionaly, we must have $\forall (g,h) \notin \cd, g(\varphi(h)) = \varphi(gh) = \varphi(0) = 0$.
 \end{proof}
 
-\begin{remark} Note that for notational conveniency, we use the same symbol $0$ for $0_{\bbr}$, $0_{\Psi^*(V)^0}$ and $0_V$.
+\begin{remark} Note that for notational conveniency, we may use the same symbol $0$ for $0_{\bbr}$, $0_{\Upsilon}$ and $0_V$.
 \end{remark}
 
-\begin{lemma}\textbf{Zero-extension of $\cs(V)$}\\
-Let a subgroupoid $\Upsilon \subset \Psi^*(V)$ such that $\Upsilon \overset\varphi\equiv V$. Under the convention that $s[0] = 0$, a transformation $g \in \Upsilon^0$ can be extended to the signal space $\cs(V)$ as usual:
+\begin{lemma}\textbf{Extension of the subgroupoid actions on $\cs(V)$}\\
+Let a subgroupoid $\Upsilon \subset \Psi^*(V)$ such that $\Upsilon \overset\varphi\equiv V$. Under the convention that $s[0_V] = 0_\bbr$, a transformation $g \in \Upsilon^0$ can be extended to the signal space $\cs(V)$ as usual:
 \begin{gather*}
 \forall s \in \cs(V), \forall v \in V, g(s)[v] =
   \begin{cases}
-    0 &\text{ if } g = 0\\
-    s[g^{-1}(v)]% = s[\varphi(g^{-1}g_v)]
+    s[g^{-1}(v)] &\text{ if } g \neq 0_\Upsilon\\
+    0_\bbr% = s[\varphi(g^{-1}g_v)]
       &\text{ else}
   \end{cases}
 \end{gather*}
@@ -355,7 +356,38 @@ Let a subgroupoid $\Upsilon \subset \Psi^*(V)$ such that $\Upsilon \overset\varp
 Straightforward with \eqref{eq:P}.
 \end{proof}
 
-We can now define partial convolutions as follows.
+With these extensions, we can directly obtain the $\varphi$- and $\M$-convolutions related to $\Upsilon$ by substituting $\Upsilon$ to $\Gamma$ in \defref{def:convv} and \defref{def:convm}.
+
+\begin{definition}\textbf{Groupoid convolution}\\
+Let a zero-closure $\Upsilon^0$ of a subgroupoid $\Upsilon \subset \Psi^*(V)$, such that $\Upsilon^0 \overset\varphi\equiv V^0$. The $\varphi$- and $\M$-convolutions are defined with the same expression as if $\Upsilon^0$ were a subgroup \ie
+\begin{enumerate}[label=(\roman*)]
+  \item $\forall s, w \in \cs(V),
+  			s \ast_\varphi w = \displaystyle\sum_{v \in V} s[v] \h{2} g_v(w) = \displaystyle\sum_{g \in \Upsilon} s[\varphi(g)] \h{2} g(w)$ \label{enum:i}
+  \item $\forall (w,s) \in \cs(\Upsilon) \times \cs(V), w \ast_{\M} s  = \displaystyle\sum_{g \in \Upsilon} w[g] \h{2} g(s)$ \label{enum:ii}
+\end{enumerate}
+where \ref{enum:ii} applies in the abelian case.
+\end{definition}
+
+\paragraph{Symmetrical expressions}
+Note that the groupoid convolutions can also be expressed on the domain $\cd$ with a convenient symmetrical expression:
+\begin{enumerate}[label=(\roman*)]
+  \item $\forall u \in V, (s \ast_\varphi w)[u] =  \displaystyle\sum_{\substack{(g_a,g_b) \in \cd\\ \st g_ag_b = g_u}} s[a] \h{2} w[b]$
+  \item $\forall u \in V, (w \ast_{\M} s)[u]  = \displaystyle\sum_{\substack{v \in \cd_g\\ \st g(v) = u}} w[g] \h{2} s[v]$
+\end{enumerate}
+
+We don't obtain similarly the equivariance characterization. But we obtain it when we include the edges. Reword.
+\todo{explain why (EC) is needed}
+
+\begin{proposition}\textbf{Characterization by equivariance to $\Upsilon$}\\
+The class of (EC) linear transformations that are equivariant to $\Upsilon$ is exactly the class of $\varphi$-convolution right operators. When $\Upsilon$ is abelian, it is also the class of $\M$-convolution left operators.
+\end{proposition}
+\begin{proof}
+\todo{In the non abelian case, as the abelian case is easy}
+% \begin{enumerate}[label=(\roman*)]
+
+% \end{enumerate}
+\end{proof}
+
 
 \todo{}
 
