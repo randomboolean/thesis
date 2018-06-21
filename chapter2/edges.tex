@@ -277,7 +277,7 @@ A groupoid $\Upsilon$ is a set equipped with a partial composition law with doma
 Note that left and right inverses are necessarily equal (because $(gg^{-1})g=g(g^{-1}g)$). Also note we can define a right identity element $e^r_g = g^{-1}g$, and a left one $e^l_g = gg^{-1}$, but they are not necessarily equal and depend on $g$.
 \end{remark}
 
-Every definition related to groups can be adapted to groupoids. In particular, let's adapt a few notions.
+Most definitions related to groups can be adapted to groupoids. In particular, let's adapt a few notions.
 
 \begin{definition}\textbf{Groupoid partial action}\\
 A partial \emph{action} of a groupoid $\Upsilon$ on a set $V$, is a function $L$, with domain $\cd_L \subset \Upsilon \times V$ and valued in $V$, such that the map $g \mapsto L_g$ is a groupoid homomorphism.
@@ -323,22 +323,22 @@ The \emph{zero-closure} of a groupoid $\Upsilon$, denoted $\Upsilon^0$, is the s
 \end{enumerate}
 \end{definition}
 
-\begin{remark}Note that this is coherent as the properties \ref{enum:g2} and \ref{enum:g3} still depend on the original domain $\cd$.
+\begin{remark}Note that this is coherent as the properties \ref{enum:g2} and \ref{enum:g3} are still partially defined on the original domain $\cd$.
 \end{remark}
 
 Now, we will also extend every other algebraic object used in the expression of the $\varphi$-convolution and the $\M$-convolution, so that we can directly apply our previous constructions.
 
-\begin{lemma}\textbf{Extension of $\varphi$ and $V$}\\
+\begin{lemma}\textbf{Extension of $\varphi$ on $V^0$}\\
 Let a partial equivariant map $\varphi: \Upsilon \rightarrow V$. It can be extended to a (total) equivariant map $\varphi: \Upsilon^0 \rightarrow V^0 = V \cup \varphi(0)$, such that $\varphi(0) \notin V$, that we denote $0_V = \varphi(0)$, and such that
 \begin{gather*}
-	\forall g \in \Upsilon^0, \forall v \in V^0, g(v) = \begin{cases} \varphi(gg_v) &\text{ if } g_v \in \cd_g\\ 0_v &\text{ else}\end{cases}
+	\forall g \in \Upsilon^0, \forall v \in V^0, g(v) = \begin{cases} \varphi(gg_v) &\text{ if } g_v \in \cd_g\\ 0_V &\text{ else}\end{cases}
 \end{gather*}
 \end{lemma}
 \begin{proof}
-We have $\varphi(0) \notin V$ because $\varphi$ is bijective. Additionaly, we must have $\forall (g,h) \notin \cd, g(\varphi(h)) = \varphi(gh) = \varphi(0) = 0$.
+We have $\varphi(0) \notin V$ because $\varphi$ is bijective. Additionaly, we must have $\forall (g,h) \notin \cd, g(\varphi(h)) = \varphi(gh) = \varphi(0) = 0_V$.
 \end{proof}
 
-\begin{remark} Note that for notational conveniency, we may use the same symbol $0$ for $0_{\bbr}$, $0_{\Upsilon}$ and $0_V$.
+\begin{remark} Note that for notational conveniency, we may use the same symbol~$0$ for~$0_{\Upsilon}$, $0_V$ and~$0_{\bbr}$.
 \end{remark}
 
 \begin{lemma}\textbf{Extension of the subgroupoid actions on $\cs(V)$}\\
@@ -346,7 +346,7 @@ Let a subgroupoid $\Upsilon \subset \Psi^*(V)$ such that $\Upsilon \overset\varp
 \begin{gather*}
 \forall s \in \cs(V), \forall v \in V, g(s)[v] =
   \begin{cases}
-    s[g^{-1}(v)] &\text{ if } g \neq 0_\Upsilon\\
+    s[g^{-1}(v)] &\text{ if } g \neq 0_\Upsilon \text{ and } v \in \cd_{g^{-1}}\\
     0_\bbr% = s[\varphi(g^{-1}g_v)]
       &\text{ else}
   \end{cases}
@@ -356,10 +356,10 @@ Let a subgroupoid $\Upsilon \subset \Psi^*(V)$ such that $\Upsilon \overset\varp
 Straightforward with \eqref{eq:P}.
 \end{proof}
 
-With these extensions, we can directly obtain the $\varphi$- and $\M$-convolutions related to $\Upsilon$ by substituting $\Upsilon$ to $\Gamma$ in \defref{def:convv} and \defref{def:convm}.
+With these extensions, we can obtain the $\varphi$- and $\M$-convolutions related to~$\Upsilon$ almost by substituting~$\Upsilon^0$ to~$\Gamma$ in \defref{def:convv} and \defref{def:convm}.
 
 \begin{definition}\textbf{Groupoid convolution}\\
-Let a zero-closure $\Upsilon^0$ of a subgroupoid $\Upsilon \subset \Psi^*(V)$, such that $\Upsilon^0 \overset\varphi\equiv V^0$. The $\varphi$- and $\M$-convolutions are defined with the same expression as if $\Upsilon^0$ were a subgroup \ie
+Let a subgroupoid $\Upsilon \subset \Psi^*(V)$, such that $\Upsilon \overset\varphi\equiv V$. The $\varphi$- and $\M$-convolutions are defined on its zero-closure, with the same expression as if $\Upsilon^0$ were a subgroup, and by extension of $\varphi$ and of the groupoid actions \ie
 \begin{enumerate}[label=(\roman*)]
   \item $\forall s, w \in \cs(V),
   			s \ast_\varphi w = \displaystyle\sum_{v \in V} s[v] \h{2} g_v(w) = \displaystyle\sum_{g \in \Upsilon} s[\varphi(g)] \h{2} g(w)$ \label{enum:i}
@@ -369,23 +369,57 @@ where \ref{enum:ii} applies in the abelian case.
 \end{definition}
 
 \paragraph{Symmetrical expressions}
-Note that the groupoid convolutions can also be expressed on the domain $\cd$ with a convenient symmetrical expression:
+Note that, as $\forall r, r[0] = 0$, the groupoid convolutions can also be expressed on the domain~$\cd$ with a convenient symmetrical expression:
 \begin{enumerate}[label=(\roman*)]
   \item $\forall u \in V, (s \ast_\varphi w)[u] =  \displaystyle\sum_{\substack{(g_a,g_b) \in \cd\\ \st g_ag_b = g_u}} s[a] \h{2} w[b]$
   \item $\forall u \in V, (w \ast_{\M} s)[u]  = \displaystyle\sum_{\substack{v \in \cd_g\\ \st g(v) = u}} w[g] \h{2} s[v]$
 \end{enumerate}
 
-We don't obtain similarly the equivariance characterization. But we obtain it when we include the edges. Reword.
-\todo{explain why (EC) is needed}
+We obtain an equivariance characterization, similarly to \propref{prop:equiG} and \corref{cor:equiM}.
 
 \begin{proposition}\textbf{Characterization by equivariance to $\Upsilon$}\\
-The class of (EC) linear transformations that are equivariant to $\Upsilon$ is exactly the class of $\varphi$-convolution right operators. When $\Upsilon$ is abelian, it is also the class of $\M$-convolution left operators.
+\begin{enumerate}[label=(\roman*)]
+  \item  The class of linear transformations of $\cs(V)$ that are equivariant to $\Upsilon$ is exactly the class of right $\varphi$-convolution operators.
+  \item When $\Upsilon$ is abelian, it is also the class of left $\M$-convolution operators.
+\end{enumerate}
 \end{proposition}
 \begin{proof}
-\todo{In the non abelian case, as the abelian case is easy}
-% \begin{enumerate}[label=(\roman*)]
+\begin{enumerate}[label=(\roman*)]
+  \item We give less details on parts of the proof that do not require to handle the partial domains and refers the reader to the proof of \propref{prop:equiG}.\\
+  \begin{enumerate}
+    \item From left to right:\\
 
-% \end{enumerate}
+    \item From right to left:\\
+    Let $V \in V$. Denote $e^r_{g_v} = g_v^{-1}g_v$ the right identity element of $g_v$, and $e^r_v = \varphi(e^r_{g_v})$. We have that
+    \begin{gather*}
+    g_v(e^r_v) = v\\
+    \text{So, } \delta_v = g_v(\delta_{e^r_v})
+    \end{gather*}
+
+    Let $f \in \cl(\cs(V))$ that is equivariant to $\Upsilon$, and $s \in \cs(V)$. Thanks to the previous remark we obtain that
+    \begin{align*}
+    f(s) & = \displaystyle\sum_{v \in V} s[v] \h{2} f(\delta_v)\\
+         & = \displaystyle\sum_{v \in V} s[v] \h{2} f(g_v(\delta_{e^r_v}))\\
+         & = \displaystyle\sum_{v \in V} s[v] \h{2} g_v(f(\delta_{e^r_v}))\\
+         & = \displaystyle\sum_{v \in V} s[v] \h{2} g_v(w_v)
+    \end{align*}
+    where $w_v = f(\delta_{e^r_v})$. In order to finish the proof, we need to find $w$ such that $\forall v \in V, g_v(w) = g_v(w_v)$.
+
+    Let's consider the equivalence relation $\ccr$ defined on $V \times V$ such that:
+    \begin{align*}
+    a \ccr b & \Leftrightarrow    w_a = w_b\\
+            & \Leftrightarrow e^r_a = e^r_b\\
+            & \Leftrightarrow g_a^{-1}g_a = g_b^{-1}g_b\\
+            & \Leftrightarrow (g_b, g_a^{-1}) \in \cd
+    \end{align*}
+    \todo{looks like we need $(a,b) \in \cd \Leftrightarrow (b,a) \in \cd$}
+    Denote $\cd_0 = \{ u \in V, w_u = w_{v_0} \}$. We obtain
+    \begin{align*}
+    \forall x \in V, g_v(w_v)[x]
+    \end{align*}
+  \end{enumerate}
+
+\end{enumerate}
 \end{proof}
 
 
