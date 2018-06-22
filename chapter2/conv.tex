@@ -37,19 +37,37 @@ Let's recall first what is a transformation, and how it acts on signals.
 
 \begin{definition}\textbf{Transformation}\\
 A \emph{transformation} $f: V \rightarrow V$ is a function with same domain and codomain. The set of transformations is denoted $\Phi(V)$. The set of bijective transformations is denoted $\Phi^*(V) \subset \Phi(V)$.
-
-In case $f \in \Phi^*(V)$, it can act on $\cs(V)$ through the linear operator $L_f \in \cl(\cs(V))$ defined as:
-\begin{gather*}
-\forall s \in \cs(V), \forall v \in V, f(s)[v] := L_f s[v] = s[f^{-1}(v)]
-\end{gather*}
-\ie an entry of a transformed signal is obtained by doing a lookup of the entry of the original signal.
-
-In case $f \notin \Phi^*(V)$, we can still define $L_f \in \cl(\cs(V))$, however we need to linearly aggregate the entries on the fibers:
-\begin{gather*}
-\forall s \in \cs(V), \forall v \in V, f(s)[v] := L_f s[v] = \agg\{s[u], u \in f^{-1}\{v\}\}
-\end{gather*}
-where $\agg$ can be for example the sum, the average, or the max, and $\agg(\emptyset) = 0$.
 \end{definition}
+
+In particular, $\Phi^*(V)$ forms the symmetric group of $V$ and can move signals of $\cs(V)$ by linear extension of its group action.
+
+\begin{lemma}\textbf{Extension to $\cs(V)$ by group action}\\
+An transformation $f \in \Phi^*(V)$ can be extended linearly to the signal space $\cs(V)$, and we have:
+\begin{gather*}
+\forall s \in \cs(V), \forall v \in V, f(s)[v] := L_f(s)[v] = s[f^{-1}(v)]
+\end{gather*}
+\end{lemma}
+\begin{proof}
+Let $s \in \cs(V), f \in \Phi^*(V), L_f \in \cl(\cs(V))$ \st $\forall v \in V, L_f(\delta_v) = \delta_{f(v)}$. Then, we have:
+\begin{align*}
+L_f(s) & = \displaystyle\sum_{v \in V} s[v] \h{2} L_f(\delta_v)\\
+       & = \displaystyle\sum_{v \in V} s[v] \h{2} \delta_{f(v)}\\
+\text{So, }
+\forall v \in V, L_f(s)[v] & = s[f^{-1}(v)]
+\end{align*}
+\end{proof}
+
+% In case $f \in \Phi^*(V)$, it can act on $\cs(V)$ through the linear operator $$ defined as:
+% \begin{gather*}
+% \forall s \in \cs(V), \forall v \in V, f(s)[v] := L_f s[v] = s[f^{-1}(v)]
+% \end{gather*}
+% \ie an entry of a transformed signal is obtained by doing a lookup of the entry of the original signal.
+
+% In case $f \notin \Phi^*(V)$, we can still define $L_f \in \cl(\cs(V))$, however we need to linearly aggregate the entries on the fibers:
+% \begin{gather*}
+% \forall s \in \cs(V), \forall v \in V, f(s)[v] := L_f s[v] = \agg\{s[u], u \in f^{-1}\{v\}\}
+% \end{gather*}
+% where $\agg$ can be for example the sum, the average, or the max, and $\agg(\emptyset) = 0$.
 
 We also recall the formalism of translations.
 
@@ -66,7 +84,7 @@ For any set $E$, we denote by $\ct(E)$ its translations if they are defined.
 \end{definition}
 
 The next proposition fully characterizes convolution operators with their translational equivariance property. This can be seen as a discretization of a classic result from the theory of distributions~\citep{schwartz1957theorie}.
-{}
+
 \begin{proposition}\textbf{Characterization of convolution operators on $\cs(\bbz^2)$}\\
 On real-valued signals over $\bbz^2$, the class of linear transformations that are equivariant to translations is exactly the class of convolutive operations \ie
 \begin{gather*}
@@ -93,7 +111,7 @@ f_w \circ t_{\alpha,\beta} (s)[a,b] & = \displaystyle \sum_i \sum_j t_{\alpha,\b
  & = f_w (s)[a - \alpha,b - \beta]\nonumber\\
  & = t_{\alpha,\beta} \circ f_w (s)[a,b] \tag{equivariance}
 \end{align}
-Now let's prove the result from right to left .
+Now let's prove the result from right to left.
 
 Let $f \in \cl(\cs(\bbz^2))$, $s \in \cs(\bbz^2)$. We suppose that $f$ commutes with translations. Recall that $s$ can be linearly decomposed on the infinite family of dirac signals:
 \begin{gather*}
@@ -126,8 +144,9 @@ The converse result, as a consequence of~\propref{prop:equi}, is never mentioned
 \paragraph{Methodology for extending to general graphs}
 Hence, in our construction, we will try to preserve the characterization from \propref{prop:equi} as it is mostly the reason why they are successful in deep learning. Note that the reduction of parameters compared to a dense layer is also a consequence of this characterization.
 
-% \subsection{Related work generalising the discrete convolution on graphs}
+\subsection{Related works}
 
+\todo{}
 % \todo{Maybe put this part in a section rather than a subsection. Finally rather put in in section 3.}
 
 

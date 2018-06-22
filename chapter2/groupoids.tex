@@ -1,0 +1,232 @@
+\section{From groups to groupoids}
+
+% maybe present miniplan
+\subsection{Motivation}
+
+One possible limitation coming from searching for Cayley subgraphs is that they are order-regular \ie the in- and the out-degree $d = |\cu|$ of each vertex is the same. That is, for a general graph $G$, the size of the weight kernel $w$ of an (EC*) convolution operator $f_w$ supported on $\cu$ is bounded by $d$, which in turn is bounded by twice the mininimal degree of $G$ (twice because $G$ is undirected and $\cu$ can contain every inverse).
+
+There are a lot of possible strategies to overcome this limitation. For example:
+\begin{enumerate}
+  \item connecting each vertex with its $k$-hop neighbors, with $k > 1$,
+  \item artificially creating new connections for less connected vertices,
+  \item allowing the supporting set $\cn$ to exceed $\cu$ \ie dropping * in (EC*).
+\end{enumerate}
+
+These strategies require to concede that the topological structure supported by $G$ is not the best one to support an (EC*) convolution on it, which breeds the following question:
+\begin{itemize}
+  \item What can we relax in the previous (EC*) contruction in order to unbound the supporting set, and still preserve the equivariance characterization?
+\end{itemize}
+
+The latter constraint is a consequence that every vertex of the Cayley subgraph $\vec{G}$ must be composable with every generator from $\cu$. Therefore, the answer consists in considering groupoids~\citep{brandt1927verallgemeinerung} instead of groups. Roughly speaking, a groupoid is almost a group except that its composition law needs not be defined everywhere. \cite{weinstein1996groupoids}, unveiled the benefits to base convolutions on groupoids instead of groups in order to exploit partial symmetries.
+
+
+\subsection{Definitions of some groupoid related notions}
+
+\begin{definition}\textbf{Groupoid}\\
+A \emph{groupoid} $\Upsilon$ is a set equipped with a partial composition law with domain $\cd \subset \Upsilon \times \Upsilon$ that is
+\begin{enumerate}
+	\item\label{enum:g1} closed into $\Upsilon$ \ie $\forall (g, h) \in \cd, gh \in \Upsilon$
+	\item\label{enum:g2} associative \ie
+    $\forall f,g,h \in \Upsilon,
+      \begin{cases}
+        (f, g), (g, h) \in \cd \Leftrightarrow (fg,h), (f, gh) \in \cd\\
+        (f, g), (fg, h) \in \cd \Leftrightarrow (g,h), (f, gh) \in \cd\\
+        \text{when defined, } (fg)h = f(gh)
+      \end{cases}$ \label{enum:2}
+	\item\label{enum:g3} invertible \ie
+		$\forall g \in \Upsilon, \exists! g^{-1} \in \Upsilon \quad\st
+			\begin{cases}
+				(g,g^{-1}), (g^{-1},g)  \in \cd\\
+				(g,h) \in \cd \Rightarrow g^{-1}gh = h\\
+				(h,g) \in \cd \Rightarrow hgg^{-1} = h
+			\end{cases}$
+\end{enumerate}
+Optionally, it can be \emph{domain-symmetric} \ie $(g,h) \in \cd \Leftrightarrow (h,g) \in \cd$, and \emph{abelian} \ie domain-symmetric with $gh = hg$.
+\end{definition}
+
+\begin{remark}
+Note that left and right inverses are necessarily equal (because $(gg^{-1})g=g(g^{-1}g)$). Also note we can define a right identity element $e^r_g = g^{-1}g$, and a left one $e^l_g = gg^{-1}$, but they are not necessarily equal and depend on $g$.
+\end{remark}
+
+Most definitions related to groups can be adapted to groupoids. In particular, let's adapt a few notions.
+
+\begin{definition}\textbf{Groupoid partial action}\\
+A partial \emph{action} of a groupoid $\Upsilon$ on a set $V$, is a function $L$, with domain $\cd_L \subset \Upsilon \times V$ and valued in $V$, such that the map $g \mapsto L_g$ is a groupoid homomorphism.
+\end{definition}
+
+\begin{remark}
+As usual, we will confound $L_g$ and $g$ when there is no possible confusion, and we denote $\cd_{L_g} = \cd_g = \{ v \in V, (g,v) \in \cd_L \}$.
+\end{remark}
+
+\begin{definition}\textbf{Partial equivariant map}\\
+A map $\varphi$ from a groupoid $\Upsilon$ partially acting on the destination set $V$ is said to be a \emph{partial equivariant map} if
+\begin{gather*}
+\forall g,h \in \Upsilon,
+  \begin{cases}
+    \varphi(h) \in \cd_g \Leftrightarrow (g,h) \in \cd\\
+    g(\varphi(h)) = \varphi(gh)
+  \end{cases}
+\end{gather*}
+\end{definition}
+
+Also, $\varphi$-equivalence between a subgroupoid and a set is defined similarly with $\varphi$ being a bijective \emph{partial} equivariant map between them.
+
+\paragraph{Partial transformations groupoid}
+We denote by $\Psi(V)$ the set of partially defined transformations on $v$, and $\Psi^*(V)$ the groupoid of its invertible ones (\ie injective ones).
+
+\subsection{Construction of the groupoid convolution}
+
+The expression of the convolution we constructed in the previous section cannot be applied as is. We first need to extend the algebraic objects we work with. 
+Extending a partial transformation $g$ on the signal space $\cs(V)$ (and thus the convolutions) is a bit tricky, because only the signal entries corresponding to $\cd_g$ are moved. A convenient way to do this is to consider the groupoid closure obtained with the addition of an absorbing element
+
+\begin{definition}\textbf{Zero-closure}\\
+The \emph{zero-closure} of a groupoid $\Upsilon$, denoted $\Upsilon^0$, is the set $\Upsilon \cup {0}$, such that the groupoid axioms \ref{enum:g1}, \ref{enum:g2} and \ref{enum:g3}, and the domain $\cd$ are left unchanged, and
+\begin{enumerate}\setcounter{enumi}{3}
+\item the composition law is extended to $\Upsilon^0 \times \Upsilon^0$ with $\forall (g,h) \notin \cd, gh = 0$
+\end{enumerate}
+\end{definition}
+
+\begin{remark}Note that this is coherent as the properties \ref{enum:g2} and \ref{enum:g3} are still partially defined on the original domain $\cd$.
+\end{remark}
+
+Now, we will also extend every other algebraic object used in the expression of the $\varphi$-convolution and the $\M$-convolution, so that we can directly apply our previous constructions.
+
+\begin{lemma}\textbf{Extension of $\varphi$ on $V^0$}\\
+Let a partial equivariant map $\varphi: \Upsilon \rightarrow V$. It can be extended to a (total) equivariant map $\varphi: \Upsilon^0 \rightarrow V^0 = V \cup \varphi(0)$, such that $\varphi(0) \notin V$, that we denote $0_V = \varphi(0)$, and such that
+\begin{gather*}
+	\forall g \in \Upsilon^0, \forall v \in V^0, g(v) = \begin{cases} \varphi(gg_v) &\text{ if } g_v \in \cd_g\\ 0_V &\text{ else}\end{cases}
+\end{gather*}
+\end{lemma}
+\begin{proof}
+We have $\varphi(0) \notin V$ because $\varphi$ is bijective. Additionaly, we must have $\forall (g,h) \notin \cd, g(\varphi(h)) = \varphi(gh) = \varphi(0) = 0_V$.
+\end{proof}
+
+\begin{remark} Note that for notational conveniency, we may use the same symbol~$0$ for~$0_{\Upsilon}$, $0_V$ and~$0_{\bbr}$.
+\end{remark}
+
+\begin{lemma}\textbf{Extension of the subgroupoid actions on $\cs(V)$}\\
+Let a subgroupoid $\Upsilon \subset \Psi^*(V)$ such that $\Upsilon \overset\varphi\equiv V$. Under the convention that $s[0_V] = 0_\bbr$, a transformation $g \in \Upsilon^0$ can be extended to the signal space $\cs(V)$ as usual:
+\begin{gather*}
+\forall s \in \cs(V), \forall v \in V, g(s)[v] =
+  \begin{cases}
+    s[g^{-1}(v)] &\text{ if } g \neq 0_\Upsilon \text{ and } v \in \cd_{g^{-1}}\\
+    0_\bbr% = s[\varphi(g^{-1}g_v)]
+      &\text{ else}
+  \end{cases}
+\end{gather*}
+\end{lemma}
+\begin{proof}
+Straightforward.
+\end{proof}
+
+With these extensions, we can obtain the $\varphi$- and $\M$-convolutions related to~$\Upsilon$ almost by substituting~$\Upsilon^0$ to~$\Gamma$ in \defref{def:convv} and \defref{def:convm}.
+
+\begin{definition}\textbf{Groupoid convolution}\\
+Let a subgroupoid $\Upsilon \subset \Psi^*(V)$, such that $\Upsilon \overset\varphi\equiv V$. The $\varphi$- and $\M$-convolutions, based on~$\Upsilon$, are defined on its zero-closure, with the same expression as if~$\Upsilon^0$ were a subgroup, and by extension of~$\varphi$ and of the groupoid actions \ie
+\begin{enumerate}[label=(\roman*)]
+  \item $\forall s, w \in \cs(V),
+  			s \ast_\varphi w = \displaystyle\sum_{v \in V} s[v] \h{2} g_v(w) = \displaystyle\sum_{g \in \Upsilon} s[\varphi(g)] \h{2} g(w)$ \label{enum:i}
+  \item $\forall (w,s) \in \cs(\Upsilon) \times \cs(V), w \ast_{\M} s  = \displaystyle\sum_{g \in \Upsilon} w[g] \h{2} g(s)$ \label{enum:ii}
+\end{enumerate}
+where \ref{enum:ii} applies in the abelian case.
+\end{definition}
+
+\paragraph{Symmetrical expressions}
+Note that, as $\forall r, r[0] = 0$, the groupoid convolutions can also be expressed on the domain~$\cd$ with a convenient symmetrical expression:
+\begin{enumerate}[label=(\roman*)]
+  \item $\forall u \in V, (s \ast_\varphi w)[u] =  \displaystyle\sum_{\substack{(g_a,g_b) \in \cd\\ \st g_ag_b = g_u}} s[a] \h{2} w[b]$
+  \item $\forall u \in V, (w \ast_{\M} s)[u]  = \displaystyle\sum_{\substack{v \in \cd_g\\ \st g(v) = u}} w[g] \h{2} s[v]$
+\end{enumerate}
+
+We obtain an equivariance characterization, similarly to \propref{prop:equiG} and \corref{cor:equiM}.
+
+\begin{proposition}\textbf{Characterization by equivariance to $\Upsilon$}\\
+Let a subgroupoid $\Upsilon \subset \Psi^*(V)$, such that~$\Upsilon \overset\varphi\equiv V$. Then,
+\begin{enumerate}[label=(\roman*)]
+  \item right $\varphi$-convolution operators are equivariant to~$\Upsilon$,\label{enum:i}
+  \item if $\Upsilon$ is abelian, left $\M$-convolution operators are equivariant to~$\Upsilon$.\label{enum:ii}
+\end{enumerate}
+Conversely,
+\begin{enumerate}[label=(\roman*)]
+  \item if $\Upsilon$ is domain-symmetric, linear transformations of $\cs(V)$ that are equivariant to~$\Upsilon$ are right $\varphi$-convolution operators,
+  \item if $\Upsilon$ is abelian, linear transformations of $\cs(V)$ that are equivariant to~$\Upsilon$ are also left $\M$-convolution operators.
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+\begin{enumerate}[label=(\roman*)]
+   \item
+  \begin{enumerate}
+    \item Direct sense:\\
+    Using the symmetrical expressions, and the fact that $\forall r, r[0] = 0$, we have
+    \begin{align*}
+    (f_w \circ g (s))[u] & = \displaystyle\sum_{\substack{(g_a,g_b) \in \cd\\ \st g_ag_b = g_u}} g(s)[a] \h{2} w[b]\\
+    				& = \displaystyle\sum_{\substack{(g_a,g_b) \in \cd\\ \st g_ag_b = g_u}} s[g^{-1}(a)] \h{2} w[b]\\
+    				& = \displaystyle\sum_{\substack{(g_a,g_b) \in \cd\\ \st (g, g_a) \in \cd\\ \st gg_ag_b = g_u}} s[a] \h{2} w[b]\\
+    				& = \displaystyle\sum_{\substack{(g_a,g_b) \in \cd\\ \st (g, g_a) \in \cd\\ \st g_ag_b = g^{-1}g_u = g_{\varphi(g^{-1}g_u)} = g_{g^{-1}(u)} }} s[a] \h{2} w[b]\\
+    				& = f_w (s)[g^{-1}(u)]\\
+    				& = (g \circ f_w (s))[u]
+    \end{align*}
+
+    \item Converse:\\
+    Let $v \in V$. Denote $e^r_{g_v} = g_v^{-1}g_v$ the right identity element of $g_v$, and $e^r_v = \varphi(e^r_{g_v})$. We have that
+    \begin{gather*}
+    g_v(e^r_v) = v\\
+    \text{So, } \delta_v = g_v(\delta_{e^r_v})
+    \end{gather*}
+
+    Let $f \in \cl(\cs(V))$ that is equivariant to $\Upsilon$, and $s \in \cs(V)$. Thanks to the previous remark we obtain that
+    \begin{align}
+    f(s) & = \displaystyle\sum_{v \in V} s[v] \h{2} f(\delta_v)\nonumber\\
+         & = \displaystyle\sum_{v \in V} s[v] \h{2} f(g_v(\delta_{e^r_v}))\nonumber\\
+         & = \displaystyle\sum_{v \in V} s[v] \h{2} g_v(f(\delta_{e^r_v}))\nonumber\\
+         & = \displaystyle\sum_{v \in V} s[v] \h{2} g_v(w_v) \label{eq:last}
+    \end{align}
+    where $w_v = f(\delta_{e^r_v})$. In order to finish the proof, we need to find $w$ such that $\forall v \in V, g_v(w) = g_v(w_v)$.
+
+    Let's consider the equivalence relation $\ccr$ defined on $V \times V$ such that:
+    \begin{align}
+    a \ccr b & \Leftrightarrow    w_a = w_b\nonumber\\
+            & \Leftrightarrow e^r_a = e^r_b\nonumber\\
+            & \Leftrightarrow g_a^{-1}g_a = g_b^{-1}g_b\nonumber\\
+            & \Leftrightarrow (g_b, g_a^{-1}) \in \cd\nonumber\\
+            & \Leftrightarrow (g_a^{-1}, g_b) \in \cd \label{eq:eq}
+    \end{align}
+    with \eqref{eq:eq} owing to the fact that $\Upsilon$ is domain-symmetric.
+
+    Given $x\in V$, denote its equivalence class $\ccr(x)$. Under the hypothesis of the axiom of choice~\citep{zermelo1904beweis} (if $V$ is infinite), define the set $\aleph$ that contains exactly one representative per equivalence class. Let $w = \sum_{n \in \aleph} w_n$. Then $V$ is the disjoint union $V = \displaystyle\cup_{n \in \aleph} \ccr(n)$ and \eqref{eq:last} rewrites:
+    \begin{align}
+    \forall u \in V, f(s)[u] & = \displaystyle\sum_{n \in \aleph}\sum_{v \in \ccr(n)} s[v] \h{2} g_v(w_n)[u]\nonumber\\
+    	 				  & = \displaystyle\sum_{n \in \aleph}\sum_{v \in \ccr(n)} s[v] \h{2} w_n[g_v^{-1}(u)]\nonumber\\
+    	 				  & = \displaystyle\sum_{n \in \aleph}\sum_{v \in \ccr(n)} s[v] \h{2} w[g_v^{-1}(u)]\label{eq:eqq}\\
+    	 				  & = (s \ast_\varphi w)[u]\nonumber
+    \end{align}
+    where \eqref{eq:eqq} is obtained thanks to \eqref{eq:eq}.
+  \end{enumerate}
+
+  \item With symmetrical expressions, it is clear that the convolution is abelian, if and only if, $\Upsilon$ is abelian. Then \ref{enum:i} concludes.
+\end{enumerate}
+\end{proof}
+
+\subsection{Strictly edge-constrained convolutions on partial Cayley subgraphs}
+
+\begin{definition}\textbf{Groupoid generating set}\\
+A set~$\cu$, equipped with a partial composition law of domain~$\cd_0$, is a \emph{generating set} of a groupoid~$\Upsilon$, if every object of~$\Upsilon$ can be expressed as a composition of objects of~$\cu$ and their inverses. In this case, the domain $\cd$ of the partial composition law of~$\Upsilon$ can be deducted inductively from~$\cd_0$ with the associativity and invertibility axioms of~$\Upsilon$ (and eventually also with the domain-symmetric axiom if~$\Upsilon$ is domain-symmetric).
+\end{definition}
+
+A partial Cayley graph is defined similarly as the (total) Cayley graph.
+
+\begin{definition}\textbf{Partial Cayley graph}\\
+Let a groupoid $\Upsilon = \langle \cu, \cd_0 \rangle$. The \emph{partial Cayley graph} generated by $\cu$ and $\cd_0$, is the digraph $\vgve$ such that $V = \Upsilon$ and $E$ is such that:
+\begin{gather*}
+u \rightarrow v \Leftrightarrow \exists g \in \cu, ga = b
+\end{gather*}
+We call \emph{partial Cayley subgraph}, a subgraph that is isomorph to a partial Cayley graph.
+\end{definition}
+
+\paragraph{Characterization of groupoid-based convolutions}
+
+The characterization by a partial Cayley subgraph, of graphs admitting an (EC) convolution based on a groupoid, similar to \propref{prop:chc} also holds for the groupoid representation. However, it is somewhat trivial as every graph admits a partial Cayley subgraph (for example by labelling every edge in a neighbour with a transformation).
+
+\paragraph{Striclty edge-constrained convolution}
+
+\todo{}
