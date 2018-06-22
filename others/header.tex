@@ -75,8 +75,9 @@
 
 % numbering lines
 \usepackage[left]{lineno}
-%\linenumbers
+\linenumbers
 %\modulolinenumbers[2]
+
 \newcommand*\patchAmsMathEnvironmentForLineno[1]{%
   \expandafter\let\csname old#1\expandafter\endcsname\csname #1\endcsname
   \expandafter\let\csname oldend#1\expandafter\endcsname\csname end#1\endcsname
