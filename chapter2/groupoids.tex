@@ -1,5 +1,7 @@
 \section{From groups to groupoids}
 
+%% OK must redo and sum over Psi X V
+
 % maybe present miniplan
 \subsection{Motivation}
 
@@ -17,7 +19,7 @@ These strategies require to concede that the topological structure supported by 
   \item What can we relax in the previous (EC*) contruction in order to unbound the supporting set, and still preserve the equivariance characterization?
 \end{itemize}
 
-The latter constraint is a consequence that every vertex of the Cayley subgraph $\vec{G}$ must be composable with every generator from $\cu$. Therefore, the answer consists in considering groupoids~\citep{brandt1927verallgemeinerung} instead of groups. Roughly speaking, a groupoid is almost a group except that its composition law needs not be defined everywhere. \cite{weinstein1996groupoids}, unveiled the benefits to base convolutions on groupoids instead of groups in order to exploit partial symmetries.
+The latter constraint is a consequence that every vertex of the Cayley subgraph $\vec{G}$ must be composable with every generator from $\cu$. Therefore, an answer consists in considering groupoids~\citep{brandt1927verallgemeinerung} instead of groups. Roughly speaking, a groupoid is almost a group except that its composition law needs not be defined everywhere. \cite{weinstein1996groupoids}, unveiled the benefits to base convolutions on groupoids instead of groups in order to exploit partial symmetries.
 
 
 \subsection{Definitions of some groupoid related notions}
@@ -209,7 +211,11 @@ Conversely,
 
 \subsection{Edge-constrained groupoid convolutions}
 
-Similarly to the construction of \ref{sec:cayley}, we start by adapting the related notions.
+\todo{Irrelevant because associativity and equivariant map property clash and we still have the same constraints as before}
+
+\todo{Erase and rewrite this subsection}
+
+Similarly to the construction with Cayley graphs of \ref{sec:cayley}, we start by adapting the related notions.
 
 \begin{definition}\textbf{Groupoid generating set}\\
 A set~$\cu$, equipped with a partial composition law of domain~$\cd_0$, is a \emph{generating set} of a groupoid~$\Upsilon$, if every object of~$\Upsilon$ can be expressed as a composition of objects of~$\cu$ and their inverses. In this case, the domain $\cd$ of the partial composition law of~$\Upsilon$ can be deducted inductively from~$\cd_0$ with the associativity and invertibility axioms of~$\Upsilon$ (and eventually also with the domain-symmetric axiom if~$\Upsilon$ is domain-symmetric).
@@ -226,7 +232,7 @@ We call \emph{partial Cayley subgraph}, a subgraph that is isomorph to a partial
 \end{definition}
 
 \begin{remark}
-The characterization by a partial Cayley subgraph, of graphs admitting an (EC) convolution based on a groupoid, similar to \propref{prop:chc} also holds for the groupoid representation. However, it is somewhat trivial as every graph admits a partial Cayley subgraph (for example by labelling every edge in a neighbour with a transformation).
+The characterization by a partial Cayley subgraph, of graphs admitting an (EC) convolution based on a groupoid, similar to \propref{prop:chc} also holds for the groupoid representation.% However, it is somewhat trivial as every graph admits a partial Cayley subgraph (for example by labelling every edge in a neighbour with a transformation).
 \end{remark}
 
 In the case of the groupoid representation, what is more interesting is that an (EC) groupoid convolution can be characterized by a generating set of the groupoid it is based on.
