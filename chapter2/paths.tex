@@ -1,75 +1,96 @@
+\todo{}
+
+\paragraph{TODO}
+Use groupoids and $\Psi^*$.
+Show it is useless.
+But (ER) from $\Psi^*$, not $\Phi^*$
+
+
 \section{Paths}
 
 \todo{work in progress}
 % %% OK must redo and sum over Psi X V
 
 % % maybe present miniplan
-% \subsection{Motivation}
+\subsection{Motivation}
 
-% One possible limitation coming from searching for Cayley subgraphs is that they are order-regular \ie the in- and the out-degree $d = |\cu|$ of each vertex is the same. That is, for a general graph $G$, the size of the weight kernel $w$ of an (EC*) convolution operator $f_w$ supported on $\cu$ is bounded by $d$, which in turn is bounded by twice the mininimal degree of $G$ (twice because $G$ is undirected and $\cu$ can contain every inverse).
+One possible limitation coming from searching for Cayley subgraphs is that they are order-regular \ie the in- and the out-degree $d = |\cu|$ of each vertex is the same. That is, for a general graph $G$, the size of the weight kernel $w$ of an (EC*) convolution operator $f_w$ supported on $\cu$ is bounded by $d$, which in turn is bounded by twice the mininimal degree of $G$ (twice because $G$ is undirected and $\cu$ can contain every inverse).
 
-% There are a lot of possible strategies to overcome this limitation. For example:
-% \begin{enumerate}
-%   \item connecting each vertex with its $k$-hop neighbors, with $k > 1$,
-%   \item artificially creating new connections for less connected vertices,
-%   \item allowing the supporting set $\cn$ to exceed $\cu$ \ie dropping * in (EC*).
-% \end{enumerate}
+There are a lot of possible strategies to overcome this limitation. For example:
+\begin{enumerate}
+  \item connecting each vertex with its $k$-hop neighbors, with $k > 1$,
+  \item artificially creating new connections for less connected vertices,
+  \item allowing the supporting set $\cn$ to exceed $\cu$ \ie dropping * in (EC*).
+\end{enumerate}
 
-% These strategies require to concede that the topological structure supported by $G$ is not the best one to support an (EC*) convolution on it, which breeds the following question:
-% \begin{itemize}
-%   \item What can we relax in the previous (EC*) contruction in order to unbound the supporting set, and still preserve the equivariance characterization?
-% \end{itemize}
+These strategies require to concede that the topological structure supported by $G$ is not the best one to support an (EC*) convolution on it, which breeds the following question:
+\begin{itemize}
+  \item What can we relax in the previous (EC*) contruction in order to unbound the supporting set, and still preserve the equivariance characterization?
+\end{itemize}
 
-% The latter constraint is a consequence that every vertex of the Cayley subgraph $\vec{G}$ must be composable with every generator from $\cu$. Therefore, an answer consists in considering groupoids~\citep{brandt1927verallgemeinerung} instead of groups. Roughly speaking, a groupoid is almost a group except that its composition law needs not be defined everywhere. \cite{weinstein1996groupoids}, unveiled the benefits to base convolutions on groupoids instead of groups in order to exploit partial symmetries.
+The latter constraint is a consequence that every vertex of the Cayley subgraph $\vec{G}$ must be composable with every generator from $\cu$. Therefore, an answer consists in considering groupoids~\citep{brandt1927verallgemeinerung} instead of groups. Roughly speaking, a groupoid is almost a group except that its composition law needs not be defined everywhere. \cite{weinstein1996groupoids}, unveiled the benefits to base convolutions on groupoids instead of groups in order to exploit partial symmetries.
 
-% \subsection{Groupoids}
+\subsection{Groupoids}
 
-% \begin{definition}\textbf{Groupoid}\\
-% A \emph{groupoid} $\Upsilon$ is a set equipped with a partial composition law with domain $\cd \subset \Upsilon \times \Upsilon$, called \emph{composition rule}, that is
-% \begin{enumerate}
-% 	\item\label{enum:g1} closed into $\Upsilon$ \ie $\forall (g, h) \in \cd, gh \in \Upsilon$
-% 	\item\label{enum:g2} associative \ie
-%     $\forall f,g,h \in \Upsilon,
-%       \begin{cases}
-%         (f, g), (g, h) \in \cd \Leftrightarrow (fg,h), (f, gh) \in \cd\\
-%         (f, g), (fg, h) \in \cd \Leftrightarrow (g,h), (f, gh) \in \cd\\
-%         \text{when defined, } (fg)h = f(gh)
-%       \end{cases}$ \label{enum:2}
-% 	\item\label{enum:g3} invertible \ie
-% 		$\forall g \in \Upsilon, \exists! g^{-1} \in \Upsilon \quad\st
-% 			\begin{cases}
-% 				(g,g^{-1}), (g^{-1},g)  \in \cd\\
-% 				(g,h) \in \cd \Rightarrow g^{-1}gh = h\\
-% 				(h,g) \in \cd \Rightarrow hgg^{-1} = h
-% 			\end{cases}$
-% \end{enumerate}
-% Optionally, it can be \emph{domain-symmetric} \ie $(g,h) \in \cd \Leftrightarrow (h,g) \in \cd$, and \emph{abelian} \ie domain-symmetric with $gh = hg$.
-% \end{definition}
+\begin{definition}\textbf{Groupoid}\\
+A \emph{groupoid} $\Upsilon$ is a set equipped with a partial composition law with domain $\cd \subset \Upsilon \times \Upsilon$, called \emph{composition rule}, that is
+\begin{enumerate}
+	\item\label{enum:g1} closed into $\Upsilon$ \ie $\forall (g, h) \in \cd, gh \in \Upsilon$
+	\item\label{enum:g2} associative \ie
+    $\forall f,g,h \in \Upsilon,
+      \begin{cases}
+        (f, g), (g, h) \in \cd \Leftrightarrow (fg,h), (f, gh) \in \cd\\
+        (f, g), (fg, h) \in \cd \Leftrightarrow (g,h), (f, gh) \in \cd\\
+        \text{when defined, } (fg)h = f(gh)
+      \end{cases}$ \label{enum:2}
+	\item\label{enum:g3} invertible \ie
+		$\forall g \in \Upsilon, \exists! g^{-1} \in \Upsilon \quad\st
+			\begin{cases}
+				(g,g^{-1}), (g^{-1},g)  \in \cd\\
+				(g,h) \in \cd \Rightarrow g^{-1}gh = h\\
+				(h,g) \in \cd \Rightarrow hgg^{-1} = h
+			\end{cases}$
+\end{enumerate}
+Optionally, it can be \emph{domain-symmetric} \ie $(g,h) \in \cd \Leftrightarrow (h,g) \in \cd$, and \emph{abelian} \ie domain-symmetric with $gh = hg$.
+\end{definition}
 
-% \begin{remark}
-% Note that left and right inverses are necessarily equal (because $(gg^{-1})g=g(g^{-1}g)$). Also note we can define a right identity element $e^r_g = g^{-1}g$, and a left one $e^l_g = gg^{-1}$, but they are not necessarily equal and depend on $g$.
-% \end{remark}
+\begin{remark}
+Note that left and right inverses are necessarily equal (because $(gg^{-1})g=g(g^{-1}g)$). Also note we can define a right identity element $e^r_g = g^{-1}g$, and a left one $e^l_g = gg^{-1}$, but they are not necessarily equal and depend on $g$.
+\end{remark}
 
-% The groupoid convolution may be expressed as the restriction of the group convolution to the composition rule $\cd$, \ie:
+The groupoid convolution may be expressed as the restriction of the group convolution to the composition rule $\cd$, \ie:
 
-% \begin{definition}\textbf{Groupoid convolution}\\
-% Let a groupoid $\Upsilon$, the groupoid convolution between two signals $s_1,s_2 \in \cs(\Upsilon)$ is defined as:
+\begin{definition}\textbf{Groupoid convolution}\\
+Let a groupoid $\Upsilon$, the groupoid convolution between two signals $s_1,s_2 \in \cs(\Upsilon)$ is defined as:
+\begin{gather*}
+\forall h \in \Upsilon, (s_1 \ast s_2) [h] = \displaystyle\sum_{\substack{f \in \Upsilon ~\st\\ (f^{-1}, h) \in \cd}} s_1[f] \h{2} s_2[f^{-1}h]
+\end{gather*}
+\end{definition}
+
+\paragraph{Symmetrical expression}
+Note that a convenient change of index gives the following symmetrical expression:
+\begin{gather*}
+\forall h \in \Upsilon, (s_1 \ast s_2) [h] = \displaystyle\sum_{\substack{(f,g) \in \cd\\ \st gf=h}} s_1[f] \h{2} s_2[g]
+\end{gather*}
+
+Let a graph $\gve$. As~$V$ is not a groupoid, we cannot apply the groupoid convolution on~$\cs(V)$. So we need to find a meaningful groupoid.
+
+% \subsection{A first attempt}
+
+% First, let's consider the obvious generalization of the previous construction with the following groupoid:
+
+% \begin{definition}\textbf{Partial transformations groupoid}\\
+% The \emph{partial transformations groupoid} $\Psi^*(V)$, is the set of invertible partial transformations, equipped with the functional composition law with domain~$\cd$ such that
 % \begin{gather*}
-% \forall h \in \Upsilon, (s_1 \ast s_2) [h] = \displaystyle\sum_{\substack{f \in \Upsilon ~\st\\ (f^{-1}, h) \in \cd}} s_1[f] \h{2} s_2[f^{-1}h]
+% (g,h) \in \cd \Leftrightarrow \cd_{gh} = h(\cd_h) \cap \cd_g \neq \emptyset
 % \end{gather*}
 % \end{definition}
 
-% \paragraph{Symmetrical expression}
-% Note that a convenient change of index gives the following symmetrical expression:
-% \begin{gather*}
-% \forall h \in \Upsilon, (s_1 \ast s_2) [h] = \displaystyle\sum_{\substack{(f,g) \in \cd\\ \st gf=h}} s_1[f] \h{2} s_2[g]
-% \end{gather*}
-
-\todo{explain why previous iteration fail}
+% Let's suppose we have extended rigorously every notions from the previous construction. Then, because of the associativity, if $g \in \Psi_{\EC}^*(V)$, then, any $v \in V, g(u) = v$ would be constrained to allow to be acted by every $h$ \st $(h,g) \in \cd$, which fails at unbounding the supporting set. 
 
 \subsection{Edge-restricted convolutions}
 
-Let a graph $\gve$. As~$V$ is not a groupoid, we cannot apply the groupoid convolution on~$\cs(V)$. In what follows, our aim is to restrict the construction of the convolution we made on groups to a composition rule~$\cd$ dicted by the edge set~$E$.
+In what follows, our aim is to restrict the construction of the convolution we made on groups to a composition rule~$\cd$ dicted by the edge set~$E$.
 
 \begin{definition}\textbf{Edge-restricted transformation}\\
 Let a graph $\gve$. An \emph{edge-restricted} (ER) transformation $g_{\ER}$ is the restriction of a transformation $g \in \Phi^*(V)$ to the domain
