@@ -73,8 +73,12 @@ A map $\varphi$ from a groupoid $\Upsilon$ partially acting on the destination s
 
 Also, $\varphi$-equivalence between a subgroupoid and a set is defined similarly with $\varphi$ being a bijective \emph{partial} equivariant map between them.
 
-\paragraph{Partial transformations groupoid}
-We denote by $\Psi(V)$ the set of partially defined transformations on $v$, and $\Psi^*(V)$ the groupoid of its invertible ones (\ie injective ones).
+\begin{definition}\textbf{Partial transformations groupoid}\\
+The \emph{partial transformations groupoid} $\Psi^*(V)$, is the set of invertible partial transformations, equipped with the functional composition law with domain~$\cd$ such that
+\begin{gather*}
+(g,h) \in \cd \Leftrightarrow \cd_{gh} = h(\cd_h) \cap \cd_g \neq \emptyset
+\end{gather*}
+\end{definition}
 
 \subsection{Construction of the groupoid convolution}
 
@@ -253,3 +257,5 @@ Thanks to the previous construction, in order to define a meaningful convolution
 \end{enumerate}
 
 In the next chapter, we will encounter examples of convolutions defined on graphs, that can be expressed under group representations or under groupoid representations.
+
+\todo{Limitation: border effect because $g$ goes in implies $g$ goes out}
