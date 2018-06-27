@@ -1,8 +1,5 @@
 \section{From groups to groupoids}
 
-%% OK must redo and sum over Psi X V
-
-% maybe present miniplan
 \subsection{Motivation}
 
 One possible limitation coming from searching for Cayley subgraphs is that they are order-regular \ie the in- and the out-degree $d = |\cu|$ of each vertex is the same. That is, for a general graph $G$, the size of the weight kernel $w$ of an (EC*) convolution operator $f_w$ supported on $\cu$ is bounded by $d$, which in turn is bounded by twice the mininimal degree of $G$ (twice because $G$ is undirected and $\cu$ can contain every inverse).
@@ -21,27 +18,26 @@ These strategies require to concede that the topological structure supported by 
 
 The latter constraint is a consequence that every vertex of the Cayley subgraph $\vec{G}$ must be composable with every generator from $\cu$. Therefore, an answer consists in considering groupoids~\citep{brandt1927verallgemeinerung} instead of groups. Roughly speaking, a groupoid is almost a group except that its composition law needs not be defined everywhere. \cite{weinstein1996groupoids}, unveiled the benefits to base convolutions on groupoids instead of groups in order to exploit partial symmetries.
 
-
-\subsection{Definitions of some groupoid related notions}
+\subsection{Definition of notions related to groupoids}
 
 \begin{definition}\textbf{Groupoid}\\
-A \emph{groupoid} $\Upsilon$ is a set equipped with a partial composition law with domain $\cd \subset \Upsilon \times \Upsilon$ that is
+A \emph{groupoid} $\Upsilon$ is a set equipped with a partial composition law with domain $\cd \subset \Upsilon \times \Upsilon$, called \emph{composition rule}, that is
 \begin{enumerate}
-	\item\label{enum:g1} closed into $\Upsilon$ \ie $\forall (g, h) \in \cd, gh \in \Upsilon$
-	\item\label{enum:g2} associative \ie
+  \item\label{enum:g1} closed into $\Upsilon$ \ie $\forall (g, h) \in \cd, gh \in \Upsilon$
+  \item\label{enum:g2} associative \ie
     $\forall f,g,h \in \Upsilon,
       \begin{cases}
         (f, g), (g, h) \in \cd \Leftrightarrow (fg,h), (f, gh) \in \cd\\
         (f, g), (fg, h) \in \cd \Leftrightarrow (g,h), (f, gh) \in \cd\\
         \text{when defined, } (fg)h = f(gh)
       \end{cases}$ \label{enum:2}
-	\item\label{enum:g3} invertible \ie
-		$\forall g \in \Upsilon, \exists! g^{-1} \in \Upsilon \quad\st
-			\begin{cases}
-				(g,g^{-1}), (g^{-1},g)  \in \cd\\
-				(g,h) \in \cd \Rightarrow g^{-1}gh = h\\
-				(h,g) \in \cd \Rightarrow hgg^{-1} = h
-			\end{cases}$
+  \item\label{enum:g3} invertible \ie
+    $\forall g \in \Upsilon, \exists! g^{-1} \in \Upsilon \quad\st
+      \begin{cases}
+        (g,g^{-1}), (g^{-1},g)  \in \cd\\
+        (g,h) \in \cd \Rightarrow g^{-1}gh = h\\
+        (h,g) \in \cd \Rightarrow hgg^{-1} = h
+      \end{cases}$
 \end{enumerate}
 Optionally, it can be \emph{domain-symmetric} \ie $(g,h) \in \cd \Leftrightarrow (h,g) \in \cd$, and \emph{abelian} \ie domain-symmetric with $gh = hg$.
 \end{definition}
@@ -80,7 +76,10 @@ The \emph{partial transformations groupoid} $\Psi^*(V)$, is the set of invertibl
 \end{gather*}
 \end{definition}
 
-\subsection{Construction of the groupoid convolution}
+\begin{remark}Note that a subgroupoid $\Upsilon \subset \Psi^*(V)$ is domain-symmetric when $\exists v \in V, g(v) \in \cd_h \Leftrightarrow \exists u \in V, h(u) \in \cd_g$
+\end{remark}
+
+\subsection{Construction of partial convolutions}
 
 The expression of the convolution we constructed in the previous section cannot be applied as is. We first need to extend the algebraic objects we work with. 
 Extending a partial transformation $g$ on the signal space $\cs(V)$ (and thus the convolutions) is a bit tricky, because only the signal entries corresponding to $\cd_g$ are moved. A convenient way to do this is to consider the groupoid closure obtained with the addition of an absorbing element
@@ -213,49 +212,49 @@ Conversely,
 \end{enumerate}
 \end{proof}
 
-\subsection{Edge-constrained groupoid convolutions}
+% \subsection{Edge-constrained groupoid convolutions}
 
-\todo{Irrelevant because associativity and equivariant map property clash and we still have the same constraints as before}
+% \todo{Irrelevant because associativity and equivariant map property clash and we still have the same constraints as before}
 
-\todo{Erase and rewrite this subsection}
+% \todo{Erase and rewrite this subsection}
 
-Similarly to the construction with Cayley graphs of \ref{sec:cayley}, we start by adapting the related notions.
+% Similarly to the construction with Cayley graphs of \ref{sec:cayley}, we start by adapting the related notions.
 
-\begin{definition}\textbf{Groupoid generating set}\\
-A set~$\cu$, equipped with a partial composition law of domain~$\cd_0$, is a \emph{generating set} of a groupoid~$\Upsilon$, if every object of~$\Upsilon$ can be expressed as a composition of objects of~$\cu$ and their inverses. In this case, the domain $\cd$ of the partial composition law of~$\Upsilon$ can be deducted inductively from~$\cd_0$ with the associativity and invertibility axioms of~$\Upsilon$ (and eventually also with the domain-symmetric axiom if~$\Upsilon$ is domain-symmetric).
-\end{definition}
+% \begin{definition}\textbf{Groupoid generating set}\\
+% A set~$\cu$, equipped with a partial composition law of domain~$\cd_0$, is a \emph{generating set} of a groupoid~$\Upsilon$, if every object of~$\Upsilon$ can be expressed as a composition of objects of~$\cu$ and their inverses. In this case, the domain $\cd$ of the partial composition law of~$\Upsilon$ can be deducted inductively from~$\cd_0$ with the associativity and invertibility axioms of~$\Upsilon$ (and eventually also with the domain-symmetric axiom if~$\Upsilon$ is domain-symmetric).
+% \end{definition}
 
-A partial Cayley graph is defined similarly as the (total) Cayley graph.
+% A partial Cayley graph is defined similarly as the (total) Cayley graph.
 
-\begin{definition}\textbf{Partial Cayley graph}\\
-Let a groupoid $\Upsilon = \langle \cu, \cd_0 \rangle$. The \emph{partial Cayley graph} generated by $\cu$ and $\cd_0$, is the digraph $\vgve$ such that $V = \Upsilon$ and $E$ is such that:
-\begin{gather*}
-u \rightarrow v \Leftrightarrow \exists g \in \cu, ga = b
-\end{gather*}
-We call \emph{partial Cayley subgraph}, a subgraph that is isomorph to a partial Cayley graph.
-\end{definition}
+% \begin{definition}\textbf{Partial Cayley graph}\\
+% Let a groupoid $\Upsilon = \langle \cu, \cd_0 \rangle$. The \emph{partial Cayley graph} generated by $\cu$ and $\cd_0$, is the digraph $\vgve$ such that $V = \Upsilon$ and $E$ is such that:
+% \begin{gather*}
+% u \rightarrow v \Leftrightarrow \exists g \in \cu, ga = b
+% \end{gather*}
+% We call \emph{partial Cayley subgraph}, a subgraph that is isomorph to a partial Cayley graph.
+% \end{definition}
 
-\begin{remark}
-The characterization by a partial Cayley subgraph, of graphs admitting an (EC) convolution based on a groupoid, similar to \propref{prop:chc} also holds for the groupoid representation.% However, it is somewhat trivial as every graph admits a partial Cayley subgraph (for example by labelling every edge in a neighbour with a transformation).
-\end{remark}
+% \begin{remark}
+% The characterization by a partial Cayley subgraph, of graphs admitting an (EC) convolution based on a groupoid, similar to \propref{prop:chc} also holds for the groupoid representation.% However, it is somewhat trivial as every graph admits a partial Cayley subgraph (for example by labelling every edge in a neighbour with a transformation).
+% \end{remark}
 
-In the case of the groupoid representation, what is more interesting is that an (EC) groupoid convolution can be characterized by a generating set of the groupoid it is based on.
+% In the case of the groupoid representation, what is more interesting is that an (EC) groupoid convolution can be characterized by a generating set of the groupoid it is based on.
 
-\begin{proposition}\textbf{Characterization by generating set}\\
-Let a graph $\gve$ such that it admits an (EC) convolution based on a groupoid~$\Upsilon$. Then,~$G$~contains a sugraph~$\vec{G}$ that is isomorph to a partial Cayley subgraph~$\vec{G_c}$, of generating set $\cu \subset \Psi^*_{\EC}(G)$, such that the underlying equivariant map~$\varphi$ of the (EC) convolution is also a graph isomorphism between~$\vec{G_c}$ and~$\vec{G}$.
-\end{proposition}
+% \begin{proposition}\textbf{Characterization by generating set}\\
+% Let a graph $\gve$ such that it admits an (EC) convolution based on a groupoid~$\Upsilon$. Then,~$G$~contains a sugraph~$\vec{G}$ that is isomorph to a partial Cayley subgraph~$\vec{G_c}$, of generating set $\cu \subset \Psi^*_{\EC}(G)$, such that the underlying equivariant map~$\varphi$ of the (EC) convolution is also a graph isomorphism between~$\vec{G_c}$ and~$\vec{G}$.
+% \end{proposition}
 
-The proof is omitted because it would be highly similar with the one of \corref{cor:cayley}.
+% The proof is omitted because it would be highly similar with the one of \corref{cor:cayley}.
 
-\paragraph{Strictly edge-constrained groupoid convolution}
+% \paragraph{Strictly edge-constrained groupoid convolution}
 
-Thanks to the previous construction, in order to define a meaningful convolution operator on a general graph~$\gve$, all we need is a set~$\cu$ of (EC) partial transformations \emph{that need not to be defined on every vertex}, and a composition rule~$\cd_0$. From the set~$\cu$, we can choose a supporting set $\cn \subset \cu$ (from which we eventually need to derive the local patches $\ck_u$), and obtain the (EC*) convolution operator~$f_w$, without the need of fully determining $\Upsilon = \langle \cu \rangle$. We can choose between three levels of constraints, which are inherited from~$\cu$ and~$\cd_0$:
-\begin{enumerate}
-  \item $\Upsilon$ is unconstrained, then $f_w$ is an (EC*) $\varphi$-convolution right-operator that is equivariant to $\Upsilon$, but the converse doesn't hold,
-  \item $\Upsilon$ is domain-symmetric, then $f_w$ is an (EC*) $\varphi$-convolution right operator and the equivariance characterization holds,
-  \item $\Upsilon$ is abelian, then $f_w$ is an (EC*) $\M$-convolution operator, the equivariance characterization holds, and we don't need to compute the local patches $\ck_u$.
-\end{enumerate}
+% Thanks to the previous construction, in order to define a meaningful convolution operator on a general graph~$\gve$, all we need is a set~$\cu$ of (EC) partial transformations \emph{that need not to be defined on every vertex}, and a composition rule~$\cd_0$. From the set~$\cu$, we can choose a supporting set $\cn \subset \cu$ (from which we eventually need to derive the local patches $\ck_u$), and obtain the (EC*) convolution operator~$f_w$, without the need of fully determining $\Upsilon = \langle \cu \rangle$. We can choose between three levels of constraints, which are inherited from~$\cu$ and~$\cd_0$:
+% \begin{enumerate}
+%   \item $\Upsilon$ is unconstrained, then $f_w$ is an (EC*) $\varphi$-convolution right-operator that is equivariant to $\Upsilon$, but the converse doesn't hold,
+%   \item $\Upsilon$ is domain-symmetric, then $f_w$ is an (EC*) $\varphi$-convolution right operator and the equivariance characterization holds,
+%   \item $\Upsilon$ is abelian, then $f_w$ is an (EC*) $\M$-convolution operator, the equivariance characterization holds, and we don't need to compute the local patches $\ck_u$.
+% \end{enumerate}
 
-In the next chapter, we will encounter examples of convolutions defined on graphs, that can be expressed under group representations or under groupoid representations.
+% In the next chapter, we will encounter examples of convolutions defined on graphs, that can be expressed under group representations or under groupoid representations.
 
-\todo{Limitation: border effect because $g$ goes in implies $g$ goes out}
+% \todo{Limitation: border effect because $g$ goes in implies $g$ goes out}
