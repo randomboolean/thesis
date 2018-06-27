@@ -27,6 +27,12 @@
 \setcounter{tocdepth}{3}
 \setcounter{minitocdepth}{2}
 %\renewcommand{\mtctitle}{~} % Empty minitoc titles
+\usepackage[nobottomtitles*]{titlesec}
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\ttlh@hang}{\parindent\z@}{\parindent\z@\leavevmode}{}{}
+\patchcmd{\ttlh@hang}{\noindent}{}{}{}
+\makeatother
 
 % References
 \usepackage{hyperref}
@@ -246,7 +252,7 @@
 \newcommand{\powth}{\text{$^\text{th}$~}}
 \newcommand{\wrt}{\emph{w.r.t.}~}
 \newcommand{\nn}{\nonumber}
-\newcommand{\cuer}{\cu_{\ER}}
+\newcommand{\cdl}{\cd_{\ltimes}}
 
 % References
 \newcommand{\figref}[1]{Figure~\ref{#1}}

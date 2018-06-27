@@ -72,7 +72,10 @@ Also, $\varphi$-equivalence between a subgroupoid and a set is defined similarly
 \begin{definition}\textbf{Partial transformations groupoid}\\
 The \emph{partial transformations groupoid} $\Psi^*(V)$, is the set of invertible partial transformations, equipped with the functional composition law with domain~$\cd$ such that
 \begin{gather*}
-(g,h) \in \cd \Leftrightarrow \cd_{gh} = h(\cd_h) \cap \cd_g \neq \emptyset
+\begin{cases}
+\cd_{gh} = h(\cd_h) \cap \cd_g\\
+(g,h) \in \cd \Leftrightarrow \cd_{gh} \neq \emptyset
+\end{cases}
 \end{gather*}
 \end{definition}
 
@@ -82,7 +85,7 @@ The \emph{partial transformations groupoid} $\Psi^*(V)$, is the set of invertibl
 \subsection{Construction of partial convolutions}
 
 The expression of the convolution we constructed in the previous section cannot be applied as is. We first need to extend the algebraic objects we work with. 
-Extending a partial transformation $g$ on the signal space $\cs(V)$ (and thus the convolutions) is a bit tricky, because only the signal entries corresponding to $\cd_g$ are moved. A convenient way to do this is to consider the groupoid closure obtained with the addition of an absorbing element
+Extending a partial transformation $g$ on the signal space $\cs(V)$ (and thus the convolutions) is a bit tricky, because only the signal entries corresponding to $\cd_g$ are moved. A convenient way to do this is to consider the groupoid closure obtained with the addition of an absorbing element.
 
 \begin{definition}\textbf{Zero-closure}\\
 The \emph{zero-closure} of a groupoid $\Upsilon$, denoted $\Upsilon^0$, is the set $\Upsilon \cup {0}$, such that the groupoid axioms \ref{enum:g1}, \ref{enum:g2} and \ref{enum:g3}, and the domain $\cd$ are left unchanged, and
@@ -109,25 +112,26 @@ We have $\varphi(0) \notin V$ because $\varphi$ is bijective. Additionaly, we mu
 \begin{remark} Note that for notational conveniency, we may use the same symbol~$0$ for~$0_{\Upsilon}$, $0_V$ and~$0_{\bbr}$.
 \end{remark}
 
-\begin{lemma}\textbf{Extension of the subgroupoid actions on $\cs(V)$}\\
-Let a subgroupoid $\Upsilon \subset \Psi^*(V)$ such that $\Upsilon \overset\varphi\equiv V$. Under the convention that $s[0_V] = 0_\bbr$, a transformation $g \in \Upsilon^0$ can be extended to the signal space $\cs(V)$ as usual:
-\begin{gather*}
-\forall s \in \cs(V), \forall v \in V, g(s)[v] =
-  \begin{cases}
-    s[g^{-1}(v)] &\text{ if } g \neq 0_\Upsilon \text{ and } v \in \cd_{g^{-1}}\\
-    0_\bbr% = s[\varphi(g^{-1}g_v)]
-      &\text{ else}
-  \end{cases}
-\end{gather*}
+Similarly to $\Phi^*(V)$, $\Psi^*(V)$ can also move signals of $\cs(V)$.
+
+\begin{lemma}\textbf{Extension of injective partial transformations to $\cs(V)$}\\
+Let $g \in \Psi^*(V)$. Its extension is done in two steps:
+\begin{enumerate}
+  \item $g$ is extended to $V^0 = V \cup \{0_V\}$ as $g(v) = 0_V \Leftrightarrow v \notin \cd_g$.
+  \item Under the convention $\forall s \in \cs(V), s[0_V] = 0_\bbr$, $g$ is extended via linear extension to $\cs(V)$, and we have
+  \begin{gather*}
+  \forall s \in \cs(V), \forall v \in V, g(s)[v] = s[g^{-1}(v)]
+  \end{gather*}
+\end{enumerate}
 \end{lemma}
 \begin{proof}
 Straightforward.
 \end{proof}
 
-With these extensions, we can obtain the $\varphi$- and $\M$-convolutions related to~$\Upsilon$ almost by substituting~$\Upsilon^0$ to~$\Gamma$ in \defref{def:convv} and \defref{def:convm}.
+With these extensions, we can obtain the partial $\varphi$- and $\M$-convolutions related to~$\Upsilon$ almost by substituting~$\Upsilon^0$ to~$\Gamma$ in \defref{def:convv} and \defref{def:convm}.
 
-\begin{definition}\textbf{Groupoid convolution}\\
-Let a subgroupoid $\Upsilon \subset \Psi^*(V)$, such that $\Upsilon \overset\varphi\equiv V$. The $\varphi$- and $\M$-convolutions, based on~$\Upsilon$, are defined on its zero-closure, with the same expression as if~$\Upsilon^0$ were a subgroup, and by extension of~$\varphi$ and of the groupoid actions \ie
+\begin{definition}\textbf{Partial convolution}\\
+Let a subgroupoid $\Upsilon \subset \Psi^*(V)$, such that $\Upsilon \overset\varphi\equiv V$. The partial $\varphi$- and $\M$-convolutions, based on~$\Upsilon$, are defined on its zero-closure, with the same expression as if~$\Upsilon^0$ were a subgroup, and by extension of~$\varphi$ and of the groupoid partial actions \ie
 \begin{enumerate}[label=(\roman*)]
   \item $\forall s, w \in \cs(V),
   			s \ast_\varphi w = \displaystyle\sum_{v \in V} s[v] \h{2} g_v(w) = \displaystyle\sum_{g \in \Upsilon} s[\varphi(g)] \h{2} g(w)$ \label{enum:i}
@@ -137,24 +141,24 @@ where \ref{enum:ii} applies in the abelian case.
 \end{definition}
 
 \paragraph{Symmetrical expressions}
-Note that, as $\forall r, r[0] = 0$, the groupoid convolutions can also be expressed on the domain~$\cd$ with a convenient symmetrical expression:
+Note that, as $\forall r, r[0] = 0$, the partial convolutions can also be expressed on the domain~$\cd$ with a convenient symmetrical expression:
 \begin{enumerate}[label=(\roman*)]
   \item $\forall u \in V, (s \ast_\varphi w)[u] =  \displaystyle\sum_{\substack{(g_a,g_b) \in \cd\\ \st g_ag_b = g_u}} s[a] \h{2} w[b]$
   \item $\forall u \in V, (w \ast_{\M} s)[u]  = \displaystyle\sum_{\substack{v \in \cd_g\\ \st g(v) = u}} w[g] \h{2} s[v]$
 \end{enumerate}
 
-We obtain an equivariance characterization, similarly to \propref{prop:equiG} and \corref{cor:equiM}.
+We obtain an equivariance characterization similar to \propref{prop:equiG} and \corref{cor:equiM}.
 
 \begin{proposition}\textbf{Characterization by equivariance to $\Upsilon$}\\
 Let a subgroupoid $\Upsilon \subset \Psi^*(V)$, such that~$\Upsilon \overset\varphi\equiv V$. Then,
 \begin{enumerate}[label=(\roman*)]
-  \item right $\varphi$-convolution operators are equivariant to~$\Upsilon$,\label{enum:i}
-  \item if $\Upsilon$ is abelian, left $\M$-convolution operators are equivariant to~$\Upsilon$.\label{enum:ii}
+  \item right partial $\varphi$-convolution operators are equivariant to~$\Upsilon$,\label{enum:i}
+  \item if $\Upsilon$ is abelian, left partial $\M$-convolution operators are equivariant to~$\Upsilon$.\label{enum:ii}
 \end{enumerate}
 Conversely,
 \begin{enumerate}[label=(\roman*)]
-  \item if $\Upsilon$ is domain-symmetric, linear transformations of $\cs(V)$ that are equivariant to~$\Upsilon$ are right $\varphi$-convolution operators,
-  \item if $\Upsilon$ is abelian, linear transformations of $\cs(V)$ that are equivariant to~$\Upsilon$ are also left $\M$-convolution operators.
+  \item if $\Upsilon$ is domain-symmetric, linear transformations of $\cs(V)$ that are equivariant to~$\Upsilon$ are right partial $\varphi$-convolution operators,
+  \item if $\Upsilon$ is abelian, linear transformations of $\cs(V)$ that are equivariant to~$\Upsilon$ are also left partial $\M$-convolution operators.
 \end{enumerate}
 \end{proposition}
 \begin{proof}
@@ -258,3 +262,9 @@ Conversely,
 % In the next chapter, we will encounter examples of convolutions defined on graphs, that can be expressed under group representations or under groupoid representations.
 
 % \todo{Limitation: border effect because $g$ goes in implies $g$ goes out}
+
+\paragraph{Inclusion of (EC)}
+Similarly to the construction in \secref{sec:edges}, partial convolutions can define (EC) and (EC*) counterparts with a characterization of admissibility by groupoid Cayley subgraph isomorphism.
+
+\paragraph{Limitation of partial convolutions}
+However, because of the groupoid associativity, if $g \in \Psi_{\EC}^*(G)$, then, any $v \in V$ \st $g(u) = v$ would be constrained to allow to be acted by every $h$ \st $(h,g) \in \cd$, which fails at unbounding the supporting set of a partial (EC*)~convolutions.

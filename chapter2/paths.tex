@@ -1,80 +1,13 @@
-\todo{}
-
-\paragraph{TODO}
-Use groupoids and $\Psi^*$.
-Show it is useless.
-But (ER) from $\Psi^*$, not $\Phi^*$
-
-
 \subsection{Construction of path convolutions}
 
-\todo{work in progress}
-% %% OK must redo and sum over Psi X V
+To answer the limitation of partial convolutions, given $g \in \langle \cu \rangle$ where $\cu \subset \Psi_{\EC}^*(G)$, the idea is to proceed with a foliation of $g$ into pieces, each corresponding to an edge $e \in E$, and together generating another groupoid with a different associativity law, as follows.
 
-
-% The groupoid convolution may be expressed as the restriction of the group convolution to the composition rule $\cd$, \ie:
-
-% \begin{definition}\textbf{Groupoid convolution}\\
-% Let a groupoid $\Upsilon$, the groupoid convolution between two signals $s_1,s_2 \in \cs(\Upsilon)$ is defined as:
-% \begin{gather*}
-% \forall h \in \Upsilon, (s_1 \ast s_2) [h] = \displaystyle\sum_{\substack{f \in \Upsilon ~\st\\ (f^{-1}, h) \in \cd}} s_1[f] \h{2} s_2[f^{-1}h]
-% \end{gather*}
-% \end{definition}
-
-% \paragraph{Symmetrical expression}
-% Note that a convenient change of variables gives the following symmetrical expression:
-% \begin{gather*}
-% \forall h \in \Upsilon, (s_1 \ast s_2) [h] = \displaystyle\sum_{\substack{(f,g) \in \cd\\ \st gf=h}} s_1[f] \h{2} s_2[g]
-% \end{gather*}
-
-% Let a graph $\gve$. As~$V$ is not a groupoid, we cannot apply the groupoid convolution on~$\cs(V)$. So we need to find a meaningful groupoid.
-
-% \subsection{A first attempt}
-
-% First, let's consider the obvious generalization of the previous construction with the following groupoid:
-
-% \begin{definition}\textbf{Partial transformations groupoid}\\
-% The \emph{partial transformations groupoid} $\Psi^*(V)$, is the set of invertible partial transformations, equipped with the functional composition law with domain~$\cd$ such that
-% \begin{gather*}
-% (g,h) \in \cd \Leftrightarrow \cd_{gh} = h(\cd_h) \cap \cd_g \neq \emptyset
-% \end{gather*}
-% \end{definition}
-
-% Let's suppose we have extended rigorously every notions from the previous construction. Then, because of the associativity, if $g \in \Psi_{\EC}^*(V)$, then, any $v \in V, g(u) = v$ would be constrained to allow to be acted by every $h$ \st $(h,g) \in \cd$, which fails at unbounding the supporting set. 
-
-%\subsection{Edge-restricted convolutions}
-
-In what follows, our aim is to restrict the construction of the convolution we made on groups to a composition rule~$\cd$ dicted by the edge set~$E$.
-
-\begin{definition}\textbf{Edge-restricted transformation}\\
-Let a graph $\gve$. An \emph{edge-restricted} (ER) transformation $g_{\ER}$ is the restriction of a transformation $g \in \Phi^*(V)$ to the domain
-\begin{gather*}
-\cd_g = \{v \in V, v \sim g(v)\}
-\end{gather*}
-(or $v \rightarrow g(v)$ in the case of a digraph $\vgve$).
-\end{definition}
-
-The set of (ER) transformations, and injective (ER) transformations are denoted $\Phi_{\ER}(G)$, and $\Phi_{\ER}^*(G)$ respectively.
-
-\paragraph{Extension to $\cs(V)$ by (ER) group action}
-As a restriction of the symmetric group of $V$, $\Phi_{\ER}^*(G)$ can also move signals of $\cs(V)$. Let $g \in \Phi_{\ER}^*(G)$. Its extension is done in two steps:
+\begin{definition}\textbf{Path groupoid}\\
+Let $\cu \subset \Psi_{\EC}^*(G)$. The \emph{path groupoid} generated from $\cu$, denoted $\cu \ltimes V$, with composition rule $\cdl$, is the groupoid obtained inductively as:
 \begin{enumerate}
-  \item $g$ is extended to $V^0 = V \cup \{0_V\}$ as $g(v) = 0_V \Leftrightarrow v \notin \cd_g$.
-  \item Under the convention $\forall s \in \cs(V), s[0_V] = 0_\bbr$, $g$ is extended via linear extension to $\cs(V)$, and we have
-  \begin{gather*}
-  \forall s \in \cs(V), \forall v \in V, g(s)[v] = s[g^{-1}(v)]
-  \end{gather*}
-  similarly to \lemref{lem:ext}.
-\end{enumerate}
-
-Note that even though $\Phi_{\ER}^*(G)$ can generate a groupoid, we won't use it to define the convolution of the graph~$G$ as its composition rule would be too narrow. Instead, we form another groupoid from the actions of a semigroup of (ER) transformations.
-
-\begin{definition}\textbf{Path Groupoid}\\
-Let $\cu \subset \Phi^*(V)$. The \emph{path groupoid} generated from $\cuer$, denoted $\cuer \ltimes V$, with composition rule $\cd$, is the groupoid obtained inductively as:
-\begin{enumerate}
-  \item $\cuer \ltimes_0 V = \{(g,v) \in \cuer \times V, v \in \cd_g \} \subset \cu \ltimes V$
-  \item $((g_1,v_1) \cdots (g_n,v_n) , (h_1,u_1) \cdots (h_m,u_m)) \in \cd \Leftrightarrow g_n(v_n) = u_1$
-  \item $(g_1,v_1) \cdots (g_n,v_n) \in \cuer \ltimes V \Rightarrow (g_n^{-1}, g_n(v_n)) \cdots (g_1^{-1}, g_1(v_1)) \in \cuer \ltimes V$
+  \item $\cu \ltimes_0 V = \{(g,v) \in \cu \times V, v \in \cd_g \} \subset \cu \ltimes V$
+  \item $((g_1,v_1) \cdots (g_n,v_n) , (h_1,u_1) \cdots (h_m,u_m)) \in \cdl \Leftrightarrow g_n(v_n) = u_1$
+  \item $(g_1,v_1) \cdots (g_n,v_n) \in \cu \ltimes V \Rightarrow (g_n^{-1}, g_n(v_n)) \cdots (g_1^{-1}, g_1(v_1)) \in \cu \ltimes V$
 \end{enumerate}
 \end{definition}
 
@@ -83,41 +16,67 @@ This groupoid construction is inspired from the field of operator algebra where 
 \end{remark}
 
 \begin{definition}\textbf{Source, target, and path maps}\\
-Let a path groupoid $\cuer \ltimes V$. We define on it the \emph{source map}~$\alpha$, the \emph{target map}~$\beta$, and the \emph{path map}~$\gamma$, such that:
+Let a path groupoid $\cu \ltimes V$. We define on it the \emph{source map}~$\alpha$, the \emph{target map}~$\beta$, and the \emph{path map}~$\gamma$, such that:
 \begin{gather*}
 \begin{cases}
   \alpha: (g_1,v_1) \cdots (g_n,v_n) \mapsto v_1 \in V\\
   \beta: (g_1,v_1) \cdots (g_n,v_n) \mapsto g_n(v_n) \in V\\
-  \gamma: (g_1,v_1) \cdots (g_n,v_n) \mapsto g_ng_{n-1}\ldots g_1 \in \Phi^*(V)
+  \gamma: (g_1,v_1) \cdots (g_n,v_n) \mapsto g_ng_{n-1}\ldots g_1 \in \Psi_{\EC}^*(G)
 \end{cases}
 \end{gather*}
-Note that $(p,q) \in \cd \Leftrightarrow \beta(p) = \alpha(q)$
 \end{definition}
 
-% \begin{remark}Note that $k \in \cuer \ltimes V$ doesn't imply $(\alpha(k), \beta(k)) \in \cuer \ltimes V$.
+% \begin{remark}Note that $k \in \cu \ltimes V$ doesn't imply $(\alpha(k), \beta(k)) \in \cu \ltimes V$.
 % \end{remark}
 
-\begin{remark}Note that the path groupoid 
-%is a Lie groupoid~\citep{wiki:lie}, and that it 
-can also be obtained by discrete derivation of the partial transformation groupoid (\eg $p \in \cuer \ltimes V$ can be seen as derivative of $\gamma(p)$ \wrt $\alpha(p)$).% As such it can be seen as a foliation of the graph domain.%, and so as a sort of Lie groupoid for graph domains instead of manifolds.
+\begin{remark}Note that the path groupoid can also be obtained by discrete derivation of the partial transformation groupoid (\ie $p \in \cu \ltimes V$ can be expressed as a derivative of $\gamma(p)$ \wrt $\alpha(p)$), and can thus be seen as the local structure of it.
 \end{remark}
 
 \begin{lemma}\textbf{Useful properties of $\alpha$, $\beta$, and $\gamma$}%\\
 \begin{enumerate}
-  \item $(p,q) \in \cd \Leftrightarrow \beta(p) = \alpha(q)$.
-  \item $\gamma$ is a groupoid partial action. Denote $p(v) := \gamma(p)(v)$.% for $p \in \cuer$ and $v \in V$
-  \item $\beta$ is an equivariant map for the action $\gamma$ on $V$.
+  \item $(p,q) \in \cdl \Leftrightarrow \beta(p) = \alpha(q)$.
+  \item $\gamma$ is a groupoid partial action. Denote $p(v) := \gamma(p)(v)$.% for $p \in \cu$ and $v \in V$
+  \item $\beta$ is a partial equivariant map for the groupoid partial action $\gamma$ on $V$.
 \end{enumerate}
 \end{lemma}
 
-We can now define the all-paths convolution based on a path groupoid, as an equivalent of a $\varphi$-convolution where $\beta$ takes the role of $\varphi$.
+We can now define the convolution based on a path groupoid, as an equivalent of a $\varphi$-convolution where $\beta$ takes the role of $\varphi$.
 
-\begin{definition}\textbf{All-paths convolution}\\
-The \emph{all-paths convolution} $\ast$ is defined for signals $s_1, s_2 \in \cs(V)$, or with a mixed expression $\ast_{\M}$ for signals $\widetilde{s_1} \in \cuer \ltimes V$ and $s_2 \in \cs(V)$:
+\begin{definition}\textbf{Path convolution}\\
+The \emph{path convolution} $\ast$, based on a path groupoid $\cu \ltimes V$, is defined for signals $s_1, s_2 \in \cs(V)$, or with a mixed expression $\ast_{\M}$ for signals $\widetilde{s_1} \in \cu \ltimes V$ and $s_2 \in \cs(V)$ as:
 \begin{enumerate}[label=(\roman*)]
 \item $\forall u \in V, (s_1 \ast s_2) [u] = \displaystyle\sum_{\substack{p \in \cu \ltimes V\\ \st \beta(p)=u}} s_1[\beta(\gamma(p))] \h{2} s_2[\alpha(p)]$
 \item $\forall u \in V, (\widetilde{s_1} \ast_{\M} s_2) [u] = \displaystyle\sum_{\substack{p \in \cu \ltimes V\\ \st \beta(p)=u}} \widetilde{s_1}[\gamma(p)] \h{2} s_2[\alpha(p)]$
 \end{enumerate}
 \end{definition}
 
+Indeed, we will see that corresponding operators are equivariant to $\cu~\ltimes~V$. To address the converse, let's introduce the following notions.
+
+\begin{definition}\textbf{Tree-covering set}\\
+Let a graph $\gve$ that is connected. A \emph{tree-covering set} is a set $\cu \subset \Psi_{\EC}^*(G)$ such that
+\begin{enumerate}
+  \item An edge can only correspond to a unique $g\in \cu$,\\
+    \ie $\exists v \in V, g(v) = h(v) \Rightarrow g=h$
+  \item The graph $G_{\cu} = \langle V, E_{\cu} \rangle$ is a covering tree graph of $G$, where\\
+    $E_{\cu} = \{\{v, g(v)\} \in E, g, v \in \cu \times V\}$
+\end{enumerate}
+If $\cu$ is a tree-covering set, then the path convolution based on  $\cu \ltimes V$ is said to~be~\emph{rooted}.
+Also, denote by $r$ the root of $G_{\cu}$.
+\end{definition}
+
+\begin{remark}The assumption that the graph $G$ is connected has been made. This doesn't lose generality as the construction can be replicated to each connected component in the general case.
+\end{remark}
+
+\begin{proposition}\textbf{Characterization by equivariance to $\cu \ltimes V$}\\
+Let a set $\cu \subset \Psi_{\EC}^*(G)$, and let's base the path convolutions on $\cu \ltimes V$. Then,
+\begin{enumerate}[label=(\roman*)]
+  \item path convolution right operators are equivariant to~$\cu \ltimes V$,\label{enum:i}
+  \item if $\cu \ltimes V$ is abelian, left partial $\M$-convolution operators are equivariant to~$\cu \ltimes V$.\label{enum:ii}
+\end{enumerate}
+Conversely,
+\begin{enumerate}[label=(\roman*)]
+  \item if $\cu \ltimes V$ is tree-covering, linear transformations of $\cs(V)$ that are equivariant to~$\cu \ltimes V$ are right path (EC*) convolution operators,
+  \item if $\cu \ltimes V$ is abelian, linear transformations of $\cs(V)$ that are equivariant to~$\cu \ltimes V$ are also left partial $\M$-convolution operators.
+\end{enumerate}
+\end{proposition}
 
