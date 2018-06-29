@@ -137,7 +137,6 @@ Let a subgroupoid $\Upsilon \subset \Psi^*(V)$, such that $\Upsilon \overset\var
   			s \ast_\varphi w = \displaystyle\sum_{v \in V} s[v] \h{2} g_v(w) = \displaystyle\sum_{g \in \Upsilon} s[\varphi(g)] \h{2} g(w)$ \label{enum:i}
   \item $\forall (w,s) \in \cs(\Upsilon) \times \cs(V), w \ast_{\M} s  = \displaystyle\sum_{g \in \Upsilon} w[g] \h{2} g(s)$ \label{enum:ii}
 \end{enumerate}
-where \ref{enum:ii} applies in the abelian case.
 \end{definition}
 
 \paragraph{Symmetrical expressions}
@@ -150,16 +149,20 @@ Note that, as $\forall r, r[0] = 0$, the partial convolutions can also be expres
 We obtain an equivariance characterization similar to \propref{prop:equiG} and \corref{cor:equiM}.
 
 \begin{proposition}\textbf{Characterization by equivariance to $\Upsilon$}\\
-Let a subgroupoid $\Upsilon \subset \Psi^*(V)$, such that~$\Upsilon \overset\varphi\equiv V$. Then,
+Let a subgroupoid $\Upsilon \subset \Psi^*(V)$, such that~$\Upsilon \overset\varphi\equiv V$, with $\ast$ based on~$\Upsilon$.
+\begin{enumerate}
+\item Then,
 \begin{enumerate}[label=(\roman*)]
-  \item right partial $\varphi$-convolution operators are equivariant to~$\Upsilon$,\label{enum:i}
-  \item if $\Upsilon$ is abelian, left partial $\M$-convolution operators are equivariant to~$\Upsilon$.\label{enum:ii}
+  \item partial $\varphi$-convolution right-operators are equivariant to~$\Upsilon$,\label{enum:i}
+  \item if $\Upsilon$ is abelian, partial $\M$-convolution left-operators are equiv to~$\Upsilon$.\label{enum:ii}
 \end{enumerate}
-Conversely,
+\item Conversely, \label{enum:2}
 \begin{enumerate}[label=(\roman*)]
-  \item if $\Upsilon$ is domain-symmetric, linear transformations of $\cs(V)$ that are equivariant to~$\Upsilon$ are right partial $\varphi$-convolution operators,
-  \item if $\Upsilon$ is abelian, linear transformations of $\cs(V)$ that are equivariant to~$\Upsilon$ are also left partial $\M$-convolution operators.
+  \item if $\Upsilon$ is domain-symmetric, linear transformations of $\cs(V)$ that are equivariant to~$\Upsilon$ are partial $\varphi$-convolution right-operators,
+  \item if $\Upsilon$ is abelian, they are also partial $\M$-convolution left-operators.
 \end{enumerate}
+\end{enumerate}
+\label{prop:equiP}
 \end{proposition}
 \begin{proof}
 \begin{enumerate}[label=(\roman*)]
