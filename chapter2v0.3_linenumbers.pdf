@@ -1,0 +1,132 @@
+\documentclass[12pt]{book}
+\input{others/header}
+
+\begin{document}
+\selectlanguage{english}
+
+%
+% Title
+%
+
+% ?
+% (On) Deep Learning for non-regularly structured data
+% ... see temptative titles chapter
+
+%
+% Table of contents
+%
+
+\dominitoc
+\tableofcontents
+%\adjustmtc
+
+% %
+% % Introduction
+% %
+
+% \chapter*{Introduction}
+% \label{chp:int}
+% \addcontentsline{toc}{chapter}{\nameref{chp:int}}
+% \todo{}
+
+% %
+% % Chapter 1
+% %
+
+% % cover
+% \chapter{Presentation of the field}
+% \vfill\minitoc\newpage
+% \input{chapter1/intro1.tex}\newpage
+
+% % body
+% \input{chapter1/tensors}\newpage
+% \input{chapter1/nn}\newpage
+% \input{chapter1/graphs}\newpage
+
+%
+% Chapter 2
+%
+
+\setcounter{chapter}{1}
+\chapter{Convolutions on graph domains}
+\input{chapter2/intro2.tex}\newpage
+\vfill\minitoc\newpage
+
+% body
+\input{chapter2/conv}\newpage
+\input{chapter2/groups}\newpage
+\input{chapter2/edges}\newpage
+\input{chapter2/groupoids}\newpage
+\input{chapter2/paths}\newpage
+%\input{chapter2/4th_sec}\newpage
+%\input{chapter2/recap2}\newpage
+
+% %
+% % Chapter 3
+% %
+
+% \chapter{Neural networks on graphs}
+% \vfill\minitoc\newpage
+% \input{chapter3/intro3.tex}\newpage
+
+
+% % body
+% \input{chapter3/datasets}\newpage
+% \input{chapter3/relatedworks}\newpage
+% \input{chapter3/weightsharing}\newpage
+% \input{chapter3/scheme}\newpage
+% %\input{chapter3/neighbourhoodpreserving}\newpage
+
+% %
+% % Chapter 4
+% %
+
+% \chapter{Industrial applications}
+% \todo{}
+% \vfill\minitoc\newpage
+
+% %
+% % Conclusion
+% %
+
+% \chapter*{Conclusion}
+% \label{chp:ccl}
+% \addcontentsline{toc}{chapter}{\nameref{chp:ccl}}
+% \todo{}
+
+%
+% Bibliography
+%
+
+\printbibliography[heading=bibintoc]
+
+% %
+% % Bin
+% %
+
+% \setcounter{chapter}{-1}
+% \chapter{Trash bin and more drafts}
+% ... that we may use in some section.
+% \vfill\minitoc\newpage
+
+% \input{chapter_unsorted/disamb}\newpage
+% \input{chapter2/expressivity}\newpage
+% \input{chapter_unsorted/crapconv}\newpage
+% \input{chapter_unsorted/cayleydraft}\newpage
+
+% %
+% % Post body
+% %
+
+% % Temptative previsional plan
+% \setcounter{chapter}{-1}
+% \fakechapter{Temptative previsional plans}
+% \includepdf[pages=1-7]{others/temptative_plan.pdf}
+
+% % keywords and temptative titles
+% \setcounter{chapter}{-1}
+% \chapter{Keywords and temptative titles}
+% \input{others/keywords} % to be put somewhere else
+% \input{others/titles}
+
+\end{document}
