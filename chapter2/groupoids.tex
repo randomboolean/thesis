@@ -285,7 +285,7 @@ Let a graph $\gve$ that is connected. A \emph{traversal set} is a pair $(\cu, \c
     \ie $\forall g,h \in \cu : \exists v \in V, g(v) = h(v) \Rightarrow g=h$
   \item The (EC) partial transformations of $\ct$ are restrictions of those of $\cu$,\\
     \ie $\forall g \in \cu, \exists! h \in \ct, \begin{cases}\cd_h \subset \cd_g\\ \forall v \in \cd_h, h(v) = g(v)\end{cases}$, \\
-    (equivalently, $\ct \ltimes G$ is a subgroupoid of $\cu \ltimes G$)
+    (equivalently, $\ct \ltimes G$ is a path subgroupoid of $\cu \ltimes G$)
   % \item The edges corresponding to $\ct$ are included in those of $\cu$,\\
   %   \ie $\ct \ltimes_1 G \subset \cu \ltimes_1 G$
   \item The subgraph $G_{\ct} = \langle V, \ct \ltimes_1 G \rangle$ is a covering tree of $G$.
@@ -343,7 +343,7 @@ Instead of the domain-symmetric condition that was used in the proof of the conv
 \end{proof}
 
 \begin{remark}
-Note that $\cu \ltimes V$'s action is almost the same as the groupoid partial action of $\Upsilon = \langle \cu \rangle$ (ony "almost" because not all combinations of partial transformations might exist in the paths). However $\cu \ltimes V$ associativy law doesn't have the limitation of~$\Upsilon$'s.
+Note that $\cu \ltimes V$'s action is almost the same as the groupoid partial action of $\Upsilon = \langle \cu \rangle$ (only "almost" because not all combinations of partial transformations might exist in the paths). However $\cu \ltimes V$ associativy law doesn't have the limitation of~$\Upsilon$'s.
 \end{remark}
 
 \paragraph{(EC*) Path convolution operators}
