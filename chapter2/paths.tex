@@ -3,13 +3,13 @@
 To answer the limitation of partial convolutions, given $g \in \langle \cu \rangle$ where $\cu \subset \Psi_{\EC}^*(G)$, the idea is to proceed with a foliation of $g$ into pieces, each corresponding to an edge $e \in E$, and together generating another groupoid with a different associativity law, as follows.
 
 \begin{definition}\textbf{Path groupoid}\\
-Let $\cu \subset \Psi_{\EC}^*(G)$. The \emph{path groupoid} generated from $\cu$, denoted $\cu \ltimes V$, with composition rule $\cdl$, is the groupoid obtained inductively as:
+Let $\cu \subset \Psi_{\EC}^*(G)$. The \emph{path groupoid} generated from $\cu$, denoted $\cu \ltimes G$, with composition rule $\cdl$, is the groupoid obtained inductively as:
 \begin{enumerate}
-  \item $\cu \ltimes_1 V = \{(g,v) \in \cu \times V, v \in \cd_g \} \subset \cu \ltimes V$
+  \item $\cu \ltimes_1 G = \{(g,v) \in \cu \times V, v \in \cd_g \} \subset \cu \ltimes G$
   \item $((g_n,v_n) \cdots (g_1,v_1) , (h_m,u_m) \cdots (h_1,u_1)) \in \cdl \Leftrightarrow h_m(u_m) = v_1$
-  \item $(g_n,v_n) \cdots (g_1,v_1) \in \cu \ltimes V \Rightarrow (g_1^{-1}, g_1(v_1)) \cdots (g_n^{-1}, g_n(v_n)) \in \cu \ltimes V$
+  \item $(g_n,v_n) \cdots (g_1,v_1) \in \cu \ltimes G \Rightarrow (g_1^{-1}, g_1(v_1)) \cdots (g_n^{-1}, g_n(v_n)) \in \cu \ltimes G$
 \end{enumerate}
-Call path its objects. Given a length $l \in \bbn^*$, denote $\cu \ltimes_l V$ the subset composed of the paths that are the composition of exactly~$l$ paths of $\cu \ltimes_1 V$.
+Call path its objects. Given a length $l \in \bbn^*$, denote $\cu \ltimes_l G$ the subset composed of the paths that are the composition of exactly~$l$ paths of $\cu \ltimes_1 G$.
 \end{definition}
 
 \begin{remark}
@@ -19,7 +19,7 @@ This groupoid construction is inspired from the field of operator algebra where 
 Such groupoids usually come equipped with source and target maps. We also define the path map.
 
 \begin{definition}\textbf{Source, target and path maps}\\
-Let a path groupoid $\cu \ltimes V$. We define on it the \emph{source map}~$\alpha$ the \emph{target map}~$\beta$ and the \emph{path map}~$\gamma$ as:
+Let a path groupoid $\cu \ltimes G$. We define on it the \emph{source map}~$\alpha$ the \emph{target map}~$\beta$ and the \emph{path map}~$\gamma$ as:
 \begin{gather*}
 \begin{cases}
   \alpha: (g_n,v_n) \cdots (g_1,v_1) \mapsto v_1 \in V\\
@@ -30,7 +30,7 @@ Let a path groupoid $\cu \ltimes V$. We define on it the \emph{source map}~$\alp
 \end{gather*}
 \end{definition}
 
-\begin{remark}Note that the path groupoid can also be obtained by derivation of the partial transformation groupoid (\ie $p \in \cu \ltimes V$ can be seen as a derivative of $\gamma(p)$ \wrt $\alpha(p)$), and can thus be seen as the local structure of it.
+\begin{remark}Note that the path groupoid can also be obtained by derivation of the partial transformation groupoid (\ie $p \in \cu \ltimes G$ can be seen as a derivative of $\gamma(p)$ \wrt $\alpha(p)$), and can thus be seen as the local structure of it.
 \end{remark}
 
 \begin{lemma}\h{0}\\
@@ -45,75 +45,74 @@ Note the following properties:
 \end{lemma}
 
 \begin{remark}
-Note that this time we won't use the notation $p(v)$ for $\gamma_p(v)$ in order to better differentiate between the composition laws in $\langle \cu \rangle$ and $\cu \ltimes V$.
+Note that this time we won't use the notation $p(v)$ for $\gamma_p(v)$ in order to better differentiate between the composition laws in $\langle \cu \rangle$ and $\cu \ltimes G$.
 \end{remark}
 
 One of the key object of our contruction is the use of $\varphi$-equivalence in order to transform a sum over a group(oid) of (partial) transformations, into a sum over the vertex set. With the current notion of path groupoid, searching for something similar amounts to searching for a graph traversal.
 
 \begin{definition}\textbf{Traversal set}\\
-Let a graph $\gve$ that is connected. A \emph{traversal} set of partial transformations is a set $\cu \subset \Psi_{\EC}^*(G)$ such that
+Let a graph $\gve$ that is connected. A \emph{traversal set} is a pair $(\cu, \ct)$ of (EC) partial transformations subsets $\subset \Psi_{\EC}^*(G)$, such that
 \begin{enumerate}
   \item An edge can only correspond to a unique $g\in \cu$,\\
     \ie $\forall g,h \in \cu : \exists v \in V, g(v) = h(v) \Rightarrow g=h$
-  \item The graph $G_{\cu} = \langle V, E_{\cu} \rangle$ is a covering tree of $G$, where\\
-    $E_{\cu} = \{\{v, g(v)\} \in E, (g, v) \in \cu \times V\}$
+  \item The (EC) partial transformations of $\ct$ are restrictions of those of $\cu$,\\
+    \ie $\forall g \in \cu, \exists! h \in \ct, \begin{cases}\cd_h \subset \cd_g\\ \forall v \in \cd_h, h(v) = g(v)\end{cases}$, \\
+    (equivalently, $\ct \ltimes G$ is a subgroupoid of $\cu \ltimes G$)
+  % \item The edges corresponding to $\ct$ are included in those of $\cu$,\\
+  %   \ie $\ct \ltimes_1 G \subset \cu \ltimes_1 G$
+  \item The subgraph $G_{\ct} = \langle V, \ct \ltimes_1 G \rangle$ is a covering tree of $G$.
 \end{enumerate}
-We denote $\cu \in \tree(G)$, and call by $r$ the root of $G_{\cu}$.
+We denote $(\cu, \ct) \in \tree(G)$, and denote by $r$ the root of $G_{\ct}$.
 \end{definition}
 
 \begin{remark}The assumption that the graph $G$ is connected has been made. This doesn't lose generality as the construction can be replicated to each connected component in the general case.
 \end{remark}
 
-A traversal set $\cu$ defines a $\varphi$-equivalence between the $\alpha$-fiber of the root~$r$ and the vertex set~$V$ as follows.
+A traversal set $(\cu, \ct)$ defines a $\varphi$-equivalence between the $\alpha$-fiber of the root~$r$ and the vertex set~$V$ as follows.
 
 \begin{lemma}\textbf{Path $\varphi$-Equivalence}\\
-Let $\cu \in \tree(G)$. Given $v \in V$, there exists a unique $p_v \in \cu \ltimes V$ such that $\alpha(p_v) = r$ and $\beta(p_v) = v$. Define $\varphi: p_v \mapsto v$. Then $\varphi: \alpha^{-1}\{r\} \rightarrow V$ is a bijective partial equivariant map.
+Let $(\cu, \ct) \in \tree(G)$. Given $v \in V$, there exists a unique $p_v \in \ct \ltimes G$ such that $\alpha(p_v) = r$ and $\beta(p_v) = v$. Define $\varphi: p_v \mapsto v$. Then $\varphi: \alpha^{-1}_{\ct \ltimes G}\{r\} \rightarrow V$ is a bijective partial equivariant map.
 \end{lemma}
 \begin{proof}
-Bijectivity is a consequence of the definition of the traversal set.
+Bijectivity is a consequence of the covering tree structure of $\ct$.
 Equivariance because $\gamma_{p_v}(u) = \gamma_{p_v}\gamma_{p_u}(r) = \gamma_{p_vp_u}(r) = \varphi(p_vp_u)$.
 \end{proof}
 
 We can now define the convolution that is based on a path groupoid.
 
 \begin{definition}\textbf{Path convolution}\\
-Let $\cu \in \tree(G)$. The \emph{path convolution} is a partial convolution based on a path groupoid $\cu \ltimes V$.
+Let $(\cu, \ct) \in \tree(G)$. The \emph{path convolution} is the partial convolution based on the path subgroupoid $\ct \ltimes G$, which uses the groupoid partial action $\gamma := \gamma^{\cu \ltimes G}$ of the embedding groupoid $\cu \ltimes G$.
 \begin{enumerate}[label=(\roman*)]
   \item In what follows are the three expressions of the path $\varphi$-convolution for signals $s_1, s_2 \in \cs(V)$, and $u \in V$:
 \begin{align*}
 (s \ast_\varphi w) & = \displaystyle\sum_{v \in V} s[v] \h{2} \gamma_{p_v}(w)\\
-                   & = \displaystyle\sum_{\substack{p \in \cu \ltimes V\\ \st \alpha(p) = r}} s[\varphi(p)] \h{2} \gamma_{p}(w)\\
+                   & = \displaystyle\sum_{\substack{p \in \ct \ltimes G\\ \st \alpha(p) = r}} s[\varphi(p)] \h{2} \gamma_{p}(w)\\
 (s \ast_\varphi w)[u] & = \displaystyle\sum_{\substack{(a,b) \in V\\ \st \gamma_{p_a}(b)=u}} s[a] \h{2} w[b]
 \end{align*}
-  \item The mixed formulations with $w \in \cs(\cu \ltimes V)$ are:
+  \item The mixed formulations with $w \in \cs(\ct \ltimes G)$ are:
 \begin{align*}
-(w \ast_{\M} s) & = \displaystyle\sum_{\substack{p \in \cu \ltimes V\\ \st \alpha(p) = r}} w[p] \h{2} \gamma_{p}(s)\\
-(w \ast_{\M} s)[u] & = \displaystyle\sum_{\substack{(p,v) \in \cu \ltimes V \times V\\ \st \alpha(p) = r\\ \st \gamma_{p}(v)=u}} w[p] \h{2} s[v]
+(w \ast_{\M} s) & = \displaystyle\sum_{\substack{p \in \ct \ltimes G\\ \st \alpha(p) = r}} w[p] \h{2} \gamma_{p}(s)\\
+(w \ast_{\M} s)[u] & = \displaystyle\sum_{\substack{(p,v) \in \ct \ltimes G \times V\\ \st \alpha(p) = r\\ \st \gamma_{p}(v)=u}} w[p] \h{2} s[v]
 \end{align*}
 \end{enumerate}
 \end{definition}
 
+\begin{remark}The role of $\ct$ is to provide a $\varphi$-equivalence. The role of $\cu$ is to extend every partial transformation $\gamma^{\ct \ltimes G}_g$ to the domain of its unrestricted counterpart $\gamma^{\cu \ltimes G}_g$.
+\end{remark}
+
 \propref{prop:equiP} also holds for path groupoids, except that the domain-symmetric condition of 2.(i) is not needed.
 
-\begin{proposition}\textbf{Characterization by equivariance to $\cu \ltimes V$'s action}\\
-Let $\cu \in \tree(G)$.
+\begin{proposition}\textbf{Characterization by equivariance to $\cu \ltimes G$'s action}\\
+Let $(\cu, \ct) \in \tree(G)$.
 \begin{enumerate}[label=(\roman*)]
-\item The class of linear transformations of $\cs(V)$ that are equivariant to the path actions of $\cu \ltimes V$ is exactly the path $\varphi$-convolution right-operators;
+\item The class of linear transformations of $\cs(V)$ that are equivariant to the path actions of $\cu \ltimes G$ is exactly the path $\varphi$-convolution right-operators;
 \item in the abelian case, they are also exactly the $\M$-convolution left-operators.
 \end{enumerate}
 \end{proposition}
 
 \begin{proof}
-Instead of the domain-symmetric condition that was used in the proof of the converse of \propref{prop:equiP} (2.(i)), we use the fact that any vertex can be reached with an action from the root of the covering tree of traversal set. Indeed, given $v \in V$, as we have $\gamma_{p_v}(r)=v$, then $\gamma_{p_v}(\delta_r) = \delta_v$. Therefore, by developping a linear transformation $f(s)$ on the dirac family, and commuting $f$ with $\gamma_{p_v}$, we obtain that $f(s) = s \ast_\varphi w$, where $w = f(\delta_r)$. The rest of the proof is similar to that of \propref{prop:equiP}.
+Instead of the domain-symmetric condition that was used in the proof of the converse of \propref{prop:equiP} (2.(i)), we use the fact that any vertex can be reached with an action from the root of the covering tree of the traversal set. Indeed, given $v \in V$, as we have $\gamma_{p_v}(r)=v$, then $\gamma_{p_v}(\delta_r) = \delta_v$. Therefore, by developping a linear transformation $f(s)$ on the dirac family, and commuting $f$ with $\gamma_{p_v}$, we obtain that $f(s) = s \ast_\varphi w$, where $w = f(\delta_r)$. The rest of the proof is similar to that of \propref{prop:equiP}.
 \end{proof}
 
-\begin{remark}
-Note that $\cu \ltimes V$'s action is the same as the groupoid partial action of $\langle \cu \rangle$, the groupoid generated by partial transformations of $\cu$. However $\cu \ltimes V$ associativy law doesn't have the limitation of $\langle \cu \rangle$'s.
-\end{remark}
-
-\begin{remark}
-A corrolary in the abelian case is that the class of partial convolutions is exaclty the class of path convolutions.
-\end{remark}
-
 \paragraph{(EC*) Path convolution operators}
-The counterparts of strictly edge-constrained (EC*) convolution operators for path convolutions, are indeed path convolution operators obtained with bounded supporting set $\cn \subset \cu \ltimes_1 V$ which any graph can admit. As shown by this section, all we need to construct one is a traversal set of partial transformations.
+The counterparts of strictly edge-constrained (EC*) convolution operators for path convolutions, are indeed path convolution operators obtained with bounded supporting set $\cn \subset \ct \ltimes_1 G$ which any graph can admit. As shown by this section, all we need to construct one is a traversal set of partial transformations $(\cu, \ct)$.
