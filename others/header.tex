@@ -110,16 +110,16 @@
 \makeatletter
 \def\@makechapterhead#1{%
   %%%%\vspace*{50\p@}% %%% removed!
-  \vspace*{30\p@}
+  \vspace*{0\p@}
   {\parindent \z@ \raggedright \normalfont
     \ifnum \c@secnumdepth >\m@ne
         \huge\bfseries \@chapapp\space \thechapter
         \par\nobreak
-        \vskip 20\p@
+        \vskip 0\p@
     \fi
     \interlinepenalty\@M
     \Huge \bfseries #1\par\nobreak
-    \vskip 40\p@
+    \vskip 20\p@
   }}
 \def\@makeschapterhead#1{%
   %%%%%\vspace*{50\p@}% %%% removed!
@@ -139,6 +139,8 @@
                                     {0.01pt}%
                                     {\normalfont\normalsize\bfseries}}
 \makeatother
+
+%\setlength{\parskip}{5pt}
 
 % Theorems
 \usepackage{amsthm}
