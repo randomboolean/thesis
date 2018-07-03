@@ -29,3 +29,27 @@ Pooling and architectures comes in 3.
 As well as the connectivity matrix formulation (with figure).
 
 Need to write
+
+#
+# Draft of plan for chapter 3
+#
+
+3.0 Introduction
+
+3.1 Analysis of related works
+
+3.2 A change of perspective
+
+Tensorization
+
+Partially connected layer with weight sharing
+
+Feasability study (paper 1)
+
+Learning the scheme (paper 2)
+
+3.3 Searching for neighborhood symmetries
+
+Bastnet
+
+

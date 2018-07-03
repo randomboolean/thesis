@@ -201,7 +201,6 @@ g_{\ck_\alpha}^{-1}(\alpha) = g_{\ck_a}^{-1}(a)
 \end{align*}
 \end{proof}
 
-%\paragraph{Operators supported on the generating set $\cu$ of a Cayley subgraph}
 \subsection{Stricly edge-constrained convolutions}
 \label{sec:ec}
 
@@ -226,7 +225,18 @@ Therefore, we can rewrite the expressions of the convolution operator as:
 Note that in the abelian case, we can see from \ref{enum:ii} that a definition of a local patch would coincide with the supporting set, so that locality and weight sharing is straightforward.
 \end{remark}
 
-From these expressions, it is clear that $\Gamma$ needs not to be fully determined to calculate $f_w(s)[u]$. The case \ref{enum:ii} is the simplest as the only requirement is a supporting set $\cn$ of (EC) invertible transformations. In the case \ref{enum:i}, we only need to determine $\ck_u$.
+\paragraph{Construction}
+From these expressions, it is clear that $\Gamma$ needs not to be fully determined to calculate $f_w(s)[u]$. The case \ref{enum:ii} is the simplest as the only requirement is a supporting set $\cn$ of (EC) invertible transformations. In the case \ref{enum:i}, we also need to determine $\ck_u$.
+
+\paragraph{Strict locality}
+Note that $f_w(s)[u]$ is a weighted aggregation of entries $s[v]$ for $v \in \ck_u$. As $\ck_{\id} = \varphi(\cn^{-1}) = \cn^{-1}(\varphi(\id))$, $\ck_{\id}$ contains only neighbors of $\varphi(\id)$, and so $\ck_u = g_u(\ck_{\id})$ contains only neighbors of $u$. Therefore, in both cases $f_w(s)[u]$ is a weighted aggregation of entries located in the neighborhood of~$u$.
+
+\todo{maybe only true in abelian case}
+\todo{check locality}
+\todo{chack on path too}
+
+\paragraph{Complexity}
+Another merit is that (EC*) convolutions have a complexity of $\co(kn)$, where $n = |V|$ is the degree of the graph, and $k = |\cn|$ is the size of the weight kernel. In comparison, (EC) convolutions have complexity up to $\co(n^2)$.
 
 %\paragraph{What exactly is the local patch $\ck_u$ ?}
 
