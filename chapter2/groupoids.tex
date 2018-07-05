@@ -276,8 +276,25 @@ Note the following properties:
 \end{lemma}
 
 \begin{remark}
-Note that this time we won't use the notation $p(v)$ for $\gamma_p(v)$ in order to better differentiate between the composition laws in $\langle \cu \rangle$ and $\cu \ltimes G$.
+Note that this time we won't use the notation $p(v)$ for $\gamma_p(v)$ for clarity.
 \end{remark}
+
+Similarly with the construction under group action from \secref{sec:groupaction}, we are also seeking a groupoid partial auto-action. This time, left multiplicative action isn't as useful because the restriction $\alpha(p) = \beta(q)$ renders its usage too narrow. Instead, we use $\gamma: \cu \ltimes G \times V \rightarrow V$ and define an auto-action denoted by the same symbol $\gamma: \cu \ltimes G \times \cu \ltimes G \rightarrow \cu \ltimes G$.
+
+\begin{definition}\textbf{Path auto-action}\\
+The \emph{path auto-action} $\gamma$ is a groupoid partial action of a path groupoid $\cu \ltimes G$ on itself. Let 
+$p = (g_n,v_n) \cdots (g_1,v_1)$ and $q = (h_m,u_m) \cdots (h_1,u_1)$, we have:
+ \begin{align*}
+ & q \in \cd_{\gamma_p} \Leftrightarrow
+  \begin{cases}
+    \beta_1(q) := \beta(q) \in \cd_{g_1}\\
+    \forall r \in \seq{n-1}, \beta_{r+1}(q) \in \cd_{g_{r+1}}\\
+    \text{where } \beta_{r+1}(q) = g_r \cdots g_2g_1(\beta(q)) 
+  \end{cases}\\
+  &\gamma_p(q) = p^qq \text{ where }\\
+  &p^q = (g_n, \beta_n(q)) \cdots (g_2,\beta_2(q), (g_1,\beta(q))
+ \end{align*}
+\end{definition}
 
 One of the key object of our contruction is the use of $\varphi$-equivalence in order to transform a sum over a group(oid) of (partial) transformations, into a sum over the vertex set. With the current notion of path groupoid, searching for something similar amounts to searching for a graph traversal.
 
@@ -349,6 +366,6 @@ Instead of the domain-symmetric condition that was used in the proof of the conv
 Note that $\cu \ltimes V$'s action is almost the same as the groupoid partial action of $\Upsilon = \langle \cu \rangle$ (only "almost" because not all combinations of partial transformations might exist in the paths). However $\cu \ltimes V$ associativy law doesn't have the limitation of~$\Upsilon$'s.
 \end{remark}
 
-\paragraph{(EC*) Path convolution operators}
-The counterparts of strictly edge-constrained (EC*) convolution operators for path convolutions, are indeed path convolution operators obtained with supporting set $\cn \subset \ct \ltimes_1 G$ which any graph can admit. As shown by this section, to construct one, all we need is a traversal set of partial transformations $(\cu, \ct)$.
+\paragraph{Edge convolution operators}
+The counterparts of strictly edge-constrained (EC*) convolution operators for path convolutions, are indeed path convolution operators obtained with supporting set $\cn \subset \ct \ltimes_1 G$ which any graph can admit. By extrapolation, we can coin them \emph{edge convolution operators}. As shown by this section, to construct one, all we need is a traversal set of partial transformations $(\cu, \ct)$.
 

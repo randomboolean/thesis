@@ -1,0 +1,30 @@
+fixing draft locality and continuity
+
+x Instead of 2.3.2 Intrinsic properties, call it
+
+- Neighborhood convolution
+
+x And put it in 2.3.3 (EC* as 2.3.2)
+
+x (weight sharing moved to EC*)
+
+\rho^{-1}: v \mapsto g_v^{-1}(u) = x
+
+rho(x) = v
+
+etc
+
+(NB) conv
+iff g_v are graphs aut that are simple transitive actions of a group \Gamma
+iff right cayley graph of group \Gamma
+
+(EC-NB) conv iff right CG = left CG iff \Gamma is abelian iff abelian cayley subgraph isomorphism
+
+x For groupoids and partial conv, say we do conjecture for same EC-NB, (they are EV anyway), where NB means restriction of a graph automorphism.
+
+x For path groupoids: extends p_v(p_u)
+
+x For path groupoids, explain (EC = N) if possible
+
+
+

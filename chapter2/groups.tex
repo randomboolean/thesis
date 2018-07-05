@@ -133,6 +133,7 @@ Because $\varphi$ is an isomorphism, its inverse $c \mapsto g_c$ is also an isom
 In fact, both group convolutions are the same as the latter one borrows the algebraic structure of the first one. Thus we only obtain equivariance to $\varphi(\Gamma)$ when $\varphi$ also transfer the group structure from $\Gamma$ to $V$, and the converse does not hold. To obtain equivariance to $\Gamma$ (and its converse), we will drop the direct homomorphism condition, and instead we will take into account the fact that it contains invertible transformations of $V$.
 
 \subsection{Construction under group actions}
+\label{sec:groupaction}
 
 \begin{definition}\textbf{Group action}\\
 An \emph{action} of a group $\Gamma$ on a set $V$ is a function $L: \Gamma \times V \rightarrow V, (g,v) \mapsto L_g(v)$, such that the map $g \mapsto L_g$ is a homomorphism.\\
@@ -158,14 +159,17 @@ Hence, note that $g \in \Gamma$ can act on both $\Gamma$ through the left multip
 For \eqref{eq:P} to be true means that $\varphi$ is an equivariant map \ie whether the mapping is done before or after the action of $\Gamma$ has no impact on the result. When such $\varphi$ exists, $\Gamma$ and $V$ are said to be equivalent and we denote $\Gamma \equiv V$.
 
 \begin{definition}\textbf{Equivariant map}\\
-A map $\varphi$ from a group $\Gamma$ acting on the destination set $V$ is said to be an \emph{equivariant map} if
+A map $\varphi$ from a group $\Gamma$ acting on the destination set $V$ and itself, is said to be an \emph{equivariant map} if
 \begin{gather*}
-\forall g, h \in \Gamma, g(\varphi(h)) = \varphi(gh)
+\forall g, h \in \Gamma, g(\varphi(h)) = \varphi(g(h))
 \end{gather*}
 \label{def:eqmap}
 \end{definition}
 
-In our case we have $\Gamma \overset{\varphi}{\cong} V$. If we also have that $\Gamma \equiv V$, we are interested to know if then~$\varphi$~exhibits the equivalence.
+\begin{remark} Here $g$ acts on $\Gamma$ through left multiplication so $g(h) = gh$.
+\end{remark}
+
+Suppose we have $\Gamma \overset{\varphi}{\cong} V$. If we also have that $\Gamma \equiv V$, we are interested to know if then~$\varphi$~exhibits the equivalence.
 
 \begin{definition}\textbf{$\varphi$-Equivalence}\\
 A subgroup $\Gamma \subset \Phi^*(V)$ such that $\Gamma \overset{\varphi}{\cong} V$, is said to be \emph{$\varphi$-equivalent} if $\varphi$ is a bijective equivariant map \ie if it verifies the property:
