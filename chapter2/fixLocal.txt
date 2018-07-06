@@ -25,6 +25,3 @@ x For groupoids and partial conv, say we do conjecture for same EC-NB, (they are
 x For path groupoids: extends p_v(p_u)
 
 x For path groupoids, explain (EC = N) if possible
-
-
-

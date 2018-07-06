@@ -279,29 +279,12 @@ Note the following properties:
 Note that this time we won't use the notation $p(v)$ for $\gamma_p(v)$ for clarity.
 \end{remark}
 
-Similarly with the construction under group action from \secref{sec:groupaction}, we are also seeking a groupoid partial auto-action. This time, left multiplicative action isn't as useful because the restriction $\alpha(p) = \beta(q)$ renders its usage too narrow. Instead, we use $\gamma: \cu \ltimes G \times V \rightarrow V$ and define an auto-action denoted by the same symbol $\gamma: \cu \ltimes G \times \cu \ltimes G \rightarrow \cu \ltimes G$.
-
-\begin{definition}\textbf{Path auto-action}\\
-The \emph{path auto-action} $\gamma$ is a groupoid partial action of a path groupoid $\cu \ltimes G$ on itself. Let 
-$p = (g_n,v_n) \cdots (g_1,v_1)$ and $q = (h_m,u_m) \cdots (h_1,u_1)$, we have:
- \begin{align*}
- & q \in \cd_{\gamma_p} \Leftrightarrow
-  \begin{cases}
-    \beta_1(q) := \beta(q) \in \cd_{g_1}\\
-    \forall r \in \seq{n-1}, \beta_{r+1}(q) \in \cd_{g_{r+1}}\\
-    \text{where } \beta_{r+1}(q) = g_r \cdots g_2g_1(\beta(q)) 
-  \end{cases}\\
-  &\gamma_p(q) = p^qq \text{ where }\\
-  &p^q = (g_n, \beta_n(q)) \cdots (g_2,\beta_2(q), (g_1,\beta(q))
- \end{align*}
-\end{definition}
-
 One of the key object of our contruction is the use of $\varphi$-equivalence in order to transform a sum over a group(oid) of (partial) transformations, into a sum over the vertex set. With the current notion of path groupoid, searching for something similar amounts to searching for a graph traversal.
 
 \begin{definition}\textbf{Traversal set}\\
 Let a graph $\gve$ that is connected. A \emph{traversal set} is a pair $(\cu, \ct)$ of (EC) partial transformations subsets $\subset \Psi_{\EC}^*(G)$, such that
 \begin{enumerate}
-  \item An edge can only correspond to a unique $g\in \cu$,\\
+  \item $\cu$ is \emph{edge-deterministic}, in the sense that an edge can only correspond to a unique $g$,
     \ie $\forall g,h \in \cu : \exists v \in V, g(v) = h(v) \Rightarrow g=h$
   \item The (EC) partial transformations of $\ct$ are restrictions of those of $\cu$,\\
     \ie $\forall g \in \cu, \exists! h \in \ct, \begin{cases}\cd_h \subset \cd_g\\ \forall v \in \cd_h, h(v) = g(v)\end{cases}$\\
@@ -310,7 +293,8 @@ Let a graph $\gve$ that is connected. A \emph{traversal set} is a pair $(\cu, \c
   %   \ie $\ct \ltimes_1 G \subset \cu \ltimes_1 G$
   \item The subgraph $G_{\ct} = \langle V, \ct \ltimes_1 G \rangle$ is a spanning tree of $G$.
 \end{enumerate}
-We denote $(\cu, \ct) \in \tree(G)$, and denote by $r$ the root of $G_{\ct}$.
+We denote $(\cu, \ct) \in \tree(G)$, and denote by $r$ the root of $G_{\ct}$.\\
+For $p \in \ct \ltimes G \subset \cu \ltimes G$, we denote $\gamma_p^{\ct \ltimes G}$ and $\gamma_p^{\cu \ltimes G}$ its path maps.
 \end{definition}
 
 \begin{remark}The assumption that the graph $G$ is connected doesn't lose generality as the construction can be replicated to each connected component in the general case.
@@ -319,8 +303,15 @@ We denote $(\cu, \ct) \in \tree(G)$, and denote by $r$ the root of $G_{\ct}$.
 A traversal set $(\cu, \ct)$ defines a $\varphi$-equivalence between the $\alpha$-fiber of the root~$r$ and the vertex set~$V$ as follows.
 
 \begin{lemma}\textbf{Path $\varphi$-Equivalence}\\
-Let $(\cu, \ct) \in \tree(G)$. Given $v \in V$, there exists a unique $p_v \in \ct \ltimes G$ such that $\alpha(p_v) = r$ and $\beta(p_v) = v$. Define $\varphi: p_v \mapsto v$. Then $\varphi: \alpha^{-1}_{\ct \ltimes G}\{r\} \rightarrow V$ is a bijective partial equivariant map.
+Let $(\cu, \ct) \in \tree(G)$. Given $v \in V$, there exists a unique $p_v \in \ct \ltimes G$ such that $\alpha(p_v) = r$ and $\beta(p_v) = v$. Denote $\ct \ltimes^r G = \alpha^{-1}_{\ct \ltimes G}\{r\}$. We can do the following construction:
+\begin{enumerate}
+  \item Define $\varphi: p_v \mapsto v$.
+  \item Define $(p_v, p_u) \mapsto p_v^u \in \cu^0 \ltimes^r G$ such that the sequence of partial transformations of $p_v^u$ and $p_v$ are the same (\ie $\gamma_{p_v^u}^{\cu^0 \ltimes G} = \gamma_{p_v}^{\cu \ltimes G}$), and the source of $p_v^u$ is the target of $p_u$ (\ie $\alpha(p_v^u) = \beta(p_u) = u$)
+  \item Define the external composition $p_vp_u = p_v^up_u \in \cu^0 \ltimes^r G$.
+\end{enumerate}
+Then $\varphi: \alpha^{-1}_{\ct \ltimes G}\{r\} \rightarrow V$ is a bijective partial equivariant map.
 \end{lemma}
+\todo{check domain of $\varphi$ and bijectivity}
 \begin{proof}
 Bijectivity is a consequence of the spanning tree structure of $\ct$.
 Equivariance because $\gamma_{p_v}(u) = \gamma_{p_v}\gamma_{p_u}(r) = \gamma_{p_vp_u}(r) = \varphi(p_vp_u)$.
@@ -329,7 +320,7 @@ Equivariance because $\gamma_{p_v}(u) = \gamma_{p_v}\gamma_{p_u}(r) = \gamma_{p_
 We can now define the convolution that is based on a path groupoid.
 
 \begin{definition}\textbf{Path convolution}\\
-Let $(\cu, \ct) \in \tree(G)$. The \emph{path convolution} is the partial convolution based on the path subgroupoid $\ct \ltimes G$, which uses the groupoid partial action $\gamma := \gamma^{\cu \ltimes G}$ of the embedding groupoid $\cu \ltimes G$.
+Let $(\cu, \ct) \in \tree(G)$. The \emph{path convolution} is the partial convolution based on the path subgroupoid $\ct \ltimes G$, which uses the groupoid partial action $\gamma := \gamma^{\cu^0 \ltimes G}$ of the embedding groupoid zero-closure $\cu^0 \ltimes G$.
 \begin{enumerate}[label=(\roman*)]
   \item In what follows are the three expressions of the path $\varphi$-convolution for signals $s_1, s_2 \in \cs(V)$, and $u \in V$:
 \begin{align*}
