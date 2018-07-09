@@ -1,3 +1,62 @@
-\section{From graph structure to graph layers}
 
-Let $f_w$
+
+\subsection{Graph structures}
+
+Recall our notations. Let $(g,h)$ a neural network layer, where $g: I \rightarrow O$ is its linear part, $h : O \rightarrow O$ is its activation function, $I$ and $O$ are its input and output spaces, which are tensor spaces. Recall from \defref{def:tensor}, that tensor spaces are such that its canonical basis is a cartesian product of vector spaces. Let $I = \displaystyle \bigotimes_{k=1}^p \bbv_k$ and $O = \displaystyle \bigotimes_{l=1}^q \bbu_l$.
+
+Given an input vector space $\bbv_k$, we denote its canonical basis by $(b^k_1, b^k_2, \ldots, b^k_{n_k}$, and given an output vector space $\bbu_l$, we denote it by $(c^l_1, c^l_2, \ldots, c^l_{n_l}$.
+
+%We denote the canonical bases of the vector spaces by $\cb_I = (e^I_1, e^I_2, \ldots, e^I_n)$ and $\cb_O = (e^O_1, e^O_2, \ldots, e^O_m)$ their respective canonical bases.
+
+\todo{reword for tensors}
+
+\begin{definition}\textbf{Topological layer}
+We say that $(g,h)$ is a topological layer, if the canonical bases $\cb_I$ and $\cb_O$ are topological spaces. In that case, we confound the signal spaces defined over them with their respective representational tensor spaces, and we denote $I = \cs(\cb_I)$ and $O = \cs(\cb_O)$.
+\end{definition}
+
+A topological space can be define as a set of points with their corresponding neighborhoods (which satisfy axioms of open sets). Hence, any layer is in fact a topological layer, which is characterized by a propagation graph, as depicted on \figref{fig:pgraph}.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\draw (0,0) -- (4,0) -- (4,4) -- (0,4) -- (0,0);
+\node at (2,2){placeholder};
+\end{tikzpicture}
+\caption{A propagation graph}
+\label{fig:pgraph}
+\end{figure}
+
+\begin{lemma}\textbf{Propagation graph}\\
+Let a layer $(g,h)$ with connectivity matrix $W$ of shape $n \times m$. The connectivity matrix $W$ defines a topological layer such that
+\begin{enumerate}
+  \item $\ct_O = (\cb_O, \cn_O)$, where $\cn_O = \{ \cn_j = \{ e^I_i, W[i,j] \neq 0 \}, j \in \seq{n}\}$
+  \item $\ct_I = (\cb_I, \cn_I)$, where $\cn_I = \{ \cn_i = \{ e^O_j, W[i,j] \neq 0 \}, i \in \seq{m}\}$
+\end{enumerate}
+We define the \emph{propagation graph} $P = \langle \cb^I, \cb^O, E \rangle$ as the weighted bipartite graph characterized by $W$ as its adjacency matrix. Then $P$ also characterizes the topological spaces $\ct_0$ and $\ct_I$.
+\end{lemma}
+
+In the general case of partially connected layer, the latent canonical bases $\cb_I$ and $\cb_O$ are not the same. However, forthe example of convolutional layers, we can adopt an isomorphic point of view $O \cong I$, as we can obtain $\ct_O \cong \ct_I$ (if necessary with padding, and by setting the neighborhoods of the pads to $\emptyset$). Therefore, we can define the underlying graph structure as follows.
+
+\begin{definition}\textbf{Underlying graph structure}\\
+Let a topological layer $(g,h)$ such that $I = \cs(\cb_I) \cong O = \cs(\cb_O))$. By identifying their signal domains $V := \cb_I \cong \cb_O$, we define the \emph{underlying graph structure} $\gve$, such that $i \sim j \Leftrightarrow e^I_i \in \cn_j$.
+\end{definition}
+
+That is, when a convolution is defined over a graph like in the previous chapter (todo:insert ref here), its underlying graph structure is obviously a subgraph of the graph itself. Nonetheless, this definition also implies that every topological layer where $I \cong O$ is underpinned by a convolution on an underlying graph structure.
+
+For instance:
+\begin{itemize}
+  \item The underlying graph structure of classical $2$d convolutions is a lattice graph. They can be redefined equivalently as a Cayley convolution on this lattice graph.
+  \item The underlying graph structure of a dense layer is a complete graph. The matrix multiplication can be redefined equivalently as a partial convolution without $\varphi$-equivalence (\ie with no equivariance characterization).
+\end{itemize}
+
+\figref{upgraph} depicts a underlying graph strucuture basing a convolution, and the corresponding propagation graph.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\draw (0,0) -- (4,0) -- (4,4) -- (0,4) -- (0,0);
+\node at (2,2){placeholder};
+\end{tikzpicture}
+\caption{Underlying graph Vs Prop graph}
+\label{fig:upgraph}
+\end{figure}
