@@ -1,20 +1,29 @@
+\subsection{Graph structures of neural layers}
 
+Recall our notations. Let $\cl = (g,h)$ a neural network layer, where $g: I \rightarrow O$ is its linear part, $h : O \rightarrow O$ is its activation function, $I$ and $O$ are its input and output spaces, which are tensor spaces. Recall from \defref{def:tensor}, that a tensor space has been defined such that its canonical basis is a cartesian product of canonical bases of vector spaces. Let $I = \displaystyle \bigotimes_{k=1}^p \bbv_k$ and $O = \displaystyle \bigotimes_{l=1}^q \bbu_l$.
+Their canonical bases are denoted $\vv_k = (\vv_k^1, \ldots, \vv_k^{n_k})$ and $\uu_l = (\uu_l^1, \ldots, \uu_l^{n_l})$.
 
-\subsection{Graph structures}
-
-Recall our notations. Let $(g,h)$ a neural network layer, where $g: I \rightarrow O$ is its linear part, $h : O \rightarrow O$ is its activation function, $I$ and $O$ are its input and output spaces, which are tensor spaces. Recall from \defref{def:tensor}, that tensor spaces are such that its canonical basis is a cartesian product of vector spaces. Let $I = \displaystyle \bigotimes_{k=1}^p \bbv_k$ and $O = \displaystyle \bigotimes_{l=1}^q \bbu_l$.
-
-Given an input vector space $\bbv_k$, we denote its canonical basis by $(b^k_1, b^k_2, \ldots, b^k_{n_k}$, and given an output vector space $\bbu_l$, we denote it by $(c^l_1, c^l_2, \ldots, c^l_{n_l}$.
-
-%We denote the canonical bases of the vector spaces by $\cb_I = (e^I_1, e^I_2, \ldots, e^I_n)$ and $\cb_O = (e^O_1, e^O_2, \ldots, e^O_m)$ their respective canonical bases.
-
-\todo{reword for tensors}
-
-\begin{definition}\textbf{Topological layer}
-We say that $(g,h)$ is a topological layer, if the canonical bases $\cb_I$ and $\cb_O$ are topological spaces. In that case, we confound the signal spaces defined over them with their respective representational tensor spaces, and we denote $I = \cs(\cb_I)$ and $O = \cs(\cb_O)$.
+\begin{definition}\textbf{Topological space and topological layer}\\
+We call \emph{topological space} a set of points with their corresponding neighborhoods (which are sets belonging to a class of sets that is closed under intersection), and we call \emph{topological layer}, a layer $\cl$ such that some~$\vv_k$ and some~$\uu_l$ are topological spaces.
 \end{definition}
 
-A topological space can be define as a set of points with their corresponding neighborhoods (which satisfy axioms of open sets). Hence, any layer is in fact a topological layer, which is characterized by a propagation graph, as depicted on \figref{fig:pgraph}.
+Without loss of generality, we'll assume that topological bases of a topological layer have higher index.
+
+\begin{definition}\textbf{Neuron}
+Let a topological layer $\cl$, with topological bases $\vv_{p_1}, \ldots, \vv{p_d}$
+
+\end{definition}
+
+
+
+%\begin{definition}\textbf{Topological layer}\\
+%We say that $\cl$ is a topological layer, if some $\vv_k$ and some $\uu_l$ are topological spaces.% In that case, we confound the signal spaces defined over them with their respective representational tensor spaces, and we denote $I = \cs(\cb_I)$ and $O = \cs(\cb_O)$.
+%\end{definition}
+
+%topo layer only as a remark
+%Def Neural signal space then simplification wo loss gen
+
+ Hence, any layer is in fact a topological layer, which is characterized by a propagation graph, as depicted on \figref{fig:pgraph}.
 
 \begin{figure}[H]
 \centering
