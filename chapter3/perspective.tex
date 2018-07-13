@@ -31,21 +31,24 @@ where $\cs_{\bbu}$ are signals taking values in $\bbu$ (and $\cs$ are real-value
 \end{enumerate}
 \end{proof}
 
-Denote $V = \bigtimes_{k=1}^d \vv$ and $U = \bigtimes_{k=1}^e \uu$. Therefore, we can identify the input and output spaces as $I = \cs(V) \otimes \bigotimes_{k=d+1}^p \bbv_k$ and $O =  \cs(U) \otimes \bigotimes_{l=e+1}^q \bbu_l$. As $\cs(\vv) \otimes \bbt = \cs_{\bbt}(\vv)$, an object of $V$ or $U$ can be interpreted as the representation of a \emph{neuron} which can take multiple values.
+Let $d \le n_k$ and $e \le n_l$. Define $V$ and $U$ as the cartesian products $V = \bigtimes_{k=1}^d \vv_k$ and $U = \bigtimes_{l=1}^e \uu_l$. Thanks to \lemref{lem:relts}, we can identify the input and output spaces as $I = \cs(V) \otimes \bigotimes_{k=d+1}^p \bbv_k$ and $O = \cs(U) \otimes \bigotimes_{l=e+1}^q \bbu_l$. As $\cs(\vv) \otimes \bbt = \cs_{\bbt}(\vv)$, an object of $V$ or $U$ can be interpreted as the representation of a \emph{neuron} which can take multiple values.
 
+%\paragraph{A convenient simplification}
+\vspace{10pt}
 In what follows, without loss of generality, we will make the simplification that a neuron can only take a single value (we don't consider input channels and feature maps yet). We'll thus consider that $I = \cs(V)$ and $O = \cs(U)$. $V$~is the set of \emph{input neurons}, and $U$ is the set of \emph{output neurons}.
 
-\subsection{Graph structure of the propagation}
+%\subsection{Graph representations}
+\subsection{Propagational interpretation}
 
 Let $\cl = (g,h)$, recall that $g: \cs(V) \rightarrow \cs(U)$ is characterized by a connectivity matrix $W$ such that, $g(x) = Wx$.
 
-\begin{remark}Using the mapping defined in the proof of \lemref{lem:relts}, for notational conveniency, we'll abusively consider $x$ as a vector (enventually reshaped from a tensor), and $W$ as a binary tensor product for its indexing (\ie $W[u,v] := W[i,j]$ where $u = \uu^i$ and $v = \vv^j$).
+\begin{remark}Using the mapping defined in the proof of \lemref{lem:relts}, for notational conveniency, we'll abusively consider $x$ as a vector (enventually reshaped from a tensor), and $W$ as an object of a binary tensor product for its indexing (\ie $W[u,v] := W[i,j]$ where $u = \uu^i$ and $v = \vv^j$).
 \end{remark}
 
 % Define bipartite graph here?
 
 \begin{definition}\textbf{Propagation graph}\\
-The \emph{propagation graph} $P$ of a layer $\cl = (W,h)$ is the bipartite graph that has the connectivity matrix $W$ for bipartite adjacency matrix.
+The \emph{propagation graph} $P = \langle (V, U), E_P \rangle$ of a layer $\cl = (W,h)$ is the bipartite graph that has the connectivity matrix $W$ for bipartite adjacency matrix.
 \end{definition}
 
 An example is depicted on \figref{fig:pgraph}.
@@ -75,57 +78,72 @@ Hence, the \emph{neural topologies} $\ct_V$ and $\ct_U$ are defined as
 \item $\ct_U = (U, \co(V))$, with $\forall u \in U, \cn_u = \{v \in V, v \overset{P}\rightarrow u \}$
 \end{enumerate}
 
-\subsection{Underlying graph structure}
+In particular, given an output neuron $u \in U$, a neighborhood $\cn_u$ is also called a \emph{receptive field}, that we denote $\ccr_u$.
 
-If the input and output spaces of a layer are topologically isomorph (in the sense that the open sets and the neighborhoods are preserved by a bijective mappring \ie $u \overset{P}\leftarrow v \Leftrightarrow \widetilde{u} \overset{P}\rightarrow \widetilde{v}$), then we can identify output neurons with input neurons $U:=V$. In that case, the propagation is supported \emph{on} an underlying graph structure, that is not a bipartite graph (contrary to the propagation graph).
+\subsection{Graph representation of the input space}
 
-\begin{definition}\textbf{Underlying graph structure}\\
-Let a layer $\cl: \cs(V) \rightarrow \cs(U)$ such that $\ct_V \cong \ct_U$. Its \emph{underlying graph structure} is the graph $\gve$ such that $E = \{ \{u,v\} \in V^2, \widetilde{u} \in \cn_v \}$.
+Let's consider that the input neurons $V$ have a (possibly edge-less) graph structure $\gve$. We define an edge-constrained layer as follows.
+
+\begin{definition}\textbf{Edge-constrained layer}\\
+A layer $\cl: \gve \rightarrow U$, is said to be \emph{edge-constrained} (EC) if:
+\begin{enumerate}
+  \item There is a one-to-one correspondence $\pi: V_\pi \rightarrow U$, where $V_\pi \subset V$.
+  \item Given an output neuron $u$, an input neuron $v$ is in its receptive field, if and only if, $v$ and the $\pi$-fiber of $u$ are connected in $G$,\\
+  \centerline{\ie $\forall u \in U, v \in \ccr_u \Leftrightarrow v \overset{E}\sim \pi^{-1}(u) $}
+\end{enumerate}
 \end{definition}
 
+Note that (EC) convolutions are (EC) layers. We have the following characterization.
 
+\begin{proposition}\textbf{(EC) Characterization with receptive fields}\\
+Let a layer $\cl: V \rightarrow U$, $V_\pi \subset V$, and a one-to-one correspondence $\pi: V_\pi \rightarrow U$. There exists a graph $\gve$ for which $\cl$ is (EC), if and only if, the receptive fields are \emph{intertwined} (\ie $\forall a,b \in V_\pi, a \in \ccr_{\pi(b)} \Leftrightarrow b \in \ccr_{\pi(a)} $).
+\end{proposition}
+\begin{proof}
+\begin{enumerate}
+  \item[$\Rightarrow$]: Thanks to $a \in \ccr_{\pi(b)} \Leftrightarrow a \overset{E}\sim b \Leftrightarrow b \in \ccr_{\pi(a)}$
+  \item[$\Leftarrow$]:If the receptive fields are intertwined, then the relation defined as $a \sim b \Leftrightarrow a \in \ccr_{\pi(b)}$ is symmetric, and thus can define an edge set.
+\end{enumerate}
+\end{proof}
 
-\todo{}
+Therefore, any layer that has its receptive fields intertwined, admits an \emph{underlying} graph structure. For example, a $2$-d convolution operator can be rewritten as an (EC*) convolution on a lattice graph, and as an (EC) convolution on a grid graph.
 
-
-
-
-
-
-
-
-
-% \begin{lemma}\textbf{Propagation graph}\\
-% Let a layer $(g,h)$ with connectivity matrix $W$ of shape $n \times m$. The connectivity matrix $W$ defines a topological layer such that
-% \begin{enumerate}
-%   \item $\ct_O = (\cb_O, \cn_O)$, where $\cn_O = \{ \cn_j = \{ e^I_i, W[i,j] \neq 0 \}, j \in \seq{n}\}$
-%   \item $\ct_I = (\cb_I, \cn_I)$, where $\cn_I = \{ \cn_i = \{ e^O_j, W[i,j] \neq 0 \}, i \in \seq{m}\}$
-% \end{enumerate}
-% We define the \emph{propagation graph} $P = \langle \cb^I, \cb^O, E \rangle$ as the weighted bipartite graph characterized by $W$ as its adjacency matrix. Then $P$ also characterizes the topological spaces $\ct_0$ and $\ct_I$.
-% \end{lemma}
-
-% In the general case of partially connected layer, the latent canonical bases $\cb_I$ and $\cb_O$ are not the same. However, for the example of convolutional layers, we can adopt an isomorphic point of view $O \cong I$, as we can obtain $\ct_O \cong \ct_I$ (if necessary with padding, and by setting the neighborhoods of the pads to $\emptyset$). Therefore, we can define the underlying graph structure as follows.
-
-% \begin{definition}\textbf{Underlying graph structure}\\
-% Let a topological layer $(g,h)$ such that $I = \cs(\cb_I) \cong O = \cs(\cb_O))$. By identifying their signal domains $V := \cb_I \cong \cb_O$, we define the \emph{underlying graph structure} $\gve$, such that $i \sim j \Leftrightarrow e^I_i \in \cn_j$.
-% \end{definition}
-
-% That is, when a convolution is defined over a graph like in the previous chapter (todo:insert ref here), its underlying graph structure is obviously a subgraph of the graph itself. Nonetheless, this definition also implies that every topological layer where $I \cong O$ is underpinned by a convolution on an underlying graph structure.
-
-% For instance:
-% \begin{itemize}
-%   \item The underlying graph structure of classical $2$d convolutions is a lattice graph. They can be redefined equivalently as a Cayley convolution on this lattice graph.
-%   \item The underlying graph structure of a dense layer is a complete graph. The matrix multiplication can be redefined equivalently as a partial convolution without $\varphi$-equivalence (\ie with no equivariance characterization).
-% \end{itemize}
-
-\figref{upgraph} depicts a underlying graph strucuture basing a convolution, and the corresponding propagation graph.
+\figref{fig:upgraph} depicts an underlying graph and its corresponding propagation graph.
 
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}
 \draw (0,0) -- (4,0) -- (4,4) -- (0,4) -- (0,0);
 \node at (2,2){placeholder};
+\draw (5,0) -- (5,4) -- (9,4) -- (9,0) -- (5,0);
+\node at (7,2){placeholder};
 \end{tikzpicture}
 \caption{Underlying graph Vs Prop graph}
 \label{fig:upgraph}
 \end{figure}
+
+\subsection{Weight sharing representation}
+
+Weight sharing refers to the fact that some parameters of the connectivity matrix $W$ are equal, and stay equal after each learning iteration. In other words they are tied together. From a propagational point of view, this amounts to label the edges of the propagation graph $P$ with fixed set of label weights $\theta$. Let $n$ the number of input neurons, and $m$ the number of output neurons. Given a neuron $i$ and a neuron $j$, the weight sharing can be expressed as
+\begin{gather*}
+W[i,j] = \theta[h] = \theta^T S[:,i,j]
+\end{gather*}
+where $\theta$ is a vector of size $k$ and $S[:,i,j]$ is a one-hot-encoded vector of size $k$ with a $1$ at index $h$. This expression can be rewritten as a tensor contraction under Einstein summation convention:
+\begin{gather*}
+W_{ij} = \theta_k S^k \h{0}_{ij}
+\end{gather*}
+Therefore, the linear part of $\cl$ can be rewritten as:
+\begin{gather*}
+y_i = g(x)_i = \theta_k S^k \h{0}_i \h{0}^j x_j
+\end{gather*}
+
+If we consider that the layer $\cl$ is duplicated with input channels and feature maps, then $\theta$, $x$ and $y$ become tensors, denoted $\Theta$, $X$ and $Y$. Usually, for stochastic gradient descent, $X$ and $Y$ are expanded with a further rank corresponding to the batch size and we obtain:
+\begin{gather*}
+Y = \Theta S X
+\text{ where } \begin{cases} W_{pq}\h{0}^{ij} = \Theta_{pq}\h{0}^k S_k\h{0}^{ij} \\ Y_{iq}\h{0}^b = W_{iq}\h{0}^{jp} X_{jp}\h{0}^{b} \end{cases}
+\end{gather*}
+\begin{remark}$i$ indexes the output neurons, $j$ indexes the input neurons, $p$ indexes the input channels, $q$ indexes the feature maps, $k$ indexes the weights, and $b$ indexes a batch instance.
+\end{remark}
+
+
+
+
