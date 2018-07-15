@@ -74,8 +74,8 @@ A \emph{topological space} is a pair $\ct = (X, \co)$, where $X$ is a set of poi
 
 Hence, the \emph{neural topologies} $\ct_V$ and $\ct_U$ are defined as
 \begin{enumerate}
-\item $\ct_V = (V, \co(U))$, with $\forall v \in V, \cn_v = \{u \in U, u \overset{P}\leftarrow v \}$
-\item $\ct_U = (U, \co(V))$, with $\forall u \in U, \cn_u = \{v \in V, v \overset{P}\rightarrow u \}$
+\item $\ct_V = (V, \co(U))$, with $\forall v \in V, \cn_v = \{u \in U, v \overset{P}\sim u \}$
+\item $\ct_U = (U, \co(V))$, with $\forall u \in U, \cn_u = \{v \in V, v \overset{P}\sim u \}$
 \end{enumerate}
 
 In particular, given an output neuron $u \in U$, a neighborhood $\cn_u$ is also called a \emph{receptive field}, that we denote $\ccr_u$.
@@ -123,11 +123,13 @@ Therefore, any layer that has its receptive fields intertwined, admits an \emph{
 
 \subsection{Weight sharing representation}
 
-Weight sharing refers to the fact that some parameters of the connectivity matrix $W$ are equal, and stay equal after each learning iteration. In other words they are tied together. From a propagational point of view, this amounts to label the edges of the propagation graph $P$ with fixed set of label weights $\theta$. Let $n$ the number of input neurons, and $m$ the number of output neurons. Given a neuron $i$ and a neuron $j$, the weight sharing can be expressed as
+Weight sharing refers to the fact that some parameters of the connectivity matrix $W$ are equal, and stay equal after each learning iteration. In other words they are tied together. From a propagational point of view, this amounts to label the edges of the propagation graph $P$ with weights, where weights can be used multiple times to label these edges. Supposed $W$ is of shape $m \times n$ and there are $\omega$ weights in the kernel used to label the edges. Given a neuron $i$ and a neuron $j$, the weight sharing can be expressed as
 \begin{gather*}
 W[i,j] = \theta[h] = \theta^T S[:,i,j]
 \end{gather*}
-where $\theta$ is a vector of size $k$ and $S[:,i,j]$ is a one-hot-encoded vector of size $k$ with a $1$ at index $h$. This expression can be rewritten as a tensor contraction under Einstein summation convention:
+where $\theta$, the weight kernel, is a vector of size $\omega$ and $S[:,i,j]$ is a one-hot-encoded vector of size $\omega$ with a $1$ at the index $h$ corresponding to the weight that labels the edge $i \sim j$.
+
+This expression can be rewritten as a tensor contraction under Einstein summation convention:
 \begin{gather*}
 W_{ij} = \theta_k S^k \h{0}_{ij}
 \end{gather*}
@@ -144,6 +146,7 @@ Y = \Theta S X
 \begin{remark}$i$ indexes the output neurons, $j$ indexes the input neurons, $p$ indexes the input channels, $q$ indexes the feature maps, $k$ indexes the weights, and $b$ indexes a batch instance.
 \end{remark}
 
-
+\todo{S not reduced to one hot encoded}
+\todo{we call S the weight sharing scheme}
 
 
