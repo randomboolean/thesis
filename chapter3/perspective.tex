@@ -121,32 +121,60 @@ Therefore, any layer that has its receptive fields intertwined, admits an \emph{
 \label{fig:upgraph}
 \end{figure}
 
-\subsection{Weight sharing representation}
+\subsection{General representation with weight sharing}
 
-Weight sharing refers to the fact that some parameters of the connectivity matrix $W$ are equal, and stay equal after each learning iteration. In other words they are tied together. From a propagational point of view, this amounts to label the edges of the propagation graph $P$ with weights, where weights can be used multiple times to label these edges. Supposed $W$ is of shape $m \times n$ and there are $\omega$ weights in the kernel used to label the edges. Given a neuron $i$ and a neuron $j$, the weight sharing can be expressed as
-\begin{gather*}
-W[i,j] = \theta[h] = \theta^T S[:,i,j]
-\end{gather*}
-where $\theta$, the weight kernel, is a vector of size $\omega$ and $S[:,i,j]$ is a one-hot-encoded vector of size $\omega$ with a $1$ at the index $h$ corresponding to the weight that labels the edge $i \sim j$.
+Weight sharing refers to the fact that some parameters of the connectivity matrix $W$ are equal, and stay equal after each learning iteration. In other words they are tied together. From a propagational point of view, this amounts to label the edges of the propagation graph $P$ with weights, where weights can be used multiple times to label these edges. Supposed $W$ is of shape $m \times n$ and there are $\omega$ weights in the kernel used to label the edges. Given a output neuron $i$ and an input neuron $j$, the edge labelling can be expressed as:
+\begin{gather}
+%W[i,j] = \theta[h] = \theta^T S[:,i,j]
+W[i,j] = \theta[h] = \theta^T a \label{eq:alloc}
+\end{gather}
+where $\theta$, the weight kernel, is a vector of size $\omega$ and $a$ is a one-hot vector (full of $0$s except for one $1$) of size $\omega$ with a $1$ at the index $h$ corresponding to the weight that labels the edge $i \sim j$ ; or $a$ is the \emph{zero} vector in case $i \nsim j$.
 
-This expression can be rewritten as a tensor contraction under Einstein summation convention:
-\begin{gather*}
+This expression can be rewritten as a tensor contraction under Einstein summation convention, by noticing that $a$ depends on $i,j$ and by defining a tensor $S$ such that $a = S[:,i,j]$, as follows:
+\begin{gather}
 W_{ij} = \theta_k S^k \h{0}_{ij}
-\end{gather*}
+\end{gather}
 Therefore, the linear part of $\cl$ can be rewritten as:
-\begin{gather*}
-y_i = g(x)_i = \theta_k S^k \h{0}_i \h{0}^j x_j
-\end{gather*}
+\begin{gather}
+g(x)_i = \theta_k S^k \h{0}_i \h{0}^j x_j
+\end{gather}
 
-If we consider that the layer $\cl$ is duplicated with input channels and feature maps, then $\theta$, $x$ and $y$ become tensors, denoted $\Theta$, $X$ and $Y$. Usually, for stochastic gradient descent, $X$ and $Y$ are expanded with a further rank corresponding to the batch size and we obtain:
-\begin{gather*}
-Y = \Theta S X
-\text{ where } \begin{cases} W_{pq}\h{0}^{ij} = \Theta_{pq}\h{0}^k S_k\h{0}^{ij} \\ Y_{iq}\h{0}^b = W_{iq}\h{0}^{jp} X_{jp}\h{0}^{b} \end{cases}
-\end{gather*}
-\begin{remark}$i$ indexes the output neurons, $j$ indexes the input neurons, $p$ indexes the input channels, $q$ indexes the feature maps, $k$ indexes the weights, and $b$ indexes a batch instance.
+If we consider that the layer $\cl$ is duplicated with input channels and feature maps, then $\theta$, $x$ and $g(x)$ become tensors, denoted $\Theta$, $X$ and $g(X)$. Usually, for stochastic gradient descent, $X$ and $g(X)$ are also expanded with a further rank corresponding to the batch size and we obtain:
+\begin{gather}
+g(X) = \Theta S X
+\text{ where } \begin{cases} W_{pq}\h{0}^{ij} = \Theta_{pq}\h{0}^k S_k\h{0}^{ij} \\ g(X)_{iq}\h{0}^b = W_{iq}\h{0}^{jp} X_{jp}\h{0}^{b} \end{cases} \label{eq:ternary}
+\end{gather}
+
+\begin{table}[H]
+  \centering
+\begin{tabular}{cl}
+  index & description\\
+  \hline
+  $i$ & output neuron\\
+  $j$ & input neuron\\
+  $p$ & input channel\\
+  $q$ & feature map\\
+  $k$ & kernel weight\\
+  $b$ & batch instance\\
+\end{tabular}
+\caption{Table of indices}% of \eqref{eq:ternary}}
+\end{table}
+
+% \todo{S not reduced to one hot encoded}
+% \todo{we call S the weight sharing scheme}
+
+\begin{remark}
+Note that the expression $\Theta S X$ is written regardless of the ordering of the tensors ranks and is defined by index juggling. Therefore, it is a commutative ternary operation between $\Theta$, $S$  and $X$, which contracts them along the input ranks (neurons and channels) and the weight rank.
 \end{remark}
 
-\todo{S not reduced to one hot encoded}
-\todo{we call S the weight sharing scheme}
+We call $S$ the \emph{weight sharing scheme} of the layer $\cl$.
 
+\begin{definition}\textbf{Ternary representation}\\
+The \emph{ternary representation} of a layer $\cl: X \mapsto Y$, with activation function~$h$, is the equation $Y = h\left(\Theta S X\right)$, as defined in $\eqref{eq:ternary}$, where~$\Theta$ is the \emph{weight kernel}, and~$S$ is called the \emph{weight sharing scheme}.
+\end{definition}
 
+\begin{remark}
+In $\eqref{eq:alloc}$, we defined $a = S[:,i,j]$ as a one-hot vector when $i \sim j$, as its role is to select a weight in $\theta = \Theta[p,q,:]$. However, $a$ can also do this selection \emph{linearly}, and in fact it is not necessarily a one-hot encoded vector.
+\end{remark}
+
+The ternary representation uncouples the roles of $\Theta$ and $S$ in $W$, and is the most general way of representing any kind of layer with weight sharing.
