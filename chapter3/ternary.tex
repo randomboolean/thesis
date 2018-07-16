@@ -2,6 +2,13 @@
 
 \subsection{Genericity}
 
+The ternary representation can represent any kind of layer. For example,
+\begin{itemize}
+\item To obtain a fully connected layer, one can choose $\omega$ to be of size $nm$ and $S$ the matrix of vectors that contains all possible one-hot vectors.
+\item To obtain a convolutional layer, one can choose $\omega$ to be the size of the kernel. $S$ would contain one-hot vectors. A stride $> 1$ can be obtained by removing the corresponding dimensions. If the convolution is a classical convolution, or is supported by a Cayley subgraph (see \chapref{chap:2}), then $S$ would be circulant along the input neurons rank in the canonical basis.
+\item Any partially connected layer with (or without) weight sharing can be obtained with appropriate construction of $S$.
+\end{itemize}
+
 \subsection{Computationally efficient representation}
 
 \subsection{Robustness in extending the convolution}

@@ -174,7 +174,10 @@ The \emph{ternary representation} of a layer $\cl: X \mapsto Y$, with activation
 \end{definition}
 
 \begin{remark}
-In $\eqref{eq:alloc}$, we defined $a = S[:,i,j]$ as a one-hot vector when $i \sim j$, as its role is to select a weight in $\theta = \Theta[p,q,:]$. However, $a$ can also do this selection \emph{linearly}, and in fact it is not necessarily a one-hot encoded vector.
+In $\eqref{eq:alloc}$, we defined $a = S[:,i,j]$ as a one-hot vector when $i \sim j$, as its role is to select a weight in $\theta = \Theta[p,q,:]$. However, $a$ can also do this selection \emph{linearly}, so in fact it is not necessarily a one-hot encoded vector.
 \end{remark}
 
-The ternary representation uncouples the roles of $\Theta$ and $S$ in $W$, and is the most general way of representing any kind of layer with weight sharing.
+\figref{fig:ternary} depicts an example of how this expression labels the edges of $P$.
+\input{chapter3/fig_ternary}
+
+The ternary representation uncouples the roles of $\Theta$ and $S$ in $W$, and is the most general way of representing any kind of partially connected layer with weight sharing.
