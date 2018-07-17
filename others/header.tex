@@ -142,6 +142,11 @@
 
 %\setlength{\parskip}{5pt}
 
+% Figures, Table numbering
+\usepackage{chngcntr}
+\counterwithout{table}{chapter}
+\counterwithout{figure}{chapter}
+
 % Theorems
 \usepackage{amsthm}
 \theoremstyle{definition}
@@ -228,6 +233,7 @@
 \DeclareMathOperator{\shape}{shape}
 \DeclareMathOperator{\supp}{supp}
 \DeclareMathOperator{\EC}{\textsc{ec}}
+\DeclareMathOperator{\LRF}{\textsc{lrf}}
 \DeclareMathOperator{\ER}{\textsc{er}}
 \DeclareMathOperator{\OR}{\textsc{or}}
 \DeclareMathOperator{\XOR}{\textsc{xor}}

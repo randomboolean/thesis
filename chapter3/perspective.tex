@@ -35,7 +35,7 @@ Let $d \le n_k$ and $e \le n_l$. Define $V$ and $U$ as the cartesian products $V
 
 %\paragraph{A convenient simplification}
 \vspace{10pt}
-In what follows, without loss of generality, we will make the simplification that a neuron can only take a single value (we don't consider input channels and feature maps yet). We'll thus consider that $I = \cs(V)$ and $O = \cs(U)$. $V$~is the set of \emph{input neurons}, and $U$ is the set of \emph{output neurons}.
+In what follows, without loss of generality, we will make the simplification that a neuron can only take a single value (we don't consider input channels and feature maps yet). We'll thus consider that $I = \cs(V)$ and $O = \cs(U)$, where $V$~is the set of \emph{input neurons}, and $U$ is the set of \emph{output neurons}.
 
 %\subsection{Graph representations}
 \subsection{Propagational interpretation}
@@ -123,45 +123,43 @@ Therefore, any layer that has its receptive fields intertwined, admits an \emph{
 
 \subsection{General representation with weight sharing}
 
-Weight sharing refers to the fact that some parameters of the connectivity matrix $W$ are equal, and stay equal after each learning iteration. In other words they are tied together. From a propagational point of view, this amounts to label the edges of the propagation graph $P$ with weights, where weights can be used multiple times to label these edges. Supposed $W$ is of shape $m \times n$ and there are $\omega$ weights in the kernel used to label the edges. Given a output neuron $i$ and an input neuron $j$, the edge labelling can be expressed as:
+Weight sharing refers to the fact that some parameters of the connectivity matrix $W$ are equal, and stay equal after each learning iteration. In other words they are tied together. From a propagational point of view, this amounts to label the edges of the propagation graph $P$ with weights, where weights can be used multiple times to label these edges. Supposed $W$ is of shape $m \times n$ and there are $\omega$ weights in the kernel used to label the edges. Given a input neuron $i$ and an output neuron $j$, the edge labelling can be expressed as:
 \begin{gather}
 %W[i,j] = \theta[h] = \theta^T S[:,i,j]
-W[i,j] = \theta[h] = \theta^T a \label{eq:alloc}
+W[j,i] = \theta[h] = \theta^T a \label{eq:alloc}
 \end{gather}
 where $\theta$, the weight kernel, is a vector of size $\omega$ and $a$ is a one-hot vector (full of $0$s except for one $1$) of size $\omega$ with a $1$ at the index $h$ corresponding to the weight that labels the edge $i \sim j$ ; or $a$ is the \emph{zero} vector in case $i \nsim j$.
 
-This expression can be rewritten as a tensor contraction under Einstein summation convention, by noticing that $a$ depends on $i,j$ and by defining a tensor $S$ such that $a = S[:,i,j]$, as follows:
+This equation \eqref{eq:alloc} can be rewritten as a tensor contraction under Einstein summation convention, by noticing that $a$ depends on $i,j$ and by defining a tensor $S$ such that $a = S[:,i,j]$, as follows:
 \begin{gather}
 W_{ij} = \theta_k S^k \h{0}_{ij}
 \end{gather}
 Therefore, the linear part of $\cl$ can be rewritten as:
 \begin{gather}
-g(x)_i = \theta_k S^k \h{0}_i \h{0}^j x_j
+g(x)_j = \theta_k S^k \h{0}_j \h{0}^i x_i
 \end{gather}
 
 If we consider that the layer $\cl$ is duplicated with input channels and feature maps, then $\theta$, $x$ and $g(x)$ become tensors, denoted $\Theta$, $X$ and $g(X)$. Usually, for stochastic gradient descent, $X$ and $g(X)$ are also expanded with a further rank corresponding to the batch size and we obtain:
 \begin{gather}
 g(X) = \Theta S X
-\text{ where } \begin{cases} W_{pq}\h{0}^{ij} = \Theta_{pq}\h{0}^k S_k\h{0}^{ij} \\ g(X)_{iq}\h{0}^b = W_{iq}\h{0}^{jp} X_{jp}\h{0}^{b} \end{cases} \label{eq:ternary}
+\text{ where } \begin{cases} W_{pq}\h{0}^{ij} = \Theta_{pq}\h{0}^k S_k\h{0}^{ij} \\ g(X)_{jq}\h{0}^b = W_{jq}\h{0}^{ip} X_{ip}\h{0}^{b} \end{cases} \label{eq:ternary}
 \end{gather}
 
 \begin{table}[H]
   \centering
-\begin{tabular}{cl}
-  index & description\\
+\begin{tabular}{ccl}
+  index & size & description\\
   \hline
-  $i$ & output neuron\\
-  $j$ & input neuron\\
-  $p$ & input channel\\
-  $q$ & feature map\\
-  $k$ & kernel weight\\
-  $b$ & batch instance\\
+  $i$ & $n$ & input neuron\\
+  $j$ & $m$ & output neuron\\
+  $p$ & $N$ & input channel\\
+  $q$ & $M$ & feature map\\
+  $k$ & $\omega$ & kernel weight\\
+  $b$ & $B$ & batch instance\\
 \end{tabular}
-\caption{Table of indices}% of \eqref{eq:ternary}}
+\caption{Table of indices}
+\label{tab:ind}
 \end{table}
-
-% \todo{S not reduced to one hot encoded}
-% \todo{we call S the weight sharing scheme}
 
 \begin{remark}
 Note that the expression $\Theta S X$ is written regardless of the ordering of the tensors ranks and is defined by index juggling. Therefore, it is a commutative ternary operation between $\Theta$, $S$  and $X$, which contracts them along the input ranks (neurons and channels) and the weight rank.
@@ -174,10 +172,10 @@ The \emph{ternary representation} of a layer $\cl: X \mapsto Y$, with activation
 \end{definition}
 
 \begin{remark}
-In $\eqref{eq:alloc}$, we defined $a = S[:,i,j]$ as a one-hot vector when $i \sim j$, as its role is to select a weight in $\theta = \Theta[p,q,:]$. However, $a$ can also do this selection \emph{linearly}, so in fact it is not necessarily a one-hot encoded vector.
+In $\eqref{eq:alloc}$, we defined $a = S[:,i,j]$ as a one-hot vector when $i \sim j$, as its role is to select a weight in $\theta = \Theta[p,q,:]$. However, $a$ can also do this selection \emph{linearly}, so in fact it is not necessarily a one-hot vector.
 \end{remark}
 
-\figref{fig:ternary} depicts an example of how this expression labels the edges of $P$.
+\figref{fig:ternary} depicts an example of how the equation \eqref{eq:ternary} labels the edges of $P$.
 \input{chapter3/fig_ternary}
 
 The ternary representation uncouples the roles of $\Theta$ and $S$ in $W$, and is the most general way of representing any kind of partially connected layer with weight sharing.
