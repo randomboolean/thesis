@@ -155,14 +155,14 @@ g(X) = \Theta S X
   $p$ & $N$ & input channel\\
   $q$ & $M$ & feature map\\
   $k$ & $\omega$ & kernel weight\\
-  $b$ & $B$ & batch instance\\
+  $b$ & $B$ & batch instance
 \end{tabular}
 \caption{Table of indices}
 \label{tab:ind}
 \end{table}
 
 \begin{remark}
-Note that the expression $\Theta S X$ is written regardless of the ordering of the tensors ranks and is defined by index juggling. Therefore, it is a commutative ternary operation between $\Theta$, $S$  and $X$, which contracts them along the input ranks (neurons and channels) and the weight rank.
+Note that the expression $\Theta S X$ is written regardless of the ordering of the tensors ranks and is defined by index juggling. Therefore, it is an associative and commutative ternary operation between $\Theta$, $S$  and $X$, which contracts them along the input ranks (neurons and channels) and the weight rank.
 \end{remark}
 
 We call $S$ the \emph{weight sharing scheme} of the layer $\cl$.
