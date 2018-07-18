@@ -11,6 +11,7 @@ The ternary representation can represent any kind of layer. For example,
 
 \subsection{Computationally efficient representation}
 
+\paragraph{What is the fastest way to compute $\Theta S X$ ?}
 As the equation \eqref{eq:ternary} is associative and commutative, there are three ways to start to calculate it: with $\Theta S$, $SX$, or $\Theta X$, which we will call \emph{middle-stage tensors}. The computation of a middle-stage tensor is the bottleneck to compute \eqref{eq:ternary} as it imposes to computes significantly more entries than for the second tensor contraction. In \tabref{tab:mid}, we compare their shapes. We refer the reader to \tabref{tab:ind} for the denomination of the indices.
 
 \begin{table}[H]
@@ -32,10 +33,12 @@ As the equation \eqref{eq:ternary} is associative and commutative, there are thr
 
 In usual settings, we want to have $\omega \ll n$ and $\omega \ll m$, which means that we have weight kernels of small sizes (for example in the case of images, convolutional kernel are of size significantly smaller than that of the images). Also, the number of input channels $P$ and of feature maps $Q$ are roughly in the same order, with $P < Q$ more often than the contrary. It turns out that in practice, the size of $\Theta S$ is significantly bigger than the size of $SX$ and of $\Theta X$, and the size of $SX$ is usually the smallest.
 
+\paragraph{How to exploit $S$ sparsity ?}
 Also, in usual settings, $S$ is sparse as $S[:,i,j]$ are one-hot vectors. So computing $SX$ should be faster that computing $\Theta X$, provided we exploit the sparsity. Although $S$ is very sparse as it contains at most a fraction $\frac{1}{w}$-th of non-zero values, it is only sparse along the first rank, which makes implementation with sparse classes of common deep learning libraries not optimized. 
 
-So we proceed differently. The idea is to use a non-sparse tensor $X_{\LRF}$ that has a rank that indexes local receptive fields (LRF), and another rank that indexes elements of these LRF, in order to lower the computation to a dense matrix multiplication (or tensor contraction) which are already well optimized. This approach, proposed in \cite{chellapilla2006high}, is also exploited in the cudnn primitives~\citep{chetlur2014cudnn} to efficiently implement the classical convolution.
+So we proceed differently. The idea is to use a non-sparse tensor $X_{\LRF}$ that has a rank that indexes local receptive fields (LRF), and another rank that indexes elements of these LRF, in order to lower the computation to a dense matrix multiplication (or dense tensor contraction) which is already well optimized. This approach, proposed in \cite{chellapilla2006high}, is also exploited in the cudnn primitives~\citep{chetlur2014cudnn} to efficiently implement the classical convolution.
 
+\paragraph{The LRF representation}
 In our case, it turns out that $X_{\LRF}$ can be exactly $SX$, as given fixed $b$, $p$, and $j$, $SX[:,j,p,b]$ corresponds to entries of the input signal $X[:,p,b]$ restrained to a LRF $\ccr_j$ of size~$\omega$. Therefore,
 \begin{gather}
 \exists \LRF_j = [i_1, \ldots, i_\omega]~\st SX[:,j,p,b] = X[\LRF_j, p, b]
@@ -45,14 +48,37 @@ The elements of $\LRF_j$ can be found by doing a lookup in the one-hot vectors o
 \begin{gather}
 R_j[k] = i_k~\st S[:,i_k,j][k] = 1
 \end{gather}
-This lookup need not be computed each time and can be done beforehand. Finally, if we define $\LRF = [\LRF_1, \ldots, \LRF_m]$, we can rewrite \eqref{eq:R} as:
+This lookup need not be computed each time and can be done beforehand. Finally, if we define $\LRF = [\LRF_1, \ldots, \LRF_m]$, \eqref{eq:R} gives:
 \begin{gather}
 SX = X[\LRF, :, :]
 \label{eq:LRF}
 \end{gather}
-The equation \eqref{eq:LRF} is computed with only $\omega \times m$ assignations and can be simply implemented with commonly used deep learning libraries.
+The equation \eqref{eq:LRF} is computed with only $\omega \times m$ assignations and can be simply implemented with automatic differentiation in commonly used deep learning libraries.
 
-\todo{experiments comparing 3 methods: LRF vs Sparse vs Naive}
+\paragraph{Benchmarks}
+To support our theoretical analysis, we benchmark three methods for computing the tensor contraction $SX$:
+\begin{itemize}
+  \item naively using dense multiplication,
+  \item using sparse classes of deep learning libraries,
+  \item using the LRF based method we described above.
+\end{itemize}
+
+We run the benchmarks under the assumptions that $S[:,i,j]$ are one-hot vectors, and that a weight occur exactly once in each LRF (as it is the case for convolutions supported by a Cayley subgraph). For each method, we make $100$ runs of computations of $SX$, with $S$ and $X$ being randomly generated according to the assumptions. In \tabref{tab:ben}, we report the mean time and standard deviation. The value of the hyperparameters were each time $n = m = N = M = B = 100$, and $\omega = 10$. The computations were done on graphical processing units (GPU).
+
+\begin{table}[H]
+  \centering
+\begin{tabular}{lc}
+  Method & Time\\
+  \hline
+  Naive & \etodo $\mu s~\pm$ \etodo\\
+  Sparse & \etodo $\mu s~\pm$ \etodo\\
+  LRF & \textbf{\etodo $\mu s~\pm$ \etodo}
+\end{tabular}
+\caption{Benchmark results}
+\label{tab:ben}
+\end{table}
+
+As expected, the LRF method is faster.
 
 \subsection{Robustness in extending the convolution}
 
