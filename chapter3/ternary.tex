@@ -11,7 +11,7 @@ The ternary representation can represent any kind of layer. For example,
 \item Any partially connected layer with (or without) weight sharing can be obtained with appropriate construction of $S$.
 \end{itemize}
 
-\subsection{Computationally efficient representation}
+\subsection{Efficient implementation under sparse priors}
 
 \paragraph{What is the fastest way to compute $\Theta S X$ ?}
 As the equation \eqref{eq:ternary} is associative and commutative, there are three ways to start to calculate it: with $\Theta S$, $SX$, or $\Theta X$, which we will call \emph{middle-stage tensors}. The computation of a middle-stage tensor is the bottleneck to compute \eqref{eq:ternary} as it imposes to compute significantly more entries than for the second tensor contraction. In \tabref{tab:mid}, we compare their shapes. We refer the reader to \tabref{tab:ind} for the denomination of the indices.
@@ -82,18 +82,43 @@ We run the benchmarks under the assumptions that $S[:,i,j]$ are one-hot vectors,
 
 As expected, the LRF method is faster.
 
-\subsection{Robustness for extending CNNs}
+\subsection{Influence of symmetries}
 
-Intuitively, constructing $S$ amounts, for each LRF, to allocate a different weight to each of its elements. For example, on the pixel domain of images we can obtain the weight sharing scheme $S$ of a classical convolution by moving a rectangular grid, as depicted on \figref{fig:rect}: each point represents the center of of a pixel, and each bin drawn by the rectangular grid is associated with a kernel weight. When the rectangular grid is centered on a point, its LRF is defined by other points falling into a bin, and each bin determines which kernel weight is allocated.
+In the case of images, or other signals over a grid, the grid structure of the domain defines the weight sharing scheme $S$ of the convolution operation. For example, for a layer $\cl : X  \mapsto Y = h(\Theta S X)$, and given fixed $b,p,q$, the classical convolution can be rewritten as
+\begin{align}
+y[j] &= h\left(\displaystyle \sum_{k=1}^{\omega} \theta[k] \h{2} \sum_{i=1}^n S[k,i,j] \h{2} x[i] \right)\\
+&= h\left(\displaystyle \sum_{k=1}^{\omega} \theta[k] \h{2} x_{\LRF}[k,j] \right) \label{eq:rewr}
+\end{align}
+Where $x_{\LRF}[k,j]$ can be obtained by matching \eqref{eq:rewr} with the expression given by the definition (see \defref{def:conv}). So, $S[k,:,j]$ is a one-hot vector that specifies which input neuron in the LRF of $y$ is associated with the $k$-th kernel weight, and the index of the $1$ is determined by $x_{\LRF}[k,j]$.
+
+\paragraph{Visual construction}
+Visually, constructing $S$ amounts to move a rectangular grid over the pixel domain, as depicted on \figref{fig:rect} where each point represents the center of a pixel, and the moving rectangle represents the LRF of its center $j$. Each of its squares represents a kernel weight $\theta[k]$ which are associated with the pixel $x_{\LRF}[k,j]$ that falls in it.
 
 \input{chapter3/fig_rect}
 
-We are interested in seeing if a 
+The case of images is very regular, in the sense that every pixels are regularly spaced out, so that obtained $S$ is circulant along its last two ranks. This is a consequence of the translational symmetries of the input domain, which underly the definition of the convolution, as seen in \chapref{chap:2}.
+\begin{itemize}
+\item What happens if we loose these symmetries?
+\end{itemize}
 
+To answer this question, we make the following experiment~\citep{vialatte2016generalizing}:
+\begin{enumerate}
+\item We distort the domain by moving the pixels randomly. The radial displacement is uniformly random with the angle, and its radius follows a gaussian distribution~$\cn(0,\sigma)$.
+\item Then we compare performances of shallow CNNs, for which $S$ is constructed similarly than with the above visual construction, for different values of~$\sigma$.
+\end{enumerate}
 
+The visual construction of $S$ on distorded domain is depicted by \figref{fig:distrect}.
 
+\input{chapter3/fig_distrect}{}
 
-\input{chapter3/fig_distrect}
+We run a classification task with standard hyperparameters on a toy dataset (we used MNIST, \cite{lecun1998mnist}). The results are reported in \figref{fig:expres}
 
+\input{chapter3/fig_res}
+
+The bigger is $\sigma$, the less accurate are the symmetries of the input domain, up to a point where the ternary representation becomes almost equivalent to a dense layer. The results illustrate nicely this evolution, and stress out the importance of trying to leverage symmetries when defining new convolutions.
 
 \subsection{Learning the weight sharing scheme}
+
+
+
+
