@@ -20,7 +20,7 @@ Let $\bbv$, $\bbu$ vector spaces, and $\vv$, $\uu$ their canonical bases. Let $\
   \item $\bbv \otimes \bbu \cong \cs(\vv \times \uu)$
   \item $\bbv \otimes \bbt \cong \cs_{\bbt}(\vv)$
 \end{enumerate}
-where $\cs_{\bbu}$ are signals taking values in $\bbu$ (and $\cs$ are real-valued signals).
+where $\cs_{\bbt}$ are signals taking values in $\bbt$ (and $\cs$ are real-valued signals).
 \label{lem:relts}
 \end{lemma}
 \begin{proof}
@@ -100,8 +100,8 @@ Let a layer $\cl: V \rightarrow U$, $V_\pi \subset V$, and a one-to-one correspo
 \end{proposition}
 \begin{proof}
 \begin{enumerate}
-  \item[$\Rightarrow$]: Thanks to $a \in \ccr_{\pi(b)} \Leftrightarrow a \overset{E}\sim b \Leftrightarrow b \in \ccr_{\pi(a)}$
-  \item[$\Leftarrow$]:If the receptive fields are intertwined, then the relation defined as $a \sim b \Leftrightarrow a \in \ccr_{\pi(b)}$ is symmetric, and thus can define an edge set.
+  \item[($\Rightarrow$)] Thanks to $a \in \ccr_{\pi(b)} \Leftrightarrow a \overset{E}\sim b \Leftrightarrow b \in \ccr_{\pi(a)}$
+  \item[($\Leftarrow$)] If the receptive fields are intertwined, then the relation defined as\\ $a \sim b \Leftrightarrow a \in \ccr_{\pi(b)}$ is symmetric, and thus can define an edge set.
 \end{enumerate}
 \end{proof}
 
@@ -171,7 +171,7 @@ Also, note that it is associative and commutative. This can be seen by the index
 \Theta SX[j,q,b] = \displaystyle \sum_{k=1}^\omega \sum_{p=1}^P \sum_{i=1}^n \Theta[k,p,q] \h{2} S[k,i,j] \h{2} X[i,p,b] \label{eq:comm}
 \end{gather}
 
-We call $S$ the \emph{weight sharing scheme} of the layer $\cl$.
+We call $S$ the \emph{weight sharing scheme} \citep{vialatte2017learning} of the layer $\cl$.
 
 \begin{definition}\textbf{Ternary representation}\\
 The \emph{ternary representation} of a layer $\cl: X \mapsto Y$, with activation function~$h$, is the equation $Y = h\left(\Theta S X\right)$, as defined in $\eqref{eq:ternary}$, where~$\Theta$ is the \emph{weight kernel}, and~$S$ is called the \emph{weight sharing scheme}.

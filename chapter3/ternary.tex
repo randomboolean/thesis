@@ -33,10 +33,10 @@ As the equation \eqref{eq:ternary} is associative and commutative, there are thr
 \label{tab:mid}
 \end{table}
 
-In usual settings, we want to have $\omega \ll n$ and $\omega \ll m$, which means that we have weight kernels of small sizes (for example in the case of images, convolutional kernel are of size significantly smaller than that of the images). Also, the number of input channels $P$ and of feature maps $Q$ are roughly in the same order, with $P < Q$ more often than the contrary. It turns out that in practice, the size of $\Theta S$ is significantly bigger than the size of $SX$ and of $\Theta X$, and the size of $SX$ is usually the smallest.
+In usual settings, we want to have $\omega \ll n$ and $\omega \ll m$, which means that we have weight kernels of small sizes (for example in the case of images, convolutional kernel are of size significantly smaller than that of the images). Also, the number of input channels $P$ and of feature maps $Q$ are roughly in the same order, with $P < Q$ more often than the contrary. So in practice, the size of $\Theta S$ is significantly bigger than the size of $SX$ and of $\Theta X$, and the size of $SX$ is usually the smallest.
 
 \paragraph{How to exploit $S$ sparsity ?}
-Also, in usual settings, $S$ is sparse as $S[:,i,j]$ are one-hot vectors. So computing $SX$ should be faster that computing $\Theta X$, provided we exploit the sparsity. Although $S$ is very sparse as it contains at most a fraction $\frac{1}{w}$-th of non-zero values, it is only sparse along the first rank, which makes implementation with sparse classes of common deep learning libraries not optimized. 
+Also, in usual settings, $S$ is sparse as $S[:,i,j]$ are one-hot vectors. So computing $SX$ should be faster than computing $\Theta X$, provided we exploit the sparsity. Although $S$ is very sparse as it contains at most a fraction $\frac{1}{w}$-th of non-zero values, it is only sparse along the first rank, which makes implementation with sparse classes of common deep learning libraries not optimized. 
 
 So we proceed differently. The idea is to use a non-sparse tensor $X_{\LRF}$ that has a rank that indexes local receptive fields (LRF), and another rank that indexes elements of these LRF, in order to lower the computation to a dense matrix multiplication (or dense tensor contraction) which is already well optimized. This approach, proposed in \cite{chellapilla2006high}, is also exploited in the cudnn primitives~\citep{chetlur2014cudnn} to efficiently implement the classical convolution.
 
@@ -91,6 +91,8 @@ y[j] &= h\left(\displaystyle \sum_{k=1}^{\omega} \theta[k] \h{2} \sum_{i=1}^n S[
 \end{align}
 Where $x_{\LRF}[k,j]$ can be obtained by matching \eqref{eq:rewr} with the expression given by the definition (see \defref{def:conv}). So, $S[k,:,j]$ is a one-hot vector that specifies which input neuron in the LRF of $y$ is associated with the $k$-th kernel weight, and the index of the $1$ is determined by $x_{\LRF}[k,j]$.
 
+That is to say, in the ternary representation of a classical convolutional layer, $W$ captures the information the layer has learnt, whereas $S$ captures how the layer exploits the symmetries of the input domain.
+
 \paragraph{Visual construction}
 Visually, constructing $S$ amounts to move a rectangular grid over the pixel domain, as depicted on \figref{fig:rect} where each point represents the center of a pixel, and the moving rectangle represents the LRF of its center $j$. Each of its squares represents a kernel weight $\theta[k]$ which are associated with the pixel $x_{\LRF}[k,j]$ that falls in it.
 
@@ -104,7 +106,7 @@ The case of images is very regular, in the sense that every pixels are regularly
 To answer this question, we make the following experiment~\citep{vialatte2016generalizing}:
 \begin{enumerate}
 \item We distort the domain by moving the pixels randomly. The radial displacement is uniformly random with the angle, and its radius follows a gaussian distribution~$\cn(0,\sigma)$.
-\item Then we compare performances of shallow CNNs, for which $S$ is constructed similarly than with the above visual construction, for different values of~$\sigma$.
+\item Then we compare performances of shallow CNNs expressed under the ternary representation, for which $S$ is constructed similarly than with the above visual construction, for different values of~$\sigma$.
 \end{enumerate}
 
 The visual construction of $S$ on distorded domain is depicted by \figref{fig:distrect}.
@@ -116,6 +118,8 @@ We run a classification task with standard hyperparameters on a toy dataset (we 
 \input{chapter3/fig_res}
 
 The bigger is $\sigma$, the less accurate are the symmetries of the input domain, up to a point where the ternary representation becomes almost equivalent to a dense layer. The results illustrate nicely this evolution, and stress out the importance of trying to leverage symmetries when defining new convolutions.
+
+Moreover, they indicate that the ternary representation also allows to improve performances compared to using dense layers, providing we are able to prototype a relevant weight sharing scheme $S$ to exploit symmetries.
 
 \subsection{Learning the weight sharing scheme}
 
