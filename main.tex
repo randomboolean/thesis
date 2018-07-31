@@ -15,7 +15,9 @@
 % Toward an algebraic understanding of convolutions on graph domains under the scope of deep learning applications.
 % ?
 
-%
+\input{date}\newline
+\input{revcount}
+
 % Table of contents
 %
 
@@ -37,11 +39,11 @@
 %
 
 % cover
-  \chapter{Presentation of the field}
-  \vfill\minitoc\newpage
+  \chapter{Presentation of the field}\label{chap:1}
   \input{chapter1/intro1.tex}\newpage
+  \vfill\minitoc\newpage
 
-% % body
+% body
   \input{chapter1/tensors}\newpage
   \input{chapter1/nn}\newpage
   \input{chapter1/graphs}\newpage
@@ -66,20 +68,18 @@
 % Chapter 3
 %
  \setcounter{chapter}{2}
- \chapter{Application to neural networks}
- \vfill\minitoc\newpage
+ \chapter{Application to neural networks}\label{chap:3}
  \input{chapter3/intro3.tex}\newpage
+ \vfill\minitoc\newpage
 
 
-% % body
+% body
  \input{chapter3/perspective}\newpage
  \input{chapter3/ternary}\newpage
+ \input{chapter3/learningscheme}\newpage
  \input{chapter3/bastnet}\newpage
  %\input{chapter3/datasets}\newpage
  %\input{chapter3/relatedworks}\newpage
- %\input{chapter3/weightsharing}\newpage
- %\input{chapter3/scheme}\newpage
- %\input{chapter3/neighbourhoodpreserving}\newpage
 
 %
 % Chapter 4
