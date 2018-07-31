@@ -21,6 +21,8 @@ x few notes on DTW loss vs conv1D
 
 research project
 x dynamic node warping: adapt dynamic time warping to graphs
-
-
 x multi view CNN after node embedding
+x distill paper ?
+  -> ternary representation = new point of view
+  -> influence of symmetries on distorded domains
+  -> improving local receptive fields of CNNs
