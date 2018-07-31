@@ -1,23 +1,51 @@
 \section{Learning the weight sharing scheme}
 
-\subsection{Training settings}
-
-The proposed formulation allows to learn both $S$ and $W$. We perform the two jointly. Learning $W$ amounts to learning weights as in regular CNNs, whereas learning $S$ amounts to learning how these weights are tied over the receptive fields. We also experiment a fine-tuning step, which consists in freezing $S$ in the last epochs. Indeed, when a weight sharing scheme can be decided directly from the underlying structure, it is not necessary to train $S$.
-
-Because of our inspiration from CNNs, we propose constraints on the parameters of $S$. Namely, we impose them to be between 0 and 1, and to sum to 1 along the third dimension. Therefore, the vectors on the third rank of $S$ can be interpreted as performing a weighted average of the parameters in $W$.
-
-We test two types of initialization for $S$. The first one consists in distributing one-hot-bit vectors along the third rank. We impose that for each receptive field, a particular one-hot-bit vector can only be distributed at most once more than any other. We refer to it as one-hot-bit initialization. The second one consists in using a uniform random distribution with limits as described in \cite{glorot2010understanding}.
-
 \subsection{Discussion}
 
-\todo{}
+In the ternary representation $Y = h(\Theta S X)$ of a layer~$\cl$, the weight kernel~$\Theta$ is usually the only operand that is learned, and the role of~$S$ is to label the edges of the propagation graph~$P$ with these weights. Recall that, as noted after \defref{def:ter}, $S$ needs not be sparse and composed of one-hot vectors. In that case, the labelling is done linearly as depicted previously in \figref{fig:ternary}. Therefore, the weight sharing scheme $S$ can also be updated during the learning phase. This can be interpreted as learning a convolution-like operator on the underlying graph~$G$~\citep{vialatte2017learning}.
+
+\begin{remark}
+When $S$ has no sparse priors, we must then not have more parameters in $S$ and $\Theta$ than in $W$, so that the weight sharing still makes sense. If we call $l$ the number of edges in the resulting propagation graph $P$, then the former assumption requires $l\omega + \omega NM \leq lNM$ or equivalently $\frac{1}{\omega} \geq \frac{1}{NM} + \frac{1}{l}$. It implies that the number of weights per filter $\omega$ must be lower than the total number of filters $NM$ and than the number of edges $l$, which is always the case in practice.
+\end{remark}
+
+However, as learning $S$ will require in most cases to lose the sparse priors, this can lead to memory issues. Hence, our first experiments focus on shallow architectures to study feasability. Despite this limitation, the observations could still be useful to understand better the extent of the ternary representation. Nonetheless, these experiments can also see application in deep settings: an approach would be to pick a weight sharing scheme $S$ learned in shallow settings and to share it among ternary representations of convolutional layers of a deep architecture.
+
+\todo{drop conditional if experiment is done}
+
+\subsection{Training settings}
+
+We learn $S$ and $\Theta$ simultaneously. We also use a fine-tuning step, which consists in freezing $S$ in the last epochs.
+
+\paragraph{Constraints}
+Because of our inspiration from CNNs, we propose constraints on the parameters of $S$. Namely, we impose them to be between~$0$ and~$1$, and to sum to~$1$ along the rank that choose a weight label.
+\begin{gather}
+\forall (k,i,j),~S[k,i,j] \in [0,1]\\
+\forall (i,j),~\displaystyle \sum_{k=1}^\omega S[k,i,j] = 1
+\end{gather}
+
+Therefore, the vectors on the third rank of $S$ can be interpreted as performing a positive weighted average of the parameters in $\Theta$.
+
+We also imposes the layers to be edge-constrained. Hence, their input space admits an underlying graph $G$, whether exposed or not. This implies that if we call $A$ its adjacency matrix, then we must have
+\begin{gather}
+%A[i,j] = 0 \Leftrightarrow S[:,i,j] = \textbf{0}
+A[i,j] = 0 \Rightarrow \forall k, S[k,i,j] = 0
+\end{gather}
+In other terms, we say that $S$ is \emph{masked by} $A$.
+
+\paragraph{Initialization}
+We introduce three types of initialization for $S$. The first two have the sparse priors mentioned earlier:
+\begin{enumerate}
+  \item uniform random: parameters of $S$ are simply initialized with a uniform random distribution with limits as described by \cite{glorot2010understanding}.
+  \item random one-hot: one-hot vectors are distributed randomly on the $S[:,i,j]$, with the constraint that for each LRF, a particular one-hot vector can only be distributed at most once more than any other.
+  \item circulant one-hot: one-hot vectors are distributed in a circulant fashion on the $S[:,i,j]$, so that on euclidean domains, the initial state of $S$ correspond exactly to the weight sharing scheme of a standard convolution.
+\end{enumerate}
 
 \subsection{Experiments with grid graphs}
 
-Here we use models composed of a single receptive graph (or convolutional) layer made of 50 feature maps, without pooling, followed by a fully connected layer of 300 neurons, and terminated by a softmax layer of 10 neurons. Rectified Linear Units~\cite{glorot2011deep} are used for the activations and a dropout~\cite{srivastava2014dropout} of 0.5 is applied on the fully-connected layer. Input layers are regularized by a factor weight of $10^{-5}$~\cite{ng2004feature}. We optimize with ADAM~\cite{kingma2014adam} up to 100 epochs and fine-tune (while $S$ is frozen) for up to 50 additional epochs.
+We experiment (EC) layers on the MNIST dataset~\citep{lecun1998mnist}. We use a shallow architecture made of a single ternary layer with 50 feature maps, without pooling, followed by a fully connected layer of 300 neurons, and terminated by a softmax layer of 10 neurons. Rectified Linear Units~\cite{glorot2011deep} are used for the activations and a dropout~\cite{srivastava2014dropout} of 0.5 is applied on the fully-connected layer. Input layers are regularized by a factor weight of $10^{-5}$~\cite{ng2004feature}. We optimize with ADAM~\cite{kingma2014adam} up to 100 epochs and fine-tune (while $S$ is frozen) for up to 50 additional epochs.
 
-We consider a grid graph that connects each pixel to itself and its 4 nearest neighbors (or less on the borders). We also use the square of this graph (pixels are connected to their 13 nearest neighbors, including themselves), the cube of this graph (25 nearest neighbors), up to 10 powers (211 nearest neighbors).
-Here we use one-hot-bit initialization. We test the model under two setups: either the ordering of the node is unknown, and then the one-hot-bit vectors are distributed randomly and modified upon training ; either an ordering of the node is known, and then the one-hot-bit vectors are distributed in a circulant fashion in the third rank of $S$ which is freezed in this state. We use the number of nearest neighbors as for the dimension of the third rank of $S$.
+For the underlying graph strucure, we consider a grid graph that connects each pixel to itself and its 4 nearest neighbors (or less on the borders). We also consider the square of this graph (pixels are connected to their 13 nearest neighbors, including themselves), the cube of this graph (25 nearest neighbors), up to 10 powers (211 nearest neighbors).
+We test the model under two setups: either the ordering of the node is unknown, and then we use random one-hot intialization for $S$; either an ordering of the node is known, and then we use circulant one-hot for $S$ which is freezed in this state. We use the number of nearest neighbors as for the dimension of the first rank of $S$.
 We also compare with a convolutional layer of size 5x5, thus containing as many weights as the cube of the grid graph. Table~\ref{toy} summarizes the obtained results. The ordering is unknown for the first result given, and known for the second result between parenthesis.
 
 \begin{table}[H]
@@ -42,9 +70,9 @@ We also compare with a convolutional layer of size 5x5, thus containing as many 
   \label{toy}
 \end{table}
 
-We observe that even without knowledge of the underlying euclidean structure, receptive grid graph layers obtain comparable performances as convolutional ones, and when the ordering is known, they match convolutions. We also noticed that after training, even though the one-hot-bit vectors used for initialization had changed  to floating point values, their most significant dimension was always the same. That suggests there is room to improve the initialization and the optimization.
+We observe that even without knowledge of the underlying euclidean structure, grid (EC) layers obtain comparable performances as convolutional ones, and when the ordering is known, they match convolutions. We also noticed that after training, even though the one-hot vectors used for initialization had changed to floating point values, their most significant dimension was almost always the same. That suggests there is room to improve the initialization and the optimization.
 
-In Figure~\ref{functionofepoch}, we plot the test error rate for various normalizations when using the square of the grid graph, as a function of the number of epochs of training. We observe that they have little influence on the performance and sometimes improve it a bit. Thus, we use them as optional hyperparameters.
+In Figure~\ref{functionofepoch}, we plot the test error rate for various normalizations when using the square of the grid graph, as a function of the number of epochs of training, only to find that they have little influence on the performance but sometimes improve it a bit. Thus, we will treat them as optional hyperparameters.
 
 \begin{figure}[H]
   \begin{center}
@@ -56,8 +84,8 @@ In Figure~\ref{functionofepoch}, we plot the test error rate for various normali
 
 \subsection{Experiments with covariance graphs}
 
-We use a thresholded covariance matrix obtained by using all the training examples. We choose the threshold so that the number of remaining edges corresponds to a certain density $p$ (5x5 convolutions correspond approximately to a density of $p=3\%$). We also infer a graph based on the $k$ nearest neighbors of the inverse of the values of this covariance matrix ($k$-NN). The latter two are using no prior about the signal underlying structure. The pixels of the input images are shuffled and the same re-ordering of the pixels is used for every image. Dimension of the third rank of $S$ is chosen equal to $k$ and its weights are initialized random uniformly~\cite{glorot2010understanding}.
- The receptive graph layers are also compared with models obtained when replacing the first layer by a fully connected or convolutional one. Architecture used is the same as in the previous section. Results are reported on table~\ref{covar}.
+As underlying graph structure, we use a thresholded covariance matrix obtained by using all the training examples. We choose the threshold so that the number of remaining edges corresponds to a certain density $p$ (5x5 convolutions correspond approximately to a density of $p=3\%$). We also infer a graph based on the $k$ nearest neighbors of the inverse of the values of this covariance matrix ($k$-NN). The latter two are using no prior about the signal underlying structure. The pixels of the input images are shuffled and the same re-ordering of the pixels is used for every image. Dimension of the first rank of $S$ is chosen equal to $k$ and its weights are initialized random uniformly~\cite{glorot2010understanding}.
+The receptive graph layers are also compared with models obtained when replacing the first layer by a fully connected or convolutional one. Architecture used is the same as in the previous section. Results are reported on table~\ref{covar}.
 
 \begin{table}[H]
   \caption{Error rates when topology is unknown on scrambled MNIST.}
@@ -76,7 +104,7 @@ We use a thresholded covariance matrix obtained by using all the training exampl
   \label{covar}
   \end{table}
 
-We observe that the receptive graph layers outperforms the CNN and the MLP on scrambled MNIST. This is remarkable because that suggests it has been able to exploit information about the underlying structure thanks to its graph.
+We observe that the receptive graph layers outperforms the CNN and the MLP on scrambled MNIST. This is remarkable because that suggests it has been able to exploit information about the underlying structure thanks to its underlying graph.
 
 \subsection{Improving $S$ for standard convolutions}
 
@@ -84,7 +112,9 @@ On Cifar10, we made experiments on shallow CNN architectures and replaced convol
 %On Cifar10, we use a variant of the AlexNet architecture applied on inputs with little distortion~\cite{krizhevsky2012imagenet}, borrowed from a tutorial of tensorflow~\cite{tensorflow2015-whitepaper}.
 It is composed of two 5x5 convolutional layers of 64 feature maps, with max pooling and local response normalization, followed by two fully connected layers of 384 and 192 neurons.
 %We switched each convolutional layer with receptive graph layers, but kept the pooling ones.
-We compare two different graph supports: the one obtained by using the underlying graph of a regular 5x5 convolution, and the support of the square of the grid graph. Optimization is done with stochastic gradient descent on 375 epochs where $S$ is freezed on the 125 last ones. Circulant one-hot-bit intialization is used. These are weak classifiers for Cifar10 but they are enough to analyse the usefulness of the proposed layer. Exploring deeper architectures is left for further work. Experiments are run five times each. Means and standard deviations of accuracies are reported in table~\ref{cifar}. ``Pos'' means parameters in $S$ are forced to being positive, ``Norm'' means that the $\ell_1$ norm of each vector in the third dimension of $S$ is forced to 1, ``Both'' means both constraints are applied, and ``None'' means none are used.
+We compare two different graph supports: the one obtained by using the underlying graph of a regular 5x5 convolution, and the support of the square of the grid graph. Optimization is done with stochastic gradient descent on 375 epochs where $S$ is freezed on the 125 last ones. Circulant one-hot intialization is used. These are weak classifiers for Cifar10 but they are enough to analyse the usefulness of the proposed layer.
+%Exploring deeper architectures is left for further work.
+Experiments are run five times each. Means and standard deviations of accuracies are reported in table~\ref{cifar}. ``Pos'' means parameters in $S$ are forced to being positive, ``Norm'' means that the $\ell_1$ norm of each vector in the third dimension of $S$ is forced to 1, ``Both'' means both constraints are applied, and ``None'' means none are used.
 
 \begin{table}[H]
   \caption{Accuracies (in \%) of shallow networks on CIFAR10.}
@@ -108,8 +138,8 @@ We compare two different graph supports: the one obtained by using the underlyin
   \label{cifar}
 \end{table}
 
-The receptive graph layers are able to outperform the corresponding CNNs by a small amount in the tested configurations, opening the way for more complex architectures.
+The (EC) layers are able to outperform the corresponding CNNs by a small amount in the tested configurations, opening the way for more complex architectures.
 
 %idea
 \todo{take S, and reuse it on resnet}
-
+\todo{shallow on Pines}
