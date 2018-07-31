@@ -82,7 +82,7 @@ We run the benchmarks under the assumptions that $S[:,i,j]$ are one-hot vectors,
 
 As expected, the LRF method is faster.
 
-\subsection{Influence of symmetries}
+\subsection{Influence of symmetries in supervised classification tasks}
 
 In the case of images, or other signals over a grid, the grid structure of the domain defines the weight sharing scheme $S$ of the convolution operation. For example, for a layer $\cl : X  \mapsto Y = h(\Theta S X)$, and given fixed $b,p,q$, the classical convolution can be rewritten as
 \begin{align}
@@ -91,7 +91,7 @@ y[j] &= h\left(\displaystyle \sum_{k=1}^{\omega} \theta[k] \h{2} \sum_{i=1}^n S[
 \end{align}
 Where $x_{\LRF}[k,j]$ can be obtained by matching \eqref{eq:rewr} with the expression given by the definition (see \defref{def:conv}). So, $S[k,:,j]$ is a one-hot vector that specifies which input neuron in the LRF of $y$ is associated with the $k$-th kernel weight, and the index of the $1$ is determined by $x_{\LRF}[k,j]$.
 
-That is to say, in the ternary representation of a classical convolutional layer, $W$ captures the information the layer has learnt, whereas $S$ captures how the layer exploits the symmetries of the input domain.
+That is to say, in the ternary representation, $W$ captures the information the layer has learnt, whereas $S$ captures how the layer exploits the symmetries of the input domain.
 
 \paragraph{Visual construction}
 Visually, constructing $S$ amounts to move a rectangular grid over the pixel domain, as depicted on \figref{fig:rect} where each point represents the center of a pixel, and the moving rectangle represents the LRF of its center $j$. Each of its squares represents a kernel weight $\theta[k]$ which are associated with the pixel $x_{\LRF}[k,j]$ that falls in it.
@@ -121,8 +121,9 @@ The bigger is $\sigma$, the less accurate are the symmetries of the input domain
 
 Moreover, they indicate that the ternary representation also allows to improve performances compared to using dense layers, providing we are able to prototype a relevant weight sharing scheme $S$ to exploit symmetries.
 
-\subsection{Learning the weight sharing scheme}
+\subsection{Transposed point of view with semi-supervised node classification tasks}
 
-
-
+\todo{}
+% Idea: multiple graphs, each graph is a w
+% Redo kipf experiments with directed graph, one w for the digraph, and another w for its transpose
 
