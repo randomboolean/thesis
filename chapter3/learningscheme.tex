@@ -8,7 +8,7 @@ In the ternary representation $Y = h(\Theta S X)$ of a layer~$\cl$, the weight k
 When $S$ has no sparse priors, we must then not have more parameters in $S$ and $\Theta$ than in $W$, so that the weight sharing still makes sense. If we call $l$ the number of edges in the resulting propagation graph $P$, then the former assumption requires $l\omega + \omega NM \leq lNM$ or equivalently $\frac{1}{\omega} \geq \frac{1}{NM} + \frac{1}{l}$. It implies that the number of weights per filter $\omega$ must be lower than the total number of filters $NM$ and than the number of edges $l$, which is always the case in practice.
 \end{remark}
 
-However, as learning $S$ will require in most cases to lose the sparse priors, this can lead to memory issues. Hence, our first experiments focus on shallow architectures to study feasability. Despite this limitation, the observations could still be useful to understand better the extent of the ternary representation. Nonetheless, these experiments can also see application in deep settings: an approach would be to pick a weight sharing scheme $S$ learned in shallow settings and to share it among ternary representations of convolutional layers of a deep architecture.
+However, as learning $S$ will require in most cases to lose the sparse priors, this can lead to memory issues and increased time execution. Hence, our first experiments focus on shallow architectures to study feasability. Despite these limitations, the observations could still be useful to understand better the extent of the ternary representation. Nonetheless, these experiments can also see application in deep settings: an approach would be to pick a weight sharing scheme $S$ learned in shallow settings and to share it among ternary representations of convolutional layers of a deep architecture.
 
 \todo{drop conditional if experiment is done}
 
@@ -46,7 +46,7 @@ We experiment (EC) layers on the MNIST dataset~\citep{lecun1998mnist}. We use a 
 
 For the underlying graph strucure, we consider a grid graph that connects each pixel to itself and its 4 nearest neighbors (or less on the borders). We also consider the square of this graph (pixels are connected to their 13 nearest neighbors, including themselves), the cube of this graph (25 nearest neighbors), up to 10 powers (211 nearest neighbors).
 We test the model under two setups: either the ordering of the node is unknown, and then we use random one-hot intialization for $S$; either an ordering of the node is known, and then we use circulant one-hot for $S$ which is freezed in this state. We use the number of nearest neighbors as for the dimension of the first rank of $S$.
-We also compare with a convolutional layer of size 5x5, thus containing as many weights as the cube of the grid graph. Table~\ref{toy} summarizes the obtained results. The ordering is unknown for the first result given, and known for the second result between parenthesis.
+We also compare with a convolutional layer of size 5x5, thus containing as many weights as the cube of the grid graph. On MNIST, training architectures that learn $S$ took about twice longer. Table~\ref{toy} summarizes the obtained results. The ordering is unknown for the first result given, and known for the second result between parenthesis.
 
 \begin{table}[H]
   \caption{Error rates on powers of the grid graphs on MNIST.}
@@ -111,6 +111,7 @@ We observe that the receptive graph layers outperforms the CNN and the MLP on sc
 On Cifar10, we made experiments on shallow CNN architectures and replaced convolutions by receptive graphs. We report results on a variant of AlexNet~\cite{krizhevsky2012imagenet} using little distortion on the input that we borrowed from a tutorial of tensorflow~\cite{tensorflow2015-whitepaper}.
 %On Cifar10, we use a variant of the AlexNet architecture applied on inputs with little distortion~\cite{krizhevsky2012imagenet}, borrowed from a tutorial of tensorflow~\cite{tensorflow2015-whitepaper}.
 It is composed of two 5x5 convolutional layers of 64 feature maps, with max pooling and local response normalization, followed by two fully connected layers of 384 and 192 neurons.
+On Cifar10, training architectures that learn $S$ took about $2.5$ times longer.
 %We switched each convolutional layer with receptive graph layers, but kept the pooling ones.
 We compare two different graph supports: the one obtained by using the underlying graph of a regular 5x5 convolution, and the support of the square of the grid graph. Optimization is done with stochastic gradient descent on 375 epochs where $S$ is freezed on the 125 last ones. Circulant one-hot intialization is used. These are weak classifiers for Cifar10 but they are enough to analyse the usefulness of the proposed layer.
 %Exploring deeper architectures is left for further work.
@@ -143,3 +144,27 @@ The (EC) layers are able to outperform the corresponding CNNs by a small amount 
 %idea
 \todo{take S, and reuse it on resnet}
 \todo{shallow on Pines}
+\todo{incorporate MCnets results (see github) on 20news}
+\todo{learning A on kipf}
+% 331 Discussion and training settings
+% 332 Digit classification (grid and scrambled)
+% 333 Small image classification (alexnet and  resnet)
+% 334 Graph signal classification (20news and Pines?)
+% 335 Semi-supervised node signal classification
+
+% 331 Methodology
+% 3311 Discussion
+% 3312 Trainning settings
+% 3313 Pooling
+% 332 Digit classification
+% 3321 Grid graph supports
+% 3322 Covariance graph support
+% 333 Image classification
+% 3331 Conv graph support
+% 3332 Deep architectures
+% 334 Graph signals classification
+% 3331 20newsgroup
+% 3332 Pines fmri
+% 335 Semi-supervised node signals classification
+% 3341 Cora
+% 3342 .

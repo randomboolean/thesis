@@ -1,3 +1,4 @@
+%\section{Ternary neural networks (TNN)}
 \section{Study of the ternary representation}
 
 In this section, we study the ternary representation, which is the general representation with weight sharing we obtained above.
@@ -82,7 +83,7 @@ We run the benchmarks under the assumptions that $S[:,i,j]$ are one-hot vectors,
 
 As expected, the LRF method is faster.
 
-\subsection{Influence of symmetries in supervised classification tasks}
+\subsection{Influence of symmetries}
 
 In the case of images, or other signals over a grid, the grid structure of the domain defines the weight sharing scheme $S$ of the convolution operation. For example, for a layer $\cl : X  \mapsto Y = h(\Theta S X)$, and given fixed $b,p,q$, the classical convolution can be rewritten as
 \begin{align}
@@ -121,7 +122,7 @@ The bigger is $\sigma$, the less accurate are the symmetries of the input domain
 
 Moreover, they indicate that the ternary representation also allows to improve performances compared to using dense layers, providing we are able to prototype a relevant weight sharing scheme $S$ to exploit symmetries.
 
-\subsection{Transposed point of view with semi-supervised node classification tasks}
+\subsection{Semi-supervised node classification}
 
 \todo{}
 % Idea: multiple graphs, each graph is a w
