@@ -1,0 +1,170 @@
+\begin{figure}[h!p]
+  \begin{center}
+    \begin{tikzpicture}[thick]
+      \begin{scope}[scale=0.5]
+        \node at (-1,2) {a)};
+        \foreach \x in {0,...,5}{
+          \foreach \y in {0,...,4}{
+            \node [draw, circle, dashed, black!50] at (\x, \y) {};
+          }
+        }
+        \foreach \x in {0,...,4}{
+          \foreach \y in {0,...,4}{
+            \path[-]
+            (\x,\y) edge[dashed, black!50] (\x+1,\y);
+          }
+        }
+        \foreach \x in {0,...,5}{
+          \foreach \y in {0,...,3}{
+            \path[-]
+            (\x,\y) edge[dashed, black!50] (\x,\y + 1);
+          }
+        }
+        \foreach \x in {0,...,5}{
+          \foreach \y in {0,...,4}{
+            \node(\x\y) [draw = black!50, dashed, circle,fill=white] at (\x, \y) {};
+          }
+        }
+        \node at (3,2){$v_0$};
+        \node at (2,2){$v_1$};
+        \node at (1,2){$v_2$};
+        \node at (1,3){$v_3$};
+
+        \node[draw = black, circle] at (3,2){};
+        \node[draw = red, circle] at (2,2){};
+        \node[draw = green!50!black, circle] at (4,2){};
+        \node[draw = blue, circle] at (3,3){};
+        \node[draw = purple, circle] at (3,1){};
+      \end{scope}
+      \begin{scope}[xshift=5cm, scale=0.5]
+        \node at (-1,2) {b)};
+        \foreach \x in {0,...,5}{
+          \foreach \y in {0,...,4}{
+            \node [draw, circle, dashed, black!50] at (\x, \y) {};
+          }
+        }
+        \foreach \x in {0,...,4}{
+          \foreach \y in {0,...,4}{
+            \path[-]
+            (\x,\y) edge[dashed, black!50] (\x+1,\y);
+          }
+        }
+        \foreach \x in {0,...,5}{
+          \foreach \y in {0,...,3}{
+            \path[-]
+            (\x,\y) edge[dashed, black!50] (\x,\y + 1);
+          }
+        }
+        \foreach \x in {0,...,5}{
+          \foreach \y in {0,...,4}{
+            \node(\x\y) [draw = black!50, dashed, circle,fill=white] at (\x, \y) {};
+          }
+        }
+        \node at (3,2){$v_0$};
+        \node at (2,2){$v_1$};
+        \node at (1,2){$v_2$};
+        \node at (1,3){$v_3$};
+        \draw
+        (0.5,2) -- (3,4.5) -- (5.5,2) -- (3,-0.5) -- (0.5,2);
+        \path[->,>=stealth']
+        (31) edge (21)
+        (32) edge (22)
+        (33) edge (23)
+        (42) edge (32)
+        (22) edge (12);
+        \node[draw = black, circle] at (2,2){};
+        \node[draw = red, circle] at (1,2){};
+        \node[draw = green!50!black, circle] at (3,2){};
+        \node[draw = blue, circle] at (2,3){};
+        \node[draw = purple, circle] at (2,1){};
+      \end{scope}
+      \begin{scope}[scale=0.5, yshift=-6cm]
+        \node at (-1,2) {c)};
+        \foreach \x in {0,...,5}{
+          \foreach \y in {0,...,4}{
+            \node [draw, circle, dashed, black!50] at (\x, \y) {};
+          }
+        }
+        \foreach \x in {0,...,4}{
+          \foreach \y in {0,...,4}{
+            \path[-]
+            (\x,\y) edge[dashed, black!50] (\x+1,\y);
+          }
+        }
+        \foreach \x in {0,...,5}{
+          \foreach \y in {0,...,3}{
+            \path[-]
+            (\x,\y) edge[dashed, black!50] (\x,\y + 1);
+          }
+        }
+        \foreach \x in {0,...,5}{
+          \foreach \y in {0,...,4}{
+            \node(\x\y) [draw = black!50, dashed, circle,fill=white] at (\x, \y) {};
+          }
+        }
+        \node at (3,2){$v_0$};
+        \node at (2,2){$v_1$};
+        \node at (1,2){$v_2$};
+        \node at (1,3){$v_3$};
+        \draw
+        (-0.5,2) -- (2,4.5) -- (4.5,2) -- (2,-0.5) -- (-0.5,2);
+        \path[->,>=stealth']
+        (21) edge (11)
+        (22) edge (12)
+        (23) edge (13)
+        (32) edge (22)
+        (12) edge (02);
+        \node[draw = black, circle] at (1,2){};
+        \node[draw = red, circle] at (0,2){};
+        \node[draw = green!50!black, circle] at (2,2){};
+        \node[draw = blue, circle] at (1,3){};
+        \node[draw = purple, circle] at (1,1){};
+      \end{scope}
+      
+      \begin{scope}[xshift=5cm, scale=0.5,yshift=-6cm]
+        \node at (-1,2) {d)};
+        \foreach \x in {0,...,5}{
+          \foreach \y in {0,...,4}{
+            \node [draw, circle, dashed, black!50] at (\x, \y) {};
+          }
+        }
+        \foreach \x in {0,...,4}{
+          \foreach \y in {0,...,4}{
+            \path[-]
+            (\x,\y) edge[dashed, black!50] (\x+1,\y);
+          }
+        }
+        \foreach \x in {0,...,5}{
+          \foreach \y in {0,...,3}{
+            \path[-]
+            (\x,\y) edge[dashed, black!50] (\x,\y + 1);
+          }
+        }
+        \foreach \x in {0,...,5}{
+          \foreach \y in {0,...,4}{
+            \node(\x\y) [draw = black!50, dashed, circle,fill=white] at (\x, \y) {};
+          }
+        }
+        \node at (3,2){$v_0$};
+        \node at (2,2){$v_1$};
+        \node at (1,2){$v_2$};
+        \node at (1,3){$v_3$};
+        \draw
+        (-1.5,2) -- (1,4.5) -- (3.5,2) -- (1,-0.5) -- (-1.5,2);
+        \path[->,>=stealth']
+        (11) edge (12)
+        (12) edge (13)
+        (13) edge (14)
+        (22) edge (23)
+        (02) edge (03);
+        \node[draw = black, circle] at (1,3){};
+        \node[draw = red, circle] at (0,3){};
+        \node[draw = green!50!black, circle] at (2,3){};
+        \node[draw = blue, circle] at (1,4){};
+        \node[draw = purple, circle] at (1,2){};
+      \end{scope}
+    \end{tikzpicture}
+  \end{center}
+  \caption{Illustration of the translation of a small indexing kernel using translations in each induced subgraph. Kernel is initialized around $v_0$ (a), then moved left around $v_1$ (b) using the induced subgraph around $v_0$, then moved left again around $v_2$ (c) using the induced subgraph around $v_1$ then moved up around $v_3$ (d) using the induced subgraph around $v_2$. At the end of the process, the kernel has been localized around each vertex in the graph.}
+  \label{fig:movekernel}
+\end{figure}
