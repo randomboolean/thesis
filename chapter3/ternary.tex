@@ -84,6 +84,7 @@ We run the benchmarks under the assumptions that $S[:,i,j]$ are one-hot vectors,
 As expected, the LRF method is faster.
 
 \subsection{Influence of symmetries}
+\label{sec:sym}
 
 In the case of images, or other signals over a grid, the grid structure of the domain defines the weight sharing scheme $S$ of the convolution operation. For example, for a layer $\cl : X  \mapsto Y = h(\Theta S X)$, and given fixed $b,p,q$, the classical convolution can be rewritten as
 \begin{align}
@@ -112,7 +113,7 @@ To answer this question, we make the following experiment~\citep{vialatte2016gen
 
 The visual construction of $S$ on distorded domain is depicted by \figref{fig:distrect}.
 
-\input{chapter3/fig_distrect}{}
+\input{chapter3/fig_distrect}
 
 We run a classification task with standard hyperparameters on a toy dataset (we used MNIST, \cite{lecun1998mnist}). The results are reported in \figref{fig:expres}
 

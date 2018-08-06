@@ -3,20 +3,31 @@
 
 \subsection{Methodology}
 
-As we saw in the previous chapter, the classical convolution on grid graphs can be obtained visually by translating a rectangular window over the domain. The idea of this section is thus to define a convolution on graph domain in the same way, using a notion of translation defined on graphs 
+As we saw in \secref{sec:sym} (\figref{fig:rect}), the classical convolution on grid graphs can be obtained visually by translating a rectangular window over the pixel domain. The idea of this section is to define similarly a convolution on graph domains, using a notion of translation defined on graphs~\citep{pasdeloup2017translations}. The translations we use match euclidean translations on 2D grid graphs~\citep{GrePasViaGri201610}, and extend them on general ones, by preserving three simple key properties: injectivity, edge-constraint, and neighborhood-preservation, which we will detail later.
 
+Given a set of graph translations $T = \{t_i, i \in \seq{\kappa - 1}\} \cup \{t_0 = \id \}$, the corresponding convolution can be expressed using the same formalism we used in \chapref{chap:2}, as:
+\begin{gather}
+w \ast x = \displaystyle\sum_{t \in T} w[t] \h{2} t(x)
+\end{gather}
+where $x$ is a signal over vertices of a graph $\gve$, and $w$ is a signal defined on $T \subset \Phi_{\EC}(G)$. Depending on the algebraic nature of $T$ (that we will discuss later), the theoretical results obtained in \chapref{chap:2} hold.
 
+By denoting $w_i = w[t_i]$, we obtain the more familiar expression:
+\begin{gather}
+\forall u \in V, w \ast x [u] = \displaystyle\sum_{i=0}^{\kappa-1} w_i \h{2} x[t_i^{-1}(u)]
+\end{gather}
+This expression extends the definition of convolutions from grid graphs to general graphs, with the use of graph translations. We use it to obtain extended CNNs that can be applied on graphs. In this manuscript, we coin the term \emph{Translation-convolutional neural network} (TCNN) to refer to them.
 
-
-Our method is based on~\cite{pasdeloup2017convolutional}, where the authors have introduced a way to infer a graph from training signals, then translations from the obtained graph to design ad-hoc CNNs. We extend this approach and design strided convolutions along graph downscaling, data augmentation and convolutions on downscaled graphs. \figref{fig:outline} depicts the proposed method.
+Besides defining translation-convolution on general graphs, designing a TCNN also implies extending the other building blocks of classical CNNs. As a counterpart for pooling operations, we define a graph subsampling and apply strided translation-convolution. The translations of the subsampled graph are derived from those of the base graph to define translation-convolution at the downscaled level. We will also use a weak form of data augmentation using these translations. \figref{fig:outline} depicts the proposed methodology.
 
 \input{chapter3/fig_tcnn}
 
 \subsection{Background}
 
-Define a graph $G = \langle V, E \rangle$ with $V$ the set of vertices, and $E \subseteq\binom{V}{2}$ the set of edges. We suppose the graph is connected, as conversely the process can be applied to each connected component of $G$. We denote by $d$ the max degree of the graph and $n = |V|$ the number of vertices.
+% Define a graph $G = \langle V, E \rangle$ with $V$ the set of vertices, and $E \subseteq\binom{V}{2}$ the set of edges. We suppose the graph is connected, as conversely the process can be applied to each connected component of $G$. We denote by $d$ the max degree of the graph and $n = |V|$ the number of vertices.
 
-The authors of~\cite{pasdeloup2017convolutional} propose to inductively define translations as functions from vertices to vertices as follows:
+% The authors of~\cite{pasdeloup2017convolutional} propose to inductively define translations as functions from vertices to vertices as follows:
+
+Let a graph $\gve$. We suppose the graph is connected, as conversely the process can be applied to each connected component of $G$. We denote by $d$ the max degree of the graph and $n = |V|$ the number of vertices.
 
 \begin{definition}\textbf{Candidate-translation}\\
   A \emph{candidate-translation} is a function $\phi: U \to V$, where $U \subset V$ and such that:
@@ -31,6 +42,7 @@ The authors of~\cite{pasdeloup2017convolutional} propose to inductively define t
 \end{definition}
 
 The cardinal $|V-U|$ is called the \emph{loss} of $\phi$.
+A translation for which $V=U$ is called a \emph{lossless} translation.
 Two candidate-translations $\phi$ and $\phi'$ are said to be \emph{aligned} if $\exists v\in U, \phi(v) = \phi'(v)$.
 We define $N_r(v)$ as the set of vertices that are at most $r$-hop away from a vertex $v \in V$.\\
 
@@ -38,26 +50,63 @@ We define $N_r(v)$ as the set of vertices that are at most $r$-hop away from a v
   A \emph{translation} in a graph $G$ is a candidate-translation such that there is no aligned translation with a strictly smaller loss, or is the identity function.
 \end{definition}
 
-Note that if the graph is a 2D grid, obtained translations are exactly natural translations on images~\cite{GrePasViaGri201610}.\\
+% \begin{remark}
+% If the graph is a 2D grid, obtained translations are exactly natural translations on images~\cite{GrePasViaGri201610}.
+% \end{remark}
+
+Because translations and candidate-translations need not be surjective on $V$, we introduce a zero vertex, denoted $\bot$, and sometimes called \emph{black hole}~\citep{GrePasViaGri201610}, such that any candidate translation $\phi: U \to V$ is extended as a function $\phi: V \to V \cup \{\bot\}$
+\begin{gather}
+\forall v \notin U, \phi(v) = \bot
+\end{gather}
+
+Finding translations is an NP-complete problem~\citep{pasdeloup2017translations}. So in practice, we will first search locally. For this reason, we define local translations:
 
 \begin{definition}\textbf{Local translation}\\
 A \emph{local translation} of center $v \in V$ is a translation in the subgraph of $G$ induced by $N_2(v)$, that has $v$ in its definition domain.
 \end{definition}
 
-As local translations can't be used to design data augmentation and convolutions on downscaled graphs, we also design proxies to global translations.
+With the help of local translations, we can construct proxies to global translations.
 
 \begin{definition}\textbf{Proxy-translations}\\
 A family of \emph{proxy-translations} $(\psi_p)_{p=0,..\kappa-1}$ initialized by $v_0 \in V$ is defined algorithmically as follows:
 \begin{enumerate}
 \item We place an indexing kernel on $N_1(v_0) $ i.e.\\ $N_1(v_0) = \{v_0, v_1, ..., v_{\kappa-1}\}$ with $\forall p, \psi_p(v_0) = v_p$,
-\item We move this kernel using each local translation $\phi$ of center $v_0$: $\forall p, \psi_p(\phi(v_0)) = \phi(v_p)$,
+\item We move this kernel using each local translation $\phi$ of center $v_0$:\\ $\forall p, \psi_p(\phi(v_0)) = \phi(v_p)$,
 \item We repeat 2) from each new center reached until saturation. If a center is being reached again, we keep the indexing that minimizes the sum of losses of the local translations that has lead to it.
 \end{enumerate}
 \end{definition}
 
-\subsection{Efficiently finding translations}
-Finding translations is an NP-complete problem~\cite{pasdeloup2017translations}, such that for large graphs the method is not suitable. 
-In order to break down complexity, the authors of~\cite{pasdeloup2017convolutional} propose to search for local translations. They also introduce approximate translations which we omit for the sake of simplicity, but the description would be similar. We describe in three steps how we efficiently find proxy-translations.
+We explain this algorithm in more details in the next \secref{sec:alg}. A family of proxy-translations defines a translation-convolution as follows:
+
+\begin{definition}\textbf{Translation-convolution layer}\\
+Let $(\psi_p)_{p=0,..,\kappa-1}$ be a family of proxy-translations identified on $G$ \st $\psi_0 = \id$.
+The \emph{translation-convolution layer} $\cl: x \mapsto y$ is defined as:
+\begin{gather}
+\forall v \in V, y[v] = h\left(\sum_{p=0}^{\kappa-1}{w_p \h{2} x[\psi_p(v)]} + b\right)
+\end{gather}
+
+where $h$ is the activation function, $b$ is the bias term, and with the convention that $x[\bot] = 0$.
+\end{definition}
+
+\subsection{Connection with action convolutions}
+
+\todo{See chapter 2}
+
+\begin{itemize}[noitemsep,nolistsep]
+  \item lossless translations = group action convolution
+  \item translations = groupoid action convolution
+  \item proxy translations = path convolution
+\end{itemize}
+
+\todo{SNP == abelian?}
+\todo{state the properties obtained from results of chapter 2}
+
+\subsection{Finding proxy-translations}
+\label{sec:alg}
+%Finding translations is an NP-complete problem~\cite{pasdeloup2017translations}, such that for large graphs the method is not suitable. 
+%In order to break down complexity, we propose to search for local translations. They also introduce approximate translations which we omit for the sake of simplicity, but the description would be similar.
+
+We describe in three steps how we efficiently find proxy-translations.
 
 \paragraph{First step: finding local translations}
 
@@ -68,7 +117,7 @@ For each vertex $v \in G$, we identify all local translations using a bruteforce
 \input{chapter3/fig_gridgraph}
 \input{chapter3/fig_inducedtranslations}
 
-\paragraph{Second step: using local translations to move a small localized kernel around $G$}
+\paragraph{Second step: move a small localized kernel}
 
 Given an arbitrary\footnote{In practice we run several experiments while changing the initial vertex and keep the best obtained result.} vertex $v_0 \in V$, we place an indexing kernel on $N_1(v_0)$ i.e. $N_1(v_0) = \{v_0, v_1, ..., v_{\kappa-1}\}$. Then we move it using every local translations of center $v_0$, repeating this process for each center that is reached for the first time. We stop when the kernel has been moved everywhere in the graph. In case of multiple paths leading to the same destination, we keep the indexing that minimizes the sum of loss of the series of local translations. We henceforth obtain an indexing of at most $\kappa$ objects of $N_1(v)$ for every $v \in V$.
 
@@ -76,7 +125,7 @@ This process is depicted in \figref{fig:movekernel}. Since it requires moving th
 
 \input{chapter3/fig_movekernel}
 
-\paragraph{Final step: identifying proxy-translations in $G$}
+\paragraph{Final step: identifying proxy-translations}
 
 Finally, by looking at the indexings obtained in the previous step, we obtain a family of proxy-translations defined globally on $G$. More precisely, each index defines its own proxy-translation. Note that they are not translations because only the local properties have been propagated through the second step, so there can exist aligned candidates with smaller losses. Because of the constraint to keep the paths with the minimum sum of losses, they are good proxies to translations on $G$.
 
@@ -84,35 +133,13 @@ An illustration on a grid graph is given in \figref{fig:translations}. The compl
 
 \input{chapter3/fig_translations}
 
-\subsection{Translation-convolution}
-
-Let $(\psi_p)_{p=0,..,\kappa-1}$ be the proxy-translations identified on $G$ with the convention that $\psi_0 = id$ is the identity function, and where $\kappa$ is the number of weights in the indexing kernel.
-
-The operation of the \emph{extended convolution layer} centered on the vertex $v \in V$ is defined as:
-
-$$\mathbf{y}_v = h\left(\sum_{p=0}^{\kappa-1}{w_p \mathbf{x}_{\phi_p(v)}} + b\right)$$
-
-where $h$ is the activation function, $b$ is the bias term, $\mathbf{x}_\bot = 0$ and:
-$$
-\left\{
-    \begin{array}{ll}
-        \phi_p(v) = \psi_p(v) & \mbox{ if } \psi_p \mbox{ is defined on } v \\
-        \phi_p(v) = \bot \notin V & \mbox{ else} \\
-    \end{array}
-\right..
-$$
-
-Note that we defined convolution layers using the formalism of proxy-translations, but they can also be defined using only the formalism of local translations~\cite{pasdeloup2017convolutional}.
-
-%Discussion with chapter 2
-
 \subsection{Subsampling}
 
 Downscaling is a tricky part of the process because it supposes one can somehow regularly sample vectors. As a matter of fact, a nonregular sampling is likely to produce a highly irregular downscaled graph, on which looking for translations irremediably leads to poor accuracy, as we noticed in our experiments.% Instead, here we propose to use translations on $G$ to define the extended downscaling layers. They basically are obtained by masking vertices in the initial graph.
 
-We rather define the translations of the strided graph using the previously found proxy-translations on $G$.\\
+We rather define the translations of the strided graph using the previously found proxy-translations on $G$.
 
-\noindent\textbf{First step: extended convolution with stride $r$}
+\paragraph{First step: extended convolution with stride $r$}
 %\subsubsection{First step: convolution with stride $r$}
 %Here we define an extended convolution layer with stride $r$.
 
@@ -128,7 +155,7 @@ The output neurons of the extended convolution layer with stride $r$ are $V_{\do
 
 \paragraph{Second step: convolutions for the strided graph}
 
-Using the proxy-translations on $G$, we move a localized $r$-hop indexing kernel over $G$. At each location, we associate the vertices of $V_{\downarrow r}$ with indices of the kernel, thus obtaining what we define as induced $_{\downarrow r}$-translations on the set $V_{\downarrow r}$. In other words, when the kernel is centered on $v_0$, if $v_1 \in V_{\downarrow r}$ is associated with the index $p_0$, we obtain $\phi_{p_0}^{\downarrow r}(v_0) = v_1$. Subsequent convolutions at lower scales are defined using these induced $_{\downarrow r}$-translations similarly to Subsection C.
+Using the proxy-translations on $G$, we move a localized $r$-hop indexing kernel over $G$. At each location, we associate the vertices of $V_{\downarrow r}$ with indices of the kernel, thus obtaining what we define as induced $_{\downarrow r}$-translations on the set $V_{\downarrow r}$. In other words, when the kernel is centered on $v_0$, if $v_1 \in V_{\downarrow r}$ is associated with the index $p_0$, we obtain $\phi_{p_0}^{\downarrow r}(v_0) = v_1$. Subsequent convolutions at lower scales are defined using these induced $_{\downarrow r}$-translations.
 %The downstream convolution's weight-sharing schemes are then obtained by moving a kernel covering the full graph to each vertex in $V_{\downarrow r}$, similarly to Subsection C.
 
 %% Note that every downscaling layers of the extended architecture are defined from the translation found on the graph at the input level of the network. A typical extended CNN architecture would contain ${2^r}$ downscaled layers.
@@ -137,11 +164,16 @@ Using the proxy-translations on $G$, we move a localized $r$-hop indexing kernel
 
 \subsection{Data augmentation}
 
-Once translations are obtained on $G$, one can use them to move training vectors, artificially creating new ones. Note that this type of data-augmentation is poorer than for images since no flipping, scaling or rotations are used.
+Once proxy-translations are obtained on $G$, we use them to move training vectors, artificially creating new ones. Note that this type of data-augmentation is poorer than for images since no flipping, scaling or rotations are used.
 
-\subsection{Matching CNNs on image classification}
 
-On the CIFAR-10 dataset, our models are based on a variant of a deep residual network, namely PreActResNet18\cite{he2016identity}. We tested different combinations of graph support and data augmentation. For the graph support, we use either a regular 2D grid or either an inferred graph obtained by keeping the four neighbours that covary the most. \tabref{tab:cifar-table} summarizes out results. In particular, it is interesting to note that results obtained without any structure prior (91.07\%) are only 2.7\% away from the baseline using classical CNNs on images (93.80\%). This gap is even smaller (less than 1\%) when using the grid prior. Also, without priors our method significantly outperforms the others. %% In the top left corner of the table we fully exploit the fact that the dataset is composed of 2D structured data, and in the bottom right corner this information is not used at all. Even with that disadvantage, the results differ of only 2.7\%, which shows the strenght of the method when compared to others.
+
+\subsection{Eperiments}
+\paragraph{Matching CNNs on image classification}
+
+On the CIFAR-10 dataset, our models are based on a variant of a deep residual network, namely PreActResNet18\cite{he2016identity}. We tested different combinations of graph support and data augmentation. For the graph support, we use either a regular 2D grid or either an inferred graph obtained by keeping the four neighbours that covary the most. In the second case, no structure prior have been fed to the process, so the results can be compared with those of \cite{lin2015}. We also report results obtained with ChebNet~\cite{defferrard2016convolutional}, where only convolutional layers have been replaced for comparison.
+
+\tabref{tab:cifar-table} summarizes our results. In particular, it is interesting to note that results obtained without any structure prior (91.07\%) are only 2.7\% away from the baseline using classical CNNs on images (93.80\%). This gap is even smaller (less than 1\%) when using the grid prior. Also, without priors our method significantly outperforms the others. %% In the top left corner of the table we fully exploit the fact that the dataset is composed of 2D structured data, and in the bottom right corner this information is not used at all. Even with that disadvantage, the results differ of only 2.7\%, which shows the strenght of the method when compared to others.
 
 \begin{table}
 \begin{center}
@@ -149,26 +181,33 @@ On the CIFAR-10 dataset, our models are based on a variant of a deep residual ne
 \vspace{-0.4cm}
 \label{tab:cifar-table}
 \resizebox{\columnwidth}{!}{%
-\begin{tabular}{|l|c|c|c|c|c|c|}
+\begin{tabular}{|l|c|c|c|c|c|}
 \hline
-\multirow{2}{*}{Support} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}MLP \\ \cite{LinMK15}\end{tabular}} & \multirow{2}{*}{CNN} & \multicolumn{2}{c|}{Grid Graph (Given)}       & \multicolumn{2}{c|}{Covariance Graph (Inferred)}         \\ \cline{4-7} 
-                         &                                                                                &                      & \cite{defferrard2016convolutional} & Proposed & Proposed             & \cite{pasdeloup2017convolutional} \\ \hline
-Full Data Augmentation   & 78.62\%                                                                        & \textbf{93.80\%}     & 85.13\%                            & 93.94\%  & 92.57\%              & ------                            \\ \hline
-Data Augmentation - Flip & ------                                                                         & 92.73\%              & 84.41\%                            & 92.94\%  & 91.29\%              & ------                            \\ \hline
-Graph Data Augmentation  & ------                                                                         & 92.10\%$^a$          & ------                             & 92.81\%  & \textbf{91.07\%}$^b$ & ------                            \\ \hline
-None                     & 69.62\%                                                                        & 87.78\%              & ------                             & 88.83\%  & 85.88\%$^b$           & 82.52\%                           \\ \hline
+\multirow{2}{*}{Support} & \multirow{2}{*}{MLP} %\multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}MLP \\\citeauthor{lin2015}\end{tabular}}
+& \multirow{2}{*}{CNN} & \multicolumn{2}{c|}{Grid Graph}       & Covariance Graph         \\ \cline{4-6} 
+                         &                                                                                &                      & ChebNet$^c$ & Proposed & Proposed              \\ \hline
+Full Data Augmentation   & 78.62\%$^{a,b}$                                                                     & \textbf{93.80\%}     & 85.13\%                            & 93.94\%  & 92.57\%                                         \\ \hline
+Data Augmentation - Flip & ------                                                                         & 92.73\%              & 84.41\%                            & 92.94\%  & 91.29\%                                         \\ \hline
+Graph Data Augmentation  & ------                                                                         & 92.10\%$^d$          & ------                             & 92.81\%  & \textbf{91.07\%}$^a$                             \\ \hline
+None                     & 69.62\%                                                                        & 87.78\%              & ------                             & 88.83\%  & 85.88\%$^a$                                      \\\hline
 \end{tabular}
 
 }
-\vspace{-0.2cm}
+%\vspace{-0.2cm}
 \end{center}
-\footnotesize{$^a$ As the CNN does not have a graph support we used the covariance graph as support for the graph data augmentation.\\ $^b$ No priors about the structure}\\
-\vspace{-.6cm}
+\begin{flushleft}
+\footnotesize{
+$^a$ No priors about the structure\\
+$^b$ \cite{lin2015}\\
+$^c$ \cite{defferrard2016convolutional}\\
+$^d$ Data augmentation done with covariance graph 
+}
+\end{flushleft}
 \end{table}
 
-\subsection{Experiments on fmri datasets}
+\paragraph{Experiments on fmri datasets}
 
-The PINES dataset consists of fMRI scans on 182 subjects, during an emotional picture rating task\cite{chang2015sensitive}. We fetched individual first-level statistical maps (beta images) for the minimal and maximal ratings from \url{https://neurovault.org/collections/1964/}, to generate the dataset. Full brain data was masked on the MNI template and resampled to a 16mm cubic grid, in order to reduce dimensionality of the dataset while keeping a regular geometrical structure. Final volumes used for classification contain 369 signals for each subject and rating. 
+The PINES dataset consists of fMRI scans on 182 subjects, during an emotional picture rating task \citep{chang2015sensitive}. We fetched individual first-level statistical maps (beta images) for the minimal and maximal ratings from \url{https://neurovault.org/collections/1964/}, to generate the dataset. Full brain data was masked on the MNI template and resampled to a 16mm cubic grid, in order to reduce dimensionality of the dataset while keeping a regular geometrical structure. Final volumes used for classification contain 369 signals for each subject and rating. 
 
 We used a shallow network. The results on \tabref{tab:iaps-table} show that our method was able to improve over CNNs, MLPs and other graph-based extended convolutional neural networks.
 
@@ -182,6 +221,6 @@ We used a shallow network. The results on \tabref{tab:iaps-table} show that our 
 Method                      & MLP & CNN (kernel 1x1)                                 & \cite{defferrard2016convolutional} & Proposed                   \\ \hline
 Accuracy                    & 82.62\% & 84.30\%                            & 82.80\%                            & \textbf{85.08\%} \\ \hline
 \end{tabular}
-\vspace{-.4cm}
+%\vspace{-.4cm}
 \end{table}
 
