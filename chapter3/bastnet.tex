@@ -15,9 +15,9 @@ By denoting $w_i = w[t_i]$, we obtain the more familiar expression:
 \begin{gather}
 \forall u \in V, w \ast x [u] = \displaystyle\sum_{i=0}^{\kappa-1} w_i \h{2} x[t_i^{-1}(u)]
 \end{gather}
-This expression extends the definition of convolutions from grid graphs to general graphs, with the use of graph translations. We use it to obtain extended CNNs that can be applied on graphs. In this manuscript, we coin the term \emph{Translation-convolutional neural network} (TCNN) to refer to them.
+This expression extends the definition of convolutions from grid graphs to general graphs, with the use of graph translations. We use it to obtain extended CNNs that can be applied on graphs. In this manuscript, we coin the term \emph{Translation-convolutional neural network} (TCNN) to refer to them, but they are the same as the extended convolutions we defined in \cite{pasdeloup2017convolutional}.
 
-Besides defining translation-convolution on general graphs, designing a TCNN also implies extending the other building blocks of classical CNNs. As a counterpart for pooling operations, we define a graph subsampling and apply strided translation-convolution. The translations of the subsampled graph are derived from those of the base graph to define translation-convolution at the downscaled level. We will also use a weak form of data augmentation using these translations. \figref{fig:outline} depicts the proposed methodology.
+Besides defining translation-convolution on general graphs, designing a TCNN also implies extending the other building blocks of classical CNNs. As a counterpart for pooling operations, we define a graph subsampling and apply strided translation-convolution. The translations of the subsampled graph are derived from those of the base graph to define translation-convolution at the downscaled level. We will also use a weak form of data augmentation using these translations. \figref{fig:outline} depicts the proposed methodology~\citep{lassance2018matching}.
 
 \input{chapter3/fig_tcnn}
 
@@ -149,7 +149,7 @@ Given an arbitrary initial vertex $v_0 \in V$, the set of kept vertices $V_{\dow
 \item $\forall t \in \mathbb{N}, V_{\downarrow r}^{t+1} = V_{\downarrow r}^t \cup \{v \in V, \forall v' \in V_{\downarrow }^t, v \not\in N_{r-1}(v') \land \exists v' \in V_{\downarrow r}^t, v \in N_{r}(v') \}$.
 \end{itemize}
 
-This sequence is nondecreasing and bounded by $V$, so it eventually becomes stationary and we obtain $V_{\downarrow r} = \lim_t{V_{\downarrow r}^t}$. Figure~\ref{downscaling} illustrate the first downscaling $V_{\downarrow 2}$ on a grid graph. %% $V_{\downarrow 2}$ is used to define the stride in extended convolution layers.
+This sequence is nondecreasing and bounded by $V$, so it eventually becomes stationary and we obtain $V_{\downarrow r} = \lim_t{V_{\downarrow r}^t}$. \figref{fig:downscaling} illustrate the first downscaling $V_{\downarrow 2}$ on a grid graph. %% $V_{\downarrow 2}$ is used to define the stride in extended convolution layers.
 
 The output neurons of the extended convolution layer with stride $r$ are $V_{\downarrow r}$.
 
@@ -167,9 +167,9 @@ Using the proxy-translations on $G$, we move a localized $r$-hop indexing kernel
 Once proxy-translations are obtained on $G$, we use them to move training singals, artificially creating new ones. Note that this type of data-augmentation is poorer than for images since no flipping, scaling or rotations are used.
 
 \subsection{Eperiments}
-\paragraph{Matching CNNs on image classification}
+\paragraph{Matching CNNs on an image classification task}
 
-On the CIFAR-10 dataset, our models are based on a variant of a deep residual network, namely PreActResNet18\cite{he2016identity}. We tested different combinations of graph support and data augmentation. For the graph support, we use either a regular 2D grid or either an inferred graph obtained by keeping the four neighbours that covary the most. In the second case, no structure prior have been fed to the process, so the results can be compared with those of \cite{lin2015}. We also report results obtained with ChebNet~\cite{defferrard2016convolutional}, where only convolutional layers have been replaced for comparison.
+On the CIFAR-10 dataset~\citep{krizhevsky2009learning}, our models are based on a variant of a deep residual network, namely PreActResNet18 \citep{he2016identity}. We tested different combinations of graph support and data augmentation. For the graph support, we use either a regular 2D grid or either an inferred graph obtained by keeping the four neighbours that covary the most. In the second case, no structure prior have been fed to the process, so the results can be compared with those of \cite{lin2015}. We also report results obtained with ChebNet~\citep{defferrard2016convolutional}, where only convolutional layers have been replaced for comparison.
 
 \tabref{tab:cifar-table} summarizes our results. In particular, it is interesting to note that results obtained without any structure prior (91.07\%) are only 2.7\% away from the baseline using classical CNNs on images (93.80\%). This gap is even smaller (less than 1\%) when using the grid prior. Also, without priors our method significantly outperforms the others. %% In the top left corner of the table we fully exploit the fact that the dataset is composed of 2D structured data, and in the bottom right corner this information is not used at all. Even with that disadvantage, the results differ of only 2.7\%, which shows the strenght of the method when compared to others.
 
@@ -203,9 +203,9 @@ $^d$ Data augmentation done with covariance graph
 \end{flushleft}
 \end{table}
 
-\paragraph{Experiments on fmri datasets}
+\paragraph{Experiments on a fMRI dataset}
 
-The PINES dataset consists of fMRI scans on 182 subjects, during an emotional picture rating task \citep{chang2015sensitive}. We fetched individual first-level statistical maps (beta images) for the minimal and maximal ratings from \url{https://neurovault.org/collections/1964/}, to generate the dataset. Full brain data was masked on the MNI template and resampled to a 16mm cubic grid, in order to reduce dimensionality of the dataset while keeping a regular geometrical structure. Final volumes used for classification contain 369 signals for each subject and rating. 
+The PINES dataset consists of functional Magnetic Resonance Imaging (fMRI) scans on 182 subjects, during an emotional picture rating task \citep{chang2015sensitive}. We fetched individual first-level statistical maps (beta images) for the minimal and maximal ratings from \url{https://neurovault.org/collections/1964/}, to generate the dataset. Full brain data was masked on the MNI template and resampled to a 16mm cubic grid, in order to reduce dimensionality of the dataset while keeping a regular geometrical structure. Final volumes used for classification contain 369 signals for each subject and rating. 
 
 We used a shallow network. The results on \tabref{tab:iaps-table} show that our method was able to improve over CNNs, MLPs and other graph-based extended convolutional neural networks.
 
@@ -215,8 +215,8 @@ We used a shallow network. The results on \tabref{tab:iaps-table} show that our 
 \label{tab:iaps-table}
 \begin{tabular}{|l||c|c||c|c|}
 \hline
-\multicolumn{1}{|l||}{Graph} & \multicolumn{2}{c||}{None} & \multicolumn{2}{c|}{Neighborhood Graph}     \\ \hline
-Method                      & MLP & CNN (kernel 1x1)                                 & \cite{defferrard2016convolutional} & Proposed                   \\ \hline
+\multicolumn{1}{|l||}{Support} & \multicolumn{2}{c||}{None} & \multicolumn{2}{c|}{Neighborhood Graph}     \\ \hline
+Method                      & MLP & CNN (1x1 kernels)                                & ChebNet$^c$ & Proposed                   \\ \hline
 Accuracy                    & 82.62\% & 84.30\%                            & 82.80\%                            & \textbf{85.08\%} \\ \hline
 \end{tabular}
 %\vspace{-.4cm}

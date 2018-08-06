@@ -108,17 +108,17 @@ We observe that the receptive graph layers outperforms the CNN and the MLP on sc
 
 \subsection{Improving $S$ for standard convolutions}
 
-On Cifar10, we made experiments on shallow CNN architectures and replaced convolutions by receptive graphs. We report results on a variant of AlexNet~\cite{krizhevsky2012imagenet} using little distortion on the input that we borrowed from a tutorial of tensorflow~\cite{tensorflow2015-whitepaper}.
+On CIFAR-10, a dataset of tiny images~\citep{krizhevsky2009learning}, we made experiments on shallow CNN architectures and replaced convolutions by receptive graphs. We report results on a variant of AlexNet~\cite{krizhevsky2012imagenet} using little distortion on the input that we borrowed from a tutorial of tensorflow~\cite{tensorflow2015-whitepaper}.
 %On Cifar10, we use a variant of the AlexNet architecture applied on inputs with little distortion~\cite{krizhevsky2012imagenet}, borrowed from a tutorial of tensorflow~\cite{tensorflow2015-whitepaper}.
 It is composed of two 5x5 convolutional layers of 64 feature maps, with max pooling and local response normalization, followed by two fully connected layers of 384 and 192 neurons.
-On Cifar10, training architectures that learn $S$ took about $2.5$ times longer.
+On CIFAR-10, training architectures that learn $S$ took about $2.5$ times longer.
 %We switched each convolutional layer with receptive graph layers, but kept the pooling ones.
-We compare two different graph supports: the one obtained by using the underlying graph of a regular 5x5 convolution, and the support of the square of the grid graph. Optimization is done with stochastic gradient descent on 375 epochs where $S$ is freezed on the 125 last ones. Circulant one-hot intialization is used. These are weak classifiers for Cifar10 but they are enough to analyse the usefulness of the proposed layer.
+We compare two different graph supports: the one obtained by using the underlying graph of a regular 5x5 convolution, and the support of the square of the grid graph. Optimization is done with stochastic gradient descent on 375 epochs where $S$ is freezed on the 125 last ones. Circulant one-hot intialization is used. These are weak classifiers for CIFAR-10 but they are enough to analyse the usefulness of the proposed layer.
 %Exploring deeper architectures is left for further work.
 Experiments are run five times each. Means and standard deviations of accuracies are reported in table~\ref{cifar}. ``Pos'' means parameters in $S$ are forced to being positive, ``Norm'' means that the $\ell_1$ norm of each vector in the third dimension of $S$ is forced to 1, ``Both'' means both constraints are applied, and ``None'' means none are used.
 
 \begin{table}[H]
-  \caption{Accuracies (in \%) of shallow networks on CIFAR10.}
+  \caption{Accuracies (in \%) of shallow networks on CIFAR-10.}
   \begin{center}
     \bgroup
     \def\arraystretch{1.5}%  1 is the default, change whatever you need
