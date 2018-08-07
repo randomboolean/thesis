@@ -1,0 +1,56 @@
+\begin{figure}[h!tb]
+\centering
+\begin{tikzpicture}[
+init/.style={
+  draw,
+  circle,
+  inner sep=2pt,
+  font=\Huge,
+  join = by o-latex
+},
+squa/.style={
+  draw,
+  inner sep=2pt,
+  font=\Large,
+  join = by -latex
+},
+start chain=2,node distance=13mm
+]
+\node[on chain=2] 
+  (x2) {$x_2$};
+%\node[on chain=2,join=by o-latex] 
+%  {$w_2$};
+\node[on chain=2,init] (sigma)
+  {$\displaystyle\Sigma$};
+\node[on chain=2,squa,label=above:{\parbox{2cm}{\centering activation}}]   
+  {$h$};
+\node[on chain=2,join=by -o] 
+  {$y$};
+\begin{scope}[start chain=1]
+\node[on chain=1] at (0,1.5cm) 
+  (x1) {$x_1$};
+%\node[on chain=1,join=by o-latex] 
+%  (w1) {$w_1$};
+\end{scope}
+\begin{scope}[start chain=3]
+\node[on chain=3] at (0,-1.5cm) 
+  (x3) {$x_3$};
+%\node[on chain=3,label=below:Weights,join=by o-latex] 
+%  (w3) {$w_3$};
+\end{scope}
+\node[label=above:{\centering bias}] at (sigma|-x1) (b) {};
+
+\draw[o-latex] (x1) -- (sigma);
+\draw[o-latex] (x3) -- (sigma);
+\draw[o-latex] (b) -- (sigma);
+
+\node at (1cm,1.2cm) {$w_1$};
+\node at (1cm,0.2cm) {$w_2$};
+\node at (1cm,-0.5cm) {$w_3$};
+\node at (2.37cm,0.9cm) {$b$};
+
+%\draw[decorate,decoration={brace,mirror}] (x1.north west) -- node[left=10pt] {Inputs} (x3.south west);
+\end{tikzpicture}
+\caption{A neuron}
+\label{fig:neuron}
+\end{figure}

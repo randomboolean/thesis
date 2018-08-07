@@ -166,7 +166,7 @@ Using the proxy-translations on $G$, we move a localized $r$-hop indexing kernel
 
 Once proxy-translations are obtained on $G$, we use them to move training singals, artificially creating new ones. Note that this type of data-augmentation is poorer than for images since no flipping, scaling or rotations are used.
 
-\subsection{Eperiments}
+\subsection{Experiments}
 \paragraph{Matching CNNs on an image classification task}
 
 On the CIFAR-10 dataset~\citep{krizhevsky2009learning}, our models are based on a variant of a deep residual network, namely PreActResNet18 \citep{he2016identity}. We tested different combinations of graph support and data augmentation. For the graph support, we use either a regular 2D grid or either an inferred graph obtained by keeping the four neighbours that covary the most. In the second case, no structure prior have been fed to the process, so the results can be compared with those of \cite{lin2015}. We also report results obtained with ChebNet~\citep{defferrard2016convolutional}, where only convolutional layers have been replaced for comparison.

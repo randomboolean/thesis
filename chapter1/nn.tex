@@ -1,14 +1,15 @@
 \section{Neural Networks}
 \label{sec:nn}
 
-A feed-forward neural network could originally be formalized as a composite function chaining linear and non-linear functions \citep{rumelhart1985learning,lecun1989backpropagation,lecun1995convolutional}, even up until the important breakthroughs that generated a surge of interest in the field \citep{hinton2012deep,krizhevsky2012imagenet,simonyan2014very}. However, in more recent advances, more complex architectures have emerged \citep{szegedy2015going,he2016deep,zoph2016neural,huang2017densely}, such that the former formalization does not suffice. We provide a definition for the first kind of neural networks (\defref{def:nn}) and use it to present its related concepts. Then we give a more generic definition (\defref{def:nn2}).
+\subsection{Formalizations}
+
+A feed-forward neural network could originally be formalized as a composite function chaining linear and non-linear functions \citep{rumelhart1985learning,lecun1989backpropagation,lecun1995convolutional}. That whas still the case in 2012 when important breakthroughs regenerated a surge of interest in the field \citep{hinton2012deep,krizhevsky2012imagenet,simonyan2014very}. However, in more recent years, more complex architectures have emerged \citep{szegedy2015going,he2016deep,zoph2016neural,huang2017densely}, such that the former formalization does not suffice. We provide a definition for the first kind of neural networks (\defref{def:nn}) and use it to present its related concepts. Then we give a more generic definition (\defref{def:nn2}).
 
 Note that in this manuscript, we only consider neural networks that are \emph{feed-forward} \citep{zell1994simulation, wiki:fnn}.
 
-\subsection{Simple formalization}
+We denote by $I_f$ the \textit{domain of definition} of a function $f$ ("I" stands for "input") and by $O_f = f(I_f)$ its \textit{image} ("O" stands for "output"), and we represent it as $I_f~\xrightarrow{f}~O_f$ or $f: I_f \to O_f$.
 
-We denote by $I_f$ the \textit{domain of definition} of a function $f$ ("I" stands for "input") and by $O_f = f(I_f)$ its \textit{image} ("O" stands for "output"), and we represent it as $I_f~\xrightarrow{f}~O_f$.
-
+\paragraph{Simple formalization}
 \begin{definition}\textbf{Neural network (simply connected)}\\
 Let $f$ be a function such that $I_f$ and $O_f$ are vector or tensor spaces.\\
 $f$ is a \emph{(simply connected) neural network function} if there are a series of affine functions $(g_k)_{k=1,2,..,L}$ and a series of non-linear derivable univariate functions $(h_k)_{k=1,2,..,L}$ such that:
@@ -27,64 +28,80 @@ For $x \in I_f$, we denote by $x_k = f_k \circ ... \circ f_{2} \circ f_1 (x)$ th
 \end{definition}
 
 \begin{definition}\textbf{Activation function}\\
-An \emph{activation function} $h$ is a real-valued univariate function that is non-linear and derivable, that is also defined by extension on any linear space with the functional notation $h(v)[i] = h(v[i])$.
+An \emph{activation function} $h$ is a real-valued univariate function that is non-linear and derivable, that is also defined by extension with the functional notation $h(v)[i] = h(v[i])$.
 \end{definition}
-%
-% \begin{figure}[H]
-% \centering
-% \begin{tikzpicture}
-% \draw (0,0) -- (4,0) -- (4,4) -- (0,4) -- (0,0);
-% \node at (2,2){placeholder};
-% \end{tikzpicture}
-% \caption{reLU activation function}
-% \label{fig:relu}
-% \end{figure}
 
 \begin{definition}\textbf{Layer}\\
-A couple $(g,h)$, where $g$ is an affine or linear function, and $h$ is an activation function is called a \emph{layer}. The set of layers is denoted~$\cl$.
+A layer is a couple $\cl = (g,h) : I \to O$, where $g : I \to O$ is a linear function, and $h: O \to O$ is an activation function. It computes the function
+$$
+y = h(g(x) + b)
+$$
+where $b$ is a constant called \emph{bias}.
 \end{definition}
 
-\paragraph{Adoption of ReLU activations}
-Historically, sigmoidal and tanh activations were mostly used \citep{cybenko1989approximation, lecun1989backpropagation}. However in recent practice, the \emph{rectified linear unit} (ReLU), which implements the \emph{rectifier} function $h: x \mapsto max(0,x)$ with convention $h'(0) = 0$ (first introduced as the \emph{positive part}, \cite{jarrett2009best}), is the most used activation, as it was demonstrated to be faster and to obtain better results \citep{glorot2011deep}. ReLU originated numerous variants \eg \emph{leaky rectified linear unit} \citep{maas2013rectifier}, \emph{parametric rectified linear unit} (PReLU, \cite{he2015delving}), \emph{exponential linear unit} (ELU, \cite{clevert2015fast}), \emph{scaled exponential linear unit} (SELU, \cite{Klambauer2017self}).
+That is, in the simple formalization, a neural network is just a sequence of layers.
 
-\paragraph{Universal approximation}
-Early researches have shown that neural networks with one level of depth can approximate any real-valued function defined on a compact subset of~$\bbr^n$. This result was first proved for sigmoidal activations \citep{cybenko1989approximation}, and then it was shown it did not depend on the sigmoidal activations \citep{hornik1989multilayer,hornik1991approximation}.
+\begin{remark}The bias augments the expressivity of the layers. For notational convenience, we may sometimes omit to write it down.
+\end{remark}
 
-For example, for the application of supervised learning when a neural network is trained from data (see \secref{sec:training}), this result is quite important because it brings theoretical justification that the objective exists (even though it doesn't inform whether an algorithm to approach it exists or is efficient).
+The most common activation function is the \emph{rectified linear unit} (ReLU)~\citep{glorot2011deep}, used for its better practical performances and faster computation times. It implements the \emph{rectifier} function $h: x \mapsto max(0,x)$ (with convention $h'(0) = 0$), as depicted on \figref{fig:relu}.
 
-\paragraph{Computational difficulty}
-However, reaching such objective is a computationally difficult problem, which drove back interest from the field. Thanks to better hardware and to using better initialization schemes that speed up learning, researchers started to report more successes with deep neural networks \citep{hinton2006fast,glorot2010understanding} ; see \citep{bengio2009learning} for a review of this period. It ultimately came to a surge of interest in the field after a significant breakthrough on the imagenet dataset \citep{deng2009imagenet} with a deep convolutional architecture \citep{krizhevsky2012imagenet}, see \secref{sec:nn_arch}. The use of the fast ReLU activation function \citep{glorot2011deep} as well as leveraging graphical processing units with CUDA \citep{nickolls2008scalable} were also key factors in overcoming this computational difficulty.
+ \begin{figure}[htbp]
+ \centering
+ \begin{tikzpicture}
+    \begin{axis}[
+        domain=-3:5,
+        ]
+        \addplot+[mark=none,red,domain=-3:0] {0};
+        \addplot+[mark=none,red,domain=0:5] {x};
+    \end{axis}
+ \end{tikzpicture}
+ \caption{ReLU activation function}
+ \label{fig:relu}
+ \end{figure}
 
-\paragraph{Expressivity and expressive efficiency}
-The study of the \emph{expressivity} (also called \emph{representational power}) of families of neural networks is the field that is interested in the range of functions that can be realized or approximated by this family \citep{haastad1991power,pascanu2013number}. In general, given a maximal error~$\epsilon$ and an objective~$F$, the more expressive is a family $N \subset \cn$, the more likely it is to contain an approximation $f \in N$ such that $d(f,F) < \epsilon$. However, if we consider the approximation $f_{min} \in N$ that have the lowest number of neurons, it is possible that~$f_{min}$ is still too large and may be unpractical. For this reason, expressivity is often studied along the related notion of \emph{expressive efficiency} \citep{delalleau2011shallow,cohen2018boosting}.
-\label{par:expr}
+\paragraph{Examples}
+Let $f: x \to y$ be a neural network. For example, if~$f$ is used to classify its input~$x$ in one of~$c$ classes, then its output~$y$ would be a vector of dimension~$c$,  and each dimension corresponds to a class. The prediction of~$f$ for the class of~$x$ is the dimension of~$y$ where it has the bigger value. Typically,~$f$ is terminated by a softmax activation~\citep{wiki:soft}, so that values of the output~$y$ fall in the range $[0,1]$, and so that~$y$ tends to have a dimension with a much bigger weight as to facilitates discrimination.
 
-\paragraph{Rectifier neural netowrks}
-Of particular interest for the intuition is a result stating that a simply connected neural networks with only ReLU activations (a rectifier neural network) is a piecewise linear function \citep{pascanu2013number,montufar2014number}, and that conversely any piecewise linear function is also a rectifier neural network such that an upper bound of its depth is logarithmically related to the input dimension (\cite{arora2018understanding}, th. 2.1.). Their expressive efficiency have also been demonstrated compared to neural networks using threshold or sigmoid activations~\citep{pan2016expressiveness}.
+A neural network that comprises convolutional layers, \ie layers \st~$g$ is expressed with a convolution, is called a Convolutional Neural Network (CNN). A common example is the LeNet-5 architecture~\citep{lecun1989backpropagation} as depicted in \figref{fig:lenet}. It implements a function
+$$
+f = h_4 \circ g_4 \circ \cdots \circ h_1 \circ g_1
+$$
+where $g_1$ and $g_2$ are linear functions that applies 5x5 convolutions followed by subsampling, $h_1$, $h_2$ and $h_3$ are ReLU activations, and $h_4$ is a softmax activation. It was originally applied to the task of handwritten digit classifications (for example for automatically reading postal ZIP codes).
 
-\paragraph{Benefits of depth}
-Expressive efficiency analysis have demonstrated the benefits of depth, \ie a shallow neural network would need an unfeasible large number of neurons to approximate the function of a deep neural network (\eg \cite{delalleau2011shallow,bianchini2014complexity,poggio2015theory,eldan2016power,poole2016exponential,raghu2016expressive,cohen2016convolutional,mhaskar2016learning,lin2017does,arora2018understanding}).
+\begin{figure}[tp]
+\centering\includegraphics[scale=0.5]{chapter1/lenet5.png}
+\caption{LeNet-5 \citep{lecun1989backpropagation}}
+\label{fig:lenet}
+\end{figure}
 
-\paragraph{Bias}
-Note that affine functions $\widetilde{g}$ can be written as a sum between a linear function $g$ and a constant vector $b$ which is called the \emph{bias}. It augments the expressivity of the neural network's family of functions. For notational convenience, we will often omit to write down the biases in the layer's equations.
+Another example is the VGG architecture, a very deep CNN, and was state-of-the-art in image classification in 2014 (\citeauthor{simonyan2014very}). It is depicted on \figref{fig:vgg}
 
-\subsection{Generic formalization}
+\begin{figure}[tp]
+\centering\includegraphics[scale=0.8]{chapter1/vgg16.png}
+\caption{VGG-16 (\cite{simonyan2014very}, figure from~\cite{vgg})}
+\label{fig:vgg}
+\end{figure}
+
+In more recent years, state-of-the-art architecture can no longer be described with a simple formalization.
+
+\paragraph{Generic formalization}
 
 The former neural networks are said to be \emph{simply connected} because each layer only takes as input the output of the previous one. We'll give a more general definition after first defining branching operations.
 
 \begin{definition}\textbf{Branching}\\
 A \emph{binary branching operation} between two tensors, $x_{k_1} \Join x_{k_2}$, outputs, subject to shape compatibility, either their addition, either their concatenation along a rank, or their concatenation as a list.
 
-A \emph{branching operation} between $n$ tensors, $x_{k_1} \Join x_{k_2} \Join \cdots \Join x_{k_n}$, is a composition of binary branching operations, or is the identity function $Id$ if $n = 1$.
+A \emph{branching operation} between $n$ tensors, $x_{k_1} \Join x_{k_2} \Join \cdots \Join x_{k_n}$, is a composition of binary branching operations, or is the identity function $\id$ if $n = 1$.
 
-Branching operations are also naturally defined on tensor-valued functions through their realizations.
+Branching operations are also naturally defined on tensor-valued functions via their realizations.
 \end{definition}
 
 \begin{definition}\textbf{Neural network (generic definition)}\\
 The set of \emph{neural network} functions $\cn$ is defined inductively as follows
 \begin{enumerate}
   \item $Id \in \cn$
-  \item $f \in \cn \wedge (g,h) \in \cl \wedge O_f \subset I_g \Rightarrow h \circ g \circ f \in \cn$
+  \item $f \in \cn \wedge (g,h) \text{ is a layer} \wedge O_f \subset I_g \Rightarrow h \circ g \circ f \in \cn$
   \item for all shape compatible branching operations:\\
   $\quad f_1, f_2, \ldots, f_n \in \cn \Rightarrow  f_1 \Join f_2 \Join \cdots \Join f_n \in \cn$
 \end{enumerate}
@@ -92,11 +109,14 @@ The set of \emph{neural network} functions $\cn$ is defined inductively as follo
 \end{definition}
 
 \paragraph{Examples}
-The neural network proposed in \citep{szegedy2015going}, called \emph{Inception}, use depth-wise concatenation of feature maps. Residual networks (ResNets, \cite{he2016deep}) make use of \emph{residual connections}, also called \emph{skip connections}, \ie an activation that is used as input in a lower level is added to another activation at an upper level. Densely connected networks (DenseNets, \cite{huang2017densely}) have their activations concatenated with all lower level activations. These neural networks had demonstrated state of the art performances on the imagenet classification challenge \citep{deng2009imagenet}, outperforming simply connected neural networks.
+The neural network proposed in \citep{szegedy2015going}, called \emph{Inception}, use depth-wise concatenation of feature maps. Residual networks (ResNets, \cite{he2016deep}) make use of \emph{residual connections}, also called \emph{skip connections}, \ie an activation that is used as input in a lower level is added to another activation at an upper level. Densely connected networks (DenseNets, \cite{huang2017densely}) have their activations concatenated with all lower level activations. These neural networks had demonstrated state of the art performances on the imagenet classification challenge \citep{deng2009imagenet}, outperforming simply connected neural networks. For example, DenseNet is depicted on \figref{fig:densenet}.
 \label{par:branching_ex}
 
-\paragraph{Benefits of branching operations}
-Recent works have provided rationales supporting benefits of using branching operations, thus giving justifications for architectures obtained with the generic formalization. In particular, \citep{cohen2018boosting} have analyzed the impact of residual connections used in Wavenet-like architectures \citep{van2016wavenet} in terms of expressive efficiency (see related paragraph in \secref{par:expr}) using tools from the field of tensor analysis ; \citep{orhan2018skip} have empirically demonstrated that skip connections can resolve some inefficiency problems inherent of fully-connected networks (dead activations, activations that are always equal, linearly dependent sets of activations).
+\begin{figure}[tp]
+\centering\includegraphics[scale=0.07]{chapter1/densenet.jpg}
+\caption{DenseNet \citep{huang2017densely}}
+\label{fig:densenet}
+\end{figure}
 
 \begin{remark}
 For layer indexing convenience, we still use the simple formalization in the subsequent subsections, even though the presentation would be similar with the generic formalization.
@@ -104,7 +124,7 @@ For layer indexing convenience, we still use the simple formalization in the sub
 
 \subsection{Interpretation}
 
-Until now, we have formally introduced a neural network as a mathematical function. As its name suggests, such function can be interpreted from a connectivity viewpoint \citep{lecun-87}.
+Until now, we have formally introduced a neural network as a mathematical function. As its name suggests, such function can be indeed interpreted from a connectivity viewpoint \citep{lecun-87}.
 
 \begin{definition}\textbf{Connectivity matrix}\\
 Let $g$ a linear function. Without loss of generality subject to a flattening, let's suppose $I_g$ and $O_g$ are vector spaces. Then there exists a \emph{connectivity matrix}~$W_g$, such that:
@@ -115,50 +135,25 @@ Let $g$ a linear function. Without loss of generality subject to a flattening, l
 We denote $W_k$ the connectivity matrix of the $k$-th layer.
 
 \paragraph{Biological inspiration}
-A \emph{(computational) neuron} is a computational unit that is biologically inspired \citep{mcculloch1943logical}. Each neuron is capable of:
-\begin{enumerate}
+A \emph{neuron} is defined as a computational unit that is biologically inspired \citep{mcculloch1943logical}. Each neuron is capable of:
+\begin{enumerate}[noitemsep,nolistsep]
 \item receiving modulated signals from other neurons and aggregate them,
-\item applying to the result a derivable activation,
-\item passing the signal to other neurons.
+\item applying to the result an activation function,
+\item passing the signal to other neurons.\\
 \end{enumerate}
 That is to say, each domain $\{I_{f_k}\}$ and $O_f$ can be interpreted as a layer of neurons, with one neuron for each dimension. The connectivity matrices $\{W_k\}$ describe the connections between each successive layers.
 %The parameters of $\Theta_g$ are the modulation weights that characterize the connections.
 A neuron is illustrated on \figref{fig:neuron}.
 
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}
-\draw (0,0) -- (4,0) -- (4,4) -- (0,4) -- (0,0);
-\node at (2,2){placeholder};
-\end{tikzpicture}
-\caption{A neuron}
-\label{fig:neuron}
-\end{figure}
+\input{chapter1/fig_neuron}
 
 \subsection{Parameterization and training}
 \label{sec:training}
 
-\todo{pass on this section}
-
 Given an objective function $F$, training is the process of incrementally modifying a neural network $f$ upon obtaining a better approximation of $F$.
-The most used training algorithms are based on gradient descent, as proposed in \citep{widrow1960adaptive}. These algorithms became popular since \citep{rumelhart1985learning}. Informally, $f$ is parameterized with initial weights that characterize its linear parts. These weights are modified step by step in the opposite direction of their gradient with respect to a loss. All possible realizations of $f$ through its weights draw a family $N$ which expressivity is crucial for the success of the training. The common points between $f$ and other objects of $N$ define what is called a neural network \emph{architecture}. That is
+The most used training algorithms are based on gradient descent, as proposed in \citep{widrow1960adaptive}. These algorithms became popular since \citep{rumelhart1985learning}. Informally, $f$ is parameterized with initial weights that characterize its linear parts. These weights are modified step by step. At each step, a batch of samples are fed to the network, and their approximation errors sum to a loss. The weights of the network are updated in the opposite direction to their gradient with respect to that loss. If the samples are shuffled and grouped in batches, this is called \emph{Stochastic} gradient descent (SGD). Stochastic approximation \citep{robbins1985stochastic} tends to minimize effects of outliers on the training and is agnostic of the order in which the samples are fed.
 
-We present gradient based learning more formally in what follows.
-
-\begin{definition}\textbf{Architecture}
-Let $f \in \cn$ with weights $(\theta_k)_k \in $.
-\end{definition}
-
-
-\paragraph{Gradient descent}
-The most used training algorithms are based on gradient descent, as proposed in \citep{widrow1960adaptive}. These algorithms became popular since \citep{rumelhart1985learning}. In order to be trained, $f$ is parameterized with initial weights that characterize its linear parts. These weights are modified step by step in the opposite direction of their gradient with respect to a loss.
-
-\paragraph{Architecture}
-All possible realizations of $f$ through its weights draw a family $N$ which expressivity is crucial for the success of the training. The common points between $f$ and other objects of $N$ define what is called a neural network \emph{architecture}.
-%
-\todo{refactor}
-%\todo{def training algorithm}
-%The following notions describes notion related to gradient descent based training algorithms
+%All possible realizations of $f$ through its weights draw a family $N$ which expressivity is crucial for the success of the training. The common points between $f$ and other objects of $N$ define what is called a neural network \emph{architecture}. That is
 
 \begin{definition}\textbf{Weights}\\
 Let consider the $k$-th layer of a neural network $f$. We define its weights as coordinates of a vector $\theta_k$, called the \emph{weight kernel}, such that:
@@ -175,11 +170,9 @@ A weight $p$ that appears multiple times in $W_k$ is said to be \emph{shared}. T
 \paragraph{Learning}
 A \emph{loss} function $\mathcal{L}$ penalizes the output $x_L = f(x)$ relatively to the approximation error $|f(x) - F(x)|$. Gradient w.r.t.~$\theta_k$, denoted $\vec{\bigtriangledown}_{\theta_k}$, is used to update the weights via an optimization algorithm based on gradient descent and a learning rate $\alpha$, that is:
 \begin{gather}
-\theta_k^{(\text{new})} = \theta_k^{(\text{old})} - \alpha \cdot \vec{\bigtriangledown}_{\theta_k} \left( \mathcal{L}\left( x_L, \theta_k^{(\text{old})} \right) + R\left( \theta_k^{(\text{old})} \right) \right)
+\theta_k^{(\text{new})} = \theta_k^{(\text{old})} - \alpha \cdot \vec{\bigtriangledown}_{\theta_k} \left( \mathcal{L}\left( x_L, \theta_k^{(\text{old})} \right) + \ccr\left( \theta_k^{(\text{old})} \right) \right)
 \end{gather}
-where $\alpha$~can be a scalar or a vector, $\cdot$~can denote outer or pointwise product, and $R$~is a regularizer. They depend on the optimization algorithm.
-
-\todo{examples of optimization}
+where $\ccr$~is a regularizer, and where $\alpha$~can be a scalar or a vector and $\cdot$~can denote outer or coodrinate-wise product, depending on the optimization algorithm that is used.
 
 \paragraph{Linear complexity}
 Without loss of generality, we assume that the neural network is simply connected. Thanks to the chain rule, $\vec{\bigtriangledown}_{\theta_k}$ can be computed using gradients that are w.r.t. $x_k$, denoted $\vec{\bigtriangledown}_{x_k}$, which in turn can be computed using gradients w.r.t. outputs of the next layer $k+1$, up to the gradients given on the output layer.
@@ -199,7 +192,7 @@ Obtaining,
 \begin{align}
   \vec{\bigtriangledown}_{\theta_k} = J_{\theta_k}(x_k) (\prod_{p=k}^{L-1} J_{x_p}(x_{p+1})) \vec{\bigtriangledown}_{x_L}
 \end{align}
-where $J_{\text{wrt}}(.)$ are the respective jacobians which can be determined with the layer's expressions and the $\{x_k\}$; and $\vec{\bigtriangledown}_{x_L}$ can be determined using $\mathcal{L}$, $R$ and $x_L$.
+where $J_{\text{wrt}}(.)$ are the respective jacobians which can be determined with the layer's expressions and the $\{x_k\}$; and $\vec{\bigtriangledown}_{x_L}$ can be determined using $\mathcal{L}$, $\ccr$ and $x_L$.
 This allows to compute the gradients with a complexity that is linear with the number of weights (only one computation of the activations), instead of being quadratic if it were done with the difference quotient expression of the derivatives (one more computation of the activations for each weight).
 
 \paragraph{Backpropagation}
@@ -220,9 +213,41 @@ where $x'_k = W_k x_k$, and these jacobians can be expressed as:
 \end{align}
 That means that we can write $\vec{\bigtriangledown}_{x_k} = (\widetilde{h}_k \circ \widetilde{g}_k)(\vec{\bigtriangledown}_{x_{k+1}})$ such that the connectivity matrix $\widetilde{W}_k$ is obtained by transposition. This can be interpreted as gradient calculation being a \emph{back-propagation} on the same neural network, in opposition of the \emph{forward-propagation} done to compute the output.
 
-\todo{Overfitting remark}
+\subsection{Historical advances}
 
-\subsection{Examples of layer}
+\paragraph{Universal approximation}
+Early researches have shown that neural networks with one level of depth can approximate any real-valued function defined on a compact subset of~$\bbr^n$. This result was first proved for sigmoidal activations \citep{cybenko1989approximation}, and then it was shown it did not depend on the sigmoidal activations \citep{hornik1989multilayer,hornik1991approximation}.
+
+For example, this result brings theoretical justification that objective functions exists (even though it doesn't inform whether an algorithm to approach it exists or is efficient).
+
+\paragraph{Computational difficulty}
+However, reaching such objective is a computationally difficult problem, which drove back interest from the field. Thanks to better hardware and to using better initialization schemes that speed up learning, researchers started to report more successes with deep neural networks \citep{hinton2006fast,glorot2010understanding} ; see \citep{bengio2009learning} for a review of this period. It ultimately came to a surge of interest in the field after a significant breakthrough on the imagenet dataset \citep{deng2009imagenet} with deep CNNs \citep{krizhevsky2012imagenet}. The use of the fast ReLU activation function \citep{glorot2011deep} as well as leveraging graphical processing units with CUDA \citep{nickolls2008scalable} were also key factors in overcoming this computational difficulty.
+
+\paragraph{Adoption of ReLU activations}
+Historically, sigmoidal and tanh activations were mostly used \citep{cybenko1989approximation, lecun1989backpropagation}. However in recent practice, the ReLU activation (first introduced as the \emph{positive part}, \cite{jarrett2009best}), become the most used activation, as it was demonstrated to be faster and to obtain better results \citep{glorot2011deep}. ReLU originated numerous variants \eg \emph{leaky rectified linear unit} \citep{maas2013rectifier}, \emph{parametric rectified linear unit} (PReLU, \cite{he2015delving}), \emph{exponential linear unit} (ELU, \cite{clevert2015fast}), \emph{scaled exponential linear unit} (SELU, \cite{Klambauer2017self}), each one having particular advantages in some applications.
+
+\paragraph{Adoption of dropout}
+Neural networks, like any other machine learning technique, may overfit. That is, a model may behave well on the training set but fails to generalize well on unseen examples. The introduction of dropout \citep{srivastava2014dropout} have helped models with more parameters to be less prone to overfitting, as dropout consists in hiding some parts of the training samples and intermediate activations.
+%Dropout consists in randomly setting a certain number of neurons to zero during the training phase (compensated at test time by scaling down the whole layer). The idea is that some part of the training samples are hidden to the model, so that it cannot overfit on them.
+
+\paragraph{Expressivity and expressive efficiency}
+The study of the \emph{expressivity} (also called \emph{representational power}) of families of neural networks is the field that is interested in the range of functions that can be realized or approximated by this family \citep{haastad1991power,pascanu2013number}. In general, given a maximal error~$\epsilon$ and an objective~$F$, the more expressive is a family $N \subset \cn$, the more likely it is to contain an approximation $f \in N$ such that $d(f,F) < \epsilon$. However, if we consider the approximation $f_{min} \in N$ that have the lowest number of neurons, it is possible that~$f_{min}$ is still too large and may be unpractical. For this reason, expressivity is often studied along the related notion of \emph{expressive efficiency} \citep{delalleau2011shallow,cohen2018boosting}.
+\label{par:expr}
+
+\paragraph{Rectifier neural netowrks}
+Of particular interest for the intuition is a result stating that a simply connected neural networks with only ReLU activations (a rectifier neural network) is a piecewise linear function \citep{pascanu2013number,montufar2014number}, and that conversely any piecewise linear function is also a rectifier neural network such that an upper bound of its depth is logarithmically related to the input dimension (\cite{arora2018understanding}, th. 2.1.). Their expressive efficiency have also been demonstrated compared to neural networks using threshold or sigmoid activations~\citep{pan2016expressiveness}.
+
+\paragraph{Benefits of depth}
+Expressive efficiency analysis have demonstrated the benefits of depth, \ie a shallow neural network would need an unfeasible large number of neurons to approximate the function of a deep neural network (\eg \cite{delalleau2011shallow,bianchini2014complexity,poggio2015theory,eldan2016power,poole2016exponential,raghu2016expressive,cohen2016convolutional,mhaskar2016learning,lin2017does,arora2018understanding}).
+
+% \paragraph{Bias}
+% Note that affine functions $\widetilde{g}$ can be written as a sum between a linear function $g$ and a constant vector $b$ which is called the \emph{bias}. It augments the expressivity of the neural network's family of functions. For notational convenience, we will often omit to write down the biases in the layer's equations.
+
+\paragraph{Benefits of branching operations}
+Recent works have provided rationales supporting benefits of using branching operations, thus giving justifications for architectures obtained with the generic formalization. In particular, \citep{cohen2018boosting} have analyzed the impact of residual connections used in Wavenet-like architectures \citep{van2016wavenet} in terms of expressive efficiency (see related paragraph in \secref{par:expr}) using tools from the field of tensor analysis ; \citep{orhan2018skip} have empirically demonstrated that skip connections can resolve some inefficiency problems inherent of fully-connected networks (dead activations, activations that are always equal, linearly dependent sets of activations).
+
+
+\subsection{Commonly used layers}
 
 \begin{definition}\textbf{Connections}\\
 The set of \emph{connections} of a layer $(g,h)$, denoted $C_g$, is defined as:
@@ -236,7 +261,9 @@ We have $0 \leq |C_g| \leq n_1^{(W_g)} n_2^{(W_g)}$.
 A \emph{dense layer} $(g,h)$ is a layer such that $|C_g| = n_1^{(W_g)} n_2^{(W_g)}$, \ie all possible connections exist. The map $(i,j) \mapsto p$ is usually a bijection, meaning that there is no weight sharing.
 \end{definition}
 
-\begin{definition}\textbf{Partially connected layer}\\
+A neural network made only of dense layers is called a Multi-Layer Perceptron (MLP, \cite{hornik1989multilayer}).
+
+\begin{definition}\textbf{Partially connected layer}\\{}
 A \emph{partially connected layer} $(g,h)$ is a layer such that $|C_g| < n_1^{(W_g)} n_2^{(W_g)}$.
 
 A \emph{sparsely connected layer} $(g,h)$ is a layer such that $|C_g| \ll n_1^{(W_g)} n_2^{(W_g)}$.
@@ -256,6 +283,8 @@ where $p$ and $q$ index slices along the last ranks.
 \label{def:convlayer}
 \end{definition}
 
+A neural network that contains convolutional layers is called convolutional neural network (CNN).
+
 \begin{definition}\textbf{Feature maps and input channels}\\
 The slices $g(x)_q$ are typically called \textit{feature maps}, and the slices $x_p$ are called \textit{input channels}. Let's denote by $n_o = n_{n+1}^{(O_g)}$ and $n_i =n_{n+1}^{(I_g)}$ the number of feature maps and input channels.
 In other words, \defref{def:convlayer} means that for each feature maps, a convolution layer computes $n_i$ convolutions and sums them, computing a total if $n_i \times n_o$ convolutions.
@@ -265,7 +294,10 @@ In other words, \defref{def:convlayer} means that for each feature maps, a convo
 Note that because they are simply summed, entries of two different input channels that have the same coordinates are assumed to share some sort of relationship. For instance on images, entries of each input channel (typically corresponding to Red, Green and Blue channels) that have the same coordinates share the same pixel location.
 \end{remark}
 
-\paragraph{Affect on tensor shape}
+\paragraph{Benefits of convolutional layers}
+Comparatively with dense layers, convolution layers enjoy a significant decrease in the number of weights. For example, an input $2 \times 2$ convolution on images with $3$-color input channels, would breed only $12$ weights per feature maps, independently of the numbers of input neurons. On image datasets, their usage also breeds a significant boost in performance compared with dense layers~\citep{krizhevsky2012imagenet}, for they allow to take advantage of the topology of the inputs while dense layers don't~\citep{lecun1995convolutional}. A more thorough comparison and explanation of their assets will be discussed in \secref{sec:cnnvsmlp}.
+
+\paragraph{Decrease of spatial dimensions}
 Given a tensor input $x$, the $n$-dimensional convolutions between the inputs channels $x_p$ and slices of a weight tensor $w_{p,q}$ would result in outputs $y_q$ of shape $n_1^{(x)} - n_1^{(w)} + 1 \times \ldots \times n_n^{(x)} - n_n^{(w)} + 1$. So, in order to preserve shapes, a padding operation must pad $x$ with $n_1^{(w)} - 1 \times \ldots \times n_n^{(w)} - 1$ zeros beforehand. For example, the padding function of the library \emph{tensorflow}~\citep{tensorflow2015-whitepaper} pads each rank with a balanced number of zeros on the left and right indices (except if $n_t^{(w)} - 1$ is odd then there is one more zero on the left).
 
 \begin{definition}\textbf{Padding}\\
@@ -275,6 +307,19 @@ A convolutional layer with \emph{padding} $(g, h)$ is such that $g$ can be decom
 \begin{remark}
 One asset of padding operations is that they limit the possible loss of information on the borders of the subsequent convolutions, as well as preventing a decrease in size. Moreover, preserving shape is needed to build some neural network architectures, especially for ones with branching operations \eg examples in \secref{par:branching_ex}. On the other hand, they increase memory and computational footprints.
 \end{remark}
+
+\begin{definition}\textbf{Stride}\\
+A convolutional layer with \emph{stride} is a convolutional layer that computes strided convolutions (with stride $> 1$) instead of convolutions.
+\end{definition}
+
+\begin{definition}\textbf{Pooling}\\
+A layer with \textit{pooling} $(g,h)$ is such that $g$ can be decomposed as $g = g' \circ g_\text{pool}$, where $g_\text{pool}$ is a pooling operation.
+\end{definition}
+
+Layers with stride or pooling downscale the signals that passes through the layer. These types of layers allows to compute features at a coarser level, giving the intuition that the deeper a layer is in the network, the more abstract is the information captured by the weights of the layer.
+
+\paragraph{A simple result}
+In two dimensions, convolutional operations can be rewritten as a matrix-vector multiplication where the matrix is Toeplitz. We show below that it is still the case in $n$~dimensions.
 
 \begin{proposition}\textbf{Connectivity matrix of a convolution with padding}\\
 A convolutional layer with padding $(g, h)$ is equivalently defined as $W_g$ being a $n_i \times n_o$ block matrix such that its blocks are Toeplitz matrices.
@@ -324,38 +369,24 @@ The converse is also true as we used invertible functions in the index spaces th
 \end{proof}
 
 \begin{remark}
-The former proof makes clear that the result doesn't hold in case there is no padding. This is due to border effects when the index of the $n$\powth rank resets in the definition of the row-major ordering function $g_j$ that would be used. Indeed, under appropriate definitions, the matrices could be seen as almost Toeplitz.
+Note that the proof doesn't hold in case there is no padding. This is due to border effects when the index of the $n$\powth rank resets in the definition of the row-major ordering function $g_j$ that would be used. Indeed, under appropriate definitions, the matrices could be seen as almost Toeplitz.
 \end{remark}
 
-\paragraph{Benefits of convolutional layers}
-Comparatively with dense layers, convolution layers enjoy a significant decrease in the number of weights. For example, an input $2 \times 2$ convolution on images with $3$-color input channels, would breed only $12$ weights per feature maps, independently of the numbers of input neurons. On image datasets, their usage also breeds a significant boost in performance compared with dense layers~\citep{krizhevsky2012imagenet}, for they allow to take advantage of the topology of the inputs while dense layers don't~\citep{lecun1995convolutional}. A more thorough comparison and explanation of their assets will be discussed in \secref{sec:cnnvsmlp}.
+This proposition provides an equivalent-characterization of convolutional layers by their connectivity matrix. Therefore, a first avenue to define convolutions on graph signals could be to define them with the connectivity matrix being as in this characterization. However, the Toeplitz property implies that the dimensions have a specific order, which is not possible when dimensions correspond to vertices of a graph. This is because shuffling the order of the vertices wouldn't change the graph, but would change the connectivity matrix (which cannot be Toeplitz for every ordering).
 
-\begin{definition}\textbf{Stride}\\
-A convolutional layer with \emph{stride} is a convolutional layer that computes strided convolutions (with stride $> 1$) instead of convolutions.
-\end{definition}
+%\subsection{Examples of regularization}
 
-\begin{definition}\textbf{Pooling}\\
-A layer with \textit{pooling} $(g,h)$ is such that $g$ can be decomposed as $g = g' \circ g_\text{pool}$, where $g_\text{pool}$ is a pooling operation.
-\end{definition}
+% \paragraph{Overfitting}
+% \todo{}
 
-\paragraph{Downscaling}
-Layers with stride or pooling downscale the signals that passes through the layer. These types of layers allows to compute features at a coarser level, giving the intuition that the deeper a layer is in the network, the more abstract is the information captured by the weights of the layer.
+% A layer with \textit{dropout} $(g,h)$ is such that $h = h_1 \circ h_2$, where $(g,h_2)$ is a layer and $h_1$ is a dropout operation~\citep{srivastava2014dropout}. When dropout is used, a certain number of neurons are randomly set to zero during the training phase, compensated at test time by scaling down the whole layer. This is done to prevent overfitting.
 
-\todo{below}
+% \subsection{Examples of architecture}
+% \label{sec:nn_arch}
 
-\subsection{Examples of regularization}
+% \todo{rephrase}
 
-\paragraph{Overfitting}
-\todo{}
+% A multilayer perceptron (MLP)~\citep{hornik1989multilayer} is a neural network composed of only dense layers.
+% A convolutional neural network (CNN)~\citep{lecun1998gradient} is a neural network composed of convolutional layers.
 
-A layer with \textit{dropout} $(g,h)$ is such that $h = h_1 \circ h_2$, where $(g,h_2)$ is a layer and $h_1$ is a dropout operation~\citep{srivastava2014dropout}. When dropout is used, a certain number of neurons are randomly set to zero during the training phase, compensated at test time by scaling down the whole layer. This is done to prevent overfitting.
-
-\subsection{Examples of architecture}
-\label{sec:nn_arch}
-
-\todo{rephrase}
-
-A multilayer perceptron (MLP)~\citep{hornik1989multilayer} is a neural network composed of only dense layers.
-A convolutional neural network (CNN)~\citep{lecun1998gradient} is a neural network composed of convolutional layers.
-
-Neural networks are commonly used for machine learning tasks. For example, to perform supervised classification, we usually add a dense output layer $s=(g_{L+1},h_{L+1})$ with as many neurons as classes. We measure the error between an output and its expected output with a discriminative loss function $\mathcal{L}$. During the training phase, the weights of the network are adapted for the classification task based on the errors that are back-propagated~\citep{hornik1989multilayer} via the chain rule and according to a chosen optimization algorithm (\eg \cite{bottou2010large}).
+% Neural networks are commonly used for machine learning tasks. For example, to perform supervised classification, we usually add a dense output layer $s=(g_{L+1},h_{L+1})$ with as many neurons as classes. We measure the error between an output and its expected output with a discriminative loss function $\mathcal{L}$. During the training phase, the weights of the network are adapted for the classification task based on the errors that are back-propagated~\citep{hornik1989multilayer} via the chain rule and according to a chosen optimization algorithm (\eg \cite{bottou2010large}).
