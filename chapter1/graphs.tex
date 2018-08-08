@@ -11,11 +11,12 @@ A \emph{graph} $G$ is defined as a couple of vertex and edge sets $\langle V,E \
 The terms \emph{vertex} and \emph{node} are used interchangeably. Additionaly, we consider that a graph is always \emph{simple} \ie no two edges share the same set of vertices.
 Unless stated otherwise, a graph is undirected, \ie $(u,v)$ and $(v,u)$ refer to the same edge. When it's not the case, it is called a \emph{digraph}.
 We define the relation $u \sim v \Leftrightarrow (u,v) \in E$. We precise the graph if needed over the symbol $\overset{G}\sim$.
+A \emph{path} is a sequence $v_1 \sim \cdots \sim v_r$. A graph is said to be \emph{connected} if there exists a path from any vertex to any other vertex.
 We define the \emph{neighborhood} of a vertex as $\cn_u = \{v \in V, u \sim v\}$. For digraphs, it is equal to the union of the \emph{in}- and \emph{out}-neighborhoods. We only consider graphs without isolated vertex (a vertex with an empty neighborhood).
 We also only consider \emph{weighted} graphs. That is, a graph $\gve$ is associated with a weight mapping $w: V^2 \to \bbr$ \st $w(u,v) = 0 \Leftrightarrow u \nsim v$.
 Its \emph{adjacency matrix} $A \in \bbr^{V \times V}$ is defined \wrt to a vertex ordering $V = \{v_1, \ldots, v_n\}$ as $A[i,j] = w(v_i,v_j)$. \figref{fig:graph} illustrates an example of a graph and its adjacency matrix.
 
-\begin{figure}[H]
+\begin{figure}[h!tp]
 \centering
 \begin{tikzpicture}
 \draw (0,0) -- (4,0) -- (4,4) -- (0,4) -- (0,0);
@@ -33,6 +34,7 @@ $G$ is said to be \emph{degree-regular} if all its vertices have the same degree
 Its \emph{degree matrix} $D$ is the diagonal matrix that contains the degree of its vertices on its diagonal (\wrt to a vertex ordering $V = \{v_1, \ldots, v_n\}$).
 Its \emph{laplacian matrix} $L$ is the substraction $L = D-A$, which can be \emph{normalized} $L = I - D^{-\frac{1}2}AD^{-\frac{1}2}$, \emph{left-normalized} $L = I - D^{-1}A$, or \emph{right-normalized} $L = I - AD^{-1}$.
 A subgraph of $G$ induced by a subset $U \subset V$ is the graph with vertex and edge set restricted by $U$.
+A \emph{complete} graph is such that there exists an edge between any two vertices.
 
 \begin{definition}\textbf{Grid graph}\\
 A \emph{grid graph} $\gve$ is 
@@ -72,9 +74,28 @@ For space of signals that aren't real-valued, their codomain~$\bbe$ is precised 
 
 \subsection{Learning tasks}
 
+There are many tasks related to deep learning on graphs.%:
+% \begin{itemize}[nolistsep,noitemsep]
+%   \item supervised classification of graph signals
+%   \item supervised classification of graphs
+%   \item semi-supervised classification of node signals
+%   \item semi-supervised representation learning of nodes
+% \end{itemize}
+
+\paragraph{Supervised classification of graph signals}
+This is the classical application of deep learning transposed to graph signals, rather than image or audio signals. It is the principled targeted task we will have in mind in the course of the remainder of this manuscript. Given a graph $\gve$ and an input signal $x \in \cs(G)$ the goal is to classify~$x$. If there are~$c$ possible classes, a neural network~$f$ outputs a vector $y = f(x)$ of dimension~$c$, and its dimension with the biggest weight determines the predicted class. Indeed, a standard MLP can be trained on a dataset of graph signals. However, an MLP wouldn't take the graph structure $G$ into consideration. By similarity with CNNs that leverage the grid structure of images to achieve better performances than MLPs, a challenge is to define a neural network on graph signals that can leverage~$G$. We review some models from the litterature in \secref{sec:spec} and in \secref{sec:vert}. We develop an algebraic understanding in \chapref{chap:2} of why and how they should work, and also propose our own models and point of view in \chapref{chap:3}.
+
+\paragraph{Semi-supervised classification of node signals}
+This task is in some way obtained from a transposed perspective of the previous one. Given a dataset of graph signals, represented as a matrix $X \in \bbr^{n \times N}$, where the rows represent the nodes, and the columns represent the signals, the goal is to classify the nodes. This amounts to classify the rows, whereas the previous task amounts to classify the columns. As opposed to the previous one, this task is \emph{transductive} \ie node data from the test set are available during training (but their label are not), and it is \emph{semi-supervised} \ie some node labels of the train set are unknown. This allows to learn on much more data than if we were restricted to labeled data. In this task, the edges connect learning samples, however in the previous one, the edges were connecting features of learning samples. This is this edge relationship between learning samples that renders the semi-supervised approach possible.
+
+\paragraph{Other learning tasks}
+In this manuscipt, we are less interested in other deep learning tasks related to graphs, so we briefly discuss them here. One is supervised classification of graphs, which is different than classifying graph signals. Examples include \citep{niepert2016learning,tixier2017classifying}. Another interesting task is the semi-supervised representation learning of nodes, which tackles the challenge to learn a linear representation of nodes. A common approach, derived from Word2Vec \citep{mikolov2013efficient,mikolov2013distributed}, is called Node2Vec \citep{grover2016node2vec}, and was later improved in graphSAGE \citep{hamilton2017inductive}. A review on this subject is done by \cite{hamilton2017representation}.
+
 \subsection{Spectral methods}
+\label{sec:spec}
 
 \subsection{Vertex-domain methods}
+\label{sec:vert}
 
 
 % \subsection{Graphs in deep learning}
