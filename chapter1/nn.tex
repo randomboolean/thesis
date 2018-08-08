@@ -9,7 +9,7 @@ Note that in this manuscript, we only consider neural networks that are \emph{fe
 
 We denote by $I_f$ the \textit{domain of definition} of a function $f$ ("I" stands for "input") and by $O_f = f(I_f)$ its \textit{image} ("O" stands for "output"), and we represent it as $I_f~\xrightarrow{f}~O_f$ or $f: I_f \to O_f$.
 
-\paragraph{Simple formalization}
+%\paragraph{Simple formalization}
 \begin{definition}\textbf{Neural network (simply connected)}\\
 Let $f$ be a function such that $I_f$ and $O_f$ are vector or tensor spaces.\\
 $f$ is a \emph{(simply connected) neural network function} if there are a series of affine functions $(g_k)_{k=1,2,..,L}$ and a series of non-linear derivable univariate functions $(h_k)_{k=1,2,..,L}$ such that:
@@ -85,8 +85,7 @@ Another example is the VGG architecture, a very deep CNN, and was state-of-the-a
 
 In more recent years, state-of-the-art architecture can no longer be described with a simple formalization.
 
-\paragraph{Generic formalization}
-
+%\paragraph{Generic formalization}
 The former neural networks are said to be \emph{simply connected} because each layer only takes as input the output of the previous one. We'll give a more general definition after first defining branching operations.
 
 \begin{definition}\textbf{Branching}\\
@@ -94,7 +93,7 @@ A \emph{binary branching operation} between two tensors, $x_{k_1} \Join x_{k_2}$
 
 A \emph{branching operation} between $n$ tensors, $x_{k_1} \Join x_{k_2} \Join \cdots \Join x_{k_n}$, is a composition of binary branching operations, or is the identity function $\id$ if $n = 1$.
 
-Branching operations are also naturally defined on tensor-valued functions via their realizations.
+Branching operations are also naturally defined on tensor-valued functions.% via their realizations.
 \end{definition}
 
 \begin{definition}\textbf{Neural network (generic definition)}\\
@@ -109,8 +108,14 @@ The set of \emph{neural network} functions $\cn$ is defined inductively as follo
 \end{definition}
 
 \paragraph{Examples}
-The neural network proposed in \citep{szegedy2015going}, called \emph{Inception}, use depth-wise concatenation of feature maps. Residual networks (ResNets, \cite{he2016deep}) make use of \emph{residual connections}, also called \emph{skip connections}, \ie an activation that is used as input in a lower level is added to another activation at an upper level. Densely connected networks (DenseNets, \cite{huang2017densely}) have their activations concatenated with all lower level activations. These neural networks had demonstrated state of the art performances on the imagenet classification challenge \citep{deng2009imagenet}, outperforming simply connected neural networks. For example, DenseNet is depicted on \figref{fig:densenet}.
+The neural network proposed in \citep{szegedy2015going}, called \emph{Inception}, use depth-wise concatenation of feature maps. Residual networks (ResNets, \cite{he2016deep}) make use of \emph{residual connections}, also called \emph{skip connections}, \ie an activation that is used as input in a lower level is added to another activation at an upper level, as depicted on \figref{fig:resnet}. Densely connected networks (DenseNets, \cite{huang2017densely}) have their activations concatenated with all lower level activations. These neural networks had demonstrated state of the art performances on the imagenet classification challenge \citep{deng2009imagenet}, outperforming simply connected neural networks. For example, DenseNet is depicted on \figref{fig:densenet}.
 \label{par:branching_ex}
+
+\begin{figure}[tp]
+\centering\includegraphics[scale=0.2]{chapter1/resnetmodule.png}
+\caption{Module with a residual connection \citep{he2016deep}}
+\label{fig:resnet}
+\end{figure}
 
 \begin{figure}[tp]
 \centering\includegraphics[scale=0.07]{chapter1/densenet.jpg}
@@ -124,7 +129,7 @@ For layer indexing convenience, we still use the simple formalization in the sub
 
 \subsection{Interpretation}
 
-Until now, we have formally introduced a neural network as a mathematical function. As its name suggests, such function can be indeed interpreted from a connectivity viewpoint \citep{lecun-87}.
+Until now, we have formally introduced a neural network as a mathematical function. As its name suggests, such function can be indeed interpreted from a connectivity perspective \citep{lecun-87}.
 
 \begin{definition}\textbf{Connectivity matrix}\\
 Let $g$ a linear function. Without loss of generality subject to a flattening, let's suppose $I_g$ and $O_g$ are vector spaces. Then there exists a \emph{connectivity matrix}~$W_g$, such that:
@@ -227,7 +232,7 @@ However, reaching such objective is a computationally difficult problem, which d
 Historically, sigmoidal and tanh activations were mostly used \citep{cybenko1989approximation, lecun1989backpropagation}. However in recent practice, the ReLU activation (first introduced as the \emph{positive part}, \cite{jarrett2009best}), become the most used activation, as it was demonstrated to be faster and to obtain better results \citep{glorot2011deep}. ReLU originated numerous variants \eg \emph{leaky rectified linear unit} \citep{maas2013rectifier}, \emph{parametric rectified linear unit} (PReLU, \cite{he2015delving}), \emph{exponential linear unit} (ELU, \cite{clevert2015fast}), \emph{scaled exponential linear unit} (SELU, \cite{Klambauer2017self}), each one having particular advantages in some applications.
 
 \paragraph{Adoption of dropout}
-Neural networks, like any other machine learning technique, may overfit. That is, a model may behave well on the training set but fails to generalize well on unseen examples. The introduction of dropout \citep{srivastava2014dropout} have helped models with more parameters to be less prone to overfitting, as dropout consists in hiding some parts of the training samples and intermediate activations.
+Neural networks, like any other machine learning technique, may overfit. That is, a model may behave well on the training set but fails to generalize well on unseen examples. The introduction of dropout \citep{srivastava2014dropout} have helped models with more parameters to be less prone to overfitting, as dropout consists in hiding some parts of the training samples and their intermediate activations.
 %Dropout consists in randomly setting a certain number of neurons to zero during the training phase (compensated at test time by scaling down the whole layer). The idea is that some part of the training samples are hidden to the model, so that it cannot overfit on them.
 
 \paragraph{Expressivity and expressive efficiency}
@@ -238,13 +243,10 @@ The study of the \emph{expressivity} (also called \emph{representational power})
 Of particular interest for the intuition is a result stating that a simply connected neural networks with only ReLU activations (a rectifier neural network) is a piecewise linear function \citep{pascanu2013number,montufar2014number}, and that conversely any piecewise linear function is also a rectifier neural network such that an upper bound of its depth is logarithmically related to the input dimension (\cite{arora2018understanding}, th. 2.1.). Their expressive efficiency have also been demonstrated compared to neural networks using threshold or sigmoid activations~\citep{pan2016expressiveness}.
 
 \paragraph{Benefits of depth}
-Expressive efficiency analysis have demonstrated the benefits of depth, \ie a shallow neural network would need an unfeasible large number of neurons to approximate the function of a deep neural network (\eg \cite{delalleau2011shallow,bianchini2014complexity,poggio2015theory,eldan2016power,poole2016exponential,raghu2016expressive,cohen2016convolutional,mhaskar2016learning,lin2017does,arora2018understanding}).
-
-% \paragraph{Bias}
-% Note that affine functions $\widetilde{g}$ can be written as a sum between a linear function $g$ and a constant vector $b$ which is called the \emph{bias}. It augments the expressivity of the neural network's family of functions. For notational convenience, we will often omit to write down the biases in the layer's equations.
+Expressive efficiency analysis have demonstrated the benefits of depth, \ie a shallow neural network would need an unfeasible large number of neurons to approximate the function of a deep neural network (\eg \cite{delalleau2011shallow,bianchini2014complexity,poggio2015theory,eldan2016power,poole2016exponential,raghu2016expressive,cohen2016convolutional,mhaskar2016learning,lin2017does,arora2018understanding}). This field seeks to give theoretical grounds to the practical observation that state-of-the-art architectures are getting deeper. 
 
 \paragraph{Benefits of branching operations}
-Recent works have provided rationales supporting benefits of using branching operations, thus giving justifications for architectures obtained with the generic formalization. In particular, \citep{cohen2018boosting} have analyzed the impact of residual connections used in Wavenet-like architectures \citep{van2016wavenet} in terms of expressive efficiency (see related paragraph in \secref{par:expr}) using tools from the field of tensor analysis ; \citep{orhan2018skip} have empirically demonstrated that skip connections can resolve some inefficiency problems inherent of fully-connected networks (dead activations, activations that are always equal, linearly dependent sets of activations).
+Recent works have provided rationales supporting benefits of using branching operations, thus giving justifications for architectures obtained with the generic formalization. In particular, \citep{cohen2018boosting} have analyzed the impact of residual connections used in Wavenet-like architectures \citep{van2016wavenet} in terms of expressive efficiency, using tools from the field of tensor analysis ; \citep{orhan2018skip} have empirically demonstrated that skip connections can resolve some inefficiency problems inherent of fully-connected networks (dead activations, activations that are always equal, linearly dependent sets of activations).
 
 
 \subsection{Commonly used layers}
@@ -322,7 +324,7 @@ Layers with stride or pooling downscale the signals that passes through the laye
 In two dimensions, convolutional operations can be rewritten as a matrix-vector multiplication where the matrix is Toeplitz. We show below that it is still the case in $n$~dimensions.
 
 \begin{proposition}\textbf{Connectivity matrix of a convolution with padding}\\
-A convolutional layer with padding $(g, h)$ is equivalently defined as $W_g$ being a $n_i \times n_o$ block matrix such that its blocks are Toeplitz matrices.
+A convolutional layer with padding $(g, h)$ is equivalently defined as its connectivity matrix $W_g$ being a $n_i \times n_o$ block matrix such that its blocks are Toeplitz matrices, and where each block corresponds to a couple $(p,q)$ of input channel~$p$ and feature map~$q$.
 \end{proposition}
 
 \begin{proof}
@@ -372,7 +374,7 @@ The converse is also true as we used invertible functions in the index spaces th
 Note that the proof doesn't hold in case there is no padding. This is due to border effects when the index of the $n$\powth rank resets in the definition of the row-major ordering function $g_j$ that would be used. Indeed, under appropriate definitions, the matrices could be seen as almost Toeplitz.
 \end{remark}
 
-This proposition provides an equivalent-characterization of convolutional layers by their connectivity matrix. Therefore, a first avenue to define convolutions on graph signals could be to define them with the connectivity matrix being as in this characterization. However, the Toeplitz property implies that the dimensions have a specific order, which is not possible when dimensions correspond to vertices of a graph. This is because shuffling the order of the vertices wouldn't change the graph, but would change the connectivity matrix (which cannot be Toeplitz for every ordering).
+This proposition provides an equivalent-characterization of convolutional layers by their connectivity matrix. Therefore, a first avenue to define convolutions on graph signals could be to define them with the connectivity matrix being as in this characterization. However, the Toeplitz property implies that the dimensions have a specific order, which is not possible when dimensions correspond to vertices of a graph. This is because permuting the order of the vertices wouldn't change the graph, but would change the connectivity matrix (which cannot be Toeplitz for every ordering).
 
 %\subsection{Examples of regularization}
 

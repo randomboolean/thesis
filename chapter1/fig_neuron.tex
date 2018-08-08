@@ -38,7 +38,9 @@ start chain=2,node distance=13mm
 %\node[on chain=3,label=below:Weights,join=by o-latex] 
 %  (w3) {$w_3$};
 \end{scope}
-\node[label=above:{\centering bias}] at (sigma|-x1) (b) {};
+%\node[label=above:{\centering 1}] at (sigma|-x1) (b) {};
+\node[label={[label distance=-0.3cm]above:{\parbox{2cm}{\centering 1}}}] at (sigma|-x1) (b) {};
+
 
 \draw[o-latex] (x1) -- (sigma);
 \draw[o-latex] (x3) -- (sigma);
