@@ -13,7 +13,7 @@ Unless stated otherwise, a graph is undirected, \ie $(u,v)$ and $(v,u)$ refer to
 We define the relation $u \sim v \Leftrightarrow (u,v) \in E$. We precise the graph if needed over the symbol $\overset{G}\sim$.
 A \emph{path} is a sequence $v_1 \sim \cdots \sim v_r$. A graph is said to be \emph{connected} if there exists a path from any vertex to any other vertex.
 We define the \emph{neighborhood} of a vertex as $\cn_u = \{v \in V, u \sim v\}$. For digraphs, it is equal to the union of the \emph{in}- and \emph{out}-neighborhoods. We only consider graphs without isolated vertex (a vertex with an empty neighborhood).
-We also only consider \emph{weighted} graphs. That is, a graph $\gve$ is associated with a weight mapping $w: V^2 \to \bbr$ \st $w(u,v) = 0 \Leftrightarrow u \nsim v$.
+We also only consider \emph{weighted} graphs. That is, a graph $\gve$ is associated with a weight mapping $w: V^2 \to \bbr+$ \st $w(u,v) = 0 \Leftrightarrow u \nsim v$.
 Its \emph{adjacency matrix} $A \in \bbr^{V \times V}$ is defined \wrt to a vertex ordering $V = \{v_1, \ldots, v_n\}$ as $A[i,j] = w(v_i,v_j)$. \figref{fig:graph} illustrates an example of a graph and its adjacency matrix.
 
 \begin{figure}[h!tp]
@@ -31,7 +31,7 @@ The \emph{degree} of a vertex $v$ is equal to the number of edges it is attached
 For digraphs the degree is the sum of the \emph{in}- and \emph{out}-degrees.
 The \emph{degree} of $G$ refers to its max degree.
 $G$ is said to be \emph{degree-regular} if all its vertices have the same degree.
-Its \emph{degree matrix} $D$ is the diagonal matrix that contains the degree of its vertices on its diagonal (\wrt to a vertex ordering $V = \{v_1, \ldots, v_n\}$).
+Its \emph{degree matrix} $D$ (\wrt to a vertex ordering $V = \{v_1, \ldots, v_n\}$) is the diagonal matrix for which the diagonal entry corresponding to a vertex is the sum of the weights of the edges it is part of.
 Its \emph{laplacian matrix} $L$ is the substraction $L = D-A$, which can be \emph{normalized} $L = I - D^{-\frac{1}2}AD^{-\frac{1}2}$, \emph{left-normalized} $L = I - D^{-1}A$, or \emph{right-normalized} $L = I - AD^{-1}$.
 A subgraph of $G$ induced by a subset $U \subset V$ is the graph with vertex and edge set restricted by $U$.
 A \emph{complete} graph is such that there exists an edge between any two vertices.
@@ -85,14 +85,32 @@ There are many tasks related to deep learning on graphs.%:
 \paragraph{Supervised classification of graph signals}
 This is the classical application of deep learning transposed to graph signals, rather than image or audio signals. It is the principled targeted task we will have in mind in the course of the remainder of this manuscript. Given a graph $\gve$ and an input signal $x \in \cs(G)$ the goal is to classify~$x$. If there are~$c$ possible classes, a neural network~$f$ outputs a vector $y = f(x)$ of dimension~$c$, and its dimension with the biggest weight determines the predicted class. Indeed, a standard MLP can be trained on a dataset of graph signals. However, an MLP wouldn't take the graph structure $G$ into consideration. By similarity with CNNs that leverage the grid structure of images to achieve better performances than MLPs, a challenge is to define a neural network on graph signals that can leverage~$G$. We review some models from the litterature in \secref{sec:spec} and in \secref{sec:vert}. We develop an algebraic understanding in \chapref{chap:2} of why and how they should work, and also propose our own models and point of view in \chapref{chap:3}.
 
-\paragraph{Semi-supervised classification of node signals}
-This task is in some way obtained from a transposed perspective of the previous one. Given a dataset of graph signals, represented as a matrix $X \in \bbr^{n \times N}$, where the rows represent the nodes, and the columns represent the signals, the goal is to classify the nodes. This amounts to classify the rows, whereas the previous task amounts to classify the columns. As opposed to the previous one, this task is \emph{transductive} \ie node data from the test set are available during training (but their label are not), and it is \emph{semi-supervised} \ie some node labels of the train set are unknown. This allows to learn on much more data than if we were restricted to labeled data. In this task, the edges connect learning samples, however in the previous one, the edges were connecting features of learning samples. This is this edge relationship between learning samples that renders the semi-supervised approach possible.
+\paragraph{Semi-supervised classification of nodes}
+This task is in some way obtained from a transposed perspective of the previous one. Given a dataset of graph signals, represented as a matrix $X \in \bbr^{n \times N}$, where the rows represent the nodes, and the columns represent the signals, the goal is to classify the nodes. This amounts to classify the rows, whereas the previous task amounts to classify the columns. As opposed to the previous one, this task is \emph{transductive} \ie node data from the test set are available during training (but their labels are not), and it is \emph{semi-supervised} \ie some node labels of the train set are unknown. This allows to learn on much more data than if we were restricted to labeled data. In this task, the edges connect learning samples, however in the previous one, the edges were connecting features of learning samples. This is this edge relationship between learning samples that renders the semi-supervised approach possible. This task have received much more attention than the previous one in the litterature. This may be because the datasets
 
 \paragraph{Other learning tasks}
 In this manuscipt, we are less interested in other deep learning tasks related to graphs, so we briefly discuss them here. One is supervised classification of graphs, which is different than classifying graph signals. Examples include \citep{niepert2016learning,tixier2017classifying}. Another interesting task is the semi-supervised representation learning of nodes, which tackles the challenge to learn a linear representation of nodes. A common approach, derived from Word2Vec \citep{mikolov2013efficient,mikolov2013distributed}, is called Node2Vec \citep{grover2016node2vec}, and was later improved in graphSAGE \citep{hamilton2017inductive}. A review on this subject is done by \cite{hamilton2017representation}.
 
 \subsection{Spectral methods}
 \label{sec:spec}
+
+Spectral methods are based on spectral graph theory \citep{chung1996spectral}, which is interested in the properties of graphs explained through the eigenvalues of their laplacian matrix. Since the laplacian $L$ of a graph $\gve$ is real symmetric, it can be diagonalized in an orthonormal eigenvector basis as $\Lambda = U^TLU$, where $\Lambda = \diag(\lambda_1, \ldots, \lambda_n)$, and $\lambda_1 \le \cdots \le \lambda_n$.
+In the cases corresponding to graph structures of euclidean domains \ie when $L$ is the laplacian of a circulant grid graph, one can verify that $U$ can be the DFT matrix which defines the Discrete Fourier Transform. By extension to general graphs, for every signals $s \in \cs(G)$, the \emph{Graph Fourier Transform} (GFT) is defined as $\hat{s} = U^Ts$ \citep{shuman2013emerging}.
+
+The GFT shares many similar properties with the DFT. For example, let a signal $s \in \cs(V)$, the laplacian $L$ and the positive weight mapping $w$ of the edges we have 
+\begin{align}
+Ls[u] &= \displaystyle\sum_{v \in V} w(u,v)(s[u] - s[v])\\
+s^TLs &= \displaystyle\sum_{u \in V}\sum_{v \in V} w(u,v)s[u](s[u] - s[v])\nonumber\\
+&= \displaystyle \frac{1}2\sum_{u \in V}\sum_{v \in V} w(u,v)s[u](s[u] - s[v]) + \frac{1}2\sum_{v \in V}\sum_{u \in V} w(v,u)s[v](s[v] - s[u])\nonumber\\
+&=  \displaystyle\sum_{u \in V}\sum_{v \in V} \frac{w(u,v)}2(s[u] - s[v])^2
+\end{align}
+That is, $s^TLs$ is some sort of measure of \emph{smoothness} of the signal $s$, penalized by the weights on the edges of the graph $G$. The bigger is $w(u,v)$, the closest $s(u)$ and $s(v)$ must be to lower this smoothness measure. Since $L$ is symmetric, its eigenvalues are non-negative real numbers, and $L$ can be diagonalized in an orthonormal eigenvector basis as $\Lambda = U^TLU$. Denote $\hat{s} = U^Ts$, and $(\lambda_i)_i$ the eigenvalues, the smoothness measure rewrites
+\begin{align}
+s^TLs = \hat{s}^T\Lambda\hat{s} = \displaystyle\sum_{i=1}^n \lambda_i \hat{s}[i]^2
+\end{align}
+In other words, the smoothness of $s$ can be read off the coordinates of $\hat{s}$, and decay in the spectral domain relate to smoothness in the vertex domain. Because $\hat{s} = s$
+
+
 
 \subsection{Vertex-domain methods}
 \label{sec:vert}
