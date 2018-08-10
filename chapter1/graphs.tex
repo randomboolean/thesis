@@ -14,7 +14,7 @@ We define the relation $u \sim v \Leftrightarrow (u,v) \in E$. We precise the gr
 A \emph{path} is a sequence $v_1 \sim \cdots \sim v_r$. A graph is said to be \emph{connected} if there exists a path from any vertex to any other vertex.
 We define the \emph{neighborhood} of a vertex as $\cn_u = \{v \in V, u \sim v\}$. For digraphs, it is equal to the union of the \emph{in}- and \emph{out}-neighborhoods. We only consider graphs without isolated vertex (a vertex with an empty neighborhood).
 We also only consider \emph{weighted} graphs. That is, a graph $\gve$ is associated with a weight mapping $w: V^2 \to \bbr+$ \st $w(u,v) = 0 \Leftrightarrow u \nsim v$.
-Its \emph{adjacency matrix} $A \in \bbr^{V \times V}$ is defined \wrt to a vertex ordering $V = \{v_1, \ldots, v_n\}$ as $A[i,j] = w(v_i,v_j)$. \figref{fig:graph} illustrates an example of a graph and its adjacency matrix.
+If $G$ is finite. Its \emph{adjacency matrix} $A \in \bbr^{V \times V}$ is defined \wrt to a vertex ordering $V = \{v_1, \ldots, v_n\}$ as $A[i,j] = w(v_i,v_j)$. \figref{fig:graph} illustrates an example of a graph and its adjacency matrix.
 
 \begin{figure}[h!tp]
 \centering
@@ -31,32 +31,41 @@ The \emph{degree} of a vertex $v$ is equal to the number of edges it is attached
 For digraphs the degree is the sum of the \emph{in}- and \emph{out}-degrees.
 The \emph{degree} of $G$ refers to its max degree.
 $G$ is said to be \emph{degree-regular} if all its vertices have the same degree.
-Its \emph{degree matrix} $D$ (\wrt to a vertex ordering $V = \{v_1, \ldots, v_n\}$) is the diagonal matrix for which the diagonal entry corresponding to a vertex is the sum of the weights of the edges it is part of.
+If it is finite, its \emph{degree matrix} $D$ (\wrt to a vertex ordering $V = \{v_1, \ldots, v_n\}$) is the diagonal matrix for which the diagonal entry corresponding to a vertex is the sum of the weights of the edges it is part of.
 Its \emph{laplacian matrix} $L$ is the substraction $L = D-A$, which can be \emph{normalized} $L = I - D^{-\frac{1}2}AD^{-\frac{1}2}$, \emph{left-normalized} $L = I - D^{-1}A$, or \emph{right-normalized} $L = I - AD^{-1}$.
-A subgraph of $G$ induced by a subset $U \subset V$ is the graph with vertex and edge set restricted by $U$.
+A subgraph of $G$ induced by a subset $U \subset V$ is the graph with vertex and edge set restricted by $U$. The \emph{complement} graph $G^C$ shares the same vertex set but $u \overset{G^C}\sim v \Leftrightarrow u \overset{G}\sim v$.
 A \emph{complete} graph is such that there exists an edge between any two vertices.
 
-\begin{definition}\textbf{Grid graph}\\
-A \emph{grid graph} $\gve$ is 
-such that $V \cong \bbz^2$, $v_1 \sim v_2 \Rightarrow \|v_2 -v_1\|_\infty \in \{0, 1\}$ and either one of the following is true:
-\begin{gather*}
-\left\{
-  \begin{array}{l}
-    (i_1,j_1) \sim (i_2,j_2) \Leftrightarrow |i_2 - i_1| \XOR |j_2 - j_1| \quad \text{($4$ neighbours)}\\
-    (i_1,j_1) \sim (i_2,j_2) \Leftrightarrow |i_2 - i_1| \AND |j_2 - j_1| \quad \text{($4$ neighbours)}\\
-    (i_1,j_1) \sim (i_2,j_2) \Leftrightarrow |i_2 - i_1| \OR |j_2 - j_1| \quad \text{($8$ neighbours)}
-  \end{array}
-\right.
-\end{gather*}
+% \begin{definition}\textbf{Grid graph}\\
+% A \emph{grid graph} $\gve$ is 
+% such that $V \cong \bbz^2$, $v_1 \sim v_2 \Rightarrow \|v_2 -v_1\|_\infty \in \{0, 1\}$ and either one of the following is true:
+% \begin{gather*}
+% \left\{
+%   \begin{array}{l}
+%     (i_1,j_1) \sim (i_2,j_2) \Leftrightarrow |i_2 - i_1| \XOR |j_2 - j_1| \quad \text{($4$ neighbours)}\\
+%     (i_1,j_1) \sim (i_2,j_2) \Leftrightarrow |i_2 - i_1| \AND |j_2 - j_1| \quad \text{($4$ neighbours)}\\
+%     (i_1,j_1) \sim (i_2,j_2) \Leftrightarrow |i_2 - i_1| \OR |j_2 - j_1| \quad \text{($8$ neighbours)}
+%   \end{array}
+% \right.
+% \end{gather*}
 
-A \emph{(rectangular) grid graph} of size $n \times m$ is the subgraph of a grid graph induced by $\llbracket 1, n \rrbracket \times \llbracket 1, m \rrbracket$. A \emph{square grid graph} is a rectangular grid graph of square size.
+% A \emph{(rectangular) grid graph} of size $n \times m$ is the subgraph of a grid graph induced by $\llbracket 1, n \rrbracket \times \llbracket 1, m \rrbracket$. A \emph{square grid graph} is a rectangular grid graph of square size.
+% \end{definition}
+
+\begin{definition}\textbf{Grid graph}\\
+Let a graph $\gve$ such that the expression $u \sim v \Leftrightarrow \|u-v\|_1 = 1$ makes sense. $G$ can be called:
+\begin{itemize}[nolistsep,noitemsep]
+\item a \emph{grid graph} if $V = \bbz^2$
+\item a \emph{finite grid graph} if $\exists (n,m) \in \bbz^2, V = \llbracket 1, n \rrbracket \times \llbracket 1, m \rrbracket$
+\item a \emph{circulant grid graph} if $\exists (n,m) \in \bbz^2, V = \bbz /n \bbz \times \bbz /m \bbz$
+\end{itemize}
 \end{definition}
 
 \begin{definition}\textbf{Bipartite graph}\\
-A graph is said to be \emph{bipartite} if its vertex set is a disjoint union of two sets $V = V_1 \cup V_2$ \st $$u \sim v \Rightarrow (u,v) \in V_1 \times V_2 \vee (u,v) \in V_2 \times V_1$$
+A graph is called \emph{bipartite} if its vertex set is a disjoint union $V = V_1 \cup V_2$ \st $$u \sim v \Rightarrow (u,v) \in V_1 \times V_2 \vee (u,v) \in V_2 \times V_1$$
 \end{definition}
 
-Its \emph{bipartite-adjacency} matrix $A \in \bbr^{V_1 \times V_2}$ is a rectangular matrix defined \wrt to a vertex ordering $V_1 = \{u_1, \ldots, u_n\}$, $V_2 = \{v_1, \ldots, v_n\}$ and weight mapping $w$ as $A[i,j] = w(u_i,v_j)$.
+If it is finite, its \emph{bipartite-adjacency} matrix $A \in \bbr^{V_1 \times V_2}$ is a rectangular matrix defined \wrt to a vertex ordering $V_1 = \{u_1, \ldots, u_n\}$, $V_2 = \{v_1, \ldots, v_n\}$ and weight mapping $w$ as $A[i,j] = w(u_i,v_j)$.
 
 \begin{definition}\textbf{Signal}\\
 A \emph{signal} on $V$, $s \in \cs(V)$, is a function $s: V \rightarrow \bbr$.
@@ -94,23 +103,90 @@ In this manuscipt, we are less interested in other deep learning tasks related t
 \subsection{Spectral methods}
 \label{sec:spec}
 
-Spectral methods are based on spectral graph theory \citep{chung1996spectral}, which is interested in the properties of graphs explained through the eigenvalues of their laplacian matrix. Since the laplacian $L$ of a graph $\gve$ is real symmetric, it can be diagonalized in an orthonormal eigenvector basis as $\Lambda = ULU^T$, where $\Lambda = \diag(\lambda_1, \ldots, \lambda_n)$, and $\lambda_1 \le \cdots \le \lambda_n$.
-In the cases corresponding to graph structures of euclidean domains \ie when $L$ is the laplacian of a circulant grid graph, one can verify that $U$ can be the DFT matrix which defines the Discrete Fourier Transform. By extension to general graphs, for every signals $s \in \cs(G)$, the \emph{Graph Fourier Transform} (GFT) is defined as $\hat{s} = Us$ \citep{shuman2013emerging}.
-
-The GFT shares many similar properties with the DFT. For example, let a signal $s \in \cs(V)$, the laplacian $L$ and the positive weight mapping $w$ of the edges we have 
+Spectral methods are based on spectral graph theory \citep{chung1996spectral} which aims at characterizing structral properties of a graph $\gve$ through the eigenvalues of the laplacian matrix $L$. In particular, since it is hermitian, it admits a complete set of normalized eigenvectors. By fixing a normalized eigenvector basis ordered in the rows of $U$ (by ascending eigenvalues), $U$ is used to define the \emph{Graph Fourier Transform} (GFT) of a signal $s \in \cs(G)$ \citep{shuman2013emerging}, and the conjugate-transpose $U^*$ defines the inverse GFT. We write
 \begin{align}
-Ls[u] &= \displaystyle\sum_{v \in V} w(u,v)(s[u] - s[v])\\
+\widehat{s} &= Us\\
+\widetilde{s} &= U^*s
+\end{align}
+
+\begin{remark}
+The GFT extends the notion of \emph{Discrete Fourier Transform} (DFT) to general graphs, since that for circulant grid graphs $U$ can be the DFT matrix.
+\end{remark}
+
+By analogy with the convolution theorem, a convolution can be defined as pointwise multiplication, denoted $\cdot$, in the spectral domain of the graph \citep{hammond2011wavelets}. For $s, g \in \cs(G)$, we have:
+\begin{gather}
+s \ast g = \widetilde{\widehat{s} \cdot \widehat{g}} \label{eq:sc}
+\end{gather}
+
+This expression can be used to define convolutional layers and spectral CNNs on graphs. However, \cite{bruna2013spectral} pointed out that \eqref{eq:sc} would generate filters with $\co(n)$ weights, where $n$ is the order of $G$. So they proposed to learn filters $\theta$ with only $\co(1)$ weights and then to smoothly interpolate the remaining weights as $g = K \theta$, where $K$ is a linear smoother. They motivate their construction by the fact that smooth multipliers in the spectral domain should simulate local operations in the vertex domain. To elaborate a bit on this, note that we have:
+\begin{align}
+Ls[u] &= \displaystyle\sum_{v \in V} w(u,v)(s[u] - s[v])
+\end{align}
+And so,
+\begin{align}
 s^TLs &= \displaystyle\sum_{u \in V}\sum_{v \in V} w(u,v)s[u](s[u] - s[v])\nonumber\\
 &= \displaystyle \frac{1}2\sum_{u \in V}\sum_{v \in V} w(u,v)s[u](s[u] - s[v]) + \frac{1}2\sum_{v \in V}\sum_{u \in V} w(v,u)s[v](s[v] - s[u])\nonumber\\
-&=  \displaystyle\sum_{u \in V}\sum_{v \in V} \frac{w(u,v)}2(s[u] - s[v])^2
+&=  \displaystyle\sum_{u \in V}\sum_{v \in V} \frac{w(u,v)}2(s[u] - s[v])^2 \label{eq:smooth}
 \end{align}
-That is, $s^TLs$ is some sort of measure of \emph{smoothness} of the signal $s$, penalized by the weights on the edges of the graph $G$. The bigger is $w(u,v)$, the closest $s(u)$ and $s(v)$ must be to lower this smoothness measure. %Since $L$ is symmetric, its eigenvalues are non-negative real numbers, and $L$ can be diagonalized in an orthonormal eigenvector basis as $\Lambda = U^TLU$. Denote $\hat{s} = U^Ts$, and $(\lambda_i)_i$ the eigenvalues, the smoothness measure rewrites
-In the spectral domain, this smoothness rewrites:
+That is, $s^TLs$ is some sort of measure of \emph{smoothness} of the signal $s$, penalized by the weights $w$. The bigger is $w(u,v)$, the closest $s(u)$ and $s(v)$ must be to lower the smoothness \eqref{eq:smooth}. Since $L$ is symmetric, its eigenvalues are non-negative real numbers, and $U$ diagonalizes $L$ as $\Lambda = ULU^*$. Denote $(\lambda_i)_i$ the eigenvalues, the smoothness measure rewrites:
 \begin{align}
-s^TLs = \hat{s}^T\Lambda\hat{s} = \displaystyle\sum_{i=1}^n \lambda_i \hat{s}[i]^2
+s^TLs = \widehat{s}^*\Lambda\widehat{s} = \displaystyle\sum_{i=1}^n \lambda_i \widehat{s}[i]^2
 \end{align}
-In other words, the smoothness of $s$ can be read off the coordinates of $\hat{s}$, and decay in the spectral domain relate to smoothness in the vertex domain.
+Therefore, as they pointed out, smoothness of $s$ can be read off the coordinates of $\hat{s}$, like for the DFT. Moreover, spectral multipliers modulate its smoothness, and decay in the spectral domain is related to smoothness in the vertex domain. But contrary to their conjecture, smoothness in the spectral domain is not necessary related to decay is the vertex domain (and so to some form of locality). For instance, since the laplacian $L^C$ of the complement graph $G^C$ commutes with $L$, it can share the same eigenvector basis $U$, and thus define the same GFT, but their notion of locality in the vertex domain are opposed. Another drawback is that this methods requires computing a laplacian eigenbasis, which complexity is at least $\co(n^2)$ as there is no equivalent of the Fast Fourier Transform (FFT).
 
+Then, \cite{defferrard2016convolutional} remedy to these issues by proposing an approximation of the GFT based on the Chebychev polynomials, denoted by $(T_i)_i$, where $i$ is the polynomial order.
+That is, their proposed filters are in the form
+\begin{gather}
+g_\theta(L) = \sum_{i=0}^k \theta[i] \h{2} T_i(L)
+\end{gather}
+which are spectral multipliers because, thanks to $T_i(L) = T_i(U^*\Lambda U) = U^*T_i(\Lambda)U$, we have:
+\begin{align}
+g_\theta(L)s &= g_\theta(U^*\Lambda U)s
+= U^* g_\theta(\Lambda) Us\nonumber\\
+&= \widetilde{g_\theta(\Lambda) \textbf1} \ast s
+\end{align}
+
+These filters enjoy locality properties and their complexity remains $\co(1)$.
+
+However, it is hard to evaluate if a model performs well on the task of supervised classification of graph signal, because there are not much known datasets in the litterature for which the given graph domain hold enough information.
+
+For example, \citeauthor{defferrard2016convolutional} built a graph signal dataset from a text categorization dataset called 20NEWS \citep{joachims1996probabilistic}. Each text is represented as a word2vec vector, and features are linked by edges with their nearest neighbors. However, their model (ChebNet32) fails to surpass Multinomial Naive Bayes (MNB). Moreover, even though they report that their model beat MLPs, our experiments show the contrary. In results we report in \tabref{tab:20}, we see that a lighter MLP, composed of a single Fully-Connected~(FC) layer with ReLU and 20\% dropout outperforms ChebNet32. We replicated their preprocessing phase from the code on their github repository and averaged our results on 10 runs of 20 epochs.
+
+\begin{table}[H]
+  \caption{Accuracies on 20NEWS}
+  \begin{center}
+    \bgroup
+    \def\arraystretch{1.5}%  1 is the default, change whatever you need
+    \begin{tabular}{|c|c|c|c|c|}
+      \hline
+      MNB & FC2500 & FC2500-FC500 & ChebNet32 & FC500\\
+      \hline
+      68.51\%$^a$ & 64.64\%$^a$ & 65.76\%$^a$ & 68.26\%$^a$ & \textbf{71.46$\pm$0.08\%}$^b$\\
+      \hline
+    \end{tabular}
+    \egroup
+  \end{center}
+\begin{flushleft}
+\footnotesize{
+$^a$ As reported in \cite{defferrard2016convolutional}\\
+$^b$ From our experiments.
+}
+\end{flushleft}
+  \label{tab:20}
+\end{table}
+
+Despite the significant theoretical contribution, this result stress out the importance of the practical graph used to support the convolution, a point that they also discussed. \cite{henaff2015deep} propose supervised graph estimation techniques, but a better graph signal dataset would be one that come with an already suitable graph, that of current literature is still lacking.
+
+On the other hand, attention in the domain has shifted toward the task of semi-supervised classification of nodes, where good datasets are not lacking. \cite{kipf2016semi} have transposed ChebNet to this task, and propose a simplification.
+
+\todo{suite}
+\todo{and retreive in chap3 part that was removed}
+
+% They remark that spectral multipliers $\widehat{g_\theta}$, parameterized by $\theta$, can be rewritten in the form
+% \begin{gather}
+% g_\theta \ast s = U^*\diag{\widehat{g_\theta}}Us
+% \end{gather}
+% And if $g_\theta$ is a polynomial in $\Lambda = ULU^*$, we have
 
 
 \subsection{Vertex-domain methods}
