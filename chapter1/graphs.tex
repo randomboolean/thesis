@@ -14,7 +14,7 @@ We define the relation $u \sim v \Leftrightarrow (u,v) \in E$. We precise the gr
 A \emph{path} is a sequence $v_1 \sim \cdots \sim v_r$. A graph is said to be \emph{connected} if there exists a path from any vertex to any other vertex.
 We define the \emph{neighborhood} of a vertex as $\cn_u = \{v \in V, u \sim v\}$. For digraphs, it is equal to the union of the \emph{in}- and \emph{out}-neighborhoods. We only consider graphs without isolated vertex (a vertex with an empty neighborhood).
 We also only consider \emph{weighted} graphs. That is, a graph $\gve$ is associated with a weight mapping $w: V^2 \to \bbr+$ \st $w(u,v) = 0 \Leftrightarrow u \nsim v$.
-If $G$ is finite. Its \emph{adjacency matrix} $A \in \bbr^{V \times V}$ is defined \wrt to a vertex ordering $V = \{v_1, \ldots, v_n\}$ as $A[i,j] = w(v_i,v_j)$. \figref{fig:graph} illustrates an example of a graph and its adjacency matrix.
+If $G$ is finite, its \emph{adjacency matrix} $A \in \bbr^{V \times V}$ is defined \wrt to a vertex ordering $V = \{v_1, \ldots, v_n\}$ as $A[i,j] = w(v_i,v_j)$. \figref{fig:graph} illustrates an example of a graph and its adjacency matrix.
 
 \begin{figure}[h!tp]
 \centering
@@ -33,7 +33,7 @@ The \emph{degree} of $G$ refers to its max degree.
 $G$ is said to be \emph{degree-regular} if all its vertices have the same degree.
 If it is finite, its \emph{degree matrix} $D$ (\wrt to a vertex ordering $V = \{v_1, \ldots, v_n\}$) is the diagonal matrix for which the diagonal entry corresponding to a vertex is the sum of the weights of the edges it is part of.
 Its \emph{laplacian matrix} $L$ is the substraction $L = D-A$, which can be \emph{normalized} $L = I - D^{-\frac{1}2}AD^{-\frac{1}2}$, \emph{left-normalized} $L = I - D^{-1}A$, or \emph{right-normalized} $L = I - AD^{-1}$.
-A subgraph of $G$ induced by a subset $U \subset V$ is the graph with vertex and edge set restricted by $U$. The \emph{complement} graph $G^C$ shares the same vertex set but $u \overset{G^C}\sim v \Leftrightarrow u \overset{G}\sim v$.
+A subgraph of $G$ induced by a subset $U \subset V$ is the graph with vertex and edge set restricted by $U$. The \emph{complement} graph $G^C$ shares the same vertex set but $u \overset{G^C}\sim v \Leftrightarrow u \overset{G}\nsim v$.
 A \emph{complete} graph is such that there exists an edge between any two vertices.
 
 % \begin{definition}\textbf{Grid graph}\\
@@ -77,9 +77,9 @@ In particular, a vector space, and more generally a tensor space, are finite-dim
 \end{remark}
 
 A \emph{graph signal} on a graph $\gve$ is a signal on its vertex set $V$. We denote by $\cs(G)$ or $\cs(V)$ the graph signal space. $G$ can be referred as the \emph{underlying structure} of $\cs(V)$.
-An \emph{entry} of a signal $s$ is an image by $s$ of some $v \in V$ and we denote $s[v]$. If~$v$~is represented by a $n$-tuple, we can also write $s[v_1, v_2, \ldots, v_n]$.
+An \emph{entry} of a signal $s$ is an image by $s$ of some $v \in V$ and we denote $s[v]$. If~$v$~is represented by an $n$-tuple, we can also write $s[v_1, v_2, \ldots, v_n]$.
 The \emph{support} of a signal $s \in \cs(V)$ is the subset $\supp(s) \subset V$ on which $s \neq 0$.
-For space of signals that aren't real-valued, their codomain~$\bbe$ is precised in the subscript~$\cs_{\bbe}(V)$.
+For spaces of signals that aren't real-valued, their codomain~$\bbe$ is precised in the subscript~$\cs_{\bbe}(V)$.
 
 \subsection{Learning tasks}
 
@@ -95,7 +95,7 @@ There are many tasks related to deep learning on graphs.%:
 This is the classical application of deep learning transposed to graph signals, rather than image or audio signals. It is the principled targeted task we will have in mind in the course of the remainder of this manuscript. Given a graph $\gve$ and an input signal $x \in \cs(G)$ the goal is to classify~$x$. If there are~$c$ possible classes, a neural network~$f$ outputs a vector $y = f(x)$ of dimension~$c$, and its dimension with the biggest weight determines the predicted class. Indeed, a standard MLP can be trained on a dataset of graph signals. However, an MLP wouldn't take the graph structure $G$ into consideration. By similarity with CNNs that leverage the grid structure of images to achieve better performances than MLPs, a challenge is to define a neural network on graph signals that can leverage~$G$. We review some models from the litterature in \secref{sec:spec} and in \secref{sec:vert}. We develop an algebraic understanding in \chapref{chap:2} of why and how they should work, and also propose our own models and point of view in \chapref{chap:3}.
 
 \paragraph{Semi-supervised classification of nodes}
-This task is in some way obtained from a transposed perspective of the previous one. Given a dataset of graph signals, represented as a matrix $X \in \bbr^{n \times N}$, where the rows represent the nodes, and the columns represent the signals, the goal is to classify the nodes. This amounts to classify the rows, whereas the previous task amounts to classify the columns. As opposed to the previous one, this task is \emph{transductive} \ie node data from the test set are available during training (but their labels are not), and it is \emph{semi-supervised} \ie some node labels of the train set are unknown. This allows to learn on much more data than if we were restricted to labeled data. In this task, the edges connect learning samples, however in the previous one, the edges were connecting features of learning samples. This is this edge relationship between learning samples that renders the semi-supervised approach possible. This task have received much more attention than the previous one in the litterature. This may be because the datasets
+This task is in some way obtained from a transposed perspective of the previous one. Given a dataset of graph signals, represented as a matrix $X \in \bbr^{n \times N}$, where the rows represent the nodes, and the columns represent the signals, the goal is to classify the nodes. This amounts to classify the rows, whereas the previous task amounts to classify the columns. As opposed to the previous one, this task is \emph{transductive} \ie node data from the test set are available during training (but their labels are not), and it is \emph{semi-supervised} \ie some node labels of the train set are unknown. This allows to learn on much more data than if we were restricted to labeled data. In this task, the edges connect learning samples, however in the previous one, the edges were connecting features of learning samples. This is this edge relationship between learning samples that renders the semi-supervised approach possible. This task have received much more attention than the previous one in the recent litterature. We explain why in \secref{sec:spec}.
 
 \paragraph{Other learning tasks}
 In this manuscipt, we are less interested in other deep learning tasks related to graphs, so we briefly discuss them here. One is supervised classification of graphs, which is different than classifying graph signals. Examples include \citep{niepert2016learning,tixier2017classifying}. Another interesting task is the semi-supervised representation learning of nodes, which tackles the challenge to learn a linear representation of nodes. A common approach, derived from Word2Vec \citep{mikolov2013efficient,mikolov2013distributed}, is called Node2Vec \citep{grover2016node2vec}, and was later improved in graphSAGE \citep{hamilton2017inductive}. A review on this subject is done by \cite{hamilton2017representation}.
@@ -132,7 +132,7 @@ That is, $s^TLs$ is some sort of measure of \emph{smoothness} of the signal $s$,
 \begin{align}
 s^TLs = \widehat{s}^*\Lambda\widehat{s} = \displaystyle\sum_{i=1}^n \lambda_i \widehat{s}[i]^2
 \end{align}
-Therefore, as they pointed out, smoothness of $s$ can be read off the coordinates of $\hat{s}$, like for the DFT. Moreover, spectral multipliers modulate its smoothness, and decay in the spectral domain is related to smoothness in the vertex domain. But contrary to their conjecture, smoothness in the spectral domain is not necessary related to decay is the vertex domain (and so to some form of locality). For instance, since the laplacian $L^C$ of the complement graph $G^C$ commutes with $L$, it can share the same eigenvector basis $U$, and thus define the same GFT, but their notion of locality in the vertex domain are opposed. Another drawback is that this methods requires computing a laplacian eigenbasis, which complexity is at least $\co(n^2)$ as there is no equivalent of the Fast Fourier Transform (FFT) on graphs.
+Therefore, as they pointed out, smoothness of $s$ can be read off the coordinates of $\hat{s}$, like for the DFT. Moreover, spectral multipliers modulate its smoothness, and decay in the spectral domain is related to smoothness in the vertex domain. But contrary to their conjecture, smoothness in the spectral domain is not necessary related to decay is the vertex domain (and so to some form of locality). For instance, since the laplacian $L^C$ of the complement graph $G^C$ commutes with $L$, it can share the same eigenvector basis $U$, and thus define the same GFT, but their notion of locality in the vertex domain are opposed. Another drawback is that this method requires computing the GFT which complexity is at least $\co(n^2)$ as there is no equivalent of the Fast Fourier Transform (FFT) on graphs, so the authors suggest to use a lower number of eigenvectors $d < n$ from the laplacian eigenbasis.
 
 Then, \cite{defferrard2016convolutional} remedy to these issues by proposing an approximate formulation based on the Chebychev polynomials, denoted by $(T_i)_i$, where $i$ is the polynomial order.
 That is, their proposed approximate filters are in the form
@@ -146,7 +146,7 @@ g_\theta(L)s &= g_\theta(U^*\Lambda U)s
 &= \widetilde{g_\theta(\Lambda) \textbf1} \ast s
 \end{align}
 
-These filters enjoy locality properties and their complexity remains $\co(1)$ (without the need to compute the GFT). The use of Chebychev polynomials ensures that in theory any set of spectral multipliers can be approximated.
+These filters enjoy locality properties and their complexity is $\co(n)$ when rows of $L$ are sparse. The use of Chebychev polynomials \citep{hammond2011wavelets} ensures that in theory any set of spectral multipliers can be approximated. Also, since they are laplacian polynomials, some authors would argue that these filters are transferable from one graph to another. From a combinatorial point of view this is true. However there is no reason that spectral multipliers from a spectral domain make sense in another one, and there are no experiment in the literature to support the hypothesis. On the other hand, \citep{yi2016syncspeccnn} (which don't use polynomial filters) fix a canonical spectral base in order to synchronize every spectral domains. Their idea is to learn a warping from any eigenbasis to the canonical one, prior to performing spectral multiplication, in the manner of spatial transformer networks (STN) \cite{jaderberg2015spatial}).
 
 However, it is hard to evaluate if a model performs well on the task of supervised classification of graph signal, because there are not much known datasets in the litterature for which the given graph domain hold enough information.
 
@@ -177,7 +177,15 @@ $^b$ From our experiments.
 
 Despite the significant theoretical contribution, this negative result stresses out the importance of the practical graph used to support the convolution, a point that they also discussed. \cite{henaff2015deep} proposed supervised graph estimation techniques, but a better graph signal dataset would be one that come with an already suitable graph, that of current literature is still lacking.
 
-On the other hand, attention in the domain has shifted toward the task of semi-supervised classification of nodes, where good datasets are not lacking. \cite{kipf2016semi} have transposed ChebNet to this task, and propose a simplification.
+Another way
+
+
+
+
+
+
+
+On the other hand, attention in the domain has shifted toward the task of semi-supervised classification of nodes, where good datasets are not lacking. \cite{kipf2016semi} have transposed ChebNet to this task, and propose a simplification which is more.
 
 \todo{suite}
 \todo{and retreive in chap3 part that was removed}
