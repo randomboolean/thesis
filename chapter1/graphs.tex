@@ -118,7 +118,7 @@ By analogy with the convolution theorem, a convolution can be defined as pointwi
 s \ast g = \widetilde{\widehat{s} \cdot \widehat{g}} \label{eq:sc}
 \end{gather}
 
-This expression can be used to define convolutional layers and spectral CNNs on graphs. However, \cite{bruna2013spectral} pointed out that \eqref{eq:sc} would generate filters with $\co(n)$ weights, where $n$ is the order of $G$. So they proposed to learn filters $\theta$ with only $\co(1)$ weights and then to smoothly interpolate the remaining weights as $g = K \theta$, where $K$ is a linear smoother. They motivate their construction by the fact that smooth multipliers in the spectral domain should simulate local operations in the vertex domain. To elaborate a bit on this, note that we have:
+This expression can be used to define convolutional layers and spectral CNNs on graphs. However, \cite{bruna2013spectral} pointed out that \eqref{eq:sc} would generate filters with $\co(n)$ weights, where $n$ is the order of $G$. So they proposed to learn filters $\theta$ with only $\co(1)$ weights and then to smoothly interpolate the remaining weights as $g = K \theta$, where $K$ is a linear smoother matrix. They motivate their construction by the fact that smooth multipliers in the spectral domain should simulate local operations in the vertex domain. To elaborate a bit on this, note that we have:
 \begin{align}
 Ls[u] &= \displaystyle\sum_{v \in V} w(u,v)(s[u] - s[v])
 \end{align}
@@ -132,10 +132,10 @@ That is, $s^TLs$ is some sort of measure of \emph{smoothness} of the signal $s$,
 \begin{align}
 s^TLs = \widehat{s}^*\Lambda\widehat{s} = \displaystyle\sum_{i=1}^n \lambda_i \widehat{s}[i]^2
 \end{align}
-Therefore, as they pointed out, smoothness of $s$ can be read off the coordinates of $\hat{s}$, like for the DFT. Moreover, spectral multipliers modulate its smoothness, and decay in the spectral domain is related to smoothness in the vertex domain. But contrary to their conjecture, smoothness in the spectral domain is not necessary related to decay is the vertex domain (and so to some form of locality). For instance, since the laplacian $L^C$ of the complement graph $G^C$ commutes with $L$, it can share the same eigenvector basis $U$, and thus define the same GFT, but their notion of locality in the vertex domain are opposed. Another drawback is that this methods requires computing a laplacian eigenbasis, which complexity is at least $\co(n^2)$ as there is no equivalent of the Fast Fourier Transform (FFT).
+Therefore, as they pointed out, smoothness of $s$ can be read off the coordinates of $\hat{s}$, like for the DFT. Moreover, spectral multipliers modulate its smoothness, and decay in the spectral domain is related to smoothness in the vertex domain. But contrary to their conjecture, smoothness in the spectral domain is not necessary related to decay is the vertex domain (and so to some form of locality). For instance, since the laplacian $L^C$ of the complement graph $G^C$ commutes with $L$, it can share the same eigenvector basis $U$, and thus define the same GFT, but their notion of locality in the vertex domain are opposed. Another drawback is that this methods requires computing a laplacian eigenbasis, which complexity is at least $\co(n^2)$ as there is no equivalent of the Fast Fourier Transform (FFT) on graphs.
 
-Then, \cite{defferrard2016convolutional} remedy to these issues by proposing an approximation of the GFT based on the Chebychev polynomials, denoted by $(T_i)_i$, where $i$ is the polynomial order.
-That is, their proposed filters are in the form
+Then, \cite{defferrard2016convolutional} remedy to these issues by proposing an approximate formulation based on the Chebychev polynomials, denoted by $(T_i)_i$, where $i$ is the polynomial order.
+That is, their proposed approximate filters are in the form
 \begin{gather}
 g_\theta(L) = \sum_{i=0}^k \theta[i] \h{2} T_i(L)
 \end{gather}
@@ -146,7 +146,7 @@ g_\theta(L)s &= g_\theta(U^*\Lambda U)s
 &= \widetilde{g_\theta(\Lambda) \textbf1} \ast s
 \end{align}
 
-These filters enjoy locality properties and their complexity remains $\co(1)$.
+These filters enjoy locality properties and their complexity remains $\co(1)$ (without the need to compute the GFT). The use of Chebychev polynomials ensures that in theory any set of spectral multipliers can be approximated.
 
 However, it is hard to evaluate if a model performs well on the task of supervised classification of graph signal, because there are not much known datasets in the litterature for which the given graph domain hold enough information.
 
@@ -161,7 +161,7 @@ For example, \citeauthor{defferrard2016convolutional} built a graph signal datas
       \hline
       MNB & FC2500 & FC2500-FC500 & ChebNet32 & FC500\\
       \hline
-      68.51\%$^a$ & 64.64\%$^a$ & 65.76\%$^a$ & 68.26\%$^a$ & \textbf{71.46$\pm$0.08\%}$^b$\\
+      68.51\%$^a$ & 64.64\%$^a$ & 65.76\%$^a$ & 68.26\%$^a$ & \textbf{71.46}$\pm$0.08\%$^b$\\
       \hline
     \end{tabular}
     \egroup
@@ -175,7 +175,7 @@ $^b$ From our experiments.
   \label{tab:20}
 \end{table}
 
-Despite the significant theoretical contribution, this result stress out the importance of the practical graph used to support the convolution, a point that they also discussed. \cite{henaff2015deep} propose supervised graph estimation techniques, but a better graph signal dataset would be one that come with an already suitable graph, that of current literature is still lacking.
+Despite the significant theoretical contribution, this negative result stresses out the importance of the practical graph used to support the convolution, a point that they also discussed. \cite{henaff2015deep} proposed supervised graph estimation techniques, but a better graph signal dataset would be one that come with an already suitable graph, that of current literature is still lacking.
 
 On the other hand, attention in the domain has shifted toward the task of semi-supervised classification of nodes, where good datasets are not lacking. \cite{kipf2016semi} have transposed ChebNet to this task, and propose a simplification.
 
