@@ -15,23 +15,24 @@
 % Toward an algebraic understanding of convolutions on graph domains under the scope of deep learning applications.
 % ?
 
-\input{date}\newline
-\input{revcount}
+% \input{date}\newline
+% \input{revcount}
+\linenumbers
 
-% Table of contents
-%
+% % Table of contents
+% %
 
-\dominitoc
-\tableofcontents
-\adjustmtc
+ \dominitoc
+ \tableofcontents
+% \adjustmtc
 
 %
 % Introduction
 %
 
-\chapter*{Introduction}\label{chp:int}
-\addcontentsline{toc}{chapter}{\nameref{chp:int}}
-\todo{}
+% \chapter*{Introduction}\label{chp:int}
+% \addcontentsline{toc}{chapter}{\nameref{chp:int}}
+% \todo{}
 %talk about graph == irregular
 
 %
@@ -40,7 +41,7 @@
 
 % cover
   \chapter{Presentation of the field}\label{chap:1}
-  \input{chapter1/intro1.tex}%\newpage
+  \vfill\input{chapter1/intro1.tex}\newpage
   \vfill\minitoc\newpage
 
 % body
@@ -52,51 +53,51 @@
 % Chapter 2
 %
 
-\setcounter{chapter}{1}
-\chapter{Convolutions on graph domains}\label{chap:2}
-\input{chapter2/intro2.tex}%\newpage
-\vfill\minitoc\newpage
-
-% body
-\input{chapter2/conv}\newpage
-\input{chapter2/groups}\newpage
-\input{chapter2/edges}\newpage
-\input{chapter2/groupoids}\newpage
-\input{chapter2/recap2}\newpage
-
-%
-% Chapter 3
-%
- \setcounter{chapter}{2}
- \chapter{Neural networks on graph domains}\label{chap:3}
- \input{chapter3/intro3.tex}%\newpage
- \vfill\minitoc\newpage
-
-
-% body
- \input{chapter3/perspective}\newpage
- \input{chapter3/ternary}\newpage
- \input{chapter3/learningscheme}\newpage
- \input{chapter3/bastnet}\newpage
- \input{chapter3/recap3}\newpage
- %\input{chapter3/datasets}\newpage
- %\input{chapter3/relatedworks}\newpage
-
-%
-% Chapter 4 ----> as a section in chapter 3 maybe, or as a motivation in the introduction
-%
-
-% \chapter{Industrial applications}
-% \todo{}
+% \setcounter{chapter}{1}
+% \chapter{Convolutions on graph domains}\label{chap:2}
+% \input{chapter2/intro2.tex}%\newpage
 % \vfill\minitoc\newpage
 
-%
-% Conclusion
-%
+% % body
+% \input{chapter2/conv}\newpage
+% \input{chapter2/groups}\newpage
+% \input{chapter2/edges}\newpage
+% \input{chapter2/groupoids}\newpage
+% \input{chapter2/recap2}\newpage
 
-\chapter*{Conclusion}\label{chp:ccl}
-\addcontentsline{toc}{chapter}{\nameref{chp:ccl}}
-\todo{}
+% %
+% % Chapter 3
+% %
+%  \setcounter{chapter}{2}
+%  \chapter{Neural networks on graph domains}\label{chap:3}
+%  \input{chapter3/intro3.tex}%\newpage
+%  \vfill\minitoc\newpage
+
+
+% % body
+%  \input{chapter3/perspective}\newpage
+%  \input{chapter3/ternary}\newpage
+%  \input{chapter3/learningscheme}\newpage
+%  \input{chapter3/bastnet}\newpage
+%  \input{chapter3/recap3}\newpage
+%  %\input{chapter3/datasets}\newpage
+%  %\input{chapter3/relatedworks}\newpage
+
+% %
+% % Chapter 4 ----> as a section in chapter 3 maybe, or as a motivation in the introduction
+% %
+
+% % \chapter{Industrial applications}
+% % \todo{}
+% % \vfill\minitoc\newpage
+
+% %
+% % Conclusion
+% %
+
+% \chapter*{Conclusion}\label{chp:ccl}
+% \addcontentsline{toc}{chapter}{\nameref{chp:ccl}}
+% \todo{}
 
 %
 % Bibliography
