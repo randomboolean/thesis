@@ -98,7 +98,7 @@ This is the classical application of deep learning transposed to graph signals, 
 This task is in some way obtained from a transposed perspective of the previous one. Given a dataset of graph signals, represented as a matrix $X \in \bbr^{n \times N}$, where the rows represent the nodes, and the columns represent the signals, the goal is to classify the nodes. This amounts to classify the rows, whereas the previous task amounts to classify the columns. As opposed to the previous one, this task is \emph{transductive} \ie node data from the test set are available during training (but their labels are not), and it is \emph{semi-supervised} \ie some node labels of the train set are unknown. This allows to learn on much more data than if we were restricted to labeled data. In this task, the edges connect learning samples, however in the previous one, the edges were connecting features of learning samples. This is this edge relationship between learning samples that renders the semi-supervised approach possible. This task have received much more attention than the previous one in the recent litterature. We explain why in \secref{sec:spec}.
 
 \paragraph{Other learning tasks}
-In this manuscipt, we are less interested in other deep learning tasks related to graphs, so we briefly discuss them here. One is supervised classification of graphs, which is different than classifying graph signals. Examples include \citep{niepert2016learning,tixier2017classifying}. Another interesting task is the semi-supervised representation learning of nodes, which tackles the challenge to learn a linear representation of nodes. A common approach, derived from Word2Vec \citep{mikolov2013efficient,mikolov2013distributed}, is called Node2Vec \citep{grover2016node2vec}, and was later improved in graphSAGE \citep{hamilton2017inductive}. A review on this subject is done by \cite{hamilton2017representation}.
+In this manuscipt, we are less interested in other deep learning tasks related to graphs, so we briefly discuss them here. One is supervised classification of graphs, which is different than classifying graph signals. Examples include \citep{niepert2016learning,tixier2017classifying}. Another interesting task is the semi-supervised representation learning of nodes, which tackles the challenge to learn a linear representation of nodes. A common approach, derived from word2vec \citep{mikolov2013efficient,mikolov2013distributed}, is called node2vec \citep{grover2016node2vec}, and was later improved in graphSAGE \citep{hamilton2017inductive}. A review on this subject is done by \cite{hamilton2017representation}.
 
 \subsection{Spectral methods}
 \label{sec:spec}
@@ -137,18 +137,18 @@ Therefore, as they pointed out, smoothness of $s$ can be read off the coordinate
 Then, \cite{defferrard2016convolutional} remedy to these issues by proposing an approximate formulation based on the Chebychev polynomials, denoted by $(T_i)_i$, where $i$ is the polynomial order.
 That is, their proposed approximate filters are in the form
 \begin{gather}
-g_\theta(L) = \sum_{i=0}^k \theta[i] \h{2} T_i(L)
+g_\theta(L) = \sum_{i=0}^k \theta[i] \h{2} T_i(\widetilde{L})
 \end{gather}
-which are spectral multipliers because, thanks to $T_i(L) = T_i(U^*\Lambda U) = U^*T_i(\Lambda)U$, we have:
+where $\widetilde{L} = \frac{\lambda_{\max}}2L - I_n$ is the scaled normalized laplacian with eigenvalues lying in the range $[-1,1]$. $g_\theta(L)$ are spectral multipliers since we have:
 \begin{align}
 g_\theta(L)s &= g_\theta(U^*\Lambda U)s
 = U^* g_\theta(\Lambda) Us\nonumber\\
 &= \widetilde{g_\theta(\Lambda) \textbf1} \ast s
 \end{align}
 
-These filters enjoy locality properties and their complexity is $\co(n)$ when rows of $L$ are sparse. The use of Chebychev polynomials \citep{hammond2011wavelets} ensures that in theory any set of spectral multipliers can be approximated. Also, since they are laplacian polynomials, some authors would argue that these filters are transferable from one graph to another. From a combinatorial point of view this is true. However there is no reason that spectral multipliers from a spectral domain make sense in another one, and there are no experiment in the literature to support the hypothesis. On the other hand, \citep{yi2016syncspeccnn} (which don't use polynomial filters) fix a canonical spectral base in order to synchronize every spectral domains. Their idea is to learn a warping from any eigenbasis to the canonical one, prior to performing spectral multiplication, in the manner of spatial transformer networks (STN) \cite{jaderberg2015spatial}).
+These filters enjoy locality properties and their complexity is $\co(n)$ when rows of $L$ are sparse. The use of truncated Chebychev exapansion \citep{hammond2011wavelets} ensures that in theory any set of spectral multipliers can be approximated. Also, since they are laplacian polynomials, some authors would argue that these filters are transferable from one graph to another. From a combinatorial point of view this is true. However there is no reason that spectral multipliers from a spectral domain make sense in another one, and there are no experiment in the literature to support the hypothesis. On the other hand, \citep{yi2016syncspeccnn} (which don't use polynomial filters) fix a canonical spectral base in order to synchronize every spectral domains. Their idea is to learn a warping from any eigenbasis to the canonical one, prior to performing spectral multiplication, in the manner of spatial transformer networks (STN) \cite{jaderberg2015spatial}).
 
-However, it is hard to evaluate if a model performs well on the task of supervised classification of graph signal, because there are not much known datasets in the litterature for which the given graph domain hold enough information.
+However, it is hard to evaluate if a model performs well on the task of supervised classification of graph signals, because there are not much known datasets in the litterature for which the given graph domain holds enough information.
 
 For example, \citeauthor{defferrard2016convolutional} built a graph signal dataset from a text categorization dataset called 20NEWS \citep{joachims1996probabilistic}. Each text is represented as a word2vec vector, and features are linked by edges with their nearest neighbors. However, their model (ChebNet32) fails to surpass Multinomial Naive Bayes (MNB). Moreover, even though they report that their model beat MLPs, our experiments show the contrary. In results we report in \tabref{tab:20}, we see that a lighter MLP, composed of a single Fully-Connected~(FC) layer with ReLU and 20\% dropout outperforms ChebNet32. We replicated their preprocessing phase from the code on their github repository and averaged our results on 10 runs of 20 epochs.
 
@@ -177,145 +177,27 @@ $^b$ From our experiments.
 
 Despite the significant theoretical contribution, this negative result stresses out the importance of the practical graph used to support the convolution, a point that they also discussed. \cite{henaff2015deep} proposed supervised graph estimation techniques, but a better graph signal dataset would be one that come with an already suitable graph, that of current literature is still lacking.
 
-Another way
+On the other hand, attention in the domain has shifted toward the task of semi-supervised classification of nodes, where good datasets are not lacking. For example, \cite{levie2017cayleynets} mainly demonstrate the usefulness of their model on these type of tasks. They define polynomial filters, for which Chebychev filters are a special case, that are capable to specialize in narrow bands of frequency in the spectral domain.
 
-
-
-
-
-
-
-On the other hand, attention in the domain has shifted toward the task of semi-supervised classification of nodes, where good datasets are not lacking. \cite{kipf2016semi} have transposed ChebNet to this task, and propose a simplification which is more.
-
-\todo{suite}
-\todo{and retreive in chap3 part that was removed}
-
-% They remark that spectral multipliers $\widehat{g_\theta}$, parameterized by $\theta$, can be rewritten in the form
-% \begin{gather}
-% g_\theta \ast s = U^*\diag{\widehat{g_\theta}}Us
-% \end{gather}
-% And if $g_\theta$ is a polynomial in $\Lambda = ULU^*$, we have
-
+Another spectral avenue consists in using wavelets defined in the graph spectral domain \citep{hammond2011wavelets}, in order to build a scattering network \citep{bruna2013invariant}. This idea have been exploited recently by \cite{zou2018Graph} then by \cite{gama2018Diffusion}.
 
 \subsection{Vertex-domain methods}
 \label{sec:vert}
 
+As their name suggests, vertex-domain methods operates directly on the vertices of the graph. These works were originally motivated by chemistry datasets~\cite{duvenaud2015convolutional,kearnes2016molecular}. Convolution is defined as a function $f$ of the kernel weights $\theta$ and neighboring vertices (contained in the receptive field), usually based on dot products. That is
+\begin{gather}
+y[v] = f_\theta\left(\{u \in \cn(v)\}\right)
+\end{gather}
+As such, it retains the property of being localized and of sharing weights. But there remains the need to specify how the shared weights are allocated in this receptive field~\citep{vialatte2016generalizing}. This allocation can depend on \eg an arbitrary order~\citep{niepert2016learning}, on the number of hops~\citep{atwood2016diffusion,du2017topology}, on both vertices and their neighbors~\citep{monti2016geometric,simonovsky2017dynamic}, on a random walk \citep{hechtlinger2017generalization}, on another learned kernel~\citep{vialatte2017learning}, on an attention mechanism~\citep{velickovic2017graph,lee2018attention}, on pattern identification~\citep{sankar2017motif}, or on translation identification~\citep{pasdeloup2017convolutional}. All these methods differ in the function~$f$, but in the end, their definition highly overlap. That is why some authors have proposed unified frameworks~\citep{gilmer2017neural}.
 
-% \subsection{Graphs in deep learning}
+In particular, \cite{kipf2016semi} were first to transpose ChebNet to the task of semi-supervised node classification. Chebychev filters then take a form that is interpretable in the vertex domain, which is
+\begin{gather}
+Y = \displaystyle\sum_{i=0}^k T_i(\widetilde{L}) X \Theta
+\end{gather}
+where $X \in \bbr^{n \times N}$, $\Theta \in \bbr^{N \times M}$, $n$ is the number of nodes, $N$ is the number of input channels (features per node), and $M$ is the number of output feature maps. On the left, powers of $\widetilde{L}$ diffuse the graph signal $X$ to share node information. On the right, $\Theta$ maps the diffused signals to another representation. So in essence, this formulation is more a vertex-domain method. They found that the best performing filters were expressed in a simplified form
+\begin{gather}
+Y = \widetilde{A} X \Theta
+\end{gather}
+where $\widetilde{A}$ is the normalized adjacency matrix of the graph to which self-loops are added. They called the architecture composed with this simple filters a Graph Convolution Network (GCN). Similiarly, $AX$ shares node information via the edges of the graph before multiplication with $\Theta$ maps the signal to another representation. This fomulation attracted a lot of research attention and was, in particular, extended with attention mechanism (no pun intended), inspired from the field of neural machine translation \citep{bahdanau2014neural}. Attention can be learned toward which input feature map is most useful \citep{velickovic2017graph}, or which neighboring vertex is \citep{lee2018attention}. Works extending GCN are numerous in recent days (\eg \cite{niepert2018towards}), and covering them all would be frivolous, especially considering that their novelty is limited and often specialized to use cases of particular datasets.
 
-% \todo{below}
-
-% We come across the notion of graphs several times in deep learning:
-% \begin{itemize}
-% \item Connections between two layers of a deep learning model can be represented as a bipartite graph, the \emph{connectivity graph}. It encodes how the information is propagated through a layer to another. See \secref{con_graph}.
-% \item Neural architectures can be represented by a graph. In particular, a computation graph is used by deep learning programming languages to keep track of the dependencies between layers of a deep learning model, in order to compute forward and back-propagation. See \secref{comp_graph}.
-% \item A graph can represent the underlying structure of an object (often a vector or a signal). The nodes represent its features, and the edges represent some structural property. See \secref{inductive_graph}.
-% \item Datasets can also be graph-structured. The nodes represent the objects of the dataset, and its edge represent some sort of relation between them. See \secref{transductive_graph}.
-% \end{itemize}
-
-% %\subsection{Graphs related to models}
-
-% \subsubsection{Connectivity graph}
-% \label{con_graph}
-
-% A Connectivity graph is the bipartite graph whose adjacency matrix is the connectivity matrix of a layer of neurons.
-% %$U = \{u_1, u_2, \ldots, u_n\}$
-% Formally, given a linear part of a layer, let $\textbf{x}$ and $\textbf{y}$ be the input and output signals, $n$ the size of the set of input neurons $N = \{u_1, u_2, \ldots, u_n\}$, and $m$ the size of the set of output neurons $M = \{v_1, v_2, \ldots, v_m\}$. This layer implements the equation $y = \Theta x$ where $\Theta$ is a $n \times m$ matrix.
-
-% \begin{definition}
-% {The \emph{connectivity graph} $G = (V,E)$ is defined such that $V = N \cup M$ and $E = \{(u_i,v_j) \in  N \times M, \Theta_{ij} \neq 0 \} $.}
-% \end{definition}
-
-% I.e. the connectivity graph is obtained by drawing an edge between neurons for which $\Theta_{ij} \neq 0$.
-% For instance, in the special case of a complete bipartite graph, we would obtain a dense layer. 
-% Connectivity graphs are especially useful to represent partially connected layers, for which most of the $\Theta_{ij}$ are $0$. 
-% For example, in the case of layers characterized by a small local receptive field, the connectivity graph would be sparse, and output neurons would be connected to a set of input neurons that corresponds to features that are close together in the input space. \figref{con_ex} depicts some examples.
-
-% \begin{figure}[h]
-%   \begin{center}
-%     \begin{tikzpicture}
-%       \tikzstyle{every node} = [draw, circle, thick, inner sep = 2pt]
-%       \foreach \y in {0,...,4}{
-%         \pgfmathtruncatemacro{\yplusone}{5 - \y}
-%         \node(a\y) at (0,.6*\y) {\footnotesize\yplusone};
-%       }
-%       \foreach \y in {0,...,4}{
-%         \pgfmathtruncatemacro{\yplusone}{5 - \y}
-%         \node(\y) at (2,.6*\y) {\footnotesize\yplusone};
-%       }
-
-%       \foreach \x in {0,...,4}{
-%         \foreach \y in {0,...,4}{
-%           \path[opacity=0.5] (a\x) edge (\y);
-%         }
-%       }
-%     \end{tikzpicture}
-%   \end{center}
-%   \caption{Examples}
-%   \label{con_ex}
-% \end{figure}
-
-% \todo{\figref{con_ex}. It's just a placeholder right now}
-
-
-% Connectivity graphs also allow to graphically modelize how weights are tied in a neural layer. Let's suppose the $\Theta_ij$ are taking their values only into the finite set $K = \{w_1, w_2, \ldots, w_\kappa\}$ of size $\kappa$, which we will refer to as the \emph{kernel} of \emph{weights}. Then we can define a labelling of the edges $s: E \rightarrow K$. $s$ is called the \emph{weight sharing scheme} of the layer. This layer can then be formulated as $\displaystyle \forall v \in M, y_v = \sum_{u \in N, (u,v) \in E} w_{s(u,v)} x_u$. \figref{cnn} depicts the connectivity graph of a 1-d convolution layer and its weight sharing scheme.
-
-% \begin{figure}[h]
-%   \begin{center}
-%     \begin{tikzpicture}
-%       \tikzstyle{every node} = [draw, circle, thick, inner sep = 2pt]
-%       \foreach \y in {0,...,4}{
-%         \pgfmathtruncatemacro{\yplusone}{5 - \y}
-%         \node(a\y) at (0,.6*\y) {\footnotesize\yplusone};
-%       }
-%       \foreach \y in {0,...,4}{
-%         \pgfmathtruncatemacro{\yplusone}{5 - \y}
-%         \node(\y) at (2,.6*\y) {\footnotesize\yplusone};
-%       }
-%       \path[opacity=0.5]
-%       (a0) edge (0);
-%       \path[dashed]
-%       (a0) edge (1);
-%       \path[dotted]
-%       (a1) edge (0);
-%       \path[opacity=0.5]
-%       (a1) edge (1);
-%       \path[dashed]
-%       (a1) edge (2);
-%       \path[dotted]
-%       (a2) edge (1);
-%       \path[opacity=0.5]
-%       (a2) edge (2);
-%       \path[dashed]
-%       (a2) edge (3);
-%       \path[dotted]
-%       (a3) edge (2);
-%       \path[opacity=0.5]
-%       (a3) edge (3);
-%       \path[dashed]
-%       (a3) edge (4);
-%       \path[dotted]
-%       (a4) edge (3);
-%       \path[opacity=0.5]
-%       (a4) edge (4);
-%     \end{tikzpicture}
-%   \end{center}
-%   \caption{Depiction of a 1D-convolutional layer and its weight sharing scheme.}
-%   \label{cnn}
-% \end{figure}
-
-
-% \todo{Add weight sharing scheme in \figref{cnn}}
-
-% \subsubsection{Computation graph}
-% \label{comp_graph}
-
-% %\subsection{Graphs related to data}
-
-% \subsubsection{Underlying graph structure and signals}
-% \label{inductive_graph}
-
-% \subsubsection{Graph-structured dataset}
-% \label{transductive_graph}
-
-% %transductive vs inductive
+%todo{extend ?}
