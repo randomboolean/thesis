@@ -93,10 +93,23 @@ A layer $\cl: \gve \rightarrow U$, is said to be \emph{edge-constrained} (EC) if
 \end{enumerate}
 \end{definition}
 
-Note that (EC) convolutions are (EC) layers. We have the following characterization.
+Note that (EC) convolutions from \chapref{chap:2} are indeed (EC) layers. Also, the following property is important.
+
+\begin{proposition}Let $W$ the connectivity matrix of an (EC) layer \wrt a graph $\gve$, which adjacency matrix is $A$. Then $W$ is \emph{masked by} $A$, \ie
+$$
+A[i,j] = 0 \Rightarrow W[i,j] = 0
+$$
+\label{prop:aw}
+\end{proposition}
+\begin{proof}
+Suppose $A[i,j] = 0$, then $v_i \nsim v_j$, hence $v_i \notin \ccr_{\pi(v_j)}$ so $W[i,j] = 0$.
+\end{proof}
+
+We have the following characterization to determine which layers admit an underlying graph for which they are (EC) layers.
 
 \begin{proposition}\textbf{(EC) Characterization with receptive fields}\\
 Let a layer $\cl: V \rightarrow U$, $V_\pi \subset V$, and a one-to-one correspondence $\pi: V_\pi \rightarrow U$. There exists a graph $\gve$ for which $\cl$ is (EC), if and only if, the receptive fields are \emph{intertwined} (\ie $\forall a,b \in V_\pi, a \in \ccr_{\pi(b)} \Leftrightarrow b \in \ccr_{\pi(a)} $).
+\label{prop:lrf}
 \end{proposition}
 \begin{proof}
 \begin{enumerate}

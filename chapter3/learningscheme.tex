@@ -12,9 +12,8 @@ However, as learning $S$ will require in most cases to lose the sparse priors, t
 
 \todo{drop conditional if experiment is done}
 
-\subsection{Training settings}
-
-We learn $S$ and $\Theta$ simultaneously. We also use a fine-tuning step, which consists in freezing $S$ in the last epochs.
+\subsection{Experimental settings}
+In our experiments, we tested learning $S$ and $\Theta$ simultaneously. We also use a fine-tuning step, which consists in freezing $S$ in the last epochs.
 
 \paragraph{Constraints}
 Because of our inspiration from CNNs, we propose constraints on the parameters of $S$. Namely, we impose them to be between~$0$ and~$1$, and to sum to~$1$ along the rank that choose a weight label.
@@ -24,13 +23,13 @@ Because of our inspiration from CNNs, we propose constraints on the parameters o
 \end{gather}
 
 Therefore, the vectors on the third rank of $S$ can be interpreted as performing a positive weighted average of the parameters in $\Theta$.
-
-We also imposes the layers to be edge-constrained. Hence, their input space admits an underlying graph $G$, whether exposed or not. This implies that if we call $A$ its adjacency matrix, then we must have
+Also, we choose to aim our study at graph signals. Hence, we consider a graph $\gve$ and that the layer is (EC). For this reason, \propref{prop:aw} tells us that the connectivity matrix~$W$ of the layer is masked by the adjacency matrix~$A$. Therefore, $S$ is also masked by~$A$ \ie we impose the constraint that
 \begin{gather}
-%A[i,j] = 0 \Leftrightarrow S[:,i,j] = \textbf{0}
 A[i,j] = 0 \Rightarrow \forall k, S[k,i,j] = 0
 \end{gather}
-In other terms, we say that $S$ is \emph{masked by} $A$.
+
+\paragraph{Naming}
+Since \propref{prop:lrf} relates $G$ with LRF defined by $W$, we decide to coin the terms \emph{Local Receptive Graph} (LRG), LRG layer and LRG neural network (LRGNN).
 
 \paragraph{Initialization}
 We introduce three types of initialization for $S$. The first two have the sparse priors mentioned earlier:
@@ -42,7 +41,7 @@ We introduce three types of initialization for $S$. The first two have the spars
 
 \subsection{Experiments with grid graphs}
 
-We experiment (EC) layers on the MNIST dataset~\citep{lecun1998mnist}. We use a shallow architecture made of a single ternary layer with 50 feature maps, without pooling, followed by a fully connected layer of 300 neurons, and terminated by a softmax layer of 10 neurons. Rectified Linear Units~\cite{glorot2011deep} are used for the activations and a dropout~\cite{srivastava2014dropout} of 0.5 is applied on the fully-connected layer. Input layers are regularized by a factor weight of $10^{-5}$~\cite{ng2004feature}. We optimize with ADAM~\cite{kingma2014adam} up to 100 epochs and fine-tune (while $S$ is frozen) for up to 50 additional epochs.
+We experiment LRG layers on the MNIST dataset~\citep{lecun1998mnist}. We use a shallow architecture made of a single ternary layer with 50 feature maps, without pooling, followed by a fully connected layer of 300 neurons, and terminated by a softmax layer of 10 neurons. Rectified Linear Units~\cite{glorot2011deep} are used for the activations and a dropout~\cite{srivastava2014dropout} of 0.5 is applied on the fully-connected layer. Input layers are regularized by a factor weight of $10^{-5}$~\cite{ng2004feature}. We optimize with ADAM~\cite{kingma2014adam} up to 100 epochs and fine-tune (while $S$ is frozen) for up to 50 additional epochs.
 
 For the underlying graph strucure, we consider a grid graph that connects each pixel to itself and its 4 nearest neighbors (or less on the borders). We also consider the square of this graph (pixels are connected to their 13 nearest neighbors, including themselves), the cube of this graph (25 nearest neighbors), up to 10 powers (211 nearest neighbors).
 We test the model under two setups: either the ordering of the node is unknown, and then we use random one-hot intialization for $S$; either an ordering of the node is known, and then we use circulant one-hot for $S$ which is freezed in this state. We use the number of nearest neighbors as for the dimension of the first rank of $S$.
@@ -70,7 +69,7 @@ We also compare with a convolutional layer of size 5x5, thus containing as many 
   \label{toy}
 \end{table}
 
-We observe that even without knowledge of the underlying euclidean structure, grid (EC) layers obtain comparable performances as convolutional ones, and when the ordering is known, they match convolutions. We also noticed that after training, even though the one-hot vectors used for initialization had changed to floating point values, their most significant dimension was almost always the same. That suggests there is room to improve the initialization and the optimization.
+We observe that even without knowledge of the underlying euclidean structure, grid LRG layers obtain comparable performances as convolutional ones, and when the ordering is known, they match convolutions. We also noticed that after training, even though the one-hot vectors used for initialization had changed to floating point values, their most significant dimension was almost always the same. That suggests there is room to improve the initialization and the optimization.
 
 In Figure~\ref{functionofepoch}, we plot the test error rate for various normalizations when using the square of the grid graph, as a function of the number of epochs of training, only to find that they have little influence on the performance but sometimes improve it a bit. Thus, we will treat them as optional hyperparameters.
 
@@ -139,7 +138,7 @@ Experiments are run five times each. Means and standard deviations of accuracies
   \label{cifar}
 \end{table}
 
-The (EC) layers are able to outperform the corresponding CNNs by a small amount in the tested configurations, opening the way for more complex architectures.
+The LRG NNs are able to outperform the corresponding CNNs by a small amount in the tested configurations, opening the way for more complex architectures.
 
 %idea
 \todo{take S, and reuse it on resnet}
