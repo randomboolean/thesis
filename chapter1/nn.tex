@@ -83,7 +83,7 @@ Another example is the VGG architecture, a very deep CNN, and was state-of-the-a
 \label{fig:vgg}
 \end{figure}
 
-In more recent years, state-of-the-art architecture can no longer be described with a simple formalization.
+In more recent years, state-of-the-art architectures can no longer be described with a simple formalization.
 
 %\paragraph{Generic formalization}
 The former neural networks are said to be \emph{simply connected} because each layer only takes as input the output of the previous one. We'll give a more general definition after first defining branching operations.
@@ -177,7 +177,7 @@ A \emph{loss} function $\mathcal{L}$ penalizes the output $x_L = f(x)$ relativel
 \begin{gather}
 \theta_k^{(\text{new})} = \theta_k^{(\text{old})} - \alpha \cdot \vec{\bigtriangledown}_{\theta_k} \left( \mathcal{L}\left( x_L, \theta_k^{(\text{old})} \right) + \ccr\left( \theta_k^{(\text{old})} \right) \right)
 \end{gather}
-where $\ccr$~is a regularizer, and where $\alpha$~can be a scalar or a vector and $\cdot$~can denote outer or coodrinate-wise product, depending on the optimization algorithm that is used.
+where $\ccr$~is a regularizer, and where $\alpha$~can be a scalar or a vector and $\cdot$~can denote outer or coordinate-wise product, depending on the optimization algorithm that is used.
 
 \paragraph{Linear complexity}
 Without loss of generality, we assume that the neural network is simply connected. Thanks to the chain rule, $\vec{\bigtriangledown}_{\theta_k}$ can be computed using gradients that are w.r.t. $x_k$, denoted $\vec{\bigtriangledown}_{x_k}$, which in turn can be computed using gradients w.r.t. outputs of the next layer $k+1$, up to the gradients given on the output layer.
