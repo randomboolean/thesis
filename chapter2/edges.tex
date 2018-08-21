@@ -5,7 +5,7 @@
 
 The constructions from the previous section involve the vertex set $V$ and depend on $\Gamma$, a subgroup of the set of invertible transformations on $V$. Therefore, it looks natural to try to relate the edge set and $\Gamma$.
 
-There are two approaches. Either $\Gamma$ describes an underlying graph structure $\gve$, either $G$ can be used to define a relevant subgroup $\Gamma$ to which the produced convolutive operators will be equivariant. Both approaches will help characterize classes of graphs that can support natural definitions of convolutions.
+There are two point of views. Either $\Gamma$ describes an underlying graph structure $\gve$, either $G$ can be used to define a relevant subgroup $\Gamma$ to which the produced convolutive operators will be equivariant. Both approaches will help characterize classes of graphs that can support natural definitions of convolutions.
 
 %\todo{introduction to be developped more}
 
@@ -34,7 +34,7 @@ An \emph{edge-constrained} (EC) transformation on a graph $\gve$ is a transforma
 We denote $\Phi_{\EC}(G)$ and $\Phi^*_{\EC}(G)$ the sets of (EC) and invertible (EC) transformations. When a convolution is defined as a sum over a set that is in one-to-one correspondence with a group that is generated from a set of (EC) transformations, we call it an (EC) convolution.
 
 \begin{remark}
-Note that $\Phi^*_{\EC}(G)$ is not a group, thus why we are interested in groups and their generating sets.
+Note that $\Phi^*_{\EC}(G)$ is not a group, that is why we are interested in groups and their generating sets.
 \end{remark}
 
 This leads us to consider Cayley graphs~\citep{cayley1878desiderata}.%,wiki:cayley}.
@@ -237,7 +237,7 @@ From these expressions, it is clear that $\Gamma$ needs not to be fully determin
 Note that $f_w(s)[u]$ is a weighted aggregation of entries $s[v]$ for $v \in \ck_u$. As $\ck_{\id} = \varphi(\cn^{-1}) = \cn^{-1}(\varphi(\id))$, $\ck_{\id}$ contains only neighbors of $\varphi(\id)$, and so $\ck_u = g_u(\ck_{\id})$ contains only neighbors of $u$. Therefore, in both cases $f_w(s)[u]$ is a weighted aggregation of entries located in the neighborhood of~$u$.
 
 \paragraph{Complexity}
-Another merit is that (EC*) convolutions have a complexity of $\co(kn)$, where $n = |V|$ is the degree of the graph, and $k = |\cn|$ is the size of the weight kernel. In comparison, (EC) convolutions have complexity up to $\co(n^2)$.
+Another merit is that (EC*) convolutions have a complexity of $\co(kn)$, where $n = |V|$ is the order of the graph, and $k = |\cn|$ is the size of the weight kernel. In comparison, (EC) convolutions have complexity up to $\co(n^2)$.
 
 %\paragraph{What exactly is the local patch $\ck_u$ ?}
 

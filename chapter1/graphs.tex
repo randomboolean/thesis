@@ -38,22 +38,6 @@ Its \emph{laplacian matrix} $L$ is the substraction $L = D-A$, which can be \emp
 A subgraph of $G$ induced by a subset $U \subset V$ is the graph with vertex and edge set restricted by $U$. The \emph{complement} graph $G^C$ shares the same vertex set but $u \overset{G^C}\sim v \Leftrightarrow u \overset{G}\nsim v$.
 A \emph{complete} graph is such that there exists an edge between any two vertices.
 
-% \begin{definition}\textbf{Grid graph}\\
-% A \emph{grid graph} $\gve$ is 
-% such that $V \cong \bbz^2$, $v_1 \sim v_2 \Rightarrow \|v_2 -v_1\|_\infty \in \{0, 1\}$ and either one of the following is true:
-% \begin{gather*}
-% \left\{
-%   \begin{array}{l}
-%     (i_1,j_1) \sim (i_2,j_2) \Leftrightarrow |i_2 - i_1| \XOR |j_2 - j_1| \quad \text{($4$ neighbours)}\\
-%     (i_1,j_1) \sim (i_2,j_2) \Leftrightarrow |i_2 - i_1| \AND |j_2 - j_1| \quad \text{($4$ neighbours)}\\
-%     (i_1,j_1) \sim (i_2,j_2) \Leftrightarrow |i_2 - i_1| \OR |j_2 - j_1| \quad \text{($8$ neighbours)}
-%   \end{array}
-% \right.
-% \end{gather*}
-
-% A \emph{(rectangular) grid graph} of size $n \times m$ is the subgraph of a grid graph induced by $\llbracket 1, n \rrbracket \times \llbracket 1, m \rrbracket$. A \emph{square grid graph} is a rectangular grid graph of square size.
-% \end{definition}
-
 \begin{definition}\textbf{Grid graph}\\
 Let a graph $\gve$ such that the expression $u \sim v \Leftrightarrow \|u-v\|_1 = 1$ makes sense. $G$ can be called:
 \begin{itemize}[nolistsep,noitemsep]
@@ -82,6 +66,8 @@ A \emph{graph signal} on a graph $\gve$ is a signal on its vertex set $V$. We de
 An \emph{entry} of a signal $s$ is an image by $s$ of some $v \in V$ and we denote $s[v]$. If~$v$~is represented by an $n$-tuple, we can also write $s[v_1, v_2, \ldots, v_n]$.
 The \emph{support} of a signal $s \in \cs(V)$ is the subset $\supp(s) \subset V$ on which $s \neq 0$.
 For spaces of signals that aren't real-valued, their codomain~$\bbe$ is precised in the subscript~$\cs_{\bbe}(V)$.
+The signal $\id$ is the identity function.
+Given $v \in V$, the dirac signal $\delta_v \in \cs(V)$ is the signal valued as $1$ on $v$ and $0$ everywhere else. The family of all dirac signals spans $\cs(V)$.
 
 \subsection{Learning tasks}
 

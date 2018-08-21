@@ -225,7 +225,7 @@ Let a subgroupoid $\Upsilon \subset \Psi^*(V)$, such that~$\Upsilon \overset\var
 Similarly to the construction in \secref{sec:edges}, partial convolutions can define (EC) and (EC*) counterparts with a characterization of admissibility by groupoid Cayley subgraph isomorphism, and similar intrinsic properties.
 
 \paragraph{Limitation of partial convolutions}
-However, because of the groupoid associativity, if $g \in \Psi_{\EC}^*(G)$, then, any $v \in V$ \st $g(u) = v$ would be constrained to allow to be acted by every $h$ \st $(h,g) \in \cd$, which fails at unbounding the supporting set of a partial (EC*)~convolutions.
+However, because of the groupoid associativity, if $g \in \Psi_{\EC}^*(G)$, then, any $v \in V$ \st $g(u) = v$ would be constrained to allow to be acted by every $h$ \st $(h,g) \in \cd$. That is, unless partial transformations that we want to allow to be in each other domains are restricted to the same connected component of the graph, the supporting set of a partial (EC*)~convolutions would still be bounded by the minimal degree.%complicated to explain..
 
 \subsection{Construction of path convolutions}
 \label{sec:path}
@@ -260,7 +260,8 @@ Let a path groupoid $\cu \ltimes G$. We define on it the \emph{source map}~$\alp
 \end{gather*}
 \end{definition}
 
-\begin{remark}Note that the path groupoid can also be obtained by derivation of the partial transformation groupoid (\ie $p \in \cu \ltimes G$ can be seen as a derivative of $\gamma(p)$ \wrt $\alpha(p)$), and can thus be seen as the local structure of it.
+\begin{remark}%Note that the path groupoid can also be obtained by derivation of the partial transformation groupoid (\ie $p \in \cu \ltimes G$ can be seen as a derivative of $\gamma(p)$ \wrt $\alpha(p)$), and can thus be seen as the local structure of it.
+Note that the path groupoid can be seen as the local structure of the partial transformation groupoid.
 \end{remark}
 
 \begin{lemma}\h{0}\\
@@ -354,7 +355,7 @@ Instead of the domain-symmetric condition that was used in the proof of the conv
 \end{proof}
 
 \begin{remark}
-Note that $\cu \ltimes V$'s action is almost the same as the groupoid partial action of $\Upsilon = \langle \cu \rangle$ (only "almost" because not all combinations of partial transformations might exist in the paths). However $\cu \ltimes V$ associativy law doesn't have the limitation of~$\Upsilon$'s.
+Note that $\cu \ltimes V$'s action is almost the same as the groupoid partial action of $\Upsilon = \langle \cu \rangle$ (only "almost" because not all combinations of partial transformations might exist in the paths). However $\cu \ltimes V$ alleviates the limitations of $\Upsilon$ we discussed earlier.
 \end{remark}
 
 \paragraph{Edge convolution operators}
