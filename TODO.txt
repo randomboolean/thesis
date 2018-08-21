@@ -1,5 +1,4 @@
-TODO
-x Gilles suggestions on chap 1
+o Gilles suggestions on chap 1
 x dataset subsection 1.3.2bis
 x Vincent suggestions on chap 2
 x fix left and right cayley
@@ -21,5 +20,8 @@ x refactoring of 3.3 into two subsections?
 x global intro
 x global conclusion
 x Pass on bib files, and add venues instead of arxiv when relevant
-x Change boook style
+x Change book style
 x maybe add industrial exp if any time left ...
+
+x: todo
+o: done

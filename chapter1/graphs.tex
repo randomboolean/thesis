@@ -1,17 +1,19 @@
 \section{Deep learning on graphs}
 
+Deep learning algorithms have been particularly successful for datasets of signals defined on regular domains such as images or time series. One key ingredient of their success is the use of convolutions. However, classical convolutions are only defined on euclidean domains, so that extending deep learning on non-euclidean domains is not straightforward. The most general way to represent a non-euclidean domain is through a graph \ie as points (the vertices) and relations between them (the edges). This field also comprises the study of deep learning on manifolds (\ie locally euclidean domains). The field of deep learning on graphs or manifolds have been called recently Geometric Deep Learning \citep{bronstein2017geometric}. In this manuscript, we are only interested in deep learning on graphs.
+
 \subsection{Graph and signals}
 
 We present the vocabulary, notation and conventions we will employ for graphs and signals.
 
 \begin{definition}\textbf{Graph}\\
-A \emph{graph} $G$ is defined as a couple of vertex and edge sets $\langle V,E \rangle$ \st $E \subset V^2$.
+A \emph{graph} $G$ is a couple of countable vertex and edge sets $\langle V,E \rangle$ \st $E \subset V^2$.
 \end{definition}
 
 The terms \emph{vertex} and \emph{node} are used interchangeably. Additionaly, we consider that a graph is always \emph{simple} \ie no two edges share the same set of vertices.
 Unless stated otherwise, a graph is undirected, \ie $(u,v)$ and $(v,u)$ refer to the same edge. When it's not the case, it is called a \emph{digraph}.
 We define the relation $u \sim v \Leftrightarrow (u,v) \in E$. We precise the graph if needed over the symbol $\overset{G}\sim$.
-A \emph{path} is a sequence $v_1 \sim \cdots \sim v_r$. A graph is said to be \emph{connected} if there exists a path from any vertex to any other vertex.
+A \emph{path} is a sequence $v_1 \sim \cdots \sim v_r$. It is said to be \emph{simple} if its vertices are distincts, except possibly for the first and last. A graph is said to be \emph{connected} if there exists a path from any vertex to any other vertex.
 We define the \emph{neighborhood} of a vertex as $\cn_u = \{v \in V, u \sim v\}$. For digraphs, it is equal to the union of the \emph{in}- and \emph{out}-neighborhoods. We only consider graphs without isolated vertex (a vertex with an empty neighborhood).
 We also only consider \emph{weighted} graphs. That is, a graph $\gve$ is associated with a weight mapping $w: V^2 \to \bbr+$ \st $w(u,v) = 0 \Leftrightarrow u \nsim v$.
 If $G$ is finite, its \emph{adjacency matrix} $A \in \bbr^{V \times V}$ is defined \wrt to a vertex ordering $V = \{v_1, \ldots, v_n\}$ as $A[i,j] = w(v_i,v_j)$. \figref{fig:graph} illustrates an example of a graph and its adjacency matrix.

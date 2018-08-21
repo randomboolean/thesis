@@ -74,7 +74,7 @@ f = h_4 \circ g_4 \circ \cdots \circ h_1 \circ g_1
 $$
 where $g_1$ and $g_2$ are linear functions that applies 5x5 convolutions followed by subsampling, $h_1$, $h_2$ and $h_3$ are ReLU activations, and $h_4$ is a softmax activation. It was originally applied to the task of handwritten digit classifications (for example for automatically reading postal ZIP codes).
 
-\begin{figure}[tp]
+\begin{figure}[htp]
 \centering\includegraphics[scale=0.5]{chapter1/lenet5.png}
 \caption{LeNet-5 \citep{lecun1989backpropagation}}
 \label{fig:lenet}
@@ -82,7 +82,7 @@ where $g_1$ and $g_2$ are linear functions that applies 5x5 convolutions followe
 
 Another example is the VGG architecture, a very deep CNN, and was state-of-the-art in image classification in 2014 (\citeauthor{simonyan2014very}). It is depicted on \figref{fig:vgg}
 
-\begin{figure}[tp]
+\begin{figure}[htp]
 \centering\includegraphics[scale=0.8]{chapter1/vgg16.png}
 \caption{VGG-16 (\cite{simonyan2014very}, figure from~\cite{vgg})}
 \label{fig:vgg}
@@ -116,13 +116,13 @@ The set of \emph{neural network} functions $\cn$ is defined inductively as follo
 The neural network proposed in \citep{szegedy2015going}, called \emph{Inception}, use depth-wise concatenation of feature maps. Residual networks (ResNets, \cite{he2016deep}) make use of \emph{residual connections}, also called \emph{skip connections}, \ie an activation that is used as input in a lower level is added to another activation at an upper level, as depicted on \figref{fig:resnet}. Densely connected networks (DenseNets, \cite{huang2017densely}) have their activations concatenated with all lower level activations. These neural networks had demonstrated state of the art performances on the imagenet classification challenge \citep{deng2009imagenet}, outperforming simply connected neural networks. For example, DenseNet is depicted on \figref{fig:densenet}.
 \label{par:branching_ex}
 
-\begin{figure}[tp]
+\begin{figure}[htp]
 \centering\includegraphics[scale=0.2]{chapter1/resnetmodule.png}
 \caption{Module with a residual connection \citep{he2016deep}}
 \label{fig:resnet}
 \end{figure}
 
-\begin{figure}[tp]
+\begin{figure}[htp]
 \centering\includegraphics[scale=0.07]{chapter1/densenet.jpg}
 \caption{DenseNet \citep{huang2017densely}}
 \label{fig:densenet}
@@ -133,7 +133,7 @@ For layer indexing convenience, we still use the simple formalization in the sub
 \end{remark}
 
 \subsection{Interpretation}
-\secref{sec:int}
+\label{sec:int}
 
 Until now, we have formally introduced a neural network as a mathematical function. As its name suggests, such function can be indeed interpreted from a connectivity perspective \citep{lecun-87}.
 
@@ -225,7 +225,7 @@ where $x'_k = W_k x_k$, and these jacobians can be expressed as:
 That means that we can write $\vec{\bigtriangledown}_{x_k} = (\widetilde{h}_k \circ \widetilde{g}_k)(\vec{\bigtriangledown}_{x_{k+1}})$ such that the connectivity matrix $\widetilde{W}_k$ is obtained by transposition. This can be interpreted as gradient calculation being a \emph{back-propagation} on the same neural network, in opposition of the \emph{forward-propagation} done to compute the output.
 
 \subsection{Some historical advances}
-\secref{sec:hist}
+\label{sec:hist}
 
 \paragraph{Universal approximation}
 Early researches have shown that neural networks with one level of depth can approximate any real-valued function defined on a compact subset of~$\bbr^n$. This result was first proved for sigmoidal activations \citep{cybenko1989approximation}, and then it was shown it did not depend on the sigmoidal activations \citep{hornik1989multilayer,hornik1991approximation}.
@@ -257,7 +257,7 @@ Recent works have provided rationales supporting benefits of using branching ope
 
 
 \subsection{Common layers}
-\secref{sec:layer}
+\label{sec:layer}
 
 \begin{definition}\textbf{Connections}\\
 The set of \emph{connections} of a layer $(g,h)$, denoted $C_g$, is defined as:
