@@ -1,9 +1,7 @@
-see ideas.txt
-
-New TODO
-x gilles suggestions on chap 1
+TODO
+x Gilles suggestions on chap 1
 x dataset subsection 1.3.2bis
-x incorporate Vincent typos catch on chap 2
+x Vincent suggestions on chap 2
 x fix left and right cayley
 x fix path convolution
 x rewrite intro2: motivation, then plan. Talk about eq linear class
