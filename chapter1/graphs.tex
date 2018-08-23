@@ -186,15 +186,18 @@ Y = \displaystyle\sum_{i=0}^k T_i(\widetilde{L}) X \Theta
 \end{gather}
 where $X \in \bbr^{n \times N}$, $\Theta \in \bbr^{N \times M}$, $n$ is the number of nodes, $N$ is the number of input channels (features per node), and $M$ is the number of output feature maps. On the left, powers of $\widetilde{L}$ diffuse the graph signal $X$ to share node information. On the right, $\Theta$ maps the diffused signals to another representation. So in essence, this formulation is more a vertex-domain method. They found that the best performing filters were expressed in a simplified form
 \begin{gather}
-Y = \widetilde{A} X \Theta
+Y = \widetilde{A} X \Theta \label{eq:gcn}
 \end{gather}
-where $\widetilde{A}$ is the normalized adjacency matrix of the graph to which self-loops are added. They called the architecture composed with these simple filters a Graph Convolution Network (GCN). Similiarly, $AX$ shares node information via the edges of the graph and $\Theta$ makes the model learns. This fomulation attracted a lot of research attention and was, in particular, extended with attention mechanism (no pun intended), inspired from the field of neural machine translation \citep{bahdanau2014neural}. A review is done by \cite{lee2018attention}.
+where $\widetilde{A}$ is the normalized adjacency matrix of the graph to which self-loops are added. They call the architecture composed with these filters a Graph Convolution Network (GCN). Similiarly, $AX$ shares node information via the edges and $\Theta$ makes the model learns. This fomulation attracted a lot of research attention and was, in particular, extended with attention mechanism (no pun intended), inspired from the field of neural machine translation \citep{bahdanau2014neural}. A review is done by \cite{lee2018attention}.
 
-For example, \cite{velickovic2017graph} proposed the  a model that learns which input feature maps are most useful to describe a couple of neighboring nodes.
+For example, \cite{velickovic2017graph}, propose a model that learns attention in a local receptive field. They call it Graph ATtention network (GAT). The attention mechanism is parameterized by a neural network $a$, containing a single FC layer $(g,\text{LeakyReLU})$, which takes as input a couple of neighboring nodes $(i,j)$ and outputs a scalar $\alpha_{i,j}$. The attention that $i$ deserves to $j$ is:
+\begin{gather}
+\alpha_{i,j} = \text{softmax}_j\left(a( X[i,:] \h{2} \Theta \h{2} \mathbin{\|} \h{2} X[j,:] \h{2} \Theta )\right)
+\end{gather}
+where $\mathbin{\|}$ denotes concatenation. In a sense, $a$ learns which input feature maps are most useful to describe the attention a node should derserve to another. The forward propagation is done similarly than \eqref{eq:gcn}, but with a matrix $A_k$ filled with the attention coefficients $\alpha_{i,j}$ instead of $\widetilde{A}$. They also propose that the model learns multiple attention heads, so that a GAT layer amounts to:
+\begin{align}
+Y &= \displaystyle\bigparallel_{k=1}^K A_k X \Theta_k\\
+\text{or } Y &= \frac{1}K\displaystyle\sum_{k=1}^K A_k X \Theta_k
+\end{align}
 
-\todo{}
-
-
-Attention can be learned toward which input feature maps are most useful to describe a couple of neighboring nodes \citep{velickovic2017graph}, or which neighboring nodes are \citep{lee2018attention}. Works extending GCN are numerous in recent days (\eg \cite{niepert2018towards}). We don't cover them since their novelty compared to GCN is limited.
-
-%todo{extend ?}
+Other works extending GCN are numerous in recent days (\eg \cite{niepert2018towards}). We don't cover them since that their novelty compared to GCN and GAT is limited.
