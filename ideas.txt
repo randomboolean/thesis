@@ -26,3 +26,5 @@ x distill paper ?
   -> ternary representation = new point of view
   -> influence of symmetries on distorded domains
   -> improving local receptive fields of CNNs
+x neural contraction: a novel approach to interpret neural networks
+  -> benefits of separating S and W (visualization of head slices of S in GAT)

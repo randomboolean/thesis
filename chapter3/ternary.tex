@@ -9,12 +9,14 @@ The ternary representation can represent any kind of layer. For example,
 \begin{itemize}
 \item To obtain a fully connected layer, one can choose $\omega$ to be of size $nm$ and $S$ the matrix of vectors that contains all possible one-hot vectors.
 \item To obtain a convolutional layer, one can choose $\omega$ to be the size of the kernel. $S$ would contain one-hot vectors. A stride $> 1$ can be obtained by removing the corresponding dimensions. If the convolution is a classical convolution, or is supported by a Cayley subgraph (see \chapref{chap:2}), then $S$ would be circulant along the input neurons rank in the canonical basis.
-\item Any partially connected layer with (or without) weight sharing can be obtained with appropriate construction of $S$.
+\item To obtain a graph convolutional layer (\cite{kipf2016semi}, see description in \secref{sec:vert}), one can choose $B = 1$, $\omega = 1$, and $S$ to be~$\widetilde{A}$. Other variants of GCN can also be obtained, for instance to obtain Chebychev filters \citep{defferrard2016convolutional}, $S$ would be $\sum_{i=0}^k T_i(\widetilde{L})$.
+\item To obtain a graph attention layer (\cite{velickovic2017graph}, see description in \secref{sec:vert}), one can choose $B = 1$, $\omega$ to be the number of attention heads, and given an attention head~$k$, the slices $S[k,:,:]$ would be matrices containing the learned attention coefficients.
+\item Any partially connected layer with (or without) weight sharing can be obtained with appropriate construction of~$S$.
 \end{itemize}
 
 \subsection{Efficient implementation under sparse priors}
 
-\paragraph{What is the fastest way to compute $\Theta S X$ ?}
+\paragraph{What is the fastest way to compute $\wideparen{\Theta S X}$ ?}
 As the equation \eqref{eq:ternary} is associative and commutative, there are three ways to start to calculate it: with $\Theta S$, $SX$, or $\Theta X$, which we will call \emph{middle-stage tensors}. The computation of a middle-stage tensor is the bottleneck to compute \eqref{eq:ternary} as it imposes to compute significantly more entries than for the second tensor contraction. In \tabref{tab:mid}, we compare their shapes. We refer the reader to \tabref{tab:ind} for the denomination of the indices.
 
 \begin{table}[H]
@@ -28,7 +30,7 @@ As the equation \eqref{eq:ternary} is associative and commutative, there are thr
   $\Theta S$ & $n \times m \times N \times M$\\
   $SX$ & $\omega \times m \times N \times B$\\
   $\Theta X$ & $\omega \times n \times M \times B$\\
-  $\Theta SX$ & $m \times M \times B$
+  $\wideparen{\Theta SX}$ & $m \times M \times B$
 \end{tabular}
 \caption{Table of shapes}
 \label{tab:mid}
@@ -93,12 +95,12 @@ We run the benchmarks under the assumptions that $S[:,i,j]$ are one-hot vectors,
 \label{tab:ben}
 \end{table}
 
-Even though the sparse implementation has a lower memory footprint, we observe that the LRF method is faster, since it parallelizes better.
+We observe that the LRF method is faster, since the sparse implementation isn't optimized for this use case.
 
 \subsection{Influence of symmetries}
 \label{sec:sym}
 
-In the case of images, or other signals over a grid, the grid structure of the domain defines the weight sharing scheme $S$ of the convolution operation. For example, for a layer $\cl : X  \mapsto Y = h(\Theta S X)$, and given fixed $b,p,q$, the classical convolution can be rewritten as
+In the case of images, or other signals over a grid, the grid structure of the domain defines the weight sharing scheme $S$ of the convolution operation. For example, for a layer $\cl : X  \mapsto Y = h(\wideparen{\Theta S X})$, and given fixed $b,p,q$, the classical convolution can be rewritten as
 \begin{align}
 y[j] &= h\left(\displaystyle \sum_{k=1}^{\omega} \theta[k] \h{2} \sum_{i=1}^n S[k,i,j] \h{2} x[i] \right)\\
 &= h\left(\displaystyle \sum_{k=1}^{\omega} \theta[k] \h{2} x_{\LRF}[k,j] \right) \label{eq:rewr}

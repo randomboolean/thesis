@@ -135,6 +135,7 @@ Therefore, any layer that has its receptive fields intertwined, admits an \emph{
 \end{figure}
 
 \subsection{General representation with weight sharing}
+\label{sec:nct}
 
 Weight sharing refers to the fact that some parameters of the connectivity matrix $W$ are equal, and stay equal after each learning iteration. In other words they are tied together. From a propagational point of view, this amounts to label the edges of the propagation graph $P$ with weights, where weights can be used multiple times to label these edges. Supposed $W$ is of shape $m \times n$ and there are $\omega$ weights in the kernel used to label the edges. Given a input neuron $i$ and an output neuron $j$, the edge labelling can be expressed as:
 \begin{gather}
@@ -174,20 +175,14 @@ g(X) = \Theta S X
 \label{tab:ind}
 \end{table}
 
-\begin{remark}
-Note that the expression $\Theta S X$ is written regardless of the ordering of the tensors ranks and is defined by index juggling. %Therefore, it is an associative and commutative ternary operation between $\Theta$, $S$  and $X$, which contracts them along the input ranks (neurons and channels) and the weight rank.
-\end{remark}
-
-Also, note that it is associative and commutative. This can be seen by the index symmetry of \eqref{eq:comm}, which rewrites~\eqref{eq:ternary}, and where the sum symbols~$\Sigma$ and scalar values commute:
+Since the multiplicative expression $\Theta S X$ is written regardless of the ordering of the tensors ranks and is defined by index juggling, we will write instead $\wideparen{\Theta S X}$ to avoid confusion. $\wideparen{\cdot}$ is a ternary operator which we will call \emph{neural contraction}. Note that it is associative and commutative. This can be seen by the index symmetry of \eqref{eq:comm}, which rewrites~\eqref{eq:ternary}, and where the sum symbols~$\Sigma$ and scalar values commute:
 
 \begin{gather}
-\Theta SX[j,q,b] = \displaystyle \sum_{k=1}^\omega \sum_{p=1}^P \sum_{i=1}^n \Theta[k,p,q] \h{2} S[k,i,j] \h{2} X[i,p,b] \label{eq:comm}
+\wideparen{\Theta SX}[j,q,b] = \displaystyle \sum_{k=1}^\omega \sum_{p=1}^P \sum_{i=1}^n \Theta[k,p,q] \h{2} S[k,i,j] \h{2} X[i,p,b] \label{eq:comm}
 \end{gather}
 
-We call $S$ the \emph{weight sharing scheme} \citep{vialatte2017learning} of the layer $\cl$.
-
-\begin{definition}\textbf{Ternary representation}\\
-The \emph{ternary representation} of a layer $\cl: X \mapsto Y$, with activation function~$h$, is the equation $Y = h\left(\Theta S X\right)$, as defined in $\eqref{eq:ternary}$, where~$\Theta$ is the \emph{weight kernel}, and~$S$ is called the \emph{weight sharing scheme}.
+\begin{definition}\textbf{Ternary representation, neural contraction}\\
+The \emph{ternary representation} of a layer $\cl: X \mapsto Y$, with activation function~$h$, is the equation $Y = h\left(\wideparen{\Theta S X}\right)$, where the \emph{neural contraction} $\wideparen{\cdot}$ is defined by~$\eqref{eq:comm}$, $\Theta$ is the \emph{weight kernel}, and~$S$ is called the \emph{weight sharing scheme}.
 \label{def:ter}
 \end{definition}
 

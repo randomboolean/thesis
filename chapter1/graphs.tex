@@ -122,7 +122,7 @@ That is, $s^TLs$ is some sort of measure of \emph{smoothness} of the signal $s$,
 \begin{align}
 s^TLs = \widehat{s}^*\Lambda\widehat{s} = \displaystyle\sum_{i=1}^n \lambda_i \widehat{s}[i]^2
 \end{align}
-Therefore, as they pointed out, smoothness of $s$ can be read off the coordinates of $\hat{s}$, like for the DFT. Moreover, spectral multipliers modulate its smoothness, and decay in the spectral domain is related to smoothness in the vertex domain. But contrary to their conjecture, smoothness in the spectral domain is not necessary related to decay is the vertex domain (and so to some form of locality). For instance, since the laplacian $L^C$ of the complement graph $G^C$ commutes with $L$, it can share the same eigenvector basis $U$, and thus define the same GFT, but their notion of locality in the vertex domain are opposed. Another drawback is that this method requires computing the GFT which complexity is at least $\co(n^2)$ as there is no equivalent of the Fast Fourier Transform (FFT) on graphs, so the authors suggest to use a lower number of eigenvectors $d < n$ from the laplacian eigenbasis.
+Therefore, as they pointed out, smoothness of~$s$ can be read off the coordinates of~$\hat{s}$, like for the DFT. Moreover, spectral multipliers modulate its smoothness, and decay in the spectral domain is related to smoothness in the vertex domain. But contrary to their conjecture, smoothness in the spectral domain is not necessary related to decay is the vertex domain (and so to some form of locality). For instance, since the laplacian~$L^C$ of the complement graph~$G^C$ commutes with~$L$, it can share the same eigenvector basis~$U$, and thus define the same GFT, but their notion of locality in the vertex domain are opposed. Another drawback is that this method requires computing the GFT which complexity is at least~$\co(n^2)$ as there is no equivalent of the Fast Fourier Transform (FFT) on graphs, so the authors suggest to use a lower number of eigenvectors $d < n$ from the laplacian eigenbasis.
 
 Then, \cite{defferrard2016convolutional} remedy to these issues by proposing an approximate formulation based on the Chebychev polynomials, denoted by $(T_i)_i$, where $i$ is the polynomial order.
 That is, their proposed approximate filters are in the form
@@ -136,7 +136,7 @@ g_\theta(L)s &= g_\theta(U^*\Lambda U)s
 &= \widetilde{g_\theta(\Lambda) \textbf1} \ast s
 \end{align}
 
-These filters enjoy locality properties, they contain $\co(1)$ weights, and their complexity is $\co(n)$ when rows of $L$ are sparse. The use of truncated Chebychev exapansion \citep{hammond2011wavelets} ensures that in theory any set of spectral multipliers can be approximated. Also, since they are laplacian polynomials, some authors would argue that these filters are transferable from one graph to another. From a combinatorial point of view this is true. However there is no reason that spectral multipliers from a spectral domain make sense in another one, and there are no experiment in the literature to support the hypothesis. On the other hand, \citep{yi2016syncspeccnn} (which don't use polynomial filters) fix a canonical spectral base in order to synchronize every spectral domains. Their idea is to learn a warping from any eigenbasis to the canonical one, prior to performing spectral multiplication, in the manner of spatial transformer networks (STN) \cite{jaderberg2015spatial}).
+These filters enjoy locality properties, they contain~$\co(1)$ weights, and their complexity is~$\co(n)$ when rows of~$L$ are sparse. The use of truncated Chebychev expansion \citep{hammond2011wavelets} ensures that in theory any set of spectral multipliers can be approximated. Also, since they are laplacian polynomials, some authors would argue that these filters are transferable from one graph to another. From a combinatorial point of view this is true. However there is no reason that spectral multipliers from a spectral domain make sense in another one, and there are no experiment in the literature to support the hypothesis. On the other hand, \citep{yi2016syncspeccnn} (which don't use polynomial filters) fix a canonical spectral base in order to synchronize every spectral domains. Their idea is to learn a warping from any eigenbasis to the canonical one, prior to performing spectral multiplication, in the manner of spatial transformer networks (STN, \cite{jaderberg2015spatial}).
 
 However, it is hard to evaluate if a model performs well on the task of supervised classification of graph signals, because there are not much known datasets in the litterature for which the given graph domain holds enough information.
 
@@ -165,11 +165,11 @@ $^b$ From our experiments.
   \label{tab:20}
 \end{table}
 
-Despite the significant theoretical contribution, this negative result stresses out the importance of the practical graph used to support the convolution, a point that they also discussed. \cite{henaff2015deep} proposed supervised graph estimation techniques, but a better graph signal dataset would be one that come with an already suitable graph, that of current literature is still lacking.
+Despite the significant theoretical contribution, this negative result stresses out the importance of the graph used in practice to support the convolution, a point that they also discussed. \cite{henaff2015deep} proposed supervised graph estimation techniques, but a better graph signal dataset would be one that come with an already suitable graph, that of current literature is still lacking.
 
-On the other hand, attention in the domain has shifted toward the task of semi-supervised classification of nodes, where good datasets are not lacking. For example, \cite{levie2017cayleynets} mainly demonstrate the usefulness of their model on these type of tasks. They define polynomial filters, for which Chebychev filters are a special case, that are capable to specialize in narrow bands of frequency in the spectral domain.
+On the other hand, attention in the domain has shifted toward the task of semi-supervised classification of nodes, where good datasets are not lacking. For example, \cite{levie2017cayleynets}, mainly demonstrate the usefulness of their model on these type of tasks. They define polynomial filters, for which Chebychev filters are a special case, that are capable to specialize in narrow bands of frequency in the spectral domain.
 
-Another spectral avenue consists in using wavelets defined in the graph spectral domain \citep{hammond2011wavelets}, in order to build a scattering network \citep{bruna2013invariant,chen2014unsupervised}. This idea have been exploited recently by \cite{zou2018Graph} then by \cite{gama2018Diffusion}.
+Another spectral avenue consists in using wavelets defined in the graph spectral domain \citep{hammond2011wavelets}, in order to build a scattering network \citep{bruna2013invariant,chen2014unsupervised}. This idea have been exploited recently by \cite{zou2018Graph}, then by \cite{gama2018Diffusion}.
 
 \subsection{Vertex-domain methods}
 \label{sec:vert}
@@ -180,7 +180,7 @@ y[v] = f_\theta\left(\{u \in \ccr(v)\}\right)
 \end{gather}
 As such, it retains the property of being localized and of sharing weights. But there remains the need to specify how the shared weights are allocated in this local receptive field~\citep{vialatte2016generalizing}. This allocation can depend on \eg an arbitrary order~\citep{niepert2016learning}, on the number of hops~\citep{atwood2016diffusion,du2017topology}, on both vertices and their neighbors~\citep{monti2016geometric,simonovsky2017dynamic}, on a random walk \citep{hechtlinger2017generalization}, on another learned kernel~\citep{vialatte2017learning}, on an attention mechanism~\citep{velickovic2017graph,lee2018attention}, on pattern identification~\citep{sankar2017motif}, or on translation identification~\citep{pasdeloup2017convolutional}. All these methods differ in the function~$f$, but in the end, their definition highly overlap. That is why some authors have proposed unified frameworks~\citep{gilmer2017neural}.
 
-In particular, \cite{kipf2016semi} were first to transpose ChebNet to the task of semi-supervised node classification. Chebychev filters then take a form that is interpretable in the vertex domain, which is
+In particular, \cite{kipf2016semi}, were first to transpose ChebNet to the task of semi-supervised node classification. Chebychev filters then take a form that is interpretable in the vertex domain, which is
 \begin{gather}
 Y = \displaystyle\sum_{i=0}^k T_i(\widetilde{L}) X \Theta
 \end{gather}
@@ -188,6 +188,13 @@ where $X \in \bbr^{n \times N}$, $\Theta \in \bbr^{N \times M}$, $n$ is the numb
 \begin{gather}
 Y = \widetilde{A} X \Theta
 \end{gather}
-where $\widetilde{A}$ is the normalized adjacency matrix of the graph to which self-loops are added. They called the architecture composed with these simple filters a Graph Convolution Network (GCN). Similiarly, $AX$ shares node information via the edges of the graph and $\Theta$ makes the model learns. This fomulation attracted a lot of research attention and was, in particular, extended with attention mechanism (no pun intended), inspired from the field of neural machine translation \citep{bahdanau2014neural}. Attention can be learned toward which input feature map is most useful \citep{velickovic2017graph}, or which neighboring vertex is \citep{lee2018attention}. Works extending GCN are numerous in recent days (\eg \cite{niepert2018towards}). We don't cover them since their novelty compared to GCN is limited.
+where $\widetilde{A}$ is the normalized adjacency matrix of the graph to which self-loops are added. They called the architecture composed with these simple filters a Graph Convolution Network (GCN). Similiarly, $AX$ shares node information via the edges of the graph and $\Theta$ makes the model learns. This fomulation attracted a lot of research attention and was, in particular, extended with attention mechanism (no pun intended), inspired from the field of neural machine translation \citep{bahdanau2014neural}. A review is done by \cite{lee2018attention}.
+
+For example, \cite{velickovic2017graph} proposed the  a model that learns which input feature maps are most useful to describe a couple of neighboring nodes.
+
+\todo{}
+
+
+Attention can be learned toward which input feature maps are most useful to describe a couple of neighboring nodes \citep{velickovic2017graph}, or which neighboring nodes are \citep{lee2018attention}. Works extending GCN are numerous in recent days (\eg \cite{niepert2018towards}). We don't cover them since their novelty compared to GCN is limited.
 
 %todo{extend ?}
