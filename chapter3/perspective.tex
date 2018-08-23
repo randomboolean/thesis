@@ -175,14 +175,14 @@ g(X) = \Theta S X
 \label{tab:ind}
 \end{table}
 
-Since the multiplicative expression $\Theta S X$ is written regardless of the ordering of the tensors ranks and is defined by index juggling, we will write instead $\wideparen{\Theta S X}$ to avoid confusion. $\wideparen{\cdot}$ is a ternary operator which we will call \emph{neural contraction}. Note that it is associative and commutative. This can be seen by the index symmetry of \eqref{eq:comm}, which rewrites~\eqref{eq:ternary}, and where the sum symbols~$\Sigma$ and scalar values commute:
+Since the multiplicative expression $\Theta S X$ is written regardless of the ordering of the tensors ranks and is defined by index juggling, we will write instead $\wideparen{\Theta S X}$ to avoid confusion. $\wideparen{\cdots}$ is a ternary operator which we will call \emph{neural contraction}. Note that it is associative and commutative. This can be seen by the index symmetry of \eqref{eq:comm}, which rewrites~\eqref{eq:ternary}, and where the sum symbols~$\Sigma$ and scalar values commute:
 
 \begin{gather}
 \wideparen{\Theta SX}[j,q,b] = \displaystyle \sum_{k=1}^\omega \sum_{p=1}^P \sum_{i=1}^n \Theta[k,p,q] \h{2} S[k,i,j] \h{2} X[i,p,b] \label{eq:comm}
 \end{gather}
 
 \begin{definition}\textbf{Ternary representation, neural contraction}\\
-The \emph{ternary representation} of a layer $\cl: X \mapsto Y$, with activation function~$h$, is the equation $Y = h\left(\wideparen{\Theta S X}\right)$, where the \emph{neural contraction} $\wideparen{\cdot}$ is defined by~$\eqref{eq:comm}$, $\Theta$ is the \emph{weight kernel}, and~$S$ is called the \emph{weight sharing scheme}.
+The \emph{ternary representation} of a layer $\cl: X \mapsto Y$, with activation function~$h$, is the equation $Y = h\left(\wideparen{\Theta S X}\right)$, where the \emph{neural contraction} $\wideparen{\cdots}$ is defined by~$\eqref{eq:comm}$, $\Theta$ is the \emph{weight kernel}, and~$S$ is called the \emph{weight sharing scheme}.
 \label{def:ter}
 \end{definition}
 
