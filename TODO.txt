@@ -23,6 +23,7 @@ x conclusion of 3
 ? refactoring of 3.3 into two subsections?
 x global intro
 x global conclusion
+x fill in placeholder figures
 ? Pass on bib files, and add venues instead of arxiv when relevant
 ? Change book style
 ? maybe add industrial exp if any time left ...
