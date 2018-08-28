@@ -206,7 +206,7 @@ where $X \in \bbr^{n \times N}$, $\Theta \in \bbr^{N \times M}$, $n$ is the numb
 \begin{gather}
 Y = \widetilde{A} X \Theta \label{eq:gcn}
 \end{gather}
-where $\widetilde{A}$ is the normalized adjacency matrix of the graph to which self-loops are added. They call the architecture composed with these filters a Graph Convolution Network (GCN). Similiarly, $AX$ shares node information via the edges and $\Theta$ makes the model learns. This fomulation attracted a lot of research attention and was, in particular, extended with attention mechanism (no pun intended), inspired from the field of neural machine translation \citep{bahdanau2014neural}. A review is done by \cite{lee2018attention}.
+where $\widetilde{A}$ is the normalized adjacency matrix of the graph to which self-loops are added. They call the architecture composed with these filters a Graph Convolution Network (GCN). Similiarly, $\widetilde{A}X$ shares node information via the edges and $\Theta$ makes the model learns. This fomulation attracted a lot of research attention and was, in particular, extended with attention mechanism (no pun intended), inspired from the field of neural machine translation \citep{bahdanau2014neural}. A review is done by \cite{lee2018attention}.
 
 For example, \cite{velickovic2017graph}, propose a model that learns attention in a local receptive field. They call it Graph ATtention network (GAT). The attention mechanism is parameterized by a neural network $a$, containing a single FC layer $(g,\text{LeakyReLU})$, which takes as input a couple of neighboring nodes $(i,j)$ and outputs a scalar $\alpha_{i,j}$. The attention that $i$ deserves to $j$ is:
 \begin{gather}
