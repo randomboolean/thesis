@@ -137,6 +137,10 @@ The bigger is $\sigma$, the less accurate are the symmetries of the input domain
 
 Moreover, they indicate that the ternary representation also allows to improve performances compared to using dense layers, providing we are able to prototype a relevant weight sharing scheme $S$ to exploit symmetries.
 
+% \subsection{Randomly assigning weights}
+
+% As we saw, the weight sharing scheme $S$ labels the propagation. In the case of datasets with known symmetries like image datasets, we saw in the previous section that it is best to do this labelling with respect to these symmetries. In the other case, when the symmerties are unknown, we can try to assign weights randomly. The idea is that, for each couple $(p,q)$ of input channel and output feature map, we randomly assign weights from the kernel $\Theta[:,p,q]$ to the propagation. Then, after propagation, we follow with a FC layer on the feature\'s dimension, as if we were learning which features have learnt the best representation in the previous layer. 
+
 \subsection{Semi-supervised node classification}
 
 \todo{transpose, w=1}

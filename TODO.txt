@@ -12,10 +12,10 @@ x connection between chap2 and literature ie chebnet, vertex etc.
 x upgrade some proposition as theorems
 x intro of 1
 ? maybe conclusion of 1
-x 3.2.4 kipf directed graph w=2
-x 3.3.6 deep by reusing S from shallow
-x 3.3.7 shallow on Pines
-x 3.3.8 MCnet
+d 3.2.4 kipf directed graph w=2 -> can't find same split
+? 3.3.6 deep by reusing S from shallow, or from noisy auto-enc
+? 3.3.7 shallow on Pines
+x 3.3.8 or 3.2.4 MCnet
 x 3.3.9 learning A kipf
 x 3.4.3 connection with chapter 2
 x intro of 3
@@ -31,3 +31,4 @@ x fill in placeholder figures and \todo{}
 x: todo
 ?: optional
 o: done
+d: drop
