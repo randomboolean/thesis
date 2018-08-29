@@ -15,7 +15,7 @@ x intro of 1
 d 3.2.4 kipf directed graph w=2 -> can't find same split
 ? 3.3.6 deep by reusing S from shallow, or from noisy auto-enc
 ? 3.3.7 shallow on Pines
-x 3.3.8 or 3.2.4 MCnet
+x 3.3.8 or 3.2.4 MCnet -> try simpler MC
 x 3.3.9 learning A kipf
 x 3.4.3 connection with chapter 2
 x intro of 3
