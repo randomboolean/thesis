@@ -1,34 +1,52 @@
-o Gilles suggestions on chap 1
-o Vincent suggestions on chap 2
-? schema Cayley graph charcterization 2.3.1
-o section Genericity of ternary include GCN, GAT
-o name ternary operator "neural contraction" and do related changes
-o explain GAT
-x dataset subsection 1.3.2bis
-x fix left and right cayley
-x fix path convolution
-x rewrite intro2: motivation, then plan. Talk about eq linear class
-x connection between chap2 and literature ie chebnet, vertex etc.
-x upgrade some proposition as theorems
-x intro of 1
-? maybe conclusion of 1
-d 3.2.4 kipf directed graph w=2 -> can't find same split
-? 3.3.6 deep by reusing S from shallow, or from noisy auto-enc
-? 3.3.7 shallow on Pines
-x 3.3.8 or 3.2.4 MCnet -> try simpler MC
-x 3.3.9 learning A kipf
-x 3.4.3 connection with chapter 2
-x intro of 3
-x conclusion of 3
-? refactoring of 3.3 into two subsections?
-x global intro
-x global conclusion
-x fill in placeholder figures and \todo{}
-? Pass on bib files, and add venues instead of arxiv when relevant
-? Change book style
-? maybe add industrial exp if any time left ...
+Legend
 
 x: todo
 ?: optional
 o: done
 d: drop
+p: work in progress
+
+Manuscript
+
+o Gilles suggestions on chap 1
+o Vincent suggestions on chap 2
+o section Genericity of ternary include GCN, GAT
+o name ternary operator "neural contraction" and do related changes
+o explain GAT
+x dataset subsection 1.3.2bis
+
+x intro of 1
+? maybe conclusion of 1
+x intro of 3
+x conclusion of 3
+? refactoring of 3.3 into two subsections?
+x global intro
+x global conclusion
+x 3.4.3 connection with chapter 2
+
+x write MCnet 3.2.4
+? write 3.2.5
+? write 3.3.6
+? write 3.3.7
+x write 3.3.8
+
+x fix left and right cayley
+x fix path convolution
+x rewrite intro2: motivation, then plan. Talk about eq linear class
+x connection between chap2 and literature ie chebnet, vertex etc.
+x upgrade some proposition as theorems
+
+x fill in placeholder figures and \todo{}
+? schema Cayley graph characterization 2.3.1
+? Pass on bib files, and add venues instead of arxiv when relevant
+? Change book style
+
+Experiments
+
+p 3.2.4 MCnet -> try simpler MC
+d 3.2.5 kipf directed graph w=2 -> can't find same split
+? 3.2.5 split graphs, multiple graphs (eg N graphs of same LRF size)
+? 3.3.6 deep by reusing S from shallow, or from noisy auto-enc
+? 3.3.7 shallow on Pines
+x 3.3.8 learning A kipf with multiple heads
+? maybe add industrial exp if any time left ...
