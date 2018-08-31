@@ -1,4 +1,5 @@
 \section{Deep learning on graphs}
+\label{sec:dlgraph}
 
 Deep learning algorithms have been particularly successful for datasets of signals defined on regular domains such as images or time series. One key ingredient of their success is the use of convolutions. However, classical convolutions are only defined on euclidean domains, so that extending deep learning on non-euclidean domains is not straightforward. The most general way to represent a non-euclidean domain is through a graph \ie as points (the vertices) and relations between them (the edges). This field also comprises the study of deep learning on manifolds (\ie locally euclidean domains). The field of deep learning on graphs or manifolds have been called recently Geometric Deep Learning \citep{bronstein2017geometric}. In this manuscript, we are only interested in deep learning on graphs.
 
@@ -59,7 +60,7 @@ The \emph{signal space} $\cs(V)$ is the linear space of signals on $V$.
 \end{definition}
 
 \begin{remark}
-In particular, a vector space, and more generally a tensor space, are finite-dimensional signal spaces on any of their bases.
+In particular, a vector space, and more generally a tensor space, are finite-dimensional signal spaces on any of their bases. Reciprocally, a signal space is a linear space which canonical basis is the signal space domain. Therefore, signals can be represented as vectors (or tensors) and then fed to neural networks.
 \end{remark}
 
 A \emph{graph signal} on a graph $\gve$ is a signal on its vertex set $V$. We denote by $\cs(G)$ or $\cs(V)$ the graph signal space. $G$ can be referred as the \emph{underlying structure} of $\cs(V)$.

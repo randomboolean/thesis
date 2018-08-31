@@ -1,4 +1,5 @@
 \section{Tensors}
+\label{sec:tensors}
 
 Intuitively, tensors in the field of deep learning are defined as a generalization of vectors and matrices, as if vectors were tensors of rank $1$ and matrices were tensors of rank $2$. That is, they are objects in a vector space and their dimensions are indexed using as many indices as their rank, so that they can be represented by multidimensional arrays. In mathematics, a tensor can be defined as a special type of multilinear function~\citep{bass1968cours, marcus1975finite, williamson2015tensor}, which image of a basis can be represented by a multidimensional array. Alternatively, Hackbush proposes a mathematical construction of a tensor space as a quotient set of the span of an appropriately defined tensor product \citep{hackbusch2012tensor}, which coordinates in a basis can also be represented by a multidimensional array. In particular in the field of mathematics, tensors enjoy an intrinsic definition that neither depend on a representation nor would change the underlying object after a change of basis, whereas in our domain, tensors are confounded with their representation.
 
@@ -6,14 +7,21 @@ Intuitively, tensors in the field of deep learning are defined as a generalizati
 
 Our definition of tensors is such that they are a bit more than multidimensional arrays but not as much as mathematical tensors, for that they are embedded in a vector space so that deep learning objects can be later defined rigorously.
 
+% \begin{remark}
+% Vector spaces are assumed to be finite-dimensional and over the field of real numbers $\bbr$.
+% \end{remark}
+
 Given canonical bases, we first define a tensor space, then we relate it to the definition of the tensor product of vector spaces.
 
 \begin{definition}\textbf{Tensor space}\\
 \label{def:tensor}
-We define a \emph{tensor space} $\bbt$ of rank $r$ as a vector space such that its canonical basis is a cartesian product of the canonical bases of $r$ other vector spaces.
+We define a \emph{tensor space} $\bbt$ of rank $r$ as a vector space such that its canonical basis is a cartesian product of the canonical bases of $r$ finite-dimensional vector spaces.
 
 Its shape is denoted $n_1 \times n_2 \times \cdots \times n_r$, where the $\{n_k\}$ are the dimensions of the vector spaces.
 \end{definition}
+
+\begin{remark}Unless stated otherwise, vector spaces are assumed to be over the field of real numbers $\bbr$.
+\end{remark}
 
 \begin{definition}\textbf{Tensor product of vector spaces}\\
 Given $r$ vector spaces $\bbv_1, \bbv_2, \ldots, \bbv_r$, their \emph{tensor product} is the tensor space~$\bbt$ spanned by the cartesian product of their canonical bases under coordinate-wise sum and outer product.

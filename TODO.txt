@@ -15,7 +15,7 @@ o name ternary operator "neural contraction" and do related changes
 o explain GAT
 x dataset subsection 1.3.2bis
 
-x intro of 1
+o intro of 1
 ? maybe conclusion of 1
 x intro of 3
 x conclusion of 3
@@ -43,7 +43,7 @@ x fill in placeholder figures and \todo{}
 
 Experiments
 
-p 3.2.4 MCnet -> try simpler MC
+p 3.2.4 MCnet -> try simpler MC -> (1) Give big weights to self (2) softmax (3) comparison with non graph uniform random
 d 3.2.5 kipf directed graph w=2 -> can't find same split
 ? 3.2.5 split graphs, multiple graphs (eg N graphs of same LRF size)
 ? 3.3.6 deep by reusing S from shallow, or from noisy auto-enc
