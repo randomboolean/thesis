@@ -36,7 +36,8 @@ x rewrite intro2: motivation, then plan. Talk about eq linear class
 x connection between chap2 and literature ie chebnet, vertex etc.
 x upgrade some proposition as theorems
 
-x fill in placeholder figures and \todo{}
+x fill in placeholder figures
+x complete \todo{}
 ? schema Cayley graph characterization 2.3.1
 ? Pass on bib files, and add venues instead of arxiv when relevant
 ? Change book style
