@@ -21,7 +21,7 @@ Besides defining translation-convolution on general graphs, designing a TCNN als
 
 \input{chapter3/fig_tcnn}
 
-\subsection{Background}
+\subsection{Translations}
 
 % Define a graph $G = \langle V, E \rangle$ with $V$ the set of vertices, and $E \subseteq\binom{V}{2}$ the set of edges. We suppose the graph is connected, as conversely the process can be applied to each connected component of $G$. We denote by $d$ the max degree of the graph and $n = |V|$ the number of vertices.
 
@@ -173,7 +173,7 @@ On the CIFAR-10 dataset~\citep{krizhevsky2009learning}, our models are based on 
 
 \tabref{tab:cifar-table} summarizes our results. In particular, it is interesting to note that results obtained without any structure prior (91.07\%) are only 2.7\% away from the baseline using classical CNNs on images (93.80\%). This gap is even smaller (less than 1\%) when using the grid prior. Also, without priors our method significantly outperforms the others. %% In the top left corner of the table we fully exploit the fact that the dataset is composed of 2D structured data, and in the bottom right corner this information is not used at all. Even with that disadvantage, the results differ of only 2.7\%, which shows the strenght of the method when compared to others.
 
-\begin{table}
+\begin{table}[h!]
 \begin{center}
 \caption{CIFAR-10 result comparison table.}
 \vspace{-0.4cm}
@@ -209,7 +209,7 @@ The PINES dataset consists of functional Magnetic Resonance Imaging (fMRI) scans
 
 We used a shallow network. The results on \tabref{tab:iaps-table} show that our method was able to improve over CNNs, MLPs and other graph-based extended convolutional neural networks.
 
-\begin{table}[h]
+\begin{table}[h!]
 \centering
 \caption{PINES fMRI dataset accuracy comparison table.}
 \label{tab:iaps-table}

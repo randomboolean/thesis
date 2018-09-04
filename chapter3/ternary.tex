@@ -107,7 +107,7 @@ y[j] &= h\left(\displaystyle \sum_{k=1}^{\omega} \theta[k] \h{2} \sum_{i=1}^n S[
 \end{align}
 Where $x_{\LRF}[k,j]$ can be obtained by matching \eqref{eq:rewr} with the expression given by the definition (see \defref{def:conv}). So, $S[k,:,j]$ is a one-hot vector that specifies which input neuron in the LRF of $y$ is associated with the $k$-th kernel weight, and the index of the $1$ is determined by $x_{\LRF}[k,j]$.
 
-That is to say, in the ternary representation, $W$ captures the information the layer has learnt, whereas $S$ captures how the layer exploits the symmetries of the input domain.
+That is to say, in the ternary representation, $\Theta$ captures the information the layer has learnt, whereas $S$ captures how the layer exploits the symmetries of the input domain.
 
 \paragraph{Visual construction}
 Visually, constructing $S$ amounts to move a rectangular grid over the pixel domain, as depicted on \figref{fig:rect} where each point represents the center of a pixel, and the moving rectangle represents the LRF of its center $j$. Each of its squares represents a kernel weight $\theta[k]$ which are associated with the pixel $x_{\LRF}[k,j]$ that falls in it.
@@ -129,7 +129,7 @@ The visual construction of $S$ on distorded domain is depicted by \figref{fig:di
 
 \input{chapter3/fig_distrect}
 
-We run a classification task with standard hyperparameters on a toy dataset (we used MNIST, \cite{lecun1998mnist}). The results are reported in \figref{fig:expres}
+We run a classification task with standard hyperparameters on a toy dataset (we used MNIST, \cite{lecun1998mnist}). The results are reported in \figref{fig:expres}.
 
 \input{chapter3/fig_res}
 

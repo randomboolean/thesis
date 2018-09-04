@@ -33,7 +33,7 @@ A[i,j] = 0 \Rightarrow \forall k, S[k,i,j] = 0
 Since \propref{prop:lrf} relates $G$ with LRF defined by $W$, we decide to coin the terms \emph{Local Receptive Graph} (LRG), LRG layer and LRG neural network (LRGNN).
 
 \paragraph{Initialization}
-We introduce three types of initialization for $S$. The first two have the sparse priors mentioned earlier:
+We introduce three types of initialization for $S$. The last two have the sparse priors mentioned earlier:
 \begin{enumerate}
   \item uniform random: parameters of $S$ are simply initialized with a uniform random distribution with limits as described by \cite{glorot2010understanding}.
   \item random one-hot: one-hot vectors are distributed randomly on the $S[:,i,j]$, with the constraint that for each LRF, a particular one-hot vector can only be distributed at most once more than any other.
@@ -42,10 +42,10 @@ We introduce three types of initialization for $S$. The first two have the spars
 
 \subsection{Experiments with grid graphs}
 
-We experiment LRG layers on the MNIST dataset~\citep{lecun1998mnist}. We use a shallow architecture made of a single ternary layer with 50 feature maps, without pooling, followed by a fully connected layer of 300 neurons, and terminated by a softmax layer of 10 neurons. Rectified Linear Units~\cite{glorot2011deep} are used for the activations and a dropout~\cite{srivastava2014dropout} of 0.5 is applied on the fully-connected layer. Input layers are regularized by a factor weight of $10^{-5}$~\cite{ng2004feature}. We optimize with ADAM~\cite{kingma2014adam} up to 100 epochs and fine-tune (while $S$ is frozen) for up to 50 additional epochs.
+We experiment LRG layers on the MNIST dataset~\citep{lecun1998mnist}. We use a shallow architecture made of a single ternary layer with 50 feature maps, without pooling, followed by a fully connected layer of 300 neurons, and terminated by a softmax layer of 10 neurons. ReLu activations~\citep{glorot2011deep} are used and a dropout~\citep{srivastava2014dropout} of 0.5 is applied on the fully-connected layer. Input layers are regularized by a factor weight of $10^{-5}$~\citep{ng2004feature}. We optimize with ADAM~\citep{kingma2014adam} up to 100 epochs and fine-tune (while $S$ is frozen) for up to 50 additional epochs.
 
 For the underlying graph strucure, we consider a grid graph that connects each pixel to itself and its 4 nearest neighbors (or less on the borders). We also consider the square of this graph (pixels are connected to their 13 nearest neighbors, including themselves), the cube of this graph (25 nearest neighbors), up to 10 powers (211 nearest neighbors).
-We test the model under two setups: either the ordering of the node is unknown, and then we use random one-hot intialization for $S$; either an ordering of the node is known, and then we use circulant one-hot for $S$ which is freezed in this state. We use the number of nearest neighbors as for the dimension of the first rank of $S$.
+We test the model under two setups: either the ordering of the node is unknown, and then we use random one-hot intialization for $S$; either an ordering of the node is known, and then we use circulant one-hot intialization for $S$ which we freeze in this state. We use the number of nearest neighbors as for the dimension of the first rank of $S$.
 We also compare with a convolutional layer of size 5x5, thus containing as many weights as the cube of the grid graph. On MNIST, training architectures that learn $S$ took about twice longer. Table~\ref{toy} summarizes the obtained results. The ordering is unknown for the first result given, and known for the second result between parenthesis.
 
 \begin{table}[H]
@@ -84,8 +84,8 @@ In Figure~\ref{functionofepoch}, we plot the test error rate for various normali
 
 \subsection{Experiments with covariance graphs}
 
-As underlying graph structure, we use a thresholded covariance matrix obtained by using all the training examples. We choose the threshold so that the number of remaining edges corresponds to a certain density $p$ (5x5 convolutions correspond approximately to a density of $p=3\%$). We also infer a graph based on the $k$ nearest neighbors of the inverse of the values of this covariance matrix ($k$-NN). The latter two are using no prior about the signal underlying structure. The pixels of the input images are shuffled and the same re-ordering of the pixels is used for every image. Dimension of the first rank of $S$ is chosen equal to $k$ and its weights are initialized random uniformly~\cite{glorot2010understanding}.
-The receptive graph layers are also compared with models obtained when replacing the first layer by a fully connected or convolutional one. Architecture used is the same as in the previous section. Results are reported on table~\ref{covar}.
+As underlying graph structure, we use a thresholded covariance matrix obtained by using all the training examples. We choose the threshold so that the number of remaining edges corresponds to a certain density $p$ (5x5 convolutions correspond approximately to a density of $p=3\%$). We also infer a graph based on the $k$ nearest neighbors of the inverse of the values of this covariance matrix ($k$-NN). The latter two are using no prior about the signal underlying structure. The pixels of the input images are shuffled and the same re-ordering of the pixels is used for every image. Dimension of the first rank of $S$ is chosen equal to $k$ and its weights are initialized random uniformly.
+The LRG layers are also compared with models obtained when replacing the first layer by a fully connected or convolutional one. Architecture used is the same as in the previous section. Results are reported on table~\ref{covar}.
 
 \begin{table}[H]
   \caption{Error rates when topology is unknown on scrambled MNIST.}
@@ -104,11 +104,11 @@ The receptive graph layers are also compared with models obtained when replacing
   \label{covar}
   \end{table}
 
-We observe that the receptive graph layers outperforms the CNN and the MLP on scrambled MNIST. This is remarkable because that suggests it has been able to exploit information about the underlying structure thanks to its underlying graph.
+We observe that the LRG layers outperforms the CNN and the MLP on scrambled MNIST. This is remarkable because that suggests it has been able to exploit information about the underlying structure thanks to its underlying graph.
 
 \subsection{Improving $S$ for standard convolutions}
 
-On CIFAR-10, a dataset of tiny images~\citep{krizhevsky2009learning}, we made experiments on shallow CNN architectures and replaced convolutions by receptive graphs. We report results on a variant of AlexNet~\cite{krizhevsky2012imagenet} using little distortion on the input that we borrowed from a tutorial of tensorflow~\cite{tensorflow2015-whitepaper}.
+On CIFAR-10, a dataset of tiny images~\citep{krizhevsky2009learning}, we made experiments on shallow CNN architectures and replaced convolutions by receptive graphs. We report results on a variant of AlexNet~\citep{krizhevsky2012imagenet} using little distortion on the input that we borrowed from a tutorial of tensorflow~\citep{tensorflow2015-whitepaper}.
 %On Cifar10, we use a variant of the AlexNet architecture applied on inputs with little distortion~\cite{krizhevsky2012imagenet}, borrowed from a tutorial of tensorflow~\cite{tensorflow2015-whitepaper}.
 It is composed of two 5x5 convolutional layers of 64 feature maps, with max pooling and local response normalization, followed by two fully connected layers of 384 and 192 neurons.
 On CIFAR-10, training architectures that learn $S$ took about $2.5$ times longer.
