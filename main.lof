@@ -1,0 +1,61 @@
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\defcounter {refsection}{0}\relax 
+\select@language {english}
+\defcounter {refsection}{0}\relax 
+\select@language {english}
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\contentsline {xchapter}{Presentation of the field}{13}{chapter.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {1}{\ignorespaces ReLU activation function}}{25}{figure.1.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2}{\ignorespaces LeNet-5 \citep {lecun1989backpropagation}}}{26}{figure.1.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3}{\ignorespaces VGG-16 (\cite {simonyan2014very}, figure from~\cite {vgg})}}{27}{figure.1.3}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4}{\ignorespaces Module with a residual connection \citep {he2016deep}}}{28}{figure.1.4}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {5}{\ignorespaces DenseNet \citep {huang2017densely}}}{29}{figure.1.5}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {6}{\ignorespaces A neuron}}{30}{figure.1.6}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {7}{\ignorespaces Example of a graph and its adjacency matrix}}{44}{figure.1.7}
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\contentsline {xchapter}{Convolutions of graph signals}{55}{chapter.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {8}{\ignorespaces Commutative diagram between sets}}{64}{figure.2.8}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {9}{\ignorespaces Commutative diagram. All arrows except for the one labeled with \textup {\hbox {\mathsurround \z@ \normalfont (\ignorespaces \ref {eq:P}\unskip \@@italiccorr )}} are always true.}}{68}{figure.2.9}
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\contentsline {xchapter}{Neural networks on graph domains}{101}{chapter.3}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {10}{\ignorespaces A propagation graph}}{106}{figure.3.10}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {11}{\ignorespaces Underlying graph Vs Prop graph}}{108}{figure.3.11}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {12}{\ignorespaces Example of a propagation graph $P$ for a given input channel $p$ and feature map $q$. The edge $4 \sim 5$ is labelled with a linear combination of kernel weights from $\Theta [p,q,:]$. In the usual case, $S[k,4,5]$ is a one-hot vector that selects a single kernel weight: $\exists h, W[p,q,4,5] = \Theta [p,q,h]$.}}{110}{figure.3.12}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {13}{\ignorespaces Weight assignement of convolutions on pixel domains}}{117}{figure.3.13}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {14}{\ignorespaces Weight assignement in generalized convolution on distorded domains}}{118}{figure.3.14}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {15}{\ignorespaces Error in function of the standard deviation $\sigma $, for generalized CNNs and an MLP, each with $500$ weights.}}{118}{figure.3.15}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {16}{\ignorespaces Evolution of the test error rate when learning MNIST using the square of a grid graph and for various normalizations, as a function of the epoch of training. The legend reads: ``l2'' means $\ell _2$ normalization of weights is used (with weights $10^{-5}$), ``Pos'' means parameters in $S$ are forced to being positive, and ``Norm'' means that the $\ell _1$ norm of each vector in the third dimension of $S$ is forced to 1.}}{123}{figure.3.16}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {17}{\ignorespaces Outline of the proposed method}}{128}{figure.3.17}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {18}{\ignorespaces Grid graph (in dashed grey) and the subgraph induced by $N_2(v_0)$ (in black).}}{131}{figure.3.18}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {19}{\ignorespaces Translations (black arrows) in the induced subgraph (dashed grey) around $v_0$ (filled in black) that contains $v_0$ and only some of its neighbors.}}{132}{figure.3.19}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {20}{\ignorespaces Illustration of the translation of a small indexing kernel using translations in each induced subgraph. Kernel is initialized around $v_0$ (a), then moved left around $v_1$ (b) using the induced subgraph around $v_0$, then moved left again around $v_2$ (c) using the induced subgraph around $v_1$ then moved up around $v_3$ (d) using the induced subgraph around $v_2$. At the end of the process, the kernel has been localized around each vertex in the graph.}}{133}{figure.3.20}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {21}{\ignorespaces Proxy-translations in $G$ obtained after moving the small kernel around each vertex. Each color corresponds to one translation.}}{133}{figure.3.21}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {22}{\ignorespaces Downscaling of the grid graph. Disregarded vertices are filled in.}}{135}{figure.3.22}
