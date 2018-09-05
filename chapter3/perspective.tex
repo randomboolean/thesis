@@ -52,17 +52,19 @@ Let $\cl = (g,h)$, recall that $g: \cs(V) \rightarrow \cs(U)$ is characterized b
 The \emph{propagation graph} $P = \langle (V, U), E_P \rangle$ of a layer $\cl = (W,h)$ is the bipartite graph that has the connectivity matrix $W$ for bipartite adjacency matrix.
 \end{definition}
 
-An example is depicted on \figref{fig:pgraph}.
+%% TODO: add figure ?
 
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}
-\draw (0,0) -- (4,0) -- (4,4) -- (0,4) -- (0,0);
-\node at (2,2){placeholder};
-\end{tikzpicture}
-\caption{A propagation graph}
-\label{fig:pgraph}
-\end{figure}
+% An example is depicted on \figref{fig:pgraph}.
+
+% \begin{figure}[H]
+% \centering
+% \begin{tikzpicture}
+% \draw (0,0) -- (4,0) -- (4,4) -- (0,4) -- (0,0);
+% \node at (2,2){placeholder};
+% \end{tikzpicture}
+% \caption{A propagation graph}
+% \label{fig:pgraph}
+% \end{figure}
 
 % This representation stresses out the fact that every layer is in fact a partially connected layer.
 % To say in weight sharing scheme
@@ -83,7 +85,13 @@ In particular, given an output neuron $u \in U$, a neighborhood $\cn_u$ is also 
 
 \subsection{Graph representation of the input space}
 
-Let's consider that the input neurons $V$ have a (possibly edge-less) graph structure $\gve$. We define an edge-constrained layer as follows.
+Let's consider that the input neurons $V$ have a (possibly edge-less) graph structure $\gve$.
+
+\begin{definition}\textbf{Underlying graph structure}
+An underlying graph structure of an input space $V$ is simply a graph such that $V$ is its vertex set.
+\end{definition}
+
+We define an edge-constrained layer as follows.
 
 \begin{definition}\textbf{Edge-constrained layer}\\
 A layer $\cl: \gve \rightarrow U$, is said to be \emph{edge-constrained} (EC) if:
@@ -94,7 +102,11 @@ A layer $\cl: \gve \rightarrow U$, is said to be \emph{edge-constrained} (EC) if
 \end{enumerate}
 \end{definition}
 
-Note that (EC) convolutions from \chapref{chap:2} are indeed (EC) layers. Also, the following property is important.
+In other words, if we identify $U$ with $V_\pi$, an (EC) layer is a layer such that the propagation graph $P$ resulting from this identification is isomorph to the subgraph of $G$ induced by $U$.
+
+\begin{remark}Note that (EC) convolutions from \chapref{chap:2} are indeed (EC) layers.\end{remark}
+
+Also, the following property is important.
 
 \begin{proposition}Let $W$ the connectivity matrix of an (EC) layer \wrt a graph $\gve$, which adjacency matrix is $A$. Then $W$ is \emph{masked by} $A$, \ie
 $$
@@ -121,19 +133,20 @@ Let a layer $\cl: V \rightarrow U$, $V_\pi \subset V$, and a one-to-one correspo
 
 Therefore, any layer that has its receptive fields intertwined, admits an \emph{underlying} graph structure. For example, a $2$-d convolution operator can be rewritten as an (EC*) convolution on a lattice graph, and as an (EC) convolution on a grid graph.
 
-\figref{fig:upgraph} depicts an underlying graph and its corresponding propagation graph.
+%% TODO: add picture ?
+% \figref{fig:upgraph} depicts an underlying graph and its corresponding propagation graph.
 
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}
-\draw (0,0) -- (4,0) -- (4,4) -- (0,4) -- (0,0);
-\node at (2,2){placeholder};
-\draw (5,0) -- (5,4) -- (9,4) -- (9,0) -- (5,0);
-\node at (7,2){placeholder};
-\end{tikzpicture}
-\caption{Underlying graph Vs Prop graph}
-\label{fig:upgraph}
-\end{figure}
+% \begin{figure}[H]
+% \centering
+% \begin{tikzpicture}
+% \draw (0,0) -- (4,0) -- (4,4) -- (0,4) -- (0,0);
+% \node at (2,2){placeholder};
+% \draw (5,0) -- (5,4) -- (9,4) -- (9,0) -- (5,0);
+% \node at (7,2){placeholder};
+% \end{tikzpicture}
+% \caption{Underlying graph Vs Prop graph}
+% \label{fig:upgraph}
+% \end{figure}
 
 \subsection{General representation with weight sharing}
 \label{sec:nct}
