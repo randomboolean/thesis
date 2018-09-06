@@ -1,4 +1,5 @@
 rm main.mtc*
+rm main.aux
 rm *.bbl
 echo "Build version as of `date '+%Y-%m-%d %H:%M:%S'`" > date.tex
 echo "Revision number `git rev-list --all --count`" > revcount.tex 
