@@ -1,6 +1,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[french, english]{babel}
 \usepackage[T1]{fontenc}
+\usepackage{lipsum}
 
 \usepackage{amsfonts}
 \usepackage{amsmath}
@@ -42,6 +43,34 @@
 
 %\usepackage{quotchap}
 \usepackage{csquotes}
+
+% Abstract
+\newcommand\abstractname{Abstract}  %%% here
+\makeatletter
+\if@titlepage
+  \newenvironment{abstract}{%
+      \titlepage
+      \null\vfil
+      \@beginparpenalty\@lowpenalty
+      \begin{center}%
+        \bfseries \abstractname
+        \@endparpenalty\@M
+      \end{center}}%
+     {\par\vfil\null\endtitlepage}
+\else
+  \newenvironment{abstract}{%
+      \if@twocolumn
+        \section*{\abstractname}%
+      \else
+        \small
+        \begin{center}%
+          {\bfseries \abstractname\vspace{-.5em}\vspace{\z@}}%
+        \end{center}%
+        \quotation
+      \fi}
+      {\if@twocolumn\else\endquotation\fi}
+\fi
+\makeatother
 
 % References
 \usepackage{hyperref}
