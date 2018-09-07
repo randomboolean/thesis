@@ -20,7 +20,8 @@ o intro of 1
 o intro of 3
 ? conclusion of 3
 ? refactoring of 3.3 into two subsections?
-x global intro
+o global intro
+x abstract
 x global conclusion
 x 3.4.3 connection with chapter 2
 
