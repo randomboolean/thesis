@@ -1,3 +1,5 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 fixing draft locality and continuity
 
 x Instead of 2.3.2 Intrinsic properties, call it
@@ -25,3 +27,22 @@ x For groupoids and partial conv, say we do conjecture for same EC-NB, (they are
 x For path groupoids: extends p_v(p_u)
 
 x For path groupoids, explain (EC = N) if possible
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+1) Au 2.3.2, je fais un erreur dans la preuve qui démontre la "localité" d'un opérateur f_w. J'utilise le fait que g_u est un automorphism alors que ce n'est pas le cas.
+Changements à apporter:
+- Définir "Right" Cayley graph et "Left" Cayley graph
+- montre que sur "Right" Cayley graph, les "left" action sont des automorphismes (et vice-versa)
+- définir plus rigoureusement "locality" par "compaclty supported (CS)" dans le sens où "sum compactly supported iff w compactly supported
+- garder la charactérisation: (EC) iff "left" Cayley graph
+- montrer l'autre: (CS) iff "right" Cayley graph
+- puis arriver à: (EC) & (CS) iff abelian Cayley graph
+
+(et du coup invertir 2.3.3 avec 2.3.2, réécrire les limitations (et les déplacer du 2.4.1 au 2.3.4))
+
+2) Au 2.4.4, lemme 47 et définition 48. L'extension de l'action partielle de groupoid \gamma n'est pas expliquée (pour l'instant son domaine est trivial).
+Il faudrait expliquer comment bien l'étendre et garder en meme temps la caractérisation. Mais pour l'instant je me perd dans les explications quand j'essaie.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
