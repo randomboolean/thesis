@@ -23,6 +23,7 @@ o intro of 3
 o global intro
 o abstract
 o global conclusion
+o rewrite intro 2
 
 x 3.4.3 connection with chapter 2
 x write MCnet 3.2.4
@@ -35,7 +36,7 @@ x fix left and right cayley
 x fix path convolution
 x rewrite intro2: motivation, then plan. Talk about eq linear class
 x connection between chap2 and literature ie chebnet, vertex etc.
-x upgrade some proposition as theorems
+o upgrade some proposition as theorems
 
 x fill in placeholder figures
 x complete \todo{}

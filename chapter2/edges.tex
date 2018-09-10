@@ -56,14 +56,15 @@ In the case of Cayley graphs, it is clear that $\cu \subseteq \Phi^*_{\EC}$ and 
 
 More precisely, we obtain the following characterization:
 
-\begin{proposition}\textbf{Characterization by Cayley subgraph isomorphism}\\
+\begin{theorem}\textbf{Characterization by Cayley subgraph isomorphism}\\
 \label{prop:chc}
 Let a graph $\gve$, then:
 \begin{enumerate}[label=(\roman*)]
 \item $G$ admits an (EC) $\varphi$-convolution if and only if it contains a subgraph isomorph to a Cayley graph
 \item $G$ admits an (EC) $\M$-convolution if and only if it contains a subgraph isomorph to an abelian Cayley graph
 \end{enumerate}
-\end{proposition}
+\label{th:cayleychar}
+\end{theorem}
 
 \begin{proof}
 We show the result only in the general case as the proof for the abelian case is similar.
@@ -171,7 +172,7 @@ where $\cn^{-1}$ reverses the edges of $\cn$. Let's denote $\ck_u = g_u(\varphi(
 \todo{In reality we have: local conv iff SNP iff simple transitive Aut iff Cayley graph}
 \todo{EC local conv iff Abelian Cayley graph}
 
-By composing edge reversal and graph isomorphisms (as $\varphi$ and its inverse are graph isomorphisms by \propref{cor:cayley}), the compactness and diameter of~$\cm$ is preserved for $\ck_u$. More precisely, the transposed subgraph structure is also preserved.
+By composing edge reversal and graph isomorphisms (as $\varphi$ and its inverse are graph isomorphisms by \corref{cor:cayley}), the compactness and diameter of~$\cm$ is preserved for $\ck_u$. More precisely, the transposed subgraph structure is also preserved.
 \end{proof}
 
 Let's define $\cm$, $\cn$ and $\ck_u$ as in the previous proof.

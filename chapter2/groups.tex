@@ -3,13 +3,13 @@
 
 %\subsection{Introduction}
 
-As \propref{prop:equi} is a complete characterization of convolutions, it can be used to define them \ie convolution operators can be constructed as the set of linear transformations that are equivariant to translations. However, in the general case where $G$ is not a grid graph, translations are not defined, so that construction needs to be generalized beyond translational equivariances.
+As \thref{prop:equi} is a complete characterization of convolutions, it can be used to define them \ie convolution operators can be constructed as the set of linear transformations that are equivariant to translations. However, in the general case where $G$ is not a grid graph, translations are not defined, so that construction needs to be generalized beyond translational equivariances.
 
 In mathematics, convolutions are more generally defined for signals defined over a group structure. The classical convolution that is used in deep learning is just a narrow case where the domain group is an euclidean space. Therefore, constructing a convolution on graphs should start from the more general definition of convolution on groups rather than convolution on euclidean domains.
 
 Our construction is motivated by the following questions:
 \begin{itemize}
-\item Does the equivariance property holds ? Does the characterization from \propref{prop:equi} still holds ?
+\item Does the equivariance property holds ? Does the characterization from \thref{prop:equi} still holds ?
 \item Is it possible to extend the construction on non-group domains, or at least on mixed domains ? (\ie one signal is defined over a set, and the other is defined over a subgroup of the transformations of this set).
 \item Can a group domain draw an underlying graph structure ? Is the group convolution naturally defined on this class of graphs ?
 \end{itemize}
@@ -73,7 +73,7 @@ We naturally obtain the following relation, which put in simpler words means tha
 With this lemma, we can steer the definition of the group convolution from $\cs(\Gamma)$ to $\cs(V)$ as in the following definition.
 
 \begin{remark}
-Note that this definition is just a step in our construction since we will see that it is not enough to obtain the complete counterpart of \propref{prop:equi}.
+Note that this definition is just a step in our construction since we will see that it is not enough to obtain the complete counterpart of \thref{prop:equi}.
 \end{remark}
 
 \begin{definition}\textbf{Group convolution II}\\
@@ -104,7 +104,7 @@ Using \lemref{lem:outer},
 \end{align*}
 \end{proof}
 
-For convolution II, we only obtain a weak version of \propref{prop:equi}. Given a source set $A$ and destination set $B$, we denote, if defined, $\bij(A,B)$ the sets of their bijections $A \to B$ and $\iso(A,B)$ the sets of their isomorphims $A \to B$.
+For convolution II, we only obtain a weak version of \thref{prop:equi}. Given a source set $A$ and destination set $B$, we denote, if defined, $\bij(A,B)$ the sets of their bijections $A \to B$ and $\iso(A,B)$ the sets of their isomorphims $A \to B$.
 
 \begin{proposition}\textbf{Equivariance to $\varphi(\Gamma)$}\\
 If $\varphi$ is a homomorphism, convolution operators acting on the right of $\cs(V)$ are equivariant to $\varphi(\Gamma)$ \ie
@@ -230,7 +230,7 @@ s_1 \ast_{\varphi} s_2 = s_1 \ast_{\II} s_2 = s_1 \ast_{\III} s_2
 
 This time, we do obtain equivariance to $\Gamma$ as expected, and the full characterization as well.
 
-\begin{proposition}\textbf{Characterization by right-action equivariance to $\Gamma$}\\
+\begin{theorem}\textbf{Characterization by right-action equivariance to $\Gamma$}\\
 If $\Gamma$ is $\varphi$-equivalent, the class of linear transformations of $\cs(V)$ that are equivariant to $\Gamma$ is exactly the class of $\varphi$-convolution operators acting on the right of $\cs(V)$ \ie
 \begin{align*}
 & \text{If } \Gamma \overset{\varphi}{\equiv} V,\\
@@ -241,7 +241,7 @@ f \in \cl(\cs(V))\\
 \end{cases}
 \end{align*}
 \label{prop:equiG}
-\end{proposition}
+\end{theorem}
 
 \begin{proof}\begin{enumerate}\item From left to right:\\
 In the following equations, \eqref{eq:rel} is obtained by definition, \eqref{eq:left} is obtained because left multiplication in a group is bijective, and \eqref{eq:pty} is obtained because of \eqref{eq:P}.
@@ -278,7 +278,7 @@ f(s) & = \displaystyle\sum_{v \in V} s[v] \h{2} f \circ g_v(\delta_{\varphi(\id)
 \end{proof}
 
 \paragraph{Construction of $\varphi$-convolutions on vertex domains}
-\propref{prop:equiG} tells us that in order to define a convolution on the vertex domain of a graph $\gve$, all we need is a subgroup $\Gamma$ of invertible transformations of $V$, that is equivalent to $V$. The choice of $\Gamma$ can be done with respect to~$E$. This is discussed in more details in \secref{sec:edges}, where we will see that in fact, we only need a generating set of $\Gamma$.
+\thref{prop:equiG} tells us that in order to define a convolution on the vertex domain of a graph $\gve$, all we need is a subgroup $\Gamma$ of invertible transformations of $V$, that is equivalent to $V$. The choice of $\Gamma$ can be done with respect to~$E$. This is discussed in more details in \secref{sec:edges}, where we will see that in fact, we only need a generating set of $\Gamma$.
 
 \paragraph{Exposure of $\varphi$}
 The previous construction relies on exposing a bijective equivariant map $\varphi$ between $\Gamma$ and $V$. In the next subsection, we show that in cases where $\Gamma$ is abelian, we even need not expose $\varphi$ and the characterization still holds.
@@ -336,7 +336,9 @@ On one hand, \lemref{lem:rel3m} gives $r \ast_{\M} s = \varphi(r) \ast_{\III} s$
 The converse sense is meaningful because it justifies that when the $\M$-convolution is employed, the property $\Gamma \equiv V$ underlies, without the need of expliciting $\varphi$.
 \end{remark}
 
-From $\M$-convolution, we can derive operators acting on the left of $\cs(V)$, of the form $s \mapsto w \ast_{\M} s$, parameterized by $w \in \cs(\Gamma)$. In particular, these operators would be relevant as layers of neural networks. On the contrary, derived operators acting on the right such as $r \mapsto r \ast_{\M} w$ wouldn't make sense with this formulation as they would make $\varphi$ resurface. However, the equivariance to $\Gamma$ incurring from \lemref{lem:rel3m} and \propref{prop:equiG} only holds for operators acting on the right. So we need to intertwine an abelian condition as follows. This is also a good excuse to see the influence of abelianity.
+From $\M$-convolution, we can derive operators acting on the left of $\cs(V)$, of the form $s \mapsto w \ast_{\M} s$, parameterized by $w \in \cs(\Gamma)$. In particular, these operators would be relevant as layers of neural networks. On the contrary, derived operators acting on the right such as $r \mapsto r \ast_{\M} w$ wouldn't make sense with this formulation as they would make $\varphi$ resurface. However, the equivariance to $\Gamma$ incurring from \lemref{lem:rel3m} and \thref{prop:equiG} only holds for operators acting on the right. So we need to intertwine an abelian condition as follows. This is also a good excuse to see the influence of abelianity.
+
+\todo{Vincent, peux-tu vérifier la preuve, ainsi que celle du théorême qui suit}
 
 \begin{proposition}\textbf{Equivariance to $\Gamma$ through left action}\\
 Let a subgroup $\Gamma \subset \Phi^*(V)$ such that $\Gamma \cong V$. $\Gamma$ is abelian, if and only if, $\M$-convolution operators acting on the left of $\cs(V)$ are equivariant to it \ie
@@ -359,7 +361,7 @@ f_w \circ g (s) & = \displaystyle \sum_{h \in \Gamma} w[h] \h{2} hg(s) \label{eq
 \begin{remark}Similarly, $\ast_{\varphi}$ is also equivariant to $\Gamma$ through left action if and only if $\Gamma$ is abelian, as a consequence of being commutative if and only if $\Gamma$ is abelian. On the contrary, note that commutativity of $\ast_{\M}$ doesn't make sense.
 \end{remark}
 
-\begin{corrolary}\textbf{Characterization by left-action equivariance to $\Gamma$}\\
+\begin{theorem}\textbf{Characterization by left-action equivariance to $\Gamma$}\\
 Let $\Gamma \cong V$. If $\Gamma$ is abelian, the class of linear transformations of $\cs(V)$ that are equivariant to $\Gamma$ is exactly the class of $\M$-convolution operators acting on the left of $\cs(V)$ \ie
 \begin{align*}
 & \text{If } \Gamma \cong V \text{ and $\Gamma$ is abelian,}\\
@@ -370,7 +372,7 @@ f \in \cl(\cs(V))\\
 \end{cases}
 \end{align*}
 \label{cor:equiM}
-\end{corrolary}
+\end{theorem}
 
 \begin{proof} By picking $\varphi$ such that $\Gamma \overset{\varphi}{\equiv} V$ with \lemref{lem:rel12m} and using the relation between $\ast_{\M}$~and~$\ast_{\varphi}$.
 \end{proof}
