@@ -2,16 +2,17 @@
 \input{others/header}
 
 \begin{document}
+
 \selectlanguage{english}
 
 %
 % Version info
 %
 
+\pagestyle{empty}
 \input{date}\newline
 \input{revcount}
 % \linenumbers
-
 
 %
 % Title
@@ -28,6 +29,8 @@
 % Abstract
 %
 
+\frontmatter
+\pagestyle{plain}
 \input{chapter0/abstract}
 
 %
@@ -41,10 +44,13 @@
  % \listoffigures
  % \listoftables
 
+
 %
 % Introduction
 %
 
+\mainmatter
+\pagestyle{headings}
 \input{chapter0/intro}
 %talk about graph == irregular
 
@@ -120,6 +126,7 @@
 % Bibliography
 %
 
+\backmatter
 \printbibliography[heading=bibintoc]
 
 %
