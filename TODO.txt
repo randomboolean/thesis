@@ -18,13 +18,13 @@ x dataset subsection 1.3.2bis
 o intro of 1
 ? maybe conclusion of 1
 o intro of 3
-? conclusion of 3
+? conclusion of 3 (with limitations)
 ? refactoring of 3.3 into two subsections?
 o global intro
-x abstract
-x global conclusion
-x 3.4.3 connection with chapter 2
+o abstract
+o global conclusion
 
+x 3.4.3 connection with chapter 2
 x write MCnet 3.2.4
 ? write 3.2.5
 ? write 3.3.6
@@ -39,10 +39,11 @@ x upgrade some proposition as theorems
 
 x fill in placeholder figures
 x complete \todo{}
+x check figure placements
 ? schema Cayley graph characterization 2.3.1
 ? Pass on bib files, and add venues instead of arxiv when relevant
-? Change book style
-x check figure placements
+o Change book style
+? improve style, add snakes and lettrines
 
 Experiments
 
