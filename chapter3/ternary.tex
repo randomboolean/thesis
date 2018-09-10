@@ -143,7 +143,11 @@ Moreover, they indicate that the ternary representation also allows to improve p
 
 \subsection{Semi-supervised node classification}
 
-\todo{transpose, w=1}
+When transposing the problem to the task of semi-supervised node classification, a ternary layer can be understand as a multi-head GCN \citep{kipf2016semi}, for which each head may correspond to a different graph.
+
+\todo{include an experiment if time ? ie with sampled graph for each head}
+
+% \todo{transpose, w=1}
 % kipf is ternary rep but w = 1
 % Idea: multiple graphs, each graph is a w
 % Redo kipf experiments with directed graph, one w for the digraph, and another w for its transpose
