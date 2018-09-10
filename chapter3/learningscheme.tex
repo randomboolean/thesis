@@ -24,7 +24,7 @@ Because of our inspiration from CNNs, we propose constraints on the parameters o
 \end{gather}
 
 Therefore, the vectors on the third rank of $S$ can be interpreted as performing a positive weighted average of the parameters in $\Theta$.
-Also, we choose to aim our study at graph signals. Hence, we consider a graph $\gve$ and that the layer is (EC). For this reason, \propref{prop:aw} tells us that the connectivity matrix~$W$ of the layer is masked by the adjacency matrix~$A$. Therefore, $S$ is also masked by~$A$ \ie we impose the constraint that
+Also, we choose to aim our study at graph signals. Hence, we consider a graph $\gve$ and that the layer is EC. For this reason, \propref{prop:aw} tells us that the connectivity matrix~$W$ of the layer is masked by the adjacency matrix~$A$. Therefore, $S$ is also masked by~$A$ \ie we impose the constraint that
 \begin{gather}
 A[i,j] = 0 \Rightarrow \forall k, S[k,i,j] = 0
 \end{gather}

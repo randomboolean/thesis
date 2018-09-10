@@ -102,13 +102,13 @@ A layer $\cl: \gve \rightarrow U$, is said to be \emph{edge-constrained} (EC) if
 \end{enumerate}
 \end{definition}
 
-In other words, if we identify $U$ with $V_\pi$, an (EC) layer is a layer such that the propagation graph $P$ resulting from this identification is isomorph to the subgraph of $G$ induced by $U$.
+In other words, if we identify $U$ with $V_\pi$, an EC layer is a layer such that the propagation graph $P$ resulting from this identification is isomorph to the subgraph of $G$ induced by $U$.
 
-\begin{remark}Note that (EC) convolutions from \chapref{chap:2} are indeed (EC) layers.\end{remark}
+\begin{remark}Note that EC convolutions from \chapref{chap:2} are indeed EC layers.\end{remark}
 
 Also, the following property is important.
 
-\begin{proposition}Let $W$ the connectivity matrix of an (EC) layer \wrt a graph $\gve$, which adjacency matrix is $A$. Then $W$ is \emph{masked by} $A$, \ie
+\begin{proposition}Let $W$ the connectivity matrix of an EC layer \wrt a graph $\gve$, which adjacency matrix is $A$. Then $W$ is \emph{masked by} $A$, \ie
 $$
 A[i,j] = 0 \Rightarrow W[i,j] = 0
 $$
@@ -118,10 +118,10 @@ $$
 Suppose $A[i,j] = 0$, then $v_i \nsim v_j$, hence $v_i \notin \ccr_{\pi(v_j)}$ so $W[i,j] = 0$.
 \end{proof}
 
-We have the following characterization to determine which layers admit an underlying graph for which they are (EC) layers.
+We have the following characterization to determine which layers admit an underlying graph for which they are EC layers.
 
-\begin{proposition}\textbf{(EC) Characterization with receptive fields}\\
-Let a layer $\cl: V \rightarrow U$, $V_\pi \subset V$, and a one-to-one correspondence $\pi: V_\pi \rightarrow U$. There exists a graph $\gve$ for which $\cl$ is (EC), if and only if, the receptive fields are \emph{intertwined} (\ie $\forall a,b \in V_\pi, a \in \ccr_{\pi(b)} \Leftrightarrow b \in \ccr_{\pi(a)} $).
+\begin{proposition}\textbf{EC Characterization with receptive fields}\\
+Let a layer $\cl: V \rightarrow U$, $V_\pi \subset V$, and a one-to-one correspondence $\pi: V_\pi \rightarrow U$. There exists a graph $\gve$ for which $\cl$ is EC, if and only if, the receptive fields are \emph{intertwined} (\ie $\forall a,b \in V_\pi, a \in \ccr_{\pi(b)} \Leftrightarrow b \in \ccr_{\pi(a)} $).
 \label{prop:lrf}
 \end{proposition}
 \begin{proof}
@@ -131,7 +131,7 @@ Let a layer $\cl: V \rightarrow U$, $V_\pi \subset V$, and a one-to-one correspo
 \end{enumerate}
 \end{proof}
 
-Therefore, any layer that has its receptive fields intertwined, admits an \emph{underlying} graph structure. For example, a $2$-d convolution operator can be rewritten as an (EC*) convolution on a lattice graph, and as an (EC) convolution on a grid graph.
+Therefore, any layer that has its receptive fields intertwined, admits an \emph{underlying} graph structure. For example, a $2$-d convolution operator can be rewritten as an EC* convolution on a lattice graph, and as an EC convolution on a grid graph.
 
 %% TODO: add picture ?
 % \figref{fig:upgraph} depicts an underlying graph and its corresponding propagation graph.

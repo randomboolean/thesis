@@ -3,19 +3,19 @@
 
 \subsection{Motivation}
 
-One possible limitation coming from searching for Cayley subgraphs is that they are degree-regular \ie the in- and the out-degree $d = |\cu|$ of each vertex is the same. That is, for a general graph $G$, the size of the weight kernel $w$ of an (EC*) convolution operator $f_w$ supported on $\cu$ is bounded by $d$, which in turn is bounded by twice the mininimal degree of $G$ (twice because $G$ is undirected and $\cu$ can contain every inverse).
+One possible limitation coming from searching for Cayley subgraphs is that they are degree-regular \ie the in- and the out-degree $d = |\cu|$ of each vertex is the same. That is, for a general graph $G$, the size of the weight kernel $w$ of an EC* convolution operator $f_w$ supported on $\cu$ is bounded by $d$, which in turn is bounded by twice the mininimal degree of $G$ (twice because $G$ is undirected and $\cu$ can contain every inverse).
 
 There are a lot of possible strategies to overcome this limitation. For example:
 \begin{enumerate}
   \item connecting each vertex with its $k$-hop neighbors, with $k > 1$,
   \item artificially creating new connections for less connected vertices,
   \item ignoring less connected vertices,
-  \item allowing the supporting set $\cn$ to exceed $\cu$ \ie dropping * in (EC*).
+  \item allowing the supporting set $\cn$ to exceed $\cu$ \ie dropping * in EC*.
 \end{enumerate}
 
-These strategies require to concede that the topological structure supported by $G$ is not the best one to support an (EC*) convolution on it, which breeds the following question:
+These strategies require to concede that the topological structure supported by $G$ is not the best one to support an EC* convolution on it, which breeds the following question:
 \begin{itemize}
-  \item What can we relax in the previous (EC*) contruction in order to unbound the supporting set, and still preserve the equivariance characterization?
+  \item What can we relax in the previous EC* contruction in order to unbound the supporting set, and still preserve the equivariance characterization?
 \end{itemize}
 
 The latter constraint is a consequence that every vertex of the Cayley subgraph $\vec{G}$ must be composable with every generator from $\cu$. Therefore, an answer consists in considering groupoids~\citep{brandt1927verallgemeinerung} instead of groups. Roughly speaking, a groupoid is almost a group except that its composition law needs not be defined everywhere. \cite{weinstein1996groupoids}, unveiled the benefits to base convolutions on groupoids instead of groups in order to exploit partial symmetries.
@@ -221,11 +221,11 @@ Let a subgroupoid $\Upsilon \subset \Psi^*(V)$, such that~$\Upsilon \overset\var
 \end{enumerate}
 \end{proof}
 
-\paragraph{Inclusion of (EC)}
-Similarly to the construction in \secref{sec:edges}, partial convolutions can define (EC) and (EC*) counterparts with a characterization of admissibility by groupoid Cayley subgraph isomorphism, and similar intrinsic properties.
+\paragraph{Inclusion of EC}
+Similarly to the construction in \secref{sec:edges}, partial convolutions can define EC and EC* counterparts with a characterization of admissibility by groupoid Cayley subgraph isomorphism, and similar intrinsic properties.
 
 \paragraph{Limitation of partial convolutions}
-However, because of the groupoid associativity, if $g \in \Psi_{\EC}^*(G)$, then, any $v \in V$ \st $g(u) = v$ would be constrained to allow to be acted by every $h$ \st $(h,g) \in \cd$. That is, unless partial transformations that we want to allow to be in each other domains are restricted to the same connected component of the graph, the supporting set of a partial (EC*)~convolutions would still be bounded by the minimal degree.%complicated to explain..
+However, because of the groupoid associativity, if $g \in \Psi_{\EC}^*(G)$, then, any $v \in V$ \st $g(u) = v$ would be constrained to allow to be acted by every $h$ \st $(h,g) \in \cd$. That is, unless partial transformations that we want to allow to be in each other domains are restricted to the same connected component of the graph, the supporting set of a partial EC*~convolutions would still be bounded by the minimal degree.%complicated to explain..
 
 \subsection{Construction of path convolutions}
 \label{sec:path}
@@ -283,11 +283,11 @@ Note that this time we won't use the notation $p(v)$ for $\gamma_p(v)$ for clari
 One of the key object of our contruction is the use of $\varphi$-equivalence in order to transform a sum over a group(oid) of (partial) transformations, into a sum over the vertex set. With the current notion of path groupoid, searching for something similar amounts to searching for a graph traversal.
 
 \begin{definition}\textbf{Traversal set}\\
-Let a graph $\gve$ that is connected. A \emph{traversal set} is a pair $(\cu, \ct)$ of (EC) partial transformations subsets $\subset \Psi_{\EC}^*(G)$, such that
+Let a graph $\gve$ that is connected. A \emph{traversal set} is a pair $(\cu, \ct)$ of EC partial transformations subsets $\subset \Psi_{\EC}^*(G)$, such that
 \begin{enumerate}
   \item $\cu$ is \emph{edge-deterministic}, in the sense that an edge can only correspond to a unique $g$,
     \ie $\forall g,h \in \cu : \exists v \in V, g(v) = h(v) \Rightarrow g=h$
-  \item The (EC) partial transformations of $\ct$ are restrictions of those of $\cu$,\\
+  \item The EC partial transformations of $\ct$ are restrictions of those of $\cu$,\\
     \ie $\forall g \in \cu, \exists! h \in \ct, \begin{cases}\cd_h \subset \cd_g\\ \forall v \in \cd_h, h(v) = g(v)\end{cases}$\\
     (equivalently, $\ct \ltimes G$ is a path subgroupoid of $\cu \ltimes G$ \st $|\ct|=|\cu|$)
   % \item The edges corresponding to $\ct$ are included in those of $\cu$,\\
@@ -363,5 +363,5 @@ Note that $\cu \ltimes V$'s action is almost the same as the groupoid partial ac
 \end{remark}
 
 \paragraph{Edge convolution operators}
-The counterparts of strictly edge-constrained (EC*) convolution operators for path convolutions, are indeed path convolution operators obtained with supporting set $\cn \subset \ct \ltimes_1 G$ which any graph can admit. By extrapolation, we can coin them \emph{edge convolution operators}. As shown by this section, to construct one, all we need is a traversal set of partial transformations $(\cu, \ct)$.
+The counterparts of EC* convolution operators for path convolutions, are indeed path convolution operators obtained with supporting set $\cn \subset \ct \ltimes_1 G$ which any graph can admit. By extrapolation, we can coin them \emph{edge convolution operators}. As shown by this section, to construct one, all we need is a traversal set of partial transformations $(\cu, \ct)$.
 
