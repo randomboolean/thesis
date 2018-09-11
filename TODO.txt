@@ -25,25 +25,26 @@ o abstract
 o global conclusion
 o rewrite intro 2
 
-x 3.4.3 connection with chapter 2
-x write MCnet 3.2.4
-? write 3.2.5
-? write 3.3.6
-? write 3.3.7
-x write 3.3.8
-
 x fix left and right cayley
 x fix path convolution
 x connection between chap2 and literature ie chebnet, vertex etc.
 o upgrade some proposition as theorems
 
-x fill in placeholder figures
+x 3.4.3 connection with chapter 2
+x write MCnet 3.2.4
+? write 3.2.5
+? write 3.3.6
+? write 3.3.7 (very optional)
+x write 3.3.8
+x a word on GAT and 3.3.8
+
+? fill in placeholder figures (have been commented out for the moment)
 x complete \todo{}
 x check figure placements
 ? schema Cayley graph characterization 2.3.1
 ? Pass on bib files, and add venues instead of arxiv when relevant
 o Change book style
-? improve style, add snakes and lettrines
+? improve style, add snake decorations and lettrines
 
 Experiments
 
@@ -51,7 +52,7 @@ p 3.2.4 MCnet -> try simpler MC -> (1) Give big weights to self (2) softmax (3) 
 d 3.2.5 kipf directed graph w=2 -> can't find same split
 ? 3.2.5 split graphs, multiple graphs (eg N graphs of same LRF size)
 ? 3.3.6 deep by reusing S from shallow, or from noisy auto-enc
-? 3.3.7 shallow on Pines
+? 3.3.7 shallow on Pines (very optional)
 x 3.3.8 learning A kipf with multiple heads
 ? maybe add industrial exp if any time left ...
 

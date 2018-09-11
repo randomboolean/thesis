@@ -143,7 +143,7 @@ Moreover, they indicate that the ternary representation also allows to improve p
 
 \subsection{Semi-supervised node classification}
 
-When transposing the problem to the task of semi-supervised node classification, a ternary layer can be understand as a multi-head GCN \citep{kipf2016semi}, for which each head may correspond to a different graph.
+When transposing the problem to the task of semi-supervised node classification, a ternary layer can be understood as a multi-head GCN \citep{kipf2016semi}, for which each head corresponds to a different graph. The slices $S[k,:,:]$ would characterize the corresponding adjacency matrices $A_k$.
 
 \todo{include an experiment if time ? ie with sampled graph for each head}
 

@@ -148,7 +148,7 @@ Therefore, any layer that has its receptive fields intertwined, admits an \emph{
 % \label{fig:upgraph}
 % \end{figure}
 
-\subsection{General representation with weight sharing}
+\subsection{Novel ternary representation with weight sharing}
 \label{sec:nct}
 
 Weight sharing refers to the fact that some parameters of the connectivity matrix $W$ are equal, and stay equal after each learning iteration. In other words they are tied together. From a propagational point of view, this amounts to label the edges of the propagation graph $P$ with weights, where weights can be used multiple times to label these edges. Supposed $W$ is of shape $m \times n$ and there are $\omega$ weights in the kernel used to label the edges. Given a input neuron $i$ and an output neuron $j$, the edge labelling can be expressed as:
