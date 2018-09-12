@@ -13,7 +13,7 @@ A \emph{graph} $G$ is a couple of countable vertex and edge sets $\langle V,E \r
 
 The terms \emph{vertex} and \emph{node} are used interchangeably. Additionaly, we consider that a graph is always \emph{simple} \ie no two edges share the same set of vertices.
 Unless stated otherwise, a graph is undirected, \ie $(u,v)$ and $(v,u)$ refer to the same edge. When it's not the case, it is called a \emph{digraph}.
-We define the relation $u \sim v \Leftrightarrow (u,v) \in E$. We precise the graph if needed over the symbol $\overset{G}\sim$.
+We define the relation $u \sim v \Leftrightarrow (u,v) \in E$. We precise the graph if needed over the symbol $\overset{G}\sim$. For a digraph we use the symbol $\rightarrow$ instead of $\sim$.
 A \emph{path} is a sequence $v_1 \sim \cdots \sim v_r$. It is said to be \emph{simple} if its vertices are distincts, except possibly for the first and last. A graph is said to be \emph{connected} if there exists a path from any vertex to any other vertex.
 We define the \emph{neighborhood} of a vertex as $\cn_u = \{v \in V, u \sim v\}$. For digraphs, it is equal to the union of the \emph{in}- and \emph{out}-neighborhoods. We only consider graphs without isolated vertex (a vertex with an empty neighborhood).
 We also only consider \emph{weighted} graphs. That is, a graph $\gve$ is associated with a weight mapping $w: V^2 \to \bbr+$ \st $w(u,v) = 0 \Leftrightarrow u \nsim v$.
