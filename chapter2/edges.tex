@@ -153,19 +153,18 @@ f_w(s)[u] & = (s \ast_{\varphi} w) [u]\nonumber
 
 From this expression, it is not obvious that $f_w$ is a local operator. First we must define a notion of locality.
 
-\begin{definition}\textbf{Compact of a graph}\\
+\begin{definition}\textbf{Compact (of a graph)}\\
 Let a graph $\gve$. A subset of the vertex set $\ck \in V$ is said to be \emph{compact} if its induced subgraph in $G$ is connected.
 \end{definition}
 
-Roughly speaking, we want for our notion of locality that when the support of $w$ is small and compact, then $f_w(s)[u]$ should be defined by a sum of a few corresponding $v$ too. This translate into the following definition.
+Roughly speaking, we want for our notion of locality that when the support of $w$ is small and compact, then $f_w(s)[u]$ should be defined by a sum of a few corresponding $v$ too. This translates into the following definition.
 
 \begin{definition}\textbf{Compactly supported $\varphi$-convolution operator}\\
 A $\varphi$-convolution operator $f_w$ is said to be Compactly Supported (CS) if
-\begin{itemize}[nolistsep,noitemsep]
-  \item $\supp(w)$ is a compact
-  \item given $u \in V$, there is a graph isomorphism between $\supp(w)$ and $\supp(\sigma_u)$
-\end{itemize}
-where $\sigma_u: v \to s[v] \h{2} w[g_v^{-1}(u)]$
+\begin{enumerate}[nolistsep,noitemsep]
+  \item $\supp(w)$ is a compact, and
+  \item given $u \in V$, there is a graph isomorphism between $\supp(w)$ and $\supp(\sigma_u)$, where $\sigma_u: v \to s[v] \h{2} w[g_v^{-1}(u)]$ (so that $f_w(s)[u] = \sum_{v \in V} \sigma_u(v)$)
+\end{enumerate}
 \end{definition}
 
 Before characterizing CS convolution operators, we demonstrate this lemma.
@@ -183,35 +182,60 @@ We obtain the following theorem, which is the lateral symmetry of the formulatio
 \begin{theorem}\textbf{CS characterization by right Cayley subgraph}\\
 Let a graph $\gve$, then:
 \begin{enumerate}[label=(\roman*)]
-\item $G$ admits an CS $\varphi$-convolution if and only if it contains a right Cayley subgraph
-\item $G$ admits an CS $\M$-convolution if and only if it contains an abelian Cayley subgraph
+\item $G$ admits a CS $\varphi$-convolution if and only if it contains a right Cayley subgraph
+\item $G$ admits a CS $\M$-convolution if and only if it contains an abelian Cayley subgraph
 \end{enumerate}
 \label{th:cscayleychar}
 \end{theorem}
 
 \begin{proof}
-Without loss of generality subject to growing $\cu$, let's suppose that $w$ has a support $\cm = \varphi(\cn)$, such that $\cn \subset \cu$. $\cn$ and $\cm$ are obviously compacts of diameter $2$. Thanks to \eqref{eq:P}, we have 
-\begin{align*}
-g_v^{-1}(u) \in \cm & \Leftrightarrow u \in g_v(\cm) = g_v(\varphi(\cn)) = \varphi(g_v\cn)\\
-& \Leftrightarrow g_u \in g_v\cn\\
-& \Leftrightarrow g_v^{-1} \in \cn g_u^{-1}\\
-& \Leftrightarrow g_v \in g_u \cn^{-1}\\
-& \Leftrightarrow v \in g_u(\varphi(\cn^{-1}))
-\end{align*}
-Thanks to \lemref{lem:lat}, $g_u$ is an isomorphism. Similarly than for the proof of $\thref{cayleychar}$, we can show that $\varphi$ is also an isomorphism. \todo{Vincent peut m'aider pour formuler cette preuve ?} $\cn^{-1}$ reverses the edges of $\cn$ and though it is not a digraph isomorphism, it amounts to the identity for a graph. Their composition is an isomorphism.% By composing edge reversal and graph isomorphisms (as $\varphi$ and its inverse are graph isomorphisms by \corref{cor:cayley}), the compactness and diameter of~$\cm$ is preserved for $\ck_u$. More precisely, the transposed subgraph structure is also preserved.
+We only demonstrate the first case as the proof in the abelian case is similar.
+
+%\begin{enumerate}
+
+
+\todo{Vincent, peux-tu m'aider stp à démontrer cette preuve à l'aide du lemme 66, quitte à modifier la définition 65?}
+ % \item From left to right:
+
+% Let $V_c = \supp(w) \displaystyle\cup_{u \in V} \supp(\sigma_u)$, $\Gamma_c = \varphi^{-1}(V_c)$ and the right Cayley graph $\vec{G_c} = \langle \Gamma_c, E_c \rangle$.
+% $ag = b$ $\varphi(a) \sim \varphi$
+%Let $u \in V$, we denote $h_u: \supp(x) \to \supp(\sigma_u)$ an isomorphism. $h_a(x) = y$, $h_b(x) = y$
+%Sabidussi's theorem
+
+
+%   \item From right to left:
+
+% Let a right Cayley subgraph 
+
+
+% Without loss of generality subject to growing $\cu$, let's suppose that $w$ has a support $\cm = \varphi(\cn)$, such that $\cn \subset \cu$. $\cn$ and $\cm$ are obviously compacts of diameter $2$. Thanks to \eqref{eq:P}, we have 
+% \begin{align*}
+% g_v^{-1}(u) \in \cm & \Leftrightarrow \varphi(g_v^{-1} g_u)
+
+
+% u \in g_v(\cm) = g_v(\varphi(\cn)) = \varphi(g_v\cn)\\
+% & \Leftrightarrow g_u \in g_v\cn\\
+% & \Leftrightarrow g_v^{-1} \in \cn g_u^{-1}\\
+% & \Leftrightarrow g_v \in g_u \cn^{-1} = g_u \cn\\
+% & \Leftrightarrow v \in g_u(\varphi(\cn)) = g_u(\cm)
+% \end{align*}
+
+% Thanks to \lemref{lem:lat}, $g_u$ is an isomorphism. Similarly than for the proof of $\thref{cayleychar}$, we can show that $\varphi$ is also an isomorphism. \todo{Vincent peut m'aider pour formuler cette preuve ?} $\cn^{-1}$ reverses the edges of $\cn$ and though it is not a digraph isomorphism, it amounts to the identity for a graph. Their composition is an isomorphism.% By composing edge reversal and graph isomorphisms (as $\varphi$ and its inverse are graph isomorphisms by \corref{cor:cayley}), the compactness and diameter of~$\cm$ is preserved for $\ck_u$. More precisely, the transposed subgraph structure is also preserved.
+%\end{enumerate}
 \end{proof}
 
 %\todo{reformulate what follows}
 
 Let's denote $\ck_u = g_u(\varphi(\cn^{-1})) \subset V$.
 Let's define $\cm$, $\cn$ as in the previous proof. We call $\cn$ the \emph{supporting set} of the convolution.
-% \begin{definition}\textbf{Supporting set}\\
-% The \emph{supporting set} of an EC convolution operator $f_w$, is a set $\cn \subset \Phi^*_{\EC}$, such that
-% \begin{enumerate}[label=(\roman*)]
-%   \item when $\ast \text{ is } \ast_\varphi$: $0 \notin w[\cm]$, where $\cm= \varphi(\cn)$ \label{enum:i}
-%   \item when $\ast \text{ is } \ast_{\M}$: $0 \notin w[\cn]$ \label{enum:ii}
-% \end{enumerate}
-% \end{definition}
+
+\begin{definition}\textbf{Supporting set}\\
+The \emph{supporting set} of an EC convolution operator $f_w$, is a set $\cn \subset \Phi^*_{\EC}$, such that
+\begin{enumerate}[label=(\roman*)]
+  \item when $\ast \text{ is } \ast_\varphi$: $0 \notin w[\cm]$, where $\cm= \varphi(\cn)$ \label{enum:i}
+  \item when $\ast \text{ is } \ast_{\M}$: $0 \notin w[\cn]$ \label{enum:ii}
+\end{enumerate}
+\end{definition}
 
 \begin{definition}\textbf{Local patch for $\ast_\varphi$}\\
 The \emph{local patch} at $u \in V$ of an EC $\varphi$-convolution operator $f_w$ is defined as $\ck_u = g_u(\varphi(\cn^{-1}))$.
