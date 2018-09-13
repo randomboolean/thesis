@@ -68,7 +68,7 @@ To support our theoretical analysis, we benchmark three methods for computing th
   \item using the LRF based method we described above.
 \end{itemize}
 
-We run the benchmarks under the assumptions that $S[:,i,j]$ are one-hot vectors, and that a weight occurs exactly once in each LRF (as it is the case for convolutions supported by a Cayley subgraph). For each method, we make $100$ runs of computations of $SX$, with $S$ and $X$ being randomly generated according to the assumptions. In \tabref{tab:ben}, we report the mean times. The values of the hyperparameters were each time $n = m = N = M = B = 256$, and $\omega = 4$. The computations were done on graphical processing units (GPU)\footnote{The GPU was an Nvidia Geforce GTX1060, the CPU was an Intel Xeon E5-1630v4 at 3.70GHz with 4 cores.}.
+We run the benchmarks under the assumptions that $S[:,i,j]$ are one-hot vectors, and that a weight occurs exactly once in each LRF (as it is the case for convolutions supported by a Cayley subgraph). For each method, we make $100$ runs of computations of $SX$, with $S$ and $X$ being randomly generated according to the assumptions. In \tabref{tab:ben}, we report the mean times. The values of the hyperparameters were each time $n = m = N = M = B = 256$, and $\omega = 4$. The computations were done on graphical processing units (GPU)\footnote{The GPU was an Nvidia Geforce GTX1060, the CPU was an Intel Xeon E5-1630v4 at 3.70GHz with 4 cores. We used tensorflow and the function gather\_nd for the assignations.}.
 
 % \begin{table}[H]
 %   \centering
