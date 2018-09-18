@@ -1,0 +1,40 @@
+GAT fair without checkpoint
+official: 81.6 +- 0.9
+keras_gat: 81.5 +- 0.8
+
+with ckpt:
+official:
+0.8324699729681015
+0.005893138151235224
+
+kera_gat:
+0.8170299810171128
+0.007918900527524574
+
+kipf_ckpt 16: 79.52 +- 1.63
+kipf_ckpt 64: 79.68 +- 1.49
+
+kipf_reproduce:
+0.8160299999999998
+0.008627230146460647
+
+multihead 8
+Learning 1: 75.3 +- 4.56
+Learning 2: 81.6 +- 0.88
+Learning 3: 81.7 +- 0.66
+
+LA_onehead 16
+0.81605
+0.008393300900122632
+
+LA_onehead 64
+0.81187
+0.008149423292479007
+
+LA_onehead 16 shared
+0.81541
+0.008425075667315957
+
+LA_onehead 64 shared
+0.8098799999999998
+0.006978939747554745
