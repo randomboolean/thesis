@@ -38,3 +38,6 @@ LA_onehead 16 shared
 LA_onehead 64 shared
 0.8098799999999998
 0.006978939747554745
+
+GCT with ckpt:
+83.3 +- 0.6
