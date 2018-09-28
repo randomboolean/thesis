@@ -41,10 +41,10 @@ where each (partial) transformation $g_h$ corresponds to the weight indexed by $
 Without loss of generality, let us reduce to the simple case where $B=P=Q=1$. The neural contraction \eqref{eq:comm} rewrites as:
 \begin{align}
 \wideparen{\theta Sx}[j] & = \displaystyle \sum_{k=1}^\omega \sum_{i=1}^n \theta[k] \h{2} S[k,i,j] \h{2} x[i]\\
-                         & = \displaystyle \sum_{h=1}^\omega \theta[h] \h{2} x[g_h(j)]\\
-                         & = \theta \ast_{\M} x
+                         & = \displaystyle \sum_{h=1}^\omega \theta[h] \h{2} x[g_h(j)]%\\
+                         %& = \theta \ast_{\M} x [j]
 \end{align}
-which for EC layers is a convolution of graph signals as studied in \chapref{chap:2}. Conversely, given a convolution of graph signals (formulated as $\ast_\varphi$ or $\ast_{\M}$), we can derive an assignment table $T$ and its corresponding scheme $S$ to obtain a neural contraction.
+which for EC layers, can be rewritten as a convolution of graph signals as studied in \chapref{chap:2}. Conversely, given a convolution of graph signals (formulated as $\ast_\varphi$ or $\ast_{\M}$), we can derive an assignment table $T$ and its corresponding scheme $S$ to obtain a neural contraction.
 
 \subsection{Efficient implementation under sparse priors}
 
