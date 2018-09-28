@@ -1,0 +1,121 @@
+\begin{figure}[h!t]
+  \begin{center}
+\begin{tikzpicture}
+  
+\newcommand{\nnn}{4.7}
+  \begin{scope}[rotate around y = 70]
+\pgfmathsetseed{333}
+\tikzstyle{every node}= [circle,
+fill=black,
+ minimum size= 4pt,inner sep=0pt];
+    \foreach \x in {1,2,4}{
+      \foreach \y in {1,2,3,4}{
+        \node(\x\y) at (\x+0.5*rand,\y+0.5*rand) {};
+      }
+    }
+    \foreach \y in {1,2,4}{
+        \node(3\y) at (3+0.5*rand,3+0.5*rand) {};
+    }
+    \node(33)[circle,fill=red] at (2.5,2.5) {};
+
+    \path[thin]
+      (0,0) edge (0,\nnn)
+      (0,\nnn) edge (\nnn,\nnn)
+      (0,0) edge (\nnn,0)
+      (\nnn,0) edge (\nnn,\nnn);
+
+    \node[draw=none,fill=none] at (2.8,-1) {$V_\pi$};
+    \end{scope}
+  \begin{scope}[xshift=180pt,rotate around y = 70]
+\pgfmathsetseed{333}
+\tikzstyle{every node}= [circle,fill=black, minimum size= 4pt,inner sep=0pt];
+    \foreach \x in {1,2,4}{
+      \foreach \y in {1,2,3,4}{
+        \node(\x\y') at (\x+0.5*rand,\y+0.5*rand) {};
+      }
+    }
+    \foreach \y in {1,2,4}{
+        \node(3\y') at (3+0.5*rand,3+0.5*rand) {};
+    }
+    \node(33')[circle,fill=red] at (2.5,2.5) {};
+
+    \path[thin]
+      (0,0) edge (0,\nnn)
+      (0,\nnn) edge (\nnn,\nnn)
+      (0,0) edge (\nnn,0)
+      (\nnn,0) edge (\nnn,\nnn);
+
+    \node[draw=none,fill=none] at (2.8,-1) {$U$};
+  \end{scope}
+
+\draw[dotted,thick,-,opacity=0.5] (33) edge[bend right=4] (33');
+\draw[dotted,thick,-,opacity=0.5] (22) edge[bend right=4] (33');
+\draw[dotted,thick,-,opacity=0.5] (32) edge[bend right=4] (33');
+\draw[dotted,thick,-,opacity=0.5] (31) edge[bend right=4] (33');
+\draw[dotted,thick,-,opacity=0.5] (42) edge[bend right=4] (33');
+
+\path[thick, dashed, red]
+  (22) edge (33)
+  (32) edge (33)
+  (31) edge (33)
+  (42) edge (33);
+
+\path[opacity=0.5]
+  (22) edge (13)
+  (22) edge (12)
+  (22) edge (11)
+  (22) edge (21)
+  (22) edge (41)
+  (21) edge (41)
+  (42) edge (31)
+  (43) edge (31)
+  (43) edge (24)
+  (44) edge (43)
+  (32) edge (23)
+  (32) edge (34)
+  (22) edge (12)
+  (23) edge (14)
+  (11) edge (12)
+  (14) edge (13)
+  (24) edge (23)
+  (34) edge (43)
+  (23) edge (34)
+  (23) edge (13)
+  (12) edge (13)
+  (42) edge (41)
+  (24) edge (44);
+
+\path[]
+  (22') edge (33')
+  (32') edge (33')
+  (31') edge (33')
+  (42') edge (33')
+  (22') edge (13')
+  (22') edge (12')
+  (22') edge (11')
+  (22') edge (21')
+  (22') edge (41')
+  (21') edge (41')
+  (42') edge (31')
+  (43') edge (31')
+  (43') edge (24')
+  (44') edge (43')
+  (32') edge (23')
+  (32') edge (34')
+  (22') edge (12')
+  (23') edge (14')
+  (11') edge (12')
+  (14') edge (13')
+  (24') edge (23')
+  (34') edge (43')
+  (23') edge (34')
+  (23') edge (13')
+  (12') edge (13')
+  (42') edge (41')
+  (24') edge (44');
+
+\end{tikzpicture}
+  \end{center}
+  \caption{An LRF of a vertex (in red) of an EC layer}
+  \label{fig:lrf}
+\end{figure}
