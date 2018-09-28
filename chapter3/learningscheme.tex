@@ -139,13 +139,10 @@ Experiments are run five times each. Means and standard deviations of accuracies
   \label{cifar}
 \end{table}
 
-The LRG NNs are able to outperform the corresponding CNNs by a small amount in the tested configurations, opening the way for more complex architectures.
+The LRG NNs are able to outperform the corresponding CNNs by a small amount in the tested configurations. Learning the scheme $S$ imply a memory overhead due to the increase in the number of weights of each layer, thus why we limited our experiments to shallow architectures in the first place. An example of strategy to extend this experiment to deeper architecture is to tie the schemes of each layer together, or to reuse a same scheme for all layers.
 
-%idea
 \todo{take S, and reuse it on resnet}
-\todo{shallow on Pines}
-\todo{incorporate MCnets results (see github) on 20news}
-\todo{learning A on kipf}
+
 % 331 Discussion and training settings
 % 332 Digit classification (grid and scrambled)
 % 333 Small image classification (alexnet and  resnet)
@@ -168,3 +165,33 @@ The LRG NNs are able to outperform the corresponding CNNs by a small amount in t
 % 335 Semi-supervised node signals classification
 % 3341 Cora
 % 3342 .
+
+\subsection{Learning $S$ for semi-supervised node classification}
+
+\todo{describe experiments and our model}
+
+  Comparison of:
+  \begin{itemize}
+   \item Graph Convolution Network (GCN, \cite{kipf2016semi}),
+   \item Graph Attention Network (GAT, \cite{velickovic2017graph}),
+   \item Graph Convolution Network with graph dropout (GCN*),
+   \item Graph Contraction Network (GCT, this work).
+  \end{itemize}
+
+  \begin{table}[H]
+  \begin{center}
+    \bgroup
+    \def\arraystretch{1.5}%  1 is the default, change whatever you need
+    \begin{tabular}{|c|c|c|c|}
+      \hline
+      GCN & GAT & GCN* & GCT\\
+      \hline
+      81.8 $\pm$ 0.9\% & 83.0 $\pm$ 0.7\% & 83.4 $\pm$ 0.7\% & 83.3 $\pm$ 0.7\%\\
+      \hline
+    \end{tabular}
+    \egroup
+  \end{center}
+  \caption{Mean accuracy and standard deviation from 100 runs on CORA}
+  \end{table}
+
+\todo{discussion of results}

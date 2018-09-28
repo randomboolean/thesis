@@ -8,11 +8,43 @@ In this section, we study the ternary representation, which is the general repre
 The ternary representation can represent any kind of layer. For example,
 \begin{itemize}
 \item To obtain a fully connected layer, one can choose $\omega$ to be of size $nm$ and $S$ the matrix of vectors that contains all possible one-hot vectors.
-\item To obtain a convolutional layer, one can choose $\omega$ to be the size of the kernel. $S$ would contain one-hot vectors. A stride $> 1$ can be obtained by removing the corresponding dimensions. If the convolution is a classical convolution, or is supported by a Cayley subgraph (see \chapref{chap:2}), then $S$ would be circulant along the input neurons rank in the canonical basis.
+\item To obtain a convolutional layer, one can choose $\omega$ to be the size of the kernel. $S$ would contain one-hot vectors. A stride $> 1$ can be obtained by removing the corresponding dimensions. If the convolution is a classical convolution, or more generally, is characterized by a Cayley subgraph (see \chapref{chap:2}), then $S$ would be circulant along the input neurons rank in the canonical basis.
 \item To obtain a graph convolutional layer (\cite{kipf2016semi}, see description in \secref{sec:vert}), one can choose $B = 1$, $\omega = 1$, and $S$ (viewed as a matrix) to be~$\widetilde{A}$. Other variants of GCN can also be obtained, for instance to obtain Chebychev filters \citep{defferrard2016convolutional}, $S$ would be $\sum_{i=0}^k T_i(\widetilde{L})$.
 \item To obtain a graph attention layer (\cite{velickovic2017graph}, see description in \secref{sec:vert}), one can concatenate $K$ graph convolutional layers, where $K$ is the number of attention heads, and with $\widetilde{A}$ filled with the learned attention coefficients. Instead of concatenation, one could also choose $\omega=K$, and given an attention head~$k$, the slices $S[k,:,:]$ would be matrices containing the learned attention coefficients.
 \item Any partially connected layer with (or without) weight sharing can be obtained with appropriate construction of~$S$.
 \end{itemize}
+
+\subsection{Sparse priors for the classification of signals}
+\label{sec:sparse}
+
+In the more general case, the scheme $S$ is a real-valued tensor, which may introduce more weights in the layer. However, for euclidean convolutions, $S$ is already determined by the euclidean convolution operator and doesn't count for more memory. To imitate this property, we can focus on the class of layer with these sparse priors:
+\begin{enumerate}
+  \item Given a couple of neuron indices $(i,j)$, $S[:,i,j]$ is either a one-hot vector, or the zero vector, as in $\eqref{eq:alloc}$.
+  \item Given an output neuron index $j$, a weight $\theta[h]$ can appear only once in its LRF.
+\end{enumerate}
+
+\begin{remark}
+For these sparse priors we consider the case of classification of signals. In the case of semi-supervised node classification, $S$ would only be sparse between the rank indexed by $i$ and the one indexed by $j$, but not on the other rank.
+\end{remark}
+
+Therefore, we can describe $S$ with a \emph{weight assignment table} $T$, which is a matrix such that
+\begin{gather}
+T[i,j] = \begin{cases}h \text{ if } \exists! h, \theta^T S[:,i,j] = \theta[h]\\ 0 \text{ else}\end{cases}
+\end{gather}
+
+In turn, $T$ can be described by the set of transformations (or partial transformations), defined as
+\begin{gather}
+g_h(j) = i \Leftrightarrow T[i,j] = h
+\end{gather}
+where each (partial) transformation $g_h$ corresponds to the weight indexed by $h$.
+
+Without loss of generality, let us reduce to the simple case where $B=P=Q=1$. The neural contraction \eqref{eq:comm} rewrites as:
+\begin{align}
+\wideparen{\theta Sx}[j] & = \displaystyle \sum_{k=1}^\omega \sum_{i=1}^n \theta[k] \h{2} S[k,i,j] \h{2} x[i]\\
+                         & = \displaystyle \sum_{h=1}^\omega \theta[h] \h{2} x[g_h(j)]\\
+                         & = \theta \ast_{\M} x
+\end{align}
+which for EC layers is a convolution of graph signals as studied in \chapref{chap:2}. Conversely, given a convolution of graph signals (formulated as $\ast_\varphi$ or $\ast_{\M}$), we can derive an assignment table $T$ and its corresponding scheme $S$ to obtain a neural contraction.
 
 \subsection{Efficient implementation under sparse priors}
 
@@ -39,7 +71,7 @@ As the equation \eqref{eq:ternary} is associative and commutative, there are thr
 In usual settings, we want to have $\omega \ll n$ and $\omega \ll m$, which means that we have weight kernels of small sizes (for example in the case of images, convolutional kernel are of size significantly smaller than that of the images). Also, the number of input channels $N$ and of feature maps $M$ are roughly in the same order, with $N < M$ more often than the contrary. So in practice, the size of $\Theta S$ is significantly bigger than the size of $SX$ and of $\Theta X$, and the size of $SX$ is usually the smallest.
 
 \paragraph{How to exploit $S$ sparsity ?}
-Also, in usual settings, $S$ is sparse as $S[:,i,j]$ are one-hot vectors. So computing $SX$ should be faster than computing $\Theta X$, provided we exploit the sparsity. Although $S$ is very sparse as it contains at most a fraction $\frac{1}{w}$-th of non-zero values, it is only sparse along the first rank, which makes implementation with sparse classes of common deep learning libraries use less parallelization than it can. However, we can benefit from two other sparse priors: the local receptive fields (LRF) are usualy of the same size (or at least of around the same order), and each weight is associated to one \emph{and only one} neuron of each~LRF.
+Also, in usual settings, $S$ is sparse as $S[:,i,j]$ are one-hot vectors. So computing $SX$ should be faster than computing $\Theta X$, provided we exploit the sparsity. Although $S$ is very sparse as it contains at most a fraction $\frac{1}{w}$-th of non-zero values, it is only sparse along the first rank, which makes implementation with sparse classes of common deep learning libraries use less parallelization than it can. However, we can benefit from the sparse priors mentioned in \secref{sec:sparse}.%: the local receptive fields (LRF) are usualy of the same size (or at least of around the same order), and each weight is associated to one \emph{and only one} neuron of each~LRF.
 
 So we proceed differently. The idea is to use a non-sparse tensor $X_{\LRF}$ that has a rank that indexes the LRF, and another rank that indexes elements of these LRF, in order to lower the computation to a dense matrix multiplication (or a dense tensor contraction) which is already well optimized. This approach is similar to that proposed in \cite{chellapilla2006high}, which is also exploited in the cudnn primitives~\citep{chetlur2014cudnn} to efficiently implement the classical convolution.
 
@@ -135,20 +167,32 @@ We run a classification task with standard hyperparameters on a toy dataset (we 
 
 The bigger is $\sigma$, the less accurate are the symmetries of the input domain, up to a point where the ternary representation becomes almost equivalent to a dense layer. The results illustrate nicely this evolution, and stress out the importance of trying to leverage symmetries when defining new convolutions.
 
-Moreover, they indicate that the ternary representation also allows to improve performances compared to using dense layers, providing we are able to prototype a relevant weight sharing scheme $S$ to exploit symmetries.
+Moreover, they indicate that the ternary representation also allows to improve performances compared to using dense layers, providing we are able to create a relevant weight sharing scheme $S$ to exploit symmetries. For example, in the case the underlying graph structure of the input is embedded in a 2-d euclidean space, $S$ can be created just as in this experiment.
 
 % \subsection{Randomly assigning weights}
 
 % As we saw, the weight sharing scheme $S$ labels the propagation. In the case of datasets with known symmetries like image datasets, we saw in the previous section that it is best to do this labelling with respect to these symmetries. In the other case, when the symmerties are unknown, we can try to assign weights randomly. The idea is that, for each couple $(p,q)$ of input channel and output feature map, we randomly assign weights from the kernel $\Theta[:,p,q]$ to the propagation. Then, after propagation, we follow with a FC layer on the feature\'s dimension, as if we were learning which features have learnt the best representation in the previous layer. 
 
-\subsection{Semi-supervised node classification}
+% \subsection{Semi-supervised node classification}
 
-When transposing the problem to the task of semi-supervised node classification, a ternary layer can be understood as a multi-head GCN \citep{kipf2016semi}, for which each head corresponds to a different graph. The slices $S[k,:,:]$ would characterize the corresponding adjacency matrices $A_k$.
+% When transposing the problem to the task of semi-supervised node classification, a ternary layer can be understood as a multi-head GCN \citep{kipf2016semi}, for which each head corresponds to a different graph. The slices $S[k,:,:]$ would characterize the corresponding adjacency matrices $A_k$.
 
-\todo{include an experiment if time ? ie with sampled graph for each head}
+% \todo{include an experiment if time ? ie with sampled graph for each head}
 
 % \todo{transpose, w=1}
 % kipf is ternary rep but w = 1
 % Idea: multiple graphs, each graph is a w
 % Redo kipf experiments with directed graph, one w for the digraph, and another w for its transpose
+
+\subsection{Experiment with graph signals}
+
+We replicated the experiment done by \cite{defferrard2016convolutional} on the 20NEWS dataset, wchich we already discussed about in \secref{sec:spec}.
+
+\todo{Describe our model}
+
+After 10 runs of 10 epochs, we obtained an accuracy of $71.62 \pm 0.68\%$ which is a gain that is statistically significant compared to ChebNet ($65.76\%$, see \tabref{tab:20}).
+
+
+
+
 
