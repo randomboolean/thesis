@@ -88,7 +88,7 @@ In this manuscipt, we are less interested in other deep learning tasks related t
 We present here the standard datasets that we will use in this manuscript.
 
 \paragraph{Images}
-Images are signals on grid graphs. Therefore they constitute a first test for models that are designed to be able to classify graph signals. A second step is to test on scrambled version of image datasets, \ie a random permutation of the pixels is fixed and the tested models are fed with images which pixels have been shuffled according to this permutation.
+Images are signals on grid graphs. Therefore they constitute a first test for models that are designed to be able to classify graph signals. A second step is to test on scrambled versions of image datasets, \ie a random permutation of the pixels is fixed and the tested models are fed with images whose pixels have been shuffled according to this permutation.
 Therefore the domains of the input signals are not grid graphs.
 \begin{itemize}
   \item MNIST~\citep{lecun1998mnist} is a dataset of handwritten digits of size 28x28. It contains 10 classes and is splitted between 50'000 samples for training and 10'000 samples for testing.
@@ -169,6 +169,8 @@ However, it is hard to evaluate if a model performs well on the task of supervis
 
 For example, \citeauthor{defferrard2016convolutional} built a graph signal dataset from the text categorization dataset 20NEWS (\cite{joachims1996probabilistic}, see \secref{sec:datasets}). However, their model (ChebNet32) fails to surpass Multinomial Naive Bayes (MNB). Moreover, even though they report that their model beat MLPs, our experiments show the contrary. In results we report in \tabref{tab:20}, we see that a lighter MLP, composed of a single Fully-Connected~(FC) layer with ReLU and 20\% dropout outperforms ChebNet32. We replicated their preprocessing phase from the code on their github repository and averaged our results on 10 runs of 20 epochs.
 
+\todo{update with 100 runs of 10 epochs instead of 10 runs of 20}
+
 \begin{table}[H]
   \caption{Accuracies on 20NEWS}
   \begin{center}
@@ -206,7 +208,7 @@ Convolution can be modelized as a function $f$ of the kernel weights $\theta$ an
 \begin{gather}
 y[v] = f_\theta\left(\{u \in \ccr(v)\}\right)
 \end{gather}
-As such, it retains the property of being localized and of sharing weights in some way. But there remains the need to specify how the shared weights are allocated in this local receptive field~\citep{vialatte2016generalizing}. This allocation can depend on \eg an arbitrary order~\citep{niepert2016learning}, on a diffusion process~\citep{atwood2016diffusion}, on a particular redefinition of the convolution \citep{du2017topology}, on a function of both vertices and their neighbors~\citep{monti2016geometric,simonovsky2017dynamic}, on a random walk \citep{hechtlinger2017generalization}, on another learned kernel~\citep{vialatte2017learning}, on an attention mechanism~\citep{velickovic2017graph,lee2018attention}, on pattern identification~\citep{sankar2017motif}, or on translation identification~\citep{pasdeloup2017convolutional}. All these methods differ in the function~$f$, but in the end, their definition highly overlap. That is why some authors have proposed unified frameworks~\citep{gilmer2017neural}.
+As such, it retains the property of being localized and of sharing weights in some way. But there remains the need to specify how the shared weights are allocated in this local receptive field~\citep{vialatte2016generalizing}. This allocation can depend on \eg an arbitrary order~\citep{niepert2016learning}, on a diffusion process~\citep{atwood2016diffusion}, on a function of both vertices and their neighbors~\citep{monti2016geometric,simonovsky2017dynamic}, on a random walk \citep{hechtlinger2017generalization}, on another learned kernel~\citep{vialatte2017learning}, on an attention mechanism~\citep{velickovic2017graph,lee2018attention}, on pattern identification~\citep{sankar2017motif}, or on translation identification~\citep{pasdeloup2017convolutional}. All these methods differ in the function~$f$, but in the end, their definition highly overlap. That is why some authors have proposed unified frameworks~\citep{gilmer2017neural}.
 
 In particular, \cite{kipf2016semi}, were first to transpose ChebNet to the task of semi-supervised node classification. Chebychev filters then take a form that is interpretable in the vertex domain, which is
 \begin{gather}
@@ -228,7 +230,16 @@ Y &= \displaystyle\bigparallel_{k=1}^K A_k X \Theta_k\\
 \text{or } Y &= \frac{1}K\displaystyle\sum_{k=1}^K A_k X \Theta_k
 \end{align}
 
-Other works extending GCN are numerous in recent days (\eg \cite{niepert2018towards}). We don't cover them since that their novelty compared to GCN and GAT is limited.
+Another method called Topology Adaptative GCN (TAGCN, \cite{du2017topology}) uses a convolution filter borrowed from graph signal processing literature~\citep{sandryhaila2013discrete}, which is defined in the vertex domain as:
+\begin{gather}
+Y[:,f] = \sum_{c = 1}^N \left(\sum_{k=1}^K \Theta_k[c,f] \h{2} \widetilde{A}^k \right) X[:,c]
+\end{gather}
+It can be rewritten as:
+\begin{gather}
+Y = \sum_{k=1}^K \widetilde{A}^k X \Theta_k
+\end{gather}
+
+Other works extending or resembling GCN are numerous in recent days (\eg \cite{niepert2018towards}). We don't cover them since that their novelty compared to GCN is limited.
 
 \paragraph{\h{0}}
 In the next chapter, we study how to characterize a convolution of graph signals in the vertex domain.

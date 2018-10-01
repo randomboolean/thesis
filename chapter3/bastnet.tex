@@ -81,9 +81,9 @@ We explain this algorithm in more details in the next \secref{sec:alg}. A family
 \begin{definition}\textbf{Translation-convolution layer}\\
 Let $(\psi_p)_{p=0,..,\kappa-1}$ be a family of proxy-translations identified on $G$ \st $\psi_0 = \id$.
 The \emph{translation-convolution layer} $\cl: x \mapsto y$ is defined as:
-\begin{gather}
+\begin{gather*}
 \forall v \in V, y[v] = h\left(\sum_{p=0}^{\kappa-1}{w_p \h{2} x[\psi_p(v)]} + b\right)
-\end{gather}
+\end{gather*}
 
 where $h$ is the activation function, $b$ is the bias term, and with the convention that $x[\bot] = 0$.
 \end{definition}

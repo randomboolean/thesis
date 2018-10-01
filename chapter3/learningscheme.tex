@@ -14,17 +14,17 @@ When $S$ doesn't have the sparse priors mentioned in \secref{sec:sparse}, we mus
 %\todo{drop conditional if experiment is done}
 
 \subsection{Experimental settings}
-In our experiments, we learn $S$ and $\Theta$ simultaneously.
+In our experiments, we learn the scheme $S$ and the kernel $\Theta$ simultaneously.
 
 \paragraph{Constraints for supervised classification of graph signals}
 
-Because of our inspiration from CNNs, we propose constraints on the parameters of $S$. Namely, we impose them to be between~$0$ and~$1$, and to sum to~$1$ along the rank that choose a weight label.
+Because of our inspiration from CNNs, we propose constraints on the parameters of $S$. Namely, we impose them to be between~$0$ and~$1$, and to sum to~$1$ along the first rank (the rank that is contracted in the product~$\Theta S$).
 \begin{gather}
 \forall (k,i,j),~S[k,i,j] \in [0,1]\\
 \forall (i,j),~\displaystyle \sum_{k=1}^\omega S[k,i,j] = 1
 \end{gather}
 
-Therefore, the vectors on the third rank of $S$ can be interpreted as performing a positive weighted average of the parameters in $\Theta$.
+Therefore, the vectors on the first rank of $S$ can be interpreted as performing a positive weighted average of the parameters in $\Theta$.
 Also, we choose to aim our study at graph signals. Hence, we consider a graph $\gve$ and that the layer is EC. For this reason, \propref{prop:aw} tells us that the connectivity matrix~$W$ of the layer is masked by the adjacency matrix~$A$. Therefore, $S$ is also masked by~$A$ \ie we impose the constraint that
 \begin{gather}
 A[i,j] = 0 \Rightarrow \forall k, S[k,i,j] = 0
@@ -32,7 +32,7 @@ A[i,j] = 0 \Rightarrow \forall k, S[k,i,j] = 0
 
 \paragraph{Constraints for semi-supervised classification of nodes}
 
-For the case of citation networks, we consider only one graph and thus we set $\omega = 1$.
+For the case of citation networks, we consider only one graph and thus we set $\omega = 1$ so that $S$ and $\Theta$ are matrices. Additionaly, we impose rows of the scheme $S$ to be normalized so that each node receive a normalized information from its neighborhood. In our experiments, we choose to use softmax normalization because it is of standard usage (but other normalizations could do as well).
 
 \paragraph{Naming}
 In \citep{vialatte2017learning}, we used the term \emph{Local Receptive Graph layers}, since \propref{prop:lrf} relates $G$ with local receptive fields defined by $W$. However it was cumbersome so in this manuscript we will just call them \emph{Graph Contraction Layer} in reference to the neural contraction (see \defref{def:ter}). We call \emph{Graph Contraction Networks} (GCT) the corresponding neural networks.
@@ -146,34 +146,14 @@ Experiments are run five times each. Means and standard deviations of accuracies
   \label{cifar}
 \end{table}
 
-The GCTs are able to outperform the corresponding CNNs by a small by statistically significant amount in a shallow architecture. Learning the scheme $S$ imply a memory overhead due to the increase in the number of weights of each layer, thus why we limited this experiments to shallow architectures. An example of strategy to extend this experiment to deeper architectures is to tie the schemes of each layer together, or to reuse a same scheme (previously learned) for all layers.
+The GCTs are able to outperform the corresponding CNNs by a small by statistically significant amount in a shallow architecture.
+
+Learning the scheme $S$ imply a memory overhead due to the increase in the number of weights of each layer, thus why we limited this experiments to shallow architectures. An example of strategy to extend this experiment to deeper architectures is to tie the schemes of each layer together, or to reuse a same scheme (previously learned) for all layers.
 
 \todo{take S, and reuse it on resnet}
 
-% 331 Discussion and training settings
-% 332 Digit classification (grid and scrambled)
-% 333 Small image classification (alexnet and  resnet)
-% 334 Graph signal classification (20news and Pines?)
-% 335 Semi-supervised node signal classification
-
-% 331 Methodology
-% 3311 Discussion
-% 3312 Trainning settings
-% 3313 Pooling
-% 332 Digit classification
-% 3321 Grid graph supports
-% 3322 Covariance graph support
-% 333 Image classification
-% 3331 Conv graph support
-% 3332 Deep architectures
-% 334 Graph signals classification
-% 3331 20newsgroup
-% 3332 Pines fmri
-% 335 Semi-supervised node signals classification
-% 3341 Cora
-% 3342 .
-
 \subsection{Learning $S$ for semi-supervised node classification}
+\label{}
 
 \todo{describe experiments and our model}
 
@@ -181,7 +161,8 @@ The GCTs are able to outperform the corresponding CNNs by a small by statistical
   \begin{itemize}
    \item Graph Convolution Network (GCN, \cite{kipf2016semi}),
    \item Graph Attention Network (GAT, \cite{velickovic2017graph}),
-   \item Addition of graph dropout to GCN (GCN*, this work),
+   \item Topology Adaptative GCN (TAGCN,  \cite{du2017topology}),
+   \item Addition of graph dropout to GCN (GCN*, from \secref{sec:gsexp}),
    \item Graph Contraction Network (GCT, this work).
   \end{itemize}
 
@@ -189,15 +170,16 @@ The GCTs are able to outperform the corresponding CNNs by a small by statistical
   \begin{center}
     \bgroup
     \def\arraystretch{1.5}%  1 is the default, change whatever you need
-    \begin{tabular}{|c|c|c|c|c|}
+    \begin{tabular}{|c|c|c|c|c|c|c|}
       \hline
-      Dataset & GCN & GAT & GCN* & GCT\\
+      Dataset & MLP & GCN & GAT & TAGCN & GCN* & GCT\\
       \hline
-      Cora & $81.8 \pm 0.9$ & $83.2 \pm 0.7$ & $\mathbf{83.4} \pm 0.7$ & $83.3 \pm 0.7$\\
       \hline
-      Citeseer & $todo \pm todo$ & $72.1 \pm 0.6$ & $72.5 \pm 0.8$ & $\mathbf{72.8} \pm 0.5$\\
+      Cora & $58.8 \pm 0.9$ & $81.8 \pm 0.9$ & $83.3 \pm 0.6$ & $82.9 \pm 0.7$ & $\mathbf{83.4} \pm 0.7$ & $83.3 \pm 0.7$\\
       \hline
-      Pubmed & $todo \pm todo$ & $78.0 \pm 0.6$ & $todo \pm todo$ & $todo \pm todo$\\
+      Citeseer & $56.7 \pm 1.1$ & $72.2 \pm 0.6$ & $72.1 \pm 0.6$ & $71.4 \pm 0.7$ & $72.5 \pm 0.8$ & $\mathbf{72.7} \pm 0.5$\\
+      \hline
+      Pubmed & $72.6 \pm 0.9$ & $79.0 \pm 0.5$ & $78.3 \pm 0.7$ & $78.9 \pm 0.5$ & $78.2 \pm 0.7$ & $\mathbf{79.2} \pm 0.4$\\
       \hline
     \end{tabular}
     \egroup
