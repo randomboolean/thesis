@@ -1,15 +1,15 @@
-\section{Translation-convolutional neural networks}
+\section{Inferring the weight sharing scheme}
 \label{sec:trans}
 
 \subsection{Methodology}
 
 As we saw in \secref{sec:sym} (\figref{fig:rect}), the classical convolution on grid graphs can be obtained visually by translating a rectangular window over the pixel domain. The idea of this section is to define similarly a convolution on graph domains, using a notion of translation defined on graphs~\citep{pasdeloup2017translations}. The translations we use match euclidean translations on 2D grid graphs~\citep{GrePasViaGri201610}, and extend them on general ones, by preserving three simple key properties: injectivity, edge-constraint, and neighborhood-preservation, which we will detail later.
 
-Given a set of graph translations $T = \{t_i, i \in \seq{\kappa - 1}\} \cup \{t_0 = \id \}$, the corresponding convolution can be expressed using the same formalism we used in \chapref{chap:2}, as:
+Given a set of graph translations $\ct = \{t_i, i \in \seq{\kappa - 1}\} \cup \{t_0 = \id \}$, the corresponding convolution can be expressed using the same formalism we used in \chapref{chap:2}, as:
 \begin{gather}
-w \ast x = \displaystyle\sum_{t \in T} w[t] \h{2} t(x)
+w \ast x = \displaystyle\sum_{t \in \ct} w[t] \h{2} t(x)
 \end{gather}
-where $x$ is a signal over vertices of a graph $\gve$, and $w$ is a signal defined on $T \subset \Phi_{\EC}(G)$. Depending on the algebraic nature of $T$ (that we will discuss later), the theoretical results obtained in \chapref{chap:2} hold. Also note that this expression can be rewritten under the ternary representation with a neural contraction as defined is \secref{sec:nct}.
+where $x$ is a signal over vertices of a graph $\gve$, and $w$ is a signal defined on $\ct \subset \Phi_{\EC}(G)$. Depending on the algebraic nature of $\ct$ (that we will discuss later), the theoretical results obtained in \chapref{chap:2} hold. Under the ternary representation, finding such translations amounts to infer the weight sharing scheme $S$.
 
 By denoting $w_i = w[t_i]$, we obtain the more familiar expression:
 \begin{gather}
@@ -169,7 +169,7 @@ Once proxy-translations are obtained on $G$, we use them to move training singal
 \subsection{Experiments}
 \paragraph{Matching CNNs on an image classification task}
 
-On the CIFAR-10 dataset~\citep{krizhevsky2009learning}, our models are based on a variant of a deep residual network, namely PreActResNet18 \citep{he2016identity}. We tested different combinations of graph support and data augmentation. For the graph support, we use either a regular 2D grid or either an inferred graph obtained by keeping the four neighbours that covary the most. In the second case, no structure prior have been fed to the process, so the results can be compared with those of \cite{lin2015}. We also report results obtained with ChebNet~\citep{defferrard2016convolutional}, where only convolutional layers have been replaced for comparison.
+On the CIFAR-10 dataset (see \secref{sec:datasets}), our models are based on a variant of a deep residual network, namely PreActResNet18 \citep{he2016identity}. We tested different combinations of graph support and data augmentation. For the graph support, we use either a regular 2D grid or either an inferred graph obtained by keeping the four neighbours that covary the most. In the second case, which correspond to scrambled CIFAR-10 (see \secref{sec:datasets}), no structure prior have been fed to the process, so the results can be compared with those of \cite{lin2015}. We also report results obtained with ChebNet~\citep{defferrard2016convolutional}, where only convolutional layers have been replaced for comparison.
 
 \tabref{tab:cifar-table} summarizes our results. In particular, it is interesting to note that results obtained without any structure prior (91.07\%) are only 2.7\% away from the baseline using classical CNNs on images (93.80\%). This gap is even smaller (less than 1\%) when using the grid prior. Also, without priors our method significantly outperforms the others. %% In the top left corner of the table we fully exploit the fact that the dataset is composed of 2D structured data, and in the bottom right corner this information is not used at all. Even with that disadvantage, the results differ of only 2.7\%, which shows the strenght of the method when compared to others.
 
@@ -205,9 +205,7 @@ $^d$ Data augmentation done with covariance graph
 
 \paragraph{Experiments on a fMRI dataset}
 
-The PINES dataset consists of functional Magnetic Resonance Imaging (fMRI) scans on 182 subjects, during an emotional picture rating task \citep{chang2015sensitive}. We fetched individual first-level statistical maps (beta images) for the minimal and maximal ratings from \url{https://neurovault.org/collections/1964/}, to generate the dataset. Full brain data was masked on the MNI template and resampled to a 16mm cubic grid, in order to reduce dimensionality of the dataset while keeping a regular geometrical structure. Final volumes used for classification contain 369 signals for each subject and rating. 
-
-We used a shallow network. The results on \tabref{tab:iaps-table} show that our method was able to improve over CNNs, MLPs and other graph-based extended convolutional neural networks.
+We used a shallow network on the PINES dataset (see \secref{sec:datasets}). The results reported on \tabref{tab:iaps-table} show that our method was able to improve over CNNs, MLPs and other graph-based extended convolutional neural networks.
 
 \begin{table}[h!]
 \centering
