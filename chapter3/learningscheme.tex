@@ -32,9 +32,9 @@ A[i,j] = 0 \Rightarrow \forall k, S[k,i,j] = 0
 
 \paragraph{Constraints for semi-supervised classification of nodes}
 
-For the case of citation networks, we consider only one graph and thus we set $\omega = 1$ so that $S$ and $\Theta$ are matrices. Additionaly, we impose rows of the scheme $S$ to be normalized so that each node receive a normalized information from its neighborhood. In our experiments, we choose to use softmax normalization because it is of standard usage (but other normalizations could do as well).
+For the case of citation networks, we consider only one graph and thus we set $\omega = 1$ so that $S$ and $\Theta$ are matrices. Additionaly, we impose rows of the scheme $S$ to be normalized so that each node receives a normalized information from its neighborhood. In our experiments, we choose to use softmax normalization because it is of standard usage (but other normalizations could do as well).
 
-\paragraph{Naming}
+\paragraph{Name}
 In \citep{vialatte2017learning}, we used the term \emph{Local Receptive Graph layers}, since \propref{prop:lrf} relates $G$ with local receptive fields defined by $W$. However it was cumbersome so in this manuscript we will just call them \emph{Graph Contraction Layer} in reference to the neural contraction (see \defref{def:ter}). We call \emph{Graph Contraction Networks} (GCT) the corresponding neural networks.
 
 \paragraph{Initialization}

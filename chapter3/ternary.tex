@@ -227,7 +227,7 @@ We replicated the experiment done by \cite{defferrard2016convolutional} on the 2
 
 After 100 runs of 10 epochs, MCNet obtained a mean accuracy of $70.74 \pm 2.19\%$, which is a gain that is statistically significant compared to ChebNet ($65.76\%$, see \tabref{tab:20}), but not against the former MLP ($71.46 \pm 0.08\%$). It is to be noted that the variance of MCNet is quite high and cherry picking the max instead of considering the mean improves the result to $72.62\%$, which is better than the MLP's max at $72.25\%$. Therefore, in some random realizations, MCNet is capable of leveraging the underlying graph structure (and being state-of-the-art).
 
-This is the least to be expected. But when the quality of the graph is low, there may not be anything better to demonstrate. A dataset with a graph that suits well the underpining structure of the domain is often resembling a grid graph to some extent.
+This is the least to be expected. But when the quality of the graph is low, there may not be anything better to demonstrate. A dataset with a graph that suits well the underpining structure of the domain is often resembling a grid graph to some extent. Therefore we expect the model that will be presented in \secref{sec:trans} to be more relevant in most cases.
 
 \paragraph{Semi-supervised classification of nodes}
 
