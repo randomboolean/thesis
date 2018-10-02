@@ -5,17 +5,18 @@ In this section, we study the ternary representation, which is the general repre
 
 \subsection{Genericity}
 
-\todo{split between supervised and semi supervised}
+%\todo{split between supervised and semi supervised}
 
-The ternary representation can represent any kind of layer. For example,
-\begin{itemize}
-\item a fully connected layer is a neural contraction such that $\omega = nm$ and the slices $S[:,i,j]$ constitute every possible one-hot vectors,
-\item a convolution \todo{reword}
-\item To obtain a convolutional layer, one can choose $\omega$ to be the size of the kernel. $S$ would contain one-hot vectors. A stride $> 1$ can be obtained by removing the corresponding dimensions. If the convolution is a classical convolution, or more generally, is characterized by a Cayley subgraph (see \chapref{chap:2}), then $S$ would be circulant along the input neurons rank in the canonical basis.
-\item To obtain a graph convolutional layer (\cite{kipf2016semi}, see description in \secref{sec:vert}), one can choose $B = 1$, $\omega = 1$, and $S$ (viewed as a matrix) to be~$\widetilde{A}$. Other variants of GCN can also be obtained, for instance to obtain Chebychev filters \citep{defferrard2016convolutional}, $S$ would be $\sum_{i=0}^k T_i(\widetilde{L})$.
-\item To obtain a graph attention layer (\cite{velickovic2017graph}, see description in \secref{sec:vert}), one can concatenate $K$ graph convolutional layers, where $K$ is the number of attention heads, and with $\widetilde{A}$ filled with the learned attention coefficients. Instead of concatenation, one could also choose $\omega=K$, and given an attention head~$k$, the slices $S[k,:,:]$ would be matrices containing the learned attention coefficients.
-\item A topology-adaptative graph convolution layer (\cite{du2017topology}, see description in \secref{sec:vert}) is a neural contraction layer for which $S$ contains the powers of $\widetilde{A}$ along the first rank.
-\item Any partially connected layer with (or without) weight sharing can be obtained with appropriate construction of~$S$.
+The ternary representation can represent any kind of layer. We explain below how obtain standard ones. See \tabref{tab:ind} and \tabref{tab:mid} for a description of the indices, notations and shapes.
+
+%\renewcommand{\labelitemi}{$\blacktriangleright$}
+\begin{itemize}%[noitemsep,nolistsep]
+\item[\ding{227}] To obtain a fully connected layer, one can choose $\omega = nm$ such that the slices $S[:,i,j]$ constitute every possible one-hot vectors.
+\item[\ding{227}] To obtain a convolutional layer, one can choose $\omega$ to be the size of the kernel. $S$ would contain one-hot vectors. A stride $> 1$ can be obtained by removing the corresponding dimensions. If the convolution is a classical convolution, or more generally, is characterized by a Cayley subgraph (see \chapref{chap:2}), then $S$ would be circulant along the input neurons rank in the canonical basis.
+\item[\ding{227}] To obtain a graph convolutional layer (\cite{kipf2016semi}, see description in \secref{sec:vert}), one can choose $B = 1$, $\omega = 1$, and $S$ (viewed as a matrix) to be~$\widetilde{A}$. Other variants of GCN can also be obtained, for instance to obtain Chebychev filters \citep{defferrard2016convolutional}, $S$ would be $\sum_{i=0}^k T_i(\widetilde{L})$.
+\item[\ding{227}] To obtain a graph attention layer (\cite{velickovic2017graph}, see description in \secref{sec:vert}), one can concatenate $K$ graph convolutional layers, where $K$ is the number of attention heads, and with $\widetilde{A}$ filled with the learned attention coefficients. Instead of concatenation, one could also choose $\omega=K$, and given an attention head~$k$, the slices $S[k,:,:]$ would be matrices containing the learned attention coefficients.
+\item[\ding{227}] A topology-adaptative graph convolution layer (\cite{du2017topology}, see description in \secref{sec:vert}) is a neural contraction layer for which $S$ contains the powers of $\widetilde{A}$ along the first rank.
+\item[\ding{227}] Any partially connected layer with (or without) weight sharing can be obtained with appropriate construction of~$S$.
 \end{itemize}
 
 \subsection{Sparse priors for the classification of signals}
@@ -191,19 +192,46 @@ Moreover, they indicate that the ternary representation also allows to improve p
 \subsection{Experiments with general graphs}
 \label{sec:gsexp}
 
+The neural contraction is not usable off-the-shelf for general graphs since the weight sharing scheme $S$ needs to be specified. One strategy is to learn it alongside the weight kernel $\Theta$, see \secref{sec:learningscheme}. Another one consists in inferring it from the graph itself, see \secref{sec:trans}. But first let's try some ideas based on randomizations.
+
 \paragraph{Supervised classification of graph signals}
 
-We replicated the experiment done by \cite{defferrard2016convolutional} on the 20NEWS dataset, which we already discussed about in \secref{sec:spec}.
+We test the idea to fill the schemes $S$ with one-hot vectors randomly, but with respect to the sparse priors mentioned in \secref{sec:sparse}. We apply neural contractions in a depthwise separable fashion similarly than for depthwise separable convolutions~\citep{chollet2016xception}. That is, we first propagate the neurons values on the propagation graph for each of the $N$ input feature maps independently. In the process, we use one different realization of $S$ per input feature map. Then we apply a fully connected layer in the feature space (which is a convolution with trivial sliding window). Since this amounts to do $M$ (one for each output feature map) learned weighted averages of $N$ random realizations, we call that a Monte-Carlo (MC) module. We call \emph{Monte-Carlo Networks} (MCNet) the corresponding neural networks.
 
-\todo{explain why not supervised irregular or only a bit irregular, send to bastnet exps}
+We replicated the experiment done by \cite{defferrard2016convolutional} on the 20NEWS dataset. We refer the reader to \secref{sec:spec} for the preliminary discussion on this dataset. We used the architecture depicted on \figref{fig:archiMC}. It starts with $2$ MC modules with $64$ output feature maps, followed by a trivial convolution with $1$ output feature map, then a FC layer with $500$ hiddden unit and a final FC layer for classification. A residual connection is added between the input and the first FC layer so that this architecture is strictly an addition to the MLP from \tabref{tab:20}. Each layer except for the last is followed by $20\%$ dropout. As usual, we use reLU activations except for the last that has softmax activation.
 
-\todo{Describe our model}
+\begin{figure}[h!tbp]
+\centering
+\begin{tikzpicture}[shorten >=1pt,node distance=1.5cm,on grid]
+  \node[]   (a)                {input};
+  \node[]           (b) [below=of a] {};
+  \node[rectangle, draw]           (c) [below=of b] {MC $64$};
+  \node[rectangle, draw]           (d) [below=of c] {MC $64$};
+  \node[rectangle, draw]           (e) [below=of d] {Trivial Conv $1$};
+  \node[circle, draw, inner sep=0.03cm] (f) [below=of e] {+};
+  \node[rectangle, draw]           (g) [below=of f] {FC $500$};
+  \node[rectangle, draw]           (h) [below=of g] {FC $20$};
+  \node[]           (i) [below=of h] {output};
+  \path[->] (a) edge (c);
+  \path[->] (c) edge (d);
+  \path[->] (d) edge (e);
+  \path[->] (e) edge (f);
+  \path[->] (f) edge (g);
+  \path[->] (g) edge (h);
+  \path[->] (h) edge (i);
+  \path[->] (b) edge [bend right=90] (f);
+\end{tikzpicture}
+\caption{Diagram of the MCNet architecture used}
+\label{fig:archiMC}
+\end{figure}
 
-After 100 runs of 10 epochs, we obtained a mean accuracy of $70.74 \pm 2.19\%$, which is a gain that is statistically significant compared to ChebNet ($65.76\%$, see \tabref{tab:20}), but not against our simple MLP ($71.46 \pm 0.08\%$). It is to be noted that the variance of MCNet is quite high and cherry picking the max instead of the mean improve the result to $72.62\%$, which is \todo{}.
+After 100 runs of 10 epochs, MCNet obtained a mean accuracy of $70.74 \pm 2.19\%$, which is a gain that is statistically significant compared to ChebNet ($65.76\%$, see \tabref{tab:20}), but not against our simple MLP ($71.46 \pm 0.08\%$). It is to be noted that the variance of MCNet is quite high and cherry picking the max instead of considering the mean improves the result to $72.62\%$, which is better than the MLP's max at $72.25\%$. Therefore, in some random realizations, MCNet is capable of leveraging the underlying graph structure (and being state-of-the-art).
+
+This the least to be expected. But when the quality of the graph is low, there may not be anything better to demonstrate. A dataset with a graph that suits well the underpining structure of the domain is often resembling a grid graph to some extent.
 
 \paragraph{Semi-supervised classification of nodes}
 
-\todo{introduce Graph dropout here, and send to semisup exps}
+A similar kind of randomization based idea that come in mind when transposing the question to the semi-supervised task is to use dropout on the edges of the graph. We call that \emph{graph dropout}. We test this approach on citation networks, for which we set $\omega = 1$ (\ie one graph). The obtained architecture amounts to a GCN \citep{kipf2016semi} to which graph dropout is applied. We report our results in \secref{sec:lss}, \tabref{tab:lss}, where we compare them with other models.
 
 
 

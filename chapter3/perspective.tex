@@ -1,7 +1,7 @@
 \section{Layer representations}
 \label{sec:rep}
 
-Let $\cl = (g,h)$ a neural network layer, where $g: I \rightarrow O$ is its linear part, $h : O \rightarrow O$ is its activation function, $I$ and $O$ are its input and output spaces, which are tensor spaces. 
+Let $\cl = (g,h)$ be a neural network layer, where $g: I \rightarrow O$ is its linear part, $h : O \rightarrow O$ is its activation function, $I$ and $O$ are its input and output spaces, which are tensor spaces. 
 
 \subsection{Neural interpretation of tensor spaces}
 
@@ -15,7 +15,7 @@ Note that a tensor space is isomorph to the signal space defined over its canoni
 More precisely, we have the following relation.
 
 \begin{lemma}\textbf{Relation between tensor and signal spaces}\\
-Let $\bbv$, $\bbu$ vector spaces, and $\vv$, $\uu$ their canonical bases. Let $\bbt$ a tensor space. $\otimes$ and $\times$ denote tensor and cartesian products. Then,
+Let $\bbv$, $\bbu$ be vector spaces, and $\vv$, $\uu$ be their canonical bases. Let $\bbt$ be a tensor space. $\otimes$ and $\times$ denote tensor and cartesian products. Then,
 \begin{enumerate}[label=(\roman*)]
   \item $\bbv \cong \cs(\vv)$
   \item $\bbv \otimes \bbu \cong \cs(\vv \times \uu)$
@@ -72,16 +72,16 @@ The \emph{propagation graph} $P = \langle (V, U), E_P \rangle$ of a layer $\cl =
 The propagation graph defines an input topological space~$\ct_V$, and an output topological space~$\ct_U$.
 
 \begin{definition}\textbf{Topological space}\\
-A \emph{topological space} is a pair $\ct = (X, \co)$, where $X$ is a set of points, $\co$ is a set of sets that is closed under intersection (the \emph{open sets}), and such that every point $x \in X$ is associated with a set $\cn_x \in \co$, called its \emph{neighborhood}.
+A \emph{topological space} is a pair $\ct = (X, \co)$, where $X$ is a set of points, $\co$ is a set of sets that is closed under intersection (the \emph{open sets}), and such that every point $x \in X$ is associated with a set $\cn(x) \in \co$, called its \emph{neighborhood}.
 \end{definition}
 
 Hence, the \emph{neural topologies} $\ct_V$ and $\ct_U$ are defined as
 \begin{enumerate}
-\item $\ct_V = (V, \co(U))$, with $\forall v \in V, \cn_v = \{u \in U, v \overset{P}\sim u \}$
-\item $\ct_U = (U, \co(V))$, with $\forall u \in U, \cn_u = \{v \in V, v \overset{P}\sim u \}$
+\item $\ct_V = (V, \co(U))$, with $\forall v \in V, \cn(v) = \{u \in U, v \overset{P}\sim u \}$
+\item $\ct_U = (U, \co(V))$, with $\forall u \in U, \cn(u) = \{v \in V, v \overset{P}\sim u \}$
 \end{enumerate}
 
-In particular, given an output neuron $u \in U$, a neighborhood $\cn_u$ is also called a \emph{local receptive field} (LRF), that we denote $\ccr_u$.
+In particular, given an output neuron $u \in U$, a neighborhood $\cn(u)$ is also called a \emph{local receptive field} (LRF), that we denote $\ccr(u)$.
 
 \subsection{Graph representation of the input space}
 
@@ -91,14 +91,14 @@ Let's consider that the input neurons $V$ have a (possibly edge-less) graph stru
 An underlying graph structure of an input space $V$ is simply a graph such that $V$ is its vertex set.
 \end{definition}
 
-For our definition of edge-constrained layer, we want that the LRF are constrained by the edges of the underlying graph. So we define it as as follows.
+For our definition of edge-constrained layer, we want that the LRF are constrained by the edges of the underlying graph. So we define it as follows.
 
 \begin{definition}\textbf{Edge-constrained layer}\\
 A layer $\cl: \gve \rightarrow U$, is said to be \emph{edge-constrained} (EC) if:
 \begin{enumerate}
   \item There is a one-to-one correspondence $\pi: V_\pi \rightarrow U$, where $V_\pi \subset V$.
   \item Given an output neuron $u$, an input neuron $v$ is in its receptive field, if and only if, $v$ and the $\pi$-fiber of $u$ are connected in $G$,\\
-  \centerline{\ie $\forall u \in U, v \in \ccr_u \Leftrightarrow v \overset{E}\sim \pi^{-1}(u) $}
+  \centerline{\ie $\forall u \in U, v \in \ccr(u) \Leftrightarrow v \overset{E}\sim \pi^{-1}(u) $}
 \end{enumerate}
 \end{definition}
 
@@ -119,19 +119,19 @@ $$
 \label{prop:aw}
 \end{proposition}
 \begin{proof}
-Suppose $A[i,j] = 0$, then $v_i \nsim v_j$, hence $v_i \notin \ccr_{\pi(v_j)}$ so $W[i,j] = 0$.
+Suppose $A[i,j] = 0$, then $v_i \nsim v_j$, hence $v_i \notin \ccr(\pi(v_j))$ so $W[i,j] = 0$.
 \end{proof}
 
 We have the following characterization to determine which layers admit an underlying graph for which they are EC layers.
 
 \begin{proposition}\textbf{EC Characterization with receptive fields}\\
-Let a layer $\cl: V \rightarrow U$, $V_\pi \subset V$, and a one-to-one correspondence $\pi: V_\pi \rightarrow U$. There exists a graph $\gve$ for which $\cl$ is EC, if and only if, the receptive fields are \emph{intertwined} (\ie $\forall a,b \in V_\pi, a \in \ccr_{\pi(b)} \Leftrightarrow b \in \ccr_{\pi(a)} $).
+Let a layer $\cl: V \rightarrow U$, $V_\pi \subset V$, and a one-to-one correspondence $\pi: V_\pi \rightarrow U$. There exists a graph $\gve$ for which $\cl$ is EC, if and only if, the receptive fields are \emph{intertwined} (\ie $\forall a,b \in V_\pi, a \in \ccr(\pi(b)) \Leftrightarrow b \in \ccr(\pi(a)) $).
 \label{prop:lrf}
 \end{proposition}
 \begin{proof}
 \begin{enumerate}
-  \item[($\Rightarrow$)] Thanks to $a \in \ccr_{\pi(b)} \Leftrightarrow a \overset{E}\sim b \Leftrightarrow b \in \ccr_{\pi(a)}$
-  \item[($\Leftarrow$)] If the receptive fields are intertwined, then the relation defined as\\ $a \sim b \Leftrightarrow a \in \ccr_{\pi(b)}$ is symmetric, and thus can define an edge set.
+  \item[($\Rightarrow$)] Thanks to $a \in \ccr(\pi(b)) \Leftrightarrow a \overset{E}\sim b \Leftrightarrow b \in \ccr(\pi(a))$
+  \item[($\Leftarrow$)] If the receptive fields are intertwined, then the relation defined as\\ $a \sim b \Leftrightarrow a \in \ccr(\pi(b))$ is symmetric, and thus can define an edge set.
 \end{enumerate}
 \end{proof}
 

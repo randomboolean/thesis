@@ -150,10 +150,10 @@ The GCTs are able to outperform the corresponding CNNs by a small by statistical
 
 Learning the scheme $S$ imply a memory overhead due to the increase in the number of weights of each layer, thus why we limited this experiments to shallow architectures. An example of strategy to extend this experiment to deeper architectures is to tie the schemes of each layer together, or to reuse a same scheme (previously learned) for all layers.
 
-\todo{take S, and reuse it on resnet}
+%\todo{take S, and reuse it on resnet}
 
 \subsection{Learning $S$ for semi-supervised node classification}
-\label{}
+\label{sec:lss}
 
 \todo{describe experiments and our model}
 
@@ -177,7 +177,7 @@ Learning the scheme $S$ imply a memory overhead due to the increase in the numbe
       \hline
       Cora & $58.8 \pm 0.9$ & $81.8 \pm 0.9$ & $83.3 \pm 0.6$ & $82.9 \pm 0.7$ & $\mathbf{83.4} \pm 0.7$ & $83.3 \pm 0.7$\\
       \hline
-      Citeseer & $56.7 \pm 1.1$ & $72.2 \pm 0.6$ & $72.1 \pm 0.6$ & $71.4 \pm 0.7$ & $72.5 \pm 0.8$ & $\mathbf{72.7} \pm 0.5$\\
+      Citeseer & $56.7 \pm 1.1$ & $72.2 \pm 0.6$ & $72.1 \pm 0.6$ & $71.7 \pm 0.7$ & $72.5 \pm 0.8$ & $\mathbf{72.7} \pm 0.5$\\
       \hline
       Pubmed & $72.6 \pm 0.9$ & $79.0 \pm 0.5$ & $78.3 \pm 0.7$ & $78.9 \pm 0.5$ & $78.2 \pm 0.7$ & $\mathbf{79.2} \pm 0.4$\\
       \hline
@@ -185,6 +185,7 @@ Learning the scheme $S$ imply a memory overhead due to the increase in the numbe
     \egroup
   \end{center}
   \caption{Mean accuracy (in \%) and standard deviation from 100 runs}
+  \label{tab:lss}
   \end{table}
 
 \todo{discussion of results}
