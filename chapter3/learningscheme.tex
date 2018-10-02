@@ -157,7 +157,7 @@ Learning the scheme $S$ implies a memory overhead due to the increase in the num
 \subsection{Learning $S$ for semi-supervised node classification}
 \label{sec:lss}
 
-We benchmark multiple graph convolutional methods on citation networks. We refer the reader to \secref{sec:datasets} for a description of the datasets, and to \secref{sec:vert} for a review of the tested models. The models we becnhmark are:
+We benchmark multiple graph convolutional methods on citation networks. We refer the reader to \secref{sec:datasets} for a description of the datasets, and to \secref{sec:vert} for a review of the tested models. The models we benchmark are:
 \begin{itemize}[nolistsep,noitemsep]
  \item Graph Convolution Network (GCN, \cite{kipf2016semi}),
  \item Graph Attention Network (GAT, \cite{velickovic2017graph}),
@@ -190,4 +190,4 @@ To proceed, we forked the official code repository of \cite{velickovic2017graph}
 \label{tab:lss}
 \end{table}
 
-Even though GCT models performed best overall, the differences with the second bests are not statistically significant. In particular, GCN models enjoy a bump in performances in this setup compared to the experiments in the original paper, which put them back on par for the state-of-the-art on CORA. We also noticed that the results we obtained for TAGCN on Pubmed were significantly worse than claimed by the authors. We contacted them to check for details and are awaiting response, so we may amend this result in a future version of this document\footnote{However it is possible that this is due to the experimental setup.}. It is worth noting that the MLP performed a lot worse as expected since it did not exploit the graph structure.
+Even though GCT models performed best overall, the differences with the second bests are not statistically significant. In particular, GCN models enjoy a bump in performances in this setup compared to the experiments in the original paper. The addition of graph dropout put them back on par with the other models on CORA and Citeseer (they were already ahead on Pubmed). We also noticed that the results we obtained for TAGCN on Pubmed were significantly worse than claimed by the authors. We contacted them to check for details and are awaiting response, so we may amend this result in a future version of this document\footnote{However it is possible that this is due to the experimental setup.}. It is worth noting that the MLP performed a lot worse as expected since it did not exploit the graph structure.
