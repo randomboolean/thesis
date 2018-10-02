@@ -5,7 +5,6 @@ Intuitively, tensors in the field of deep learning are defined as a generalizati
 
 \subsection{Definition}
 
-
 Our definition of tensors is such that they are a bit more than multidimensional arrays but not as much as mathematical tensors. They are embedded in a vector space, called tensor space, so that deep learning objects can be later defined rigorously.
 
 % \begin{remark}
@@ -35,7 +34,7 @@ This simpler definition is indeed equivalent with the definition of the tensor p
 \end{remark}
 
 \paragraph{Naming convention}
-We will also call \emph{vector space} a tensor space of rank $1$. In case we have a vector space that we do not need to see as a tensor space of rank $1$, we may use the term \emph{linear space} instead. We also make a clear distinction between the terms \emph{dimension} (that is, for a tensor space it is equal to $\prod_{k=1}^r n_k$) and the term \emph{rank} (equal to $r$). Note that some authors use the term \emph{order} instead of \emph{rank} (\eg \cite{hackbusch2012tensor}) as the latter is affected to another notion.
+We will also call \emph{vector space} a tensor space of rank $1$. In case there is a vector space that we do not need to see as a tensor space of rank $1$, we may use the term \emph{linear space} instead. We also make a clear distinction between the terms \emph{dimension} (that is, for a tensor space it is equal to $\prod_{k=1}^r n_k$) and the term \emph{rank} (equal to $r$). Note that some authors use the term \emph{order} or \emph{mode} instead of \emph{rank} as the latter is also affected to another notion.
 
 \begin{definition}\textbf{Tensor}\\
 A \emph{tensor} $t$ is an object of a tensor space. The \emph{shape} of $t$, which is the same as the shape of the tensor space it belongs to, is denoted $n_1^{(t)} \times n_2^{(t)} \times \cdots \times n_r^{(t)}$.
@@ -62,11 +61,20 @@ When using an index $i_k$ for an entry of a tensor $t$, we implicitly assume tha
 \end{remark}
 
 \begin{definition}\textbf{Subtensor}\\
-A \emph{subtensor} $t'$ is a tensor of same rank composed of entries of $t$ that are contiguous in the indexing, with at least one entry per rank. We denote $t' = t[l_1{:}u_1, l_2{:}u_2, \ldots, l_r{:}u_r]$, where the $\{l_k\}$ and the $\{u_k\}$ are the lower and upper bounds (included) of the indices used by the entries that compose~$t'$.
+A \emph{subtensor} $t'$ is a tensor of same rank composed of entries of $t$. We denote
+\begin{gather*}
+\left\{
+  \begin{array}{l}
+t' = t[ [i_1^1, \ldots, i^1_{{n_1}^{(t')}}], \ldots, [i_1^r, \ldots, i^r_{{n_r}^{(t')}}] ]\\
+\text{where } t'[j_1, \ldots, j_r] = t[i_{j_1}^1, \ldots, i_{j_r}^r]
+  \end{array}
+\right.
+\end{gather*}
+Given $p$, if $[i_1^p, \ldots, i^p_{{n_p}^{(t')}}]$ is a singleton, we drop the brackets. If it is a strictly increasing contiguous sequence, we write instead $i_1^p:i^p_{{n_p}^{(t')}}$. We drop the left (or right) of $:$ if it is the possible lower (or upper) bound.
 \end{definition}
 
 \begin{remark}
-We do not necessarily write the lower bound index if it is equal to $1$, neither the upper bound index if it is equal to $n_k^{(t)}$.
+This notation for indexing subtensors is not the same as the one used by NumPy. However the use of $:$ is similar (except that we also include the right of $:$).
 \end{remark}
 
 \begin{definition}\textbf{Slicing}\\
