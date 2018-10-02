@@ -6,7 +6,7 @@
 In the ternary representation $Y = h(\wideparen{\Theta S X})$ of a layer~$\cl$, the weight kernel~$\Theta$ is usually the only operand that is learned, and the role of~$S$ is to label the edges of the propagation graph~$P$ with these weights. Recall that, as noted after \defref{def:ter}, $S$ needs not be sparse and composed of one-hot vectors. In that case, the labelling is done linearly as depicted previously in \figref{fig:ternary}. Therefore, the weight sharing scheme $S$ can also be updated during the learning phase. This can be interpreted as learning a convolution-like operator on the underlying graph~$G$~\citep{vialatte2017learning}.
 
 \begin{remark}
-When $S$ doesn't have the sparse priors mentioned in \secref{sec:sparse}, we must not have more parameters in $S$ and $\Theta$ than in $W$, so that the weight sharing still makes sense. If we call $l$ the number of edges in the resulting propagation graph $P$, then the former assumption requires $l\omega + \omega NM \leq lNM$ or equivalently $\frac{1}{\omega} \geq \frac{1}{NM} + \frac{1}{l}$. It implies that the number of weights per filter $\omega$ must be lower than the total number of filters $NM$ and than the number of edges $l$, which is always the case in practice.
+When $S$ does not have the sparse priors mentioned in \secref{sec:sparse}, we must not have more parameters in $S$ and $\Theta$ than in $W$, so that the weight sharing still makes sense. If we call $l$ the number of edges in the resulting propagation graph $P$, then the former assumption requires $l\omega + \omega NM \leq lNM$ or equivalently $\frac{1}{\omega} \geq \frac{1}{NM} + \frac{1}{l}$. It implies that the number of weights per filter $\omega$ must be lower than the total number of filters $NM$ and than the number of edges $l$, which is always the case in practice.
 \end{remark}
 
 %However, as learning $S$ will require in most cases to lose the sparse priors, this can lead to memory issues and increased time execution. Hence, our first experiments focus on shallow architectures to study feasability. Despite these limitations, the observations could still be useful to understand better the extent of the ternary representation. Nonetheless, these experiments can also see application in deep settings: an approach would be to pick a weight sharing scheme $S$ learned in shallow settings and to share it among ternary representations of convolutional layers of a deep architecture.
@@ -42,7 +42,7 @@ In supervised settings, we introduce three types of initialization for the schem
 \begin{enumerate}
   \item uniform random: parameters of $S$ are simply initialized with a uniform random distribution with limits as described by \cite{glorot2010understanding}.
   \item random one-hot: one-hot vectors are distributed randomly on the $S[:,i,j]$, with the constraint that for each LRF, a particular one-hot vector can only be distributed at most once more than any other.
-  \item circulant one-hot: one-hot vectors are distributed in a circulant fashion on the $S[:,i,j]$, so that on euclidean domains, the initial state of $S$ correspond exactly to the weight sharing scheme of a standard convolution.
+  \item circulant one-hot: one-hot vectors are distributed in a circulant fashion on the $S[:,i,j]$, so that on Euclidean domains, the initial state of $S$ correspond exactly to the weight sharing scheme of a standard convolution.
 \end{enumerate}
 
 In semi-supervised settings, we initialize the scheme $S$ using the normalized adjacency matrix $\widetilde{A}$ to which we add a gaussian noise $\cn(0,\sigma)$, where the standard deviation $\sigma$ is determined following \cite{glorot2010understanding}.
@@ -77,7 +77,7 @@ We also compare with a convolutional layer of size 5x5, thus containing as many 
   \label{toy}
 \end{table}
 
-We observe that even without knowledge of the underlying euclidean structure, grid GCTs obtain comparable performances as CNNs, and when the ordering is known, they match them. We also noticed that after training, even though the one-hot vectors used for initialization had changed to floating point values, their most significant dimension was almost always the same. That suggests there is room to improve the initialization and the optimization.
+We observe that even without knowledge of the underlying Euclidean structure, grid GCTs obtain comparable performances as CNNs, and when the ordering is known, they match them. We also noticed that after training, even though the one-hot vectors used for initialization had changed to floating point values, their most significant dimension was almost always the same. That suggests there is room to improve the initialization and the optimization.
 
 In Figure~\ref{functionofepoch}, we plot the test error rate for various normalizations when using the square of the grid graph, as a function of the number of epochs of training, only to find that they have little influence on the performance but sometimes improve it a bit. Thus, we will treat them as optional hyperparameters.
 

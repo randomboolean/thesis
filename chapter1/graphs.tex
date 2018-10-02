@@ -1,7 +1,7 @@
 \section{Deep learning on graphs}
 \label{sec:dlgraph}
 
-Deep learning algorithms have been particularly successful for datasets of signals defined on regular domains such as images or time series. One key ingredient of their success is the use of convolutions. However, classical convolutions are only defined on euclidean domains, so that extending deep learning on non-euclidean domains is not straightforward. The most general way to represent a non-euclidean domain is through a graph \ie as points (the vertices) and relations between them (the edges). This field also comprises the study of deep learning on manifolds (\ie locally euclidean domains). The field of deep learning on graphs or manifolds have been called recently Geometric Deep Learning \citep{bronstein2017geometric}. In this manuscript, we are only interested in deep learning on graphs.
+Deep learning algorithms have been particularly successful for datasets of signals defined on regular domains such as images or time series. One key ingredient of their success is the use of convolutions. However, classical convolutions are only defined on Euclidean domains, so that extending deep learning on non-Euclidean domains is not straightforward. The most general way to represent a non-Euclidean domain is through a graph \ie as points (the vertices) and relations between them (the edges). This field also comprises the study of deep learning on manifolds (\ie locally Euclidean domains). The field of deep learning on graphs or manifolds have been called recently Geometric Deep Learning \citep{bronstein2017geometric}. In this manuscript, we are only interested in deep learning on graphs.
 
 \subsection{Graph and signals}
 
@@ -12,7 +12,7 @@ A \emph{graph} $G$ is a couple of countable vertex and edge sets $\langle V,E \r
 \end{definition}
 
 The terms \emph{vertex} and \emph{node} are used interchangeably. Additionaly, we consider that a graph is always \emph{simple} \ie no two edges share the same set of vertices.
-Unless stated otherwise, a graph is undirected, \ie $(u,v)$ and $(v,u)$ refer to the same edge. When it's not the case, it is called a \emph{digraph}.
+Unless stated otherwise, a graph is undirected, \ie $(u,v)$ and $(v,u)$ refer to the same edge. When it is not the case, it is called a \emph{digraph}.
 We define the relation $u \sim v \Leftrightarrow (u,v) \in E$. We precise the graph if needed over the symbol $\overset{G}\sim$. For a digraph we use the symbol $\rightarrow$ instead of $\sim$.
 A \emph{path} is a sequence $v_1 \sim \cdots \sim v_r$. It is said to be \emph{simple} if its vertices are distincts, except possibly for the first and last. A graph is said to be \emph{connected} if there exists a path from any vertex to any other vertex.
 We define the \emph{neighborhood} of a vertex as $\cn_u = \{v \in V, u \sim v\}$. For digraphs, it is equal to the union of the \emph{in}- and \emph{out}-neighborhoods. We only consider graphs without isolated vertex (a vertex with an empty neighborhood).
@@ -98,7 +98,7 @@ Therefore the domains of the input signals are not grid graphs.
 \end{itemize}
 
 \paragraph{Functional magnetic resonance imagings (fMRI)}
-fMRI samples can be represented by graph signals. The graphs are resembling grid graphs to some extent since they are embedded in an euclidean space.
+fMRI samples can be represented by graph signals. The graphs are resembling grid graphs to some extent since they are embedded in an Euclidean space.
 \begin{itemize}
   \item The PINES dataset consists of fMRI scans on 182 subjects, during an emotional picture rating task \citep{chang2015sensitive}. In \citep{lassance2018matching}, we fetched individual first-level statistical maps (beta images) for the minimal and maximal ratings from \url{https://neurovault.org/collections/1964/}, to generate the dataset. Full brain data was masked on the MNI template and resampled to a 16mm cubic grid, in order to reduce dimensionality of the dataset while keeping a regular geometrical structure to infer the graph. Final volumes used for classification contain 369 signals for each subject and rating.
 \end{itemize}
@@ -163,7 +163,7 @@ g_\theta(L)s &= g_\theta(U^*\Lambda U)s
 &= \widetilde{g_\theta(\Lambda) \mathbf1} \ast s
 \end{align}
 
-These filters enjoy locality properties, they contain~$\co(1)$ weights, and their complexity is~$\co(n)$ when rows of~$L$ are sparse. The use of truncated Chebychev expansion \citep{hammond2011wavelets} ensures that in theory any set of spectral multipliers can be approximated. Also, since they are laplacian polynomials, some authors would argue that these filters are transferable from one graph to another. From a combinatorial point of view this is true. However there is no reason that spectral multipliers from a spectral domain make sense in another one, and there are no experiment in the literature to support the hypothesis. On the other hand, \citep{yi2016syncspeccnn} (which don't use polynomial filters) fix a canonical spectral base in order to synchronize every spectral domains. Their idea is to learn a warping from any eigenbasis to the canonical one, prior to performing spectral multiplication, in the manner of spatial transformer networks (STN, \cite{jaderberg2015spatial}).
+These filters enjoy locality properties, they contain~$\co(1)$ weights, and their complexity is~$\co(n)$ when rows of~$L$ are sparse. The use of truncated Chebychev expansion \citep{hammond2011wavelets} ensures that in theory any set of spectral multipliers can be approximated. Also, since they are laplacian polynomials, some authors would argue that these filters are transferable from one graph to another. From a combinatorial point of view this is true. However there is no reason that spectral multipliers from a spectral domain make sense in another one, and there are no experiment in the literature to support the hypothesis. On the other hand, \citep{yi2016syncspeccnn} (who do not use polynomial filters) fix a canonical spectral base in order to synchronize every spectral domains. Their idea is to learn a warping from any eigenbasis to the canonical one, prior to performing spectral multiplication, in the manner of spatial transformer networks (STN, \cite{jaderberg2015spatial}).
 
 However, it is hard to evaluate if a model performs well on the task of supervised classification of graph signals, because there are not much known datasets in the litterature for which the given graph domain holds enough information.
 
@@ -237,7 +237,7 @@ It can be rewritten as:
 Y = \sum_{k=1}^K \widetilde{A}^k X \Theta_k
 \end{gather}
 
-Other works extending or resembling GCN are numerous in recent days (\eg \cite{niepert2018towards}). We don't cover them since that their novelty compared to GCN is limited.
+Other works extending or resembling GCN are numerous in recent days (\eg \cite{niepert2018towards}). We do not cover them since that their novelty compared to GCN is limited.
 
 \paragraph{\h{0}}
 In the next chapter, we study how to characterize a convolution of graph signals in the vertex domain.

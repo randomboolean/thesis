@@ -5,7 +5,7 @@ Let $\cl = (g,h)$ be a neural network layer, where $g: I \rightarrow O$ is its l
 
 \subsection{Neural interpretation of tensor spaces}
 
-Recall from \defref{def:tensor} that a tensor space has been defined such that its canonical basis is a cartesian product of canonical bases of vector spaces. Let $I = \bigotimes_{k=1}^p \bbv_k$ and $O =  \bigotimes_{l=1}^q \bbu_l$.
+Recall from \defref{def:tensor} that a tensor space has been defined such that its canonical basis is a Cartesian product of canonical bases of vector spaces. Let $I = \bigotimes_{k=1}^p \bbv_k$ and $O =  \bigotimes_{l=1}^q \bbu_l$.
 Their canonical bases are denoted $\vv_k = (\vv_k^1, \ldots, \vv_k^{n_k})$ and $\uu_l = (\uu_l^1, \ldots, \uu_l^{n_l})$.
 
 \begin{remark}
@@ -15,7 +15,7 @@ Note that a tensor space is isomorph to the signal space defined over its canoni
 More precisely, we have the following relation.
 
 \begin{lemma}\textbf{Relation between tensor and signal spaces}\\
-Let $\bbv$, $\bbu$ be vector spaces, and $\vv$, $\uu$ be their canonical bases. Let $\bbt$ be a tensor space. $\otimes$ and $\times$ denote tensor and cartesian products. Then,
+Let $\bbv$, $\bbu$ be vector spaces, and $\vv$, $\uu$ be their canonical bases. Let $\bbt$ be a tensor space. $\otimes$ and $\times$ denote tensor and Cartesian products. Then,
 \begin{enumerate}[label=(\roman*)]
   \item $\bbv \cong \cs(\vv)$
   \item $\bbv \otimes \bbu \cong \cs(\vv \times \uu)$
@@ -32,11 +32,11 @@ where $\cs_{\bbt}$ are signals taking values in $\bbt$ (and $\cs$ are real-value
 \end{enumerate}
 \end{proof}
 
-Let $d \le n_k$ and $e \le n_l$. Define $V$ and $U$ as the cartesian products $V = \bigtimes_{k=1}^d \vv_k$ and $U = \bigtimes_{l=1}^e \uu_l$. Thanks to \lemref{lem:relts}, we can identify the input and output spaces as $I = \cs(V) \otimes \bigotimes_{k=d+1}^p \bbv_k$ and $O = \cs(U) \otimes \bigotimes_{l=e+1}^q \bbu_l$. As $\cs(\vv) \otimes \bbt = \cs_{\bbt}(\vv)$, an object of $V$ or $U$ can be interpreted as the representation of a \emph{neuron} which can take multiple values.
+Let $d \le n_k$ and $e \le n_l$. Define $V$ and $U$ as the Cartesian products $V = \bigtimes_{k=1}^d \vv_k$ and $U = \bigtimes_{l=1}^e \uu_l$. Thanks to \lemref{lem:relts}, we can identify the input and output spaces as $I = \cs(V) \otimes \bigotimes_{k=d+1}^p \bbv_k$ and $O = \cs(U) \otimes \bigotimes_{l=e+1}^q \bbu_l$. As $\cs(\vv) \otimes \bbt = \cs_{\bbt}(\vv)$, an object of $V$ or $U$ can be interpreted as the representation of a \emph{neuron} which can take multiple values.
 
 %\paragraph{A convenient simplification}
 \vspace{10pt}
-In what follows, without loss of generality, we will make the simplification that a neuron can only take a single value (we don't consider input channels and feature maps yet). We'll thus consider that $I = \cs(V)$ and $O = \cs(U)$, where $V$~is the set of \emph{input neurons}, and $U$ is the set of \emph{output neurons}.
+In what follows, without loss of generality, we will make the simplification that a neuron can only take a single value (we do not consider input channels and feature maps yet). We'll thus consider that $I = \cs(V)$ and $O = \cs(U)$, where $V$~is the set of \emph{input neurons}, and $U$ is the set of \emph{output neurons}.
 
 %\subsection{Graph representations}
 \subsection{Propagational interpretation}

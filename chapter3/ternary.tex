@@ -22,7 +22,7 @@ The ternary representation can represent any kind of layer. We explain below how
 \subsection{Sparse priors for the classification of signals}
 \label{sec:sparse}
 
-In the more general case, the scheme $S$ is a real-valued tensor, which may introduce more weights in the layer. However, for euclidean convolutions, $S$ is already determined by the euclidean convolution operator and doesn't count for more memory. To imitate this property, we can focus on the class of layer with these sparse priors:
+In the more general case, the scheme $S$ is a real-valued tensor, which may introduce more weights in the layer. However, for Euclidean convolutions, $S$ is already determined by the Euclidean convolution operator and does not count for more memory. To imitate this property, we can focus on the class of layer with these sparse priors:
 \begin{enumerate}
   \item Given a couple of neuron indices $(i,j)$, $S[:,i,j]$ is either a one-hot vector, or the zero vector, as in $\eqref{eq:alloc}$.
   \item Given an output neuron index $j$, a weight $\theta[h]$ can appear only once in its LRF.
@@ -172,7 +172,7 @@ We run a classification task with standard hyperparameters on a toy dataset (we 
 
 The bigger is $\sigma$, the less accurate are the symmetries of the input domain, up to a point where the ternary representation becomes almost equivalent to a dense layer. The results illustrate nicely this evolution, and stress out the importance of trying to leverage symmetries when defining new convolutions.
 
-Moreover, they indicate that the ternary representation also allows to improve performances compared to using dense layers, providing we are able to create a relevant weight sharing scheme $S$ to exploit symmetries. For example, in the case the underlying graph structure of the input is embedded in a 2-d euclidean space, $S$ can be created just as in this experiment.
+Moreover, they indicate that the ternary representation also allows to improve performances compared to using dense layers, providing we are able to create a relevant weight sharing scheme $S$ to exploit symmetries. For example, in the case the underlying graph structure of the input is embedded in a 2-d Euclidean space, $S$ can be created just as in this experiment.
 
 % \subsection{Randomly assigning weights}
 
