@@ -24,7 +24,6 @@ o global intro
 o abstract
 o global conclusion
 o rewrite intro 2
-x rewrite summary of 2
 
 x fix left and right cayley
 x fix path convolution
@@ -36,16 +35,21 @@ o write MCnet 3.2.4
 d write 3.2.5
 d write 3.3.6
 d write 3.3.7 (very optional)
-x write 3.3.8
+o write 3.3.8
 o a word on GAT and 3.3.8
 
 o fill in placeholder figures (have been commented out for the moment)
-x complete \todo{}
+o complete \todo{}
 x check figure placements
 ? schema Cayley graph characterization 2.3.1
 ? Pass on bib files, and add venues instead of arxiv when relevant
 o Change book style
 ? improve style, add snake decorations and lettrines
+
+x rewrite general conclusion
+x rewrite conclusion of 2 or remove
+? write conclusion of 3
+x update chapter overviews
 
 Experiments
 

@@ -238,7 +238,7 @@ However, reaching such objective is a computationally difficult problem, which d
 \paragraph{Adoption of ReLU activations}
 Historically, sigmoidal and tanh activations were mostly used \citep{cybenko1989approximation, lecun1989backpropagation}. However in recent practice, the ReLU activation (first introduced as the \emph{positive part}, \cite{jarrett2009best}), become the most used activation, as it was demonstrated to be faster and to obtain better results \citep{glorot2011deep}. ReLU originated numerous variants \eg \emph{leaky rectified linear unit} \citep{maas2013rectifier}, \emph{parametric rectified linear unit} (PReLU, \cite{he2015delving}), \emph{exponential linear unit} (ELU, \cite{clevert2015fast}), \emph{scaled exponential linear unit} (SELU, \cite{Klambauer2017self}), each one having particular advantages in some applications.
 
-\paragraph{Combatting overfitting}
+\paragraph{Avoiding overfitting}
 Neural networks, like any other machine learning technique, may overfit. That is, a model may behave well on the training set but fails to generalize well on unseen examples. The introduction of dropout \citep{srivastava2014dropout} have helped models with more parameters to be less prone to overfitting, as dropout consists in hiding some parts of the training samples and their intermediate activations. Another good practice is to normalize per batch \citep{ioffe2015batch}.
 %Dropout consists in randomly setting a certain number of neurons to zero during the training phase (compensated at test time by scaling down the whole layer). The idea is that some part of the training samples are hidden to the model, so that it cannot overfit on them.
 
@@ -326,7 +326,7 @@ A convolutional layer with \emph{stride} is a convolutional layer that computes 
 A layer with \textit{pooling} $(g,h)$ is such that $g$ can be decomposed as $g = g' \circ g_\text{pool}$, where $g_\text{pool}$ is a pooling operation.
 \end{definition}
 
-Layers with stride or pooling downscale the signals that passes through the layer. These types of layers allows to compute features at a coarser level, giving the intuition that the deeper a layer is in the network, the more abstract is the information captured by the weights of the layer.
+Layers with stride or pooling downscale the signals that passes through the layer. These types of layers allows to compute features at a coarser level, giving the intuition that the deeper a layer is in the network, the more abstract is the information captured by the weights of the layer. Additional, from a practical point of view, they contribute to lower the computational complexity at deeper levels.
 
 \paragraph{A simple result}
 In two dimensions, convolutional operations can be rewritten as a matrix-vector multiplication where the matrix is Toeplitz. We show below that it is still the case in $n$~dimensions.

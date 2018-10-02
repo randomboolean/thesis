@@ -53,6 +53,10 @@ which for EC layers, can be rewritten as a convolution of graph signals as studi
 
 \subsection{Efficient implementation under sparse priors}
 
+\begin{remark}
+This section applies in supervised settings but not in semi-supervised setting for which it is best to use sparse functions of common deep learning libraries.
+\end{remark}
+
 \paragraph{What is the fastest way to compute $\wideparen{\Theta S X}$ ?}
 As the equation \eqref{eq:ternary} is associative and commutative, there are three ways to start to calculate it: with $\Theta S$, $SX$, or $\Theta X$, which we will call \emph{middle-stage tensors}. The computation of a middle-stage tensor is the bottleneck to compute \eqref{eq:ternary} as it imposes to compute significantly more entries than for the second tensor contraction. In \tabref{tab:mid}, we compare their shapes. We refer the reader to \tabref{tab:ind} for the denomination of the indices.
 
@@ -73,10 +77,10 @@ As the equation \eqref{eq:ternary} is associative and commutative, there are thr
 \label{tab:mid}
 \end{table}
 
-In usual settings, we want to have $\omega \ll n$ and $\omega \ll m$, which means that we have weight kernels of small sizes (for example in the case of images, convolutional kernel are of size significantly smaller than that of the images). Also, the number of input channels $N$ and of feature maps $M$ are roughly in the same order, with $N < M$ more often than the contrary. So in practice, the size of $\Theta S$ is significantly bigger than the size of $SX$ and of $\Theta X$, and the size of $SX$ is usually the smallest.
+We usually want to have $\omega \ll n$ and $\omega \ll m$, which means that we have weight kernels of small sizes (for example in the case of images, convolutional kernel are of size significantly smaller than that of the images). Also, the number of input channels $N$ and of feature maps $M$ are roughly in the same order, with $N < M$ more often than the contrary. So in practice, the size of $\Theta S$ is significantly bigger than the size of $SX$ and of $\Theta X$, and the size of $SX$ is usually the smallest.
 
 \paragraph{How to exploit $S$ sparsity ?}
-Also, in usual settings, $S$ is sparse as $S[:,i,j]$ are one-hot vectors. So computing $SX$ should be faster than computing $\Theta X$, provided we exploit the sparsity. Although $S$ is very sparse as it contains at most a fraction $\frac{1}{w}$-th of non-zero values, it is only sparse along the first rank, which makes implementation with sparse classes of common deep learning libraries use less parallelization than it can. However, we can benefit from the sparse priors mentioned in \secref{sec:sparse}.%: the local receptive fields (LRF) are usualy of the same size (or at least of around the same order), and each weight is associated to one \emph{and only one} neuron of each~LRF.
+Also, in ususal supervised settings, $S$ is sparse as $S[:,i,j]$ are one-hot vectors. So computing $SX$ should be faster than computing $\Theta X$, provided we exploit the sparsity. Although $S$ is very sparse as it contains at most a fraction $\frac{1}{w}$-th of non-zero values, it is only sparse along the first rank, which makes implementation with sparse classes of common deep learning libraries use less parallelization than it can. However, we can benefit from the sparse priors mentioned in \secref{sec:sparse}.%: the local receptive fields (LRF) are usualy of the same size (or at least of around the same order), and each weight is associated to one \emph{and only one} neuron of each~LRF.
 
 So we proceed differently. The idea is to use a non-sparse tensor $X_{\LRF}$ that has a rank that indexes the LRF, and another rank that indexes elements of these LRF, in order to lower the computation to a dense matrix multiplication (or a dense tensor contraction) which is already well optimized. This approach is similar to that proposed in \cite{chellapilla2006high}, which is also exploited in the cudnn primitives~\citep{chetlur2014cudnn} to efficiently implement the classical convolution.
 
@@ -99,13 +103,13 @@ The equation \eqref{eq:LRF} is computed with only $\omega \times m$ assignations
 
 \paragraph{Benchmarks}
 To support our theoretical analysis, we benchmark three methods for computing the tensor contraction $SX$:
-\begin{itemize}
+\begin{itemize}[nolistsep,noitemsep]
   \item naively using dense multiplication,
   \item using sparse classes of deep learning libraries,
   \item using the LRF based method we described above.
 \end{itemize}
 
-We run the benchmarks under the assumptions that $S[:,i,j]$ are one-hot vectors, and that a weight occurs exactly once in each LRF (as it is the case for convolutions supported by a Cayley subgraph). For each method, we make $100$ runs of computations of $SX$, with $S$ and $X$ being randomly generated according to the assumptions. In \tabref{tab:ben}, we report the mean times. The values of the hyperparameters were each time $n = m = N = M = B = 256$, and $\omega = 4$. The computations were done on graphical processing units (GPU)\footnote{The GPU was an Nvidia Geforce GTX1060, the CPU was an Intel Xeon E5-1630v4 at 3.70GHz with 4 cores. We used tensorflow and the function gather\_nd for the assignations.}.
+We run the benchmarks under the sparse priors mentioned in \secref{sec:sparse}. For each method, we make $100$ runs of computations of $SX$, with $S$ and $X$ being randomly generated according to the assumptions. In \tabref{tab:ben}, we report the mean times. The values of the hyperparameters were each time $n = m = N = M = B = 256$, and $\omega = 4$. The computations were done on graphical processing units (GPU)\footnote{The GPU was an Nvidia Geforce GTX1060, the CPU was an Intel Xeon E5-1630v4 at 3.70GHz with 4 cores. We used tensorflow and the function gather\_nd for the assignations.}.
 
 % \begin{table}[H]
 %   \centering
@@ -192,13 +196,13 @@ Moreover, they indicate that the ternary representation also allows to improve p
 \subsection{Experiments with general graphs}
 \label{sec:gsexp}
 
-The neural contraction is not usable off-the-shelf for general graphs since the weight sharing scheme $S$ needs to be specified. One strategy is to learn it alongside the weight kernel $\Theta$, see \secref{sec:learningscheme}. Another one consists in inferring it from the graph itself, see \secref{sec:trans}. But first let's try some ideas based on randomizations.
+The neural contraction is not usable off-the-shelf for general graphs since the weight sharing scheme $S$ needs to be specified. One strategy is to learn it alongside the weight kernel $\Theta$, see \secref{sec:learningscheme}. Another one consists in inferring it from the graph itself, see \secref{sec:trans}. But first let us try some ideas based on randomizations.
 
 \paragraph{Supervised classification of graph signals}
 
 We test the idea to fill the schemes $S$ with one-hot vectors randomly, but with respect to the sparse priors mentioned in \secref{sec:sparse}. We apply neural contractions in a depthwise separable fashion similarly than for depthwise separable convolutions~\citep{chollet2016xception}. That is, we first propagate the neurons values on the propagation graph for each of the $N$ input feature maps independently. In the process, we use one different realization of $S$ per input feature map. Then we apply a fully connected layer in the feature space (which is a convolution with trivial sliding window). Since this amounts to do $M$ (one for each output feature map) learned weighted averages of $N$ random realizations, we call that a Monte-Carlo (MC) module. We call \emph{Monte-Carlo Networks} (MCNet) the corresponding neural networks.
 
-We replicated the experiment done by \cite{defferrard2016convolutional} on the 20NEWS dataset. We refer the reader to \secref{sec:spec} for the preliminary discussion on this dataset. We used the architecture depicted on \figref{fig:archiMC}. It starts with $2$ MC modules with $64$ output feature maps, followed by a trivial convolution with $1$ output feature map, then a FC layer with $500$ hiddden unit and a final FC layer for classification. A residual connection is added between the input and the first FC layer so that this architecture can be seen as a small random perturbation of the MLP from \tabref{tab:20}. Each layer except for the last is followed by $20\%$ dropout. As usual, we use reLU activations except for the last that has softmax activation.
+We replicated the experimental setup done by \cite{defferrard2016convolutional} on the $20$NEWS dataset. We refer the reader to \secref{sec:spec} for the preliminary discussion on this experiment. We used the architecture depicted on \figref{fig:archiMC}. It starts with $2$ MC modules with $64$ output feature maps, followed by a trivial convolution with $1$ output feature map, then a FC layer with $500$ hiddden units and a final FC layer for classification. A residual connection is added between the input and the first FC layer. For the MC modules, we used the graph connecting $2$ nearest neighbours. Therefore this architecture can be seen as a small random perturbation of the MLP from \tabref{tab:20}. Each layer except for the last is followed by $20\%$ dropout. As usual, we use reLU activations except for the last that has softmax activation.
 
 \begin{figure}[h!tbp]
 \centering
