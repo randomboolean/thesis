@@ -7,15 +7,18 @@ In this section, we study the ternary representation, which is the general repre
 
 %\todo{split between supervised and semi supervised}
 
-The ternary representation can represent any kind of layer. We explain below how obtain standard ones. See \tabref{tab:ind} and \tabref{tab:mid} for a description of the indices, notations and shapes.
+The ternary representation can represent any kind of layer. We explain below how to obtain standard ones. See \tabref{tab:ind} and \tabref{tab:mid} for a description of the indices, notations and shapes.
 
 %\renewcommand{\labelitemi}{$\blacktriangleright$}
 \begin{itemize}%[noitemsep,nolistsep]
 \item[\ding{227}] To obtain a fully connected layer, one can choose $\omega = nm$ such that the slices $S[:,i,j]$ constitute every possible one-hot vectors.
 \item[\ding{227}] To obtain a convolutional layer, one can choose $\omega$ to be the size of the kernel. $S$ would contain one-hot vectors. A stride $> 1$ can be obtained by removing the corresponding dimensions. If the convolution is a classical convolution, or more generally, is characterized by a Cayley subgraph (see \chapref{chap:2}), then $S$ would be circulant along the input neurons rank in the canonical basis.
-\item[\ding{227}] To obtain a graph convolutional layer (\cite{kipf2016semi}, see description in \secref{sec:vert}), one can choose $B = 1$, $\omega = 1$, and $S$ (viewed as a matrix) to be~$\widetilde{A}$. Other variants of GCN can also be obtained, for instance to obtain Chebychev filters \citep{defferrard2016convolutional}, $S$ would be $\sum_{i=0}^k T_i(\widetilde{L})$.
-\item[\ding{227}] To obtain a graph attention layer (\cite{velickovic2017graph}, see description in \secref{sec:vert}), one can concatenate $K$ graph convolutional layers, where $K$ is the number of attention heads, and with $\widetilde{A}$ filled with the learned attention coefficients. Instead of concatenation, one could also choose $\omega=K$, and given an attention head~$k$, the slices $S[k,:,:]$ would be matrices containing the learned attention coefficients.
+\item[\ding{227}] To obtain a graph convolutional layer (\cite{kipf2016semi}, see description in \secref{sec:vert}), one can choose $B = 1$, $\omega = 1$, and $S$ (viewed as a matrix) to be the normalized adjacency matrix~$\widetilde{A}$.
+\item[\ding{227}] Other variants of GCN can also be obtained, for instance to obtain Chebychev filters \citep{defferrard2016convolutional}, $S$ would be $\sum_{i=0}^k T_i(\widetilde{L})$.
+\item[\ding{227}] To obtain a graph attention layer (\cite{velickovic2017graph}, see description in \secref{sec:vert}), one can concatenate $K$ graph convolutional layers, where $K$ is the number of attention heads, and with $\widetilde{A}$ filled with the learned attention coefficients. Instead of concatenation, one could also choose $\omega=K$, and given an attention head~$k$, the slices $S[k,:,:]$ would be matrices containing the coefficients.
 \item[\ding{227}] A topology-adaptative graph convolution layer (\cite{du2017topology}, see description in \secref{sec:vert}) is a neural contraction layer for which $S$ contains the powers of $\widetilde{A}$ along the first rank.
+\item[\ding{227}] A mixture model convolutional layer (\cite{monti2016geometric}, equations (9) and (10)) is a neural contraction layer for which $S$ contains the values of the weighting functions \ie $S[k,i,j] = w_k(u[i,j])$.
+\item[\ding{227}] A generalized convolution (\cite{vialatte2016generalizing}, equations (1) and (10)) is a neural contraction layer for which $S$ is the allocation tensor $A^e$ which has the sparse priors mentioned in the next subsection.
 \item[\ding{227}] Any partially connected layer with (or without) weight sharing can be obtained with appropriate construction of~$S$.
 \end{itemize}
 
@@ -206,30 +209,33 @@ We replicated the experimental setup done by \cite{defferrard2016convolutional} 
 
 \begin{figure}[h!tbp]
 \centering
-\begin{tikzpicture}[shorten >=1pt,node distance=1.5cm,on grid]
-  \node[]   (a)                {input};
-  \node[]           (b) [below=of a] {};
-  \node[rectangle, draw]           (c) [below=of b] {MC $64$};
-  \node[rectangle, draw]           (d) [below=of c] {MC $64$};
-  \node[rectangle, draw]           (e) [below=of d] {Trivial Conv $1$};
-  \node[circle, draw, inner sep=0.03cm] (f) [below=of e] {+};
-  \node[rectangle, draw]           (g) [below=of f] {FC $500$};
-  \node[rectangle, draw]           (h) [below=of g] {FC $20$};
-  \node[]           (i) [below=of h] {output};
-  \path[->] (a) edge (c);
-  \path[->] (c) edge (d);
-  \path[->] (d) edge (e);
-  \path[->] (e) edge (f);
-  \path[->] (f) edge (g);
-  \path[->] (g) edge (h);
-  \path[->] (h) edge (i);
-  \path[->] (b) edge [bend right=90] (f);
+\begin{tikzpicture}[shorten >=1pt,node distance=1.5cm, thick]
+   \tikzstyle{every node} = [inner sep=10pt, transform shape];
+   \begin{scope}[rotate=90]
+     \node[]   (a)                {input};
+     \node[]           (b) [below of = a, inner sep=0pt] {};
+     \node[rectangle, draw]           (c) [below of = b] {MC $64$};
+     \node[rectangle, draw]           (d) [below of = c] {MC $64$};
+     \node[rectangle, draw]           (e) [below of = d] {Trivial Conv $1$};
+     \node[circle, draw, inner sep=0.03cm] (f) [below of = e] {\Large{+}};
+     \node[rectangle, draw]           (g) [below of = f] {FC $500$};
+     \node[rectangle, draw]           (h) [below of = g] {FC $20$};
+     \node[]           (i) [below of = h] {output};
+     \path[->] (a) edge (c);
+     \path[->] (c) edge (d);
+     \path[->] (d) edge (e);
+     \path[->] (e) edge (f);
+     \path[->] (f) edge (g);
+     \path[->] (g) edge (h);
+     \path[->] (h) edge (i);
+     \draw[->] (b) to[out=180, in=90] ($(d) - (3,0)$) to[in=180,out=270] (f);
+   \end{scope}
 \end{tikzpicture}
 \caption{Diagram of the MCNet architecture used}
 \label{fig:archiMC}
 \end{figure}
 
-After 100 runs of 10 epochs, MCNet obtained a mean accuracy of $70.74 \pm 2.19\%$, which is a gain that is statistically significant compared to ChebNet ($65.76\%$, see \tabref{tab:20}), but not against the former MLP ($71.46 \pm 0.08\%$). It is to be noted that the variance of MCNet is quite high and cherry picking the max instead of considering the mean improves the result to $72.62\%$, which is better than the MLP's max at $72.25\%$. Therefore, in some random realizations, MCNet is capable of leveraging the underlying graph structure (and being state-of-the-art).
+After 100 runs of 10 epochs, MCNet obtained a mean accuracy of $70.74~\pm~2.19\%$, which is a gain that is statistically significant compared to ChebNet ($65.76\%$, see \tabref{tab:20}), but not against the former MLP ($71.46~\pm~0.08\%$). It is to be noted that the variance of MCNet is quite high and cherry picking the max instead of considering the mean improves the result to $72.62\%$, which is better than the MLP's max at $72.25\%$. Therefore, in some random realizations, MCNet is capable of leveraging the underlying graph structure (and being state-of-the-art).
 
 This is the least to be expected. But when the quality of the graph is low, there may not be anything better to demonstrate. A dataset with a graph that suits well the underpining structure of the domain is often resembling a grid graph to some extent. Therefore we expect the model that will be presented in \secref{sec:trans} to be more relevant in most cases.
 

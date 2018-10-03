@@ -16,7 +16,7 @@ Recall that the (discrete) convolution between two signals $s_1$ and $s_2$ over 
 \end{definition}
 
 \begin{definition}\textbf{Convolution operator}\\
-A \emph{convolution operator} is a function of the form $f_w: x \mapsto x \ast w$, where $x$ and $w$ are signals of domains for which the convolution $\ast$ is defined. When $\ast$ is not commutative, we differentiate the \emph{right-action} operator $x \mapsto x \ast w$ from the \emph{left-action} one $x \mapsto w \ast x$.
+A \emph{convolution operator} is a function of the form $f_w: x \mapsto x \ast w$, where $x$ and $w$ are signals of domains for which the convolution $\ast$ is defined. When $\ast$ is not commutative, we differentiate the \emph{right} operator $x \mapsto x \ast w$ from the \emph{left} one $x \mapsto w \ast x$.
 \end{definition}
 
 The following properties of the convolution on $\bbz^2$ are of particular interest for our study.
@@ -28,14 +28,14 @@ Operators produced by the convolution are linear. So they can be used as linear 
 When $w$ is compactly supported on $K$, an impulse response $f_w(x)[a,b]$ amounts to a weighted aggregation of entries of $x$ in a neighborhood of $(a,b)$, called the \emph{Local Receptive Field} (LRF). The weight kernel $w$ used for the aggregation is fixed \wrt $(a,b)$, so that we say that the weights are shared.
 
 \paragraph{Commutativity}
-The convolution is commutative. However, it won't necessarily be the case on other domains.
+This convolution is commutative. However, it won't necessarily be the case on other domains.
 
 \paragraph{Equivariance to translations}
 Convolution operators are equivariant to translations. Below, we show that the converse of this result also holds with \thref{prop:equi}.
 
 \subsection{Characterization on grid graphs}
 
-We first define what is a transformation of a domain, and how it can be extended to signals defined on this domain.
+We first define what a transformation of a domain is, and how it can be extended to signals defined on this domain.
 
 \begin{definition}\textbf{Transformation}\\
 A \emph{transformation} $f: V \rightarrow V$ is a function with same domain and codomain. The set of transformations is denoted $\Phi(V)$. The set of bijective transformations is denoted $\Phi^*(V) \subset \Phi(V)$.
@@ -62,7 +62,7 @@ L_f(s) & = \displaystyle\sum_{v \in V} s[v] \h{2} L_f(\delta_v)\\
 \text{So, }
 \forall v \in V, L_f(s)[v] & = s[f^{-1}(v)]
 \end{align*}
-$L_f$ extends $f$ to $\cs(V)$. When there is no ambiguity, we use the same symbol for $f$ and $L_f$.
+$L_f$ extends $f$ to $\cs(V)$. When there is no ambiguity, we use the same symbol for $f(.)$ and $L_f(.)$.
 \label{lem:ext}
 \end{proof}
 
@@ -131,7 +131,7 @@ By denoting $w = f (\delta_{0,0}) \in \cs(\bbz^2)$, we obtain:
 In deep learning, an important argument in favor of CNNs is that convolutional layers are equivariant to translations. Intuitively, that means that a detail of an object in an image should produce the same features independently of its position in the image.
 
 \paragraph{Lossless superiority of CNNs over MLPs}
-The converse result, as a consequence of~\thref{prop:equi}, is never mentioned in deep learning literature. However it is also a strong one. For example, let's consider a linear function that is equivariant to translations. Thanks to the converse result, we know that this function is a convolution operator parameterized by a weight vector $w$, $f_w : . \ast w$. If the domain is compactly supported, as in the case of images, we can break down the information of $w$ in a finite number $n_q$ of kernels $w_q$  with small compact supports of same size (for instance of size $2 \times 2$), such that we have $f_w = \sum_{q \in \seq{n_q}} f_{w_q}$. The convolution operators $f_{w_q}$ are all in the search space of $2 \times 2$ convolutional layers. In other words, every translational equivariant linear function can have its information parameterized by these layers. So that means that the reduction of parameters from an MLP to a CNN is done with strictly no loss of expressivity (provided the objective function is known to bear this property). Besides, it also helps the training to search in a much more confined space. For example, on CIFAR-$10$~\citep{krizhevsky2009learning}, a dataset of tiny images, CNNs reportedly attain up to 2.31\% error on classification \citep{yamada2018shakedrop}, while MLPs plateaued at 21.38\% \citep{lin2015}. Intuitively, the reason for this success is \emph{simplification by symmetry}: the supposed translational equivariance of the objective function is a symmetry that is exploited by the convolution layer to simplify its input.
+The converse result, as a consequence of~\thref{prop:equi}, is never mentioned in deep learning literature. However it is also a strong one. For example, let's consider a linear function that is equivariant to translations. Thanks to the converse result, we know that this function is a convolution operator parameterized by a weight vector $w$, $f_w : . \ast w$. If the domain is compactly supported, as in the case of images, we can break down the information of $w$ in a finite number $n_q$ of kernels $w_q$  with small compact supports of same size (for instance of size $2 \times 2$), such that we have $f_w = \sum_{q \in \seq{n_q}} f_{w_q}$. The convolution operators $f_{w_q}$ are all in the search space of $2 \times 2$ convolutional layers. In other words, every translational equivariant linear function can have its information parameterized by these layers. So that means that the reduction of parameters from an MLP to a CNN is done without loss of expressivity (provided the objective function is known to bear this property). Besides, it also helps the training to search in a much more confined space. For example, on CIFAR-$10$ (see description in \secref{sec:datasets}), CNNs reportedly attain up to 2.31\% error on classification \citep{yamada2018shakedrop}, while MLPs plateaued at 21.38\% \citep{lin2015}. Intuitively, the reason for this success is \emph{simplification by symmetry}: the supposed translational equivariance of the objective function is a symmetry that is exploited by the convolution layer to simplify its input.
 
 \paragraph{Methodology for extending to general graphs}
 Hence, in our construction, we will try to preserve the characterization from \thref{prop:equi} since it is mostly the reason why they are successful in deep learning. Note that other useful properties are also a consequence of this characterization. For example, the fact that convolutional layers have less parameters than a dense layer is also a consequence of this characterization.

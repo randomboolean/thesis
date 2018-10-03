@@ -51,10 +51,10 @@ We define $N_r(v)$ as the set of vertices that are at most $r$-hop away from a v
 \end{definition}
 
 % \begin{remark}
-% If the graph is a 2D grid, obtained translations are exactly natural translations on images~\cite{GrePasViaGri201610}.
+If the graph is a 2D grid, obtained translations are exactly natural translations on images~\cite{GrePasViaGri201610}.
 % \end{remark}
 
-Because translations and candidate-translations need not be surjective on~$V$, we introduce a zero vertex denoted $0_V$, and sometimes called \emph{black hole}~\citep{GrePasViaGri201610}, such that any candidate translation $\phi: U \to V$ is extended as a function $\phi: V \to V \cup \{\bot\}$
+Because translations and candidate-translations need not be surjective on~$V$, we introduce a zero vertex\footnote{Sometimes called \emph{black hole.}~\citep{GrePasViaGri201610}} denoted $0_V$, such that any candidate translation $\phi: U \to V$ is extended as a function $\phi: V \to V \cup \{\bot\}$
 \begin{gather}
 \forall v \notin U, \phi(v) = 0_V
 \end{gather}

@@ -1,20 +1,17 @@
 \section{Construction from the vertex set}
 \label{sec:2.2}
 
-%\subsection{Introduction}
-
 As \thref{prop:equi} is a complete characterization of convolutions, it can be used to define them \ie convolution operators can be constructed as the set of linear transformations that are equivariant to translations. However, in the general case where $G$ is not a grid graph, translations are not defined, so that construction needs to be generalized beyond translational equivariances.
 
 In mathematics, convolutions are more generally defined for signals defined over a group structure. The classical convolution that is used in deep learning is just a narrow case where the domain group is an Euclidean space. Therefore, constructing a convolution on graphs should start from the more general definition of convolution on groups rather than convolution on Euclidean domains.
 
 Our construction is motivated by the following questions:
-\begin{itemize}
+\begin{itemize}[nolistsep,noitemsep]
 \item Does the equivariance property holds ? Does the characterization from \thref{prop:equi} still holds ?
-\item Is it possible to extend the construction on non-group domains, or at least on mixed domains ? (\ie one signal is defined over a set, and the other is defined over a subgroup of the transformations of this set).
+\item Is it possible to extend the construction on non-group domains, or at least on mixed domains ? (\ie one signal is defined over a set, and the other is defined over its transformations).
 \item Can a group domain draw an underlying graph structure ? Is the group convolution naturally defined on this class of graphs ?
+\item Can we characterize graphs accepting our construction ?
 \end{itemize}
-
-% Note that our approach is different than in \citep{cohen2016group}, where the authors define group-equivariant convolutions from an already defined convolution. On graphs, convolutions aren't already defined. We are studying group convolutions in view of constructing one.
 
 We first recall the notion of group and group convolution.
 

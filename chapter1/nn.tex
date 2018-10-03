@@ -8,7 +8,7 @@ In this section, we present a mathematical formalization and its biological inte
 \subsection{Neural networks}
 \label{sec:form}
 
-A feed-forward neural network could originally be formalized as a composite function chaining linear and non-linear functions \citep{rumelhart1985learning,lecun1989backpropagation,lecun1995convolutional}. That whas still the case in 2012 when important breakthroughs regenerated a surge of interest in the field \citep{hinton2012deep,krizhevsky2012imagenet,simonyan2014very}. However, in more recent years, more complex architectures have emerged \citep{szegedy2015going,he2016deep,zoph2016neural,huang2017densely}, such that the former formalization does not suffice. We provide a definition for the first kind of neural networks (\defref{def:nn}) and use it to present its related concepts. Then we give a more generic definition (\defref{def:nn2}).
+A feed-forward neural network could originally be formalized as a composite function chaining linear and non-linear functions \citep{rumelhart1985learning,lecun1989backpropagation,lecun1995convolutional}. That was still the case in 2012 when important breakthroughs regenerated a surge of interest in the field \citep{hinton2012deep,krizhevsky2012imagenet,simonyan2014very}. However, in more recent years, more complex architectures have emerged \citep{szegedy2015going,he2016deep,zoph2016neural,huang2017densely}, such that the former formalization does not suffice. We provide a definition for the first kind of neural networks (\defref{def:nn}) and use it to present its related concepts. Then we give a more generic definition (\defref{def:nn2}).
 
 Note that in this manuscript, we only consider neural networks that are \emph{feed-forward} \citep{zell1994simulation, wiki:fnn}, as opposed to \emph{recurrent}.
 
@@ -68,37 +68,33 @@ The most common activation function is the \emph{rectified linear unit} (ReLU)~\
 \paragraph{Examples}
 Let $f: x \to y$ be a neural network. For example, if~$f$ is used to classify its input~$x$ in one of~$c$ classes, then its output~$y$ would be a vector of dimension~$c$,  and each dimension corresponds to a class. The prediction of~$f$ for the class of~$x$ is the dimension of~$y$ where it has the bigger value. Typically,~$f$ is terminated by a softmax activation~\citep{wiki:soft}, so that values of the output~$y$ fall in the range $[0,1]$, and so that~$y$ tends to have a dimension with a much bigger weight as to facilitates discrimination.
 
-A neural network that comprises convolutional layers, \ie layers \st~$g$ is expressed with a convolution, is called a Convolutional Neural Network (CNN). A common example is the LeNet-5 architecture~\citep{lecun1989backpropagation} as depicted in \figref{fig:lenet}. It implements a function
-$$
-f = h_4 \circ g_4 \circ \cdots \circ h_1 \circ g_1
-$$
-where $g_1$ and $g_2$ are linear functions that applies 5x5 convolutions followed by subsampling, $h_1$, $h_2$ and $h_3$ are ReLU activations, and $h_4$ is a softmax activation. It was originally applied to the task of handwritten digit classifications (for example for automatically reading postal ZIP codes).
-
-\begin{figure}[htp]
+\begin{figure}[p]
 \centering\includegraphics[scale=0.5]{chapter1/lenet5.png}
 \caption{LeNet-5 \citep{lecun1989backpropagation}}
 \label{fig:lenet}
 \end{figure}
 
-Another example is the VGG architecture, a very deep CNN, and was state-of-the-art in image classification in 2014 (\citeauthor{simonyan2014very}). It is depicted on \figref{fig:vgg}
-
-\begin{figure}[htp]
+\begin{figure}[p]
 \centering\includegraphics[scale=0.8]{chapter1/vgg16.png}
 \caption{VGG-16 (\cite{simonyan2014very}, figure from~\cite{vgg})}
 \label{fig:vgg}
 \end{figure}
 
-In more recent years, state-of-the-art architectures can no longer be described with a simple formalization.
+A neural network that comprises convolutional layers, \ie layers \st~$g$ is expressed with a convolution, is called a Convolutional Neural Network (CNN). An old example is the LeNet-5 architecture~\citep{lecun1989backpropagation} as depicted in \figref{fig:lenet}. It implements a function
+$$
+f = h_4 \circ g_4 \circ \cdots \circ h_1 \circ g_1
+$$
+where $g_1$ and $g_2$ are linear functions that applies 5x5 convolutions followed by subsampling, $h_1$, $h_2$ and $h_3$ are ReLU activations, and $h_4$ is a softmax activation. It was originally applied to the task of handwritten digit classifications (for example for automatically reading postal ZIP codes).
+
+Another example is the VGG architecture, a very deep CNN, and was state-of-the-art in image classification in 2014 (\citeauthor{simonyan2014very}). It is depicted on \figref{fig:vgg}. In more recent years, state-of-the-art architectures can no longer be described with a simple formalization.
 
 %\paragraph{Generic formalization}
-The former neural networks are said to be \emph{simply connected} because each layer only takes as input the output of the previous one. We'll give a more general definition after first defining branching operations.
+The former neural networks are said to be \emph{simply connected} because each layer only takes as input the output of the previous one. We give a more general definition after first defining branching operations.
 
 \begin{definition}\textbf{Branching}\\
 A \emph{binary branching operation} between two tensors, $x_{k_1} \Join x_{k_2}$, outputs, subject to shape compatibility, either their addition, either their concatenation along a rank, or their concatenation as a list.
-
-A \emph{branching operation} between $n$ tensors, $x_{k_1} \Join x_{k_2} \Join \cdots \Join x_{k_n}$, is a composition of binary branching operations, or is the identity function $\id$ if $n = 1$.
-
-Branching operations are also naturally defined on tensor-valued functions.% via their realizations.
+%A \emph{branching operation} between $n$ tensors, $x_{k_1} \Join x_{k_2} \Join \cdots \Join x_{k_n}$, is a composition of binary branching operations, or is the identity function $\id$ if $n = 1$.
+%Branching operations are also naturally defined on tensor-valued functions.% via their realizations.
 \end{definition}
 
 \begin{definition}\textbf{Neural network (generic definition)}\\
@@ -112,21 +108,21 @@ The set of \emph{neural network} functions $\cn$ is defined inductively as follo
 \label{def:nn2}
 \end{definition}
 
-\paragraph{Examples}
-The neural network proposed in \citep{szegedy2015going}, called \emph{Inception}, use depth-wise concatenation of feature maps. Residual networks (ResNets, \cite{he2016deep}) make use of \emph{residual connections}, also called \emph{skip connections}, \ie an activation that is used as input in a lower level is added to another activation at an upper level, as depicted on \figref{fig:resnet}. Densely connected networks (DenseNets, \cite{huang2017densely}) have their activations concatenated with all lower level activations. These neural networks had demonstrated state of the art performances on the imagenet classification challenge \citep{deng2009imagenet}, outperforming simply connected neural networks. For example, DenseNet is depicted on \figref{fig:densenet}.
-\label{par:branching_ex}
-
-\begin{figure}[htp]
+\begin{figure}[p]
 \centering\includegraphics[scale=0.2]{chapter1/resnetmodule.png}
 \caption{Module with a residual connection \citep{he2016deep}}
 \label{fig:resnet}
 \end{figure}
 
-\begin{figure}[htp]
+\begin{figure}[p]
 \centering\includegraphics[scale=0.07]{chapter1/densenet.jpg}
 \caption{DenseNet \citep{huang2017densely}}
 \label{fig:densenet}
 \end{figure}
+
+\paragraph{Examples}
+The neural network proposed in \citep{szegedy2015going}, called \emph{Inception}, use depth-wise concatenation of feature maps. Residual networks (ResNets, \cite{he2016deep}) make use of \emph{residual connections}, also called \emph{skip connections}, \ie an activation that is used as input in a lower level is added to another activation at an upper level, as depicted on \figref{fig:resnet}. Densely connected networks (DenseNets, \cite{huang2017densely}) have their activations concatenated with all lower level activations. These neural networks had demonstrated state of the art performances on the imagenet classification challenge \citep{deng2009imagenet}, outperforming simply connected neural networks. For example, DenseNet is depicted on \figref{fig:densenet}.
+\label{par:branching_ex}
 
 \begin{remark}
 For layer indexing convenience, we still use the simple formalization in the subsequent subsections, even though the presentation would be similar with the generic formalization.
@@ -161,8 +157,8 @@ A neuron is illustrated on \figref{fig:neuron}.
 \subsection{Training}
 \label{sec:training}
 
-Given an objective function $F$, training is the process of incrementally modifying a neural network $f$ upon obtaining a better approximation of $F$.
-The most used training algorithms are based on gradient descent, as proposed in \citep{widrow1960adaptive}. These algorithms became popular since \citep{rumelhart1985learning}. Informally, $f$ is parameterized with initial weights that characterize its linear parts. These weights are modified step by step. At each step, a batch of samples are fed to the network, and their approximation errors sum to a loss. The weights of the network are updated in the opposite direction to their gradient with respect to that loss. If the samples are shuffled and grouped in batches, this is called \emph{Stochastic} gradient descent (SGD). Stochastic approximation \citep{robbins1985stochastic} tends to minimize effects of outliers on the training and is agnostic of the order in which the samples are fed.
+Given an objective function~$F$, training is the process of incrementally modifying a neural network~$f$ upon obtaining a better approximation of~$F$.
+The most used training algorithms are based on gradient descent, as proposed in \citep{widrow1960adaptive}. These algorithms became popular since \citep{rumelhart1985learning}. Informally, $f$~is parameterized with initial weights that characterize its linear parts. These weights are modified step by step. At each step, a batch of samples are fed to the network, and their approximation errors sum to a loss. The weights of the network are updated in the opposite direction to their gradient with respect to that loss. If the samples are shuffled and grouped in batches, this is called \emph{Stochastic} gradient descent (SGD). Stochastic approximation \citep{robbins1985stochastic} tends to minimize effects of outliers on the training and is agnostic of the order in which the samples are fed.
 
 %All possible realizations of $f$ through its weights draw a family $N$ which expressivity is crucial for the success of the training. The common points between $f$ and other objects of $N$ define what is called a neural network \emph{architecture}. That is
 
@@ -253,7 +249,7 @@ Of particular interest for the intuition is a result stating that a simply conne
 Expressive efficiency analysis have demonstrated the benefits of depth, \ie a shallow neural network would need an unfeasible large number of neurons to approximate the function of a deep neural network (\eg \cite{delalleau2011shallow,bianchini2014complexity,poggio2015theory,eldan2016power,poole2016exponential,raghu2016expressive,cohen2016convolutional,mhaskar2016learning,lin2017does,arora2018understanding}). This field seeks to give theoretical grounds to the practical observation that state-of-the-art architectures are getting deeper. 
 
 \paragraph{Benefits of branching operations}
-Recent works have provided rationales supporting benefits of using branching operations, thus giving justifications for architectures obtained with the generic formalization. In particular, \citep{cohen2018boosting} have analyzed the impact of residual connections used in Wavenet-like architectures \citep{van2016wavenet} in terms of expressive efficiency, using tools from the field of tensor analysis ; \citep{orhan2018skip} have empirically demonstrated that skip connections can resolve some inefficiency problems inherent of fully-connected networks (dead activations, activations that are always equal, linearly dependent sets of activations).
+Recent works have provided rationales supporting benefits of using branching operations, thus giving justifications for architectures obtained with the generic formalization. In particular, \citep{cohen2018boosting} have analyzed the impact of residual connections used in Wavenet-like architectures \citep{van2016wavenet} in terms of expressive efficiency, using tools from the field of tensor analysis ; \citep{orhan2018skip} have empirically demonstrated that residual connections can resolve some inefficiency problems inherent of fully-connected networks (dead activations, activations that are always equal, linearly dependent sets of activations).
 
 
 \subsection{Common layers}
@@ -326,7 +322,7 @@ A convolutional layer with \emph{stride} is a convolutional layer that computes 
 A layer with \textit{pooling} $(g,h)$ is such that $g$ can be decomposed as $g = g' \circ g_\text{pool}$, where $g_\text{pool}$ is a pooling operation.
 \end{definition}
 
-Layers with stride or pooling downscale the signals that passes through the layer. These types of layers allows to compute features at a coarser level, giving the intuition that the deeper a layer is in the network, the more abstract is the information captured by the weights of the layer. Additional, from a practical point of view, they contribute to lower the computational complexity at deeper levels.
+Layers with stride or pooling downscale the signals that passes through the layer. These types of layers allows to compute features at a coarser level, giving the intuition that the deeper a layer is in the network, the more abstract is the information captured by the weights of the layer. From a practical point of view, they contribute to lower the computational complexity at deeper levels.
 
 \paragraph{A simple result}
 In two dimensions, convolutional operations can be rewritten as a matrix-vector multiplication where the matrix is Toeplitz. We show below that it is still the case in $n$~dimensions.
