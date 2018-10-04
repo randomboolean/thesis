@@ -3,7 +3,7 @@
 
 As \thref{prop:equi} is a complete characterization of convolutions, it can be used to define them \ie convolution operators can be constructed as the set of linear transformations that are equivariant to translations. However, in the general case where $G$ is not a grid graph, translations are not defined, so that construction needs to be generalized beyond translational equivariances.
 
-In mathematics, convolutions are more generally defined for signals defined over a group structure. The classical convolution that is used in deep learning is just a narrow case where the domain group is an Euclidean space. Therefore, constructing a convolution on graphs should start from the more general definition of convolution on groups rather than convolution on Euclidean domains.
+In mathematics, convolutions are more generally defined for functions defined over a group structure. The classical convolution that is used in deep learning is just a narrow case where the domain group is an Euclidean space. Therefore, constructing a convolution on graphs should start from the more general definition of convolution on groups rather than convolution on Euclidean domains.
 
 Our construction is motivated by the following questions:
 \begin{itemize}[nolistsep,noitemsep]
@@ -29,7 +29,7 @@ The group convolution extends the notion of the classical discrete convolution a
 \begin{definition}\textbf{Group convolution}\\
 Let a group $\Gamma$, the \emph{group convolution} between two signals $s_1$ and $s_2 \in \cs(\Gamma)$ is defined as:
 \begin{align*}
-\forall h \in \Gamma, s_1 \ast_{\Gamma} s_2 [h] = \displaystyle \sum_{g \in \Gamma} s_1[g] \h{2} s_2[g^{-1}h]
+\forall h \in \Gamma, (s_1 \ast_{\Gamma} s_2) [h] = \displaystyle \sum_{g \in \Gamma} s_1[g] \h{2} s_2[g^{-1}h]
 \end{align*}
 provided at least one of the signals has finite support if $\Gamma$ is not finite.
 \label{def:conv1}
@@ -48,8 +48,8 @@ The group convolution perserves the characterization from \thref{prop:equi}.
 Let a group $\Gamma$, let $f \in \cl(\cs(\Gamma))$,
 \begin{enumerate}[nolistsep,noitemsep,label=(\roman*)]
   \item $f$ is a group convolution right operator $\Leftrightarrow$ $f$ is equivariant to left multiplications \label{enum:p}
-  \item $f$ is a group convolution left operator $\Leftrightarrow$ $f$ is equivariant to right multiplications
-  \item $f$ is a group convolution commutative operator $\Leftrightarrow$ $f$ is equivariant to multiplications $\Leftrightarrow$ $\Gamma$ is abelian
+  \item $f$ is a group convolution left operator $\Leftrightarrow$ $f$ is equivariant to right multiplications \label{enum:pp}
+  \item $f$ is a group convolution commutative operator $\Leftrightarrow$ $f$ is equivariant to multiplications $\Leftrightarrow$ $\Gamma$ is abelian \label{enum:ppp}
 \end{enumerate}
 \label{th:cgco}
 \end{theorem}
@@ -64,7 +64,7 @@ We only prove the results for \ref{enum:p} since the others derive from it. The 
                 & = \displaystyle \sum_{pg \in \Gamma} s[p^{-1}pg] \h{2} L_{pg}(w)\\
                 & = \displaystyle \sum_{g \in \Gamma} L_p(s)[g] \h{2} L_g(w)\\
                 & = L_p(s) \ast_\Gamma w\\
-                & = f \circ L_p (s)
+                & = (f \circ L_p) (s)
   \end{align*}
   \item[$\Leftarrow$]: Let $f \in \cl(\cs(\Gamma))$. We suppose $\forall p \in \Gamma, L_p \circ f = f \circ L_p$. First, note that
   \begin{align*}
@@ -170,17 +170,17 @@ This is also better depicted on a commutative diagram, see \figref{fig:comcom}.
 \label{fig:comcom}
 \end{figure}
 
-And so, given $p \in \Gamma$, the equivariance of $\widetilde f$ rewrites for $f$
+And so, given $p \in \Gamma$, the equivariance of $\widetilde f$ rewrites for $f$:
 \begin{align}
 \varphi \circ L_p \circ \widetilde f \circ \varphi^{-1} & = \varphi \circ \widetilde f \circ L_p \circ \varphi^{-1}\\
-\ie (\varphi \circ L_p \circ \varphi^{-1}) \circ f & = f \circ (\varphi \circ L_p \circ \varphi^{-1})
+\ie (\varphi \circ L_p \circ \varphi^{-1}) \circ f & = f \circ (\varphi \circ L_p \circ \varphi^{-1}) \label{eq:fpf}
 \end{align}
 That is, if we paraphrase \thref{prop:equi}, the class of vertex-group convolution operator is the class of linear operators that are equivariant to $\{ \varphi \circ L_p \circ \varphi^{-1}, p \in \Gamma \}$. However, our goal is to obtain equivariance to $\Gamma$. Since $L_p$ is not exaclty an object of $\Gamma$, but a realization of a group action, we are going to consider group actions next.
 
 \subsection{Construction under group actions}
 \label{sec:groupaction}
 
-We have previously been using group actions implicitly, let us define it.
+We have been previously using the notion of group action implicitly, let us define it here.
 
 \begin{definition}\textbf{Group action}\\
 An \emph{action} of a group $\Gamma$ on a set $V$ is a homomorphism $L: \Gamma \to \Phi^*(V)$.
@@ -190,7 +190,7 @@ An \emph{action} of a group $\Gamma$ on a set $V$ is a homomorphism $L: \Gamma \
 Given $g \in \Gamma$, we denote $L_g = L(g)$, or just $g(.)$ when there is no ambiguity. $L_g$ is called the action of $g$ by $L$ on $V$. When a group~$\Gamma$ is in one-to-one correspondence with a set $V$, we will abusively attribute \emph{actions} of the objects of the group to their corresponding objects in the set.
 \end{remark}
 
-Hence, note that a vertex $g \in \Gamma$ can act on both $\Gamma$ through the left multiplication~$L$ and on~$V$ as itself. This ambivalence can be seen on a commutative diagram, see \figref{fig:com}.%, where all arrows except the one labeled with \eqref{eq:P} are always true.
+Hence, note that a transformation $g \in \Gamma$ can act on both $\Gamma$ through the left multiplication~$L$ and on~$V$ as itself. This ambivalence can be seen on a commutative diagram, see \figref{fig:com}.%, where all arrows except the one labeled with \eqref{eq:P} are always true.
 
 \begin{figure}[H]
 \centering
@@ -211,11 +211,10 @@ A map $\varphi$ from a group $\Gamma$ acting on the destination set $V$ and itse
 \end{gather*}
 \label{def:eqmap}
 \end{definition}
-
-\begin{remark} Here $g$ acts on $\Gamma$ through left multiplication so $g(h) = L_g(h) = gh$.
+\begin{remark} For example, if $g$ acts on $\Gamma$ through left multiplication then $g(h) = L_g(h) = gh$.
 \end{remark}
 
-Suppose we have $\Gamma \overset{\varphi}{\cong} V$. If we also have that $\Gamma \equiv V$, we are interested to know if then~$\varphi$~exhibits the equivalence under left multiplication.
+Suppose we have $\Gamma \overset{\varphi}{\cong} V$. If we also have that $\Gamma \equiv V$, we are interested to know if then~$\varphi$~exhibits the equivalence and under which auto-action.
 
 \begin{definition}\textbf{$\varphi$-Equivalence}\\
 A subgroup $\Gamma \subset \Phi^*(V)$ such that $\Gamma \overset{\varphi}{\cong} V$, is said to be \emph{(left) $\varphi$-equivalent} if $\varphi$ is a bijective equivariant map under left multiplication \ie:
@@ -230,7 +229,7 @@ It is said to be \emph{right $\varphi$-equivalent} if $\varphi$ is a bijective e
 \end{gather}
 \end{definition}
 
-We denote $\Gamma \overset{\varphi}{\equiv} V$. Unless stated oterwise, we will implicilty consider left lateralities.
+We denote $\Gamma \overset{\varphi}{\equiv} V$. Unless stated otherwise, we will implicitly consider it is under left multiplication.
 
 \begin{remark}
 For example, translations on the grid graph, with $\varphi(t_{i,j}) = (i,j)$, are $\varphi$-equivalent since $t_{i,j}(a,b) = \varphi(t_{i,j} \circ t_{a,b})$. However, with $\varphi(t_{i,j}) = (\text{-}i,\text{-}j)$, they would not be $\varphi$-equivalent since in general $t_{i,j}(a,b) \neq t_{i,j}(\text{-}a,\text{-}b)$.
@@ -248,7 +247,7 @@ s_1 \ast_V s_2 & = \displaystyle \sum_{v \in V} s_1[v] \h{2} g_v(s_2)\label{eq:v
 \label{def:conv3}
 \end{definition}
 
-The two expressions differ on the domain upon which the summation is done. The expression \eqref{eq:vdom} put the emphasis on each vertex and its action, whereas the expression \eqref{eq:premix} emphasizes on each object of $\Gamma$.
+The two expressions differ on the domain upon which the summation is done. The expression \eqref{eq:vdom} put the emphasis on each vertex and its action, whereas the expression \eqref{eq:premix} emphasizes on each transformation of $\Gamma$.
 
 \begin{lemma}\textbf{Relation with vertex-group convolution}\\
 There is $\varphi$-equivalence if, and only if, vertex-group and vertex-action convolutions are equal, \ie
@@ -270,30 +269,41 @@ For the converse, given $u, v \in V$, we first realize \eqref{eq:free} for $s_1 
 We now coin the term $\varphi$-convolution, for when there is $\varphi$-equivalence.
 
 \begin{definition}\textbf{$\varphi$-convolution}\\
-The \emph{$\varphi$-convolution} is defined as the vertex-action convolution such that $\Gamma \overset{\varphi}{\equiv} V$, \ie given $s_1$ and $s_2 \in \cs(V)$
+The \emph{$\varphi$-convolution} is defined as the vertex-action convolution such that $\Gamma \overset{\varphi}{\equiv} V$, \ie given $s_1$ and $s_2 \in \cs(V)$, we have:
 \begin{align*}
-s_1 \ast_{\varphi} s_2 &= s_1 \ast_{\Gamma} s_2\\
-&= s_1 \ast_{V} s_2
+s_1 \ast_{\varphi} s_2 &= s_1 \ast_{V} s_2\\
+&= s_1 \ast_{\Gamma} s_2
 \end{align*}
 \label{def:convv}
 \end{definition}
 
 This time we do obtain equivariance to $\Gamma$ as expected, and the full characterization as well.
 
-\begin{theorem}\textbf{Characterization of $\varphi$-convolution operators}\\
+\begin{theorem}\textbf{Characterization of $\varphi$-convolution right operators}\\
 Let a subgroup $\Gamma \subset \Phi^*(V)$ , let $f \in \cl(\cs(\Gamma))$, then:\\
 \centerline{$f$ is a $\varphi$-convolution right operator $\Leftrightarrow$ $f$ is equivariant to $\Gamma$}
-\label{th:cvco}
+\label{prop:equiG}
 \end{theorem}
-\begin{remark}
-Note that changing both the laterality of the $\varphi$-convolution operator and of the $\varphi$-equivalence preserves this result.
-\end{remark}
 \begin{proof}
-As a consequence of 
+As a consequence of \eqref{eq:fpf}, \eqref{eq:PP}, Lemmas \ref{lem:rel12}, and \ref{lem:rel23}, we can use bullet~\ref{enum:p} of \thref{th:cgco} to obtain the proof.
 \end{proof}
 
+\begin{corollary}\textbf{Characterization of $\varphi$-convolution operators}\\
+Let a subgroup $\Gamma \subset \Phi^*(V)$ , let $f \in \cl(\cs(\Gamma))$, then:\\
+\begin{tabular}{rl}
+  $f$ is equivariant to $\Gamma$ $\Leftrightarrow$ &
+  $f$ is a $\varphi$-convolution operator \st its laterality is \\
+  & opposed to the laterality of the $\varphi$-equivalence
+\end{tabular}
+\label{cor:equiG}
+\end{corollary}
+\begin{proof}
+As per bullet \ref{enum:pp} of \thref{th:cgco}.
+\end{proof}
 
-
+\begin{remark}
+The bullet \ref{enum:ppp} would just inform that it is equivalent to say that either the $\varphi$-equivalence is commutative, or the $\varphi$-convolution is commutative, or $\Gamma$ is abelian.
+\end{remark}
 
 % \begin{theorem}\textbf{Characterization by right-action equivariance to $\Gamma$}\\
 % If $\Gamma$ is $\varphi$-equivalent, the class of linear transformations of $\cs(V)$ that are equivariant to $\Gamma$ is exactly the class of $\varphi$-convolution operators acting on the right of $\cs(V)$ \ie
@@ -342,11 +352,11 @@ As a consequence of
 % \end{enumerate}
 % \end{proof}
 
-\paragraph{Construction of $\varphi$-convolutions on vertex domains}
-\thref{prop:equiG} tells us that in order to define a convolution on the vertex domain of a graph $\gve$, all we need is a subgroup $\Gamma$ of invertible transformations of $V$, that is equivalent to $V$. The choice of $\Gamma$ can be done with respect to~$E$. This is discussed in more details in \secref{sec:edges}, where we will see that in fact, we only need a generating set of $\Gamma$.
+%\paragraph{Construction of $\varphi$-convolutions on vertex domains}
+\thref{prop:equiG} tells us that in order to define a convolution on the vertex domain of a graph $\gve$, all we need is a subgroup $\Gamma$ of invertible transformations of $V$ (or of a subset of $V$), that is equivalent to $V$. The choice of $\Gamma$ can be done with respect to~$E$. This is discussed in more details in \secref{sec:edges}, where we will see that in fact, we only need a generating set of $\Gamma$.
 
-\paragraph{Exposure of $\varphi$}
-The previous construction relies on exposing a bijective equivariant map $\varphi$ between $\Gamma$ and $V$. In the next subsection, we show that in cases where $\Gamma$ is abelian, we even need not expose $\varphi$ and the characterization still holds.
+%\paragraph{Exposure of $\varphi$}
+The previous construction relies on exposing a bijective equivariant map $\varphi$ between $\Gamma$ and $V$. In the next subsection, we show that in case $\Gamma$ is abelian, we even need not expose $\varphi$ and the characterization still holds.
 
 \subsection{Mixed domain formulation}
 
@@ -363,7 +373,7 @@ r \ast_{\M} s = \displaystyle \sum_{g \in \Gamma} r[g] \h{2} g(s)
 
 We coin it $\M$-convolution. From a practical point of view, this expression of the convolution is useful because it relegates $\varphi$ as an underpinning object.% Therefore, only $V$ and some of its transformations are enough to define a convolution.
 
-\begin{lemma}\textbf{Relation with group convolution III}\\
+\begin{lemma}\textbf{Relation with vertex-action convolution}\\
 $\forall \varphi \in \bij(\Gamma, V), \forall (r,s) \in \cs(\Gamma) \times \cs(V),$\\
 \centerline{$r \ast_{\M} s = \varphi(r) \ast_{V} s$}
 \label{lem:rel3m}
@@ -382,7 +392,7 @@ Where $\overset{(\diamond)}{=}$ comes from \lemref{lem:outer}.
 
 In other words, $\ast_{\M}$ is a convenient reformulation of $\ast_{V}$ which does not depend on a particular $\varphi$.
 
-\begin{lemma}\textbf{Relation with group convolution I, II and $\varphi$-convolution}\\
+\begin{lemma}\textbf{Relation with group, vertex-group and $\varphi$-convolutions}\\
 Let $\varphi \in \bij(\Gamma, V),(r,s) \in \cs(\Gamma) \times \cs(V)$, we have:
 \begin{align*}
 \Gamma \overset{\varphi}{\equiv} V & \Leftrightarrow \forall v \in V, (r \ast_{\M} s)[v] = (r \ast_{\Gamma} \varphi^{-1}(s))[g_v]\\
@@ -400,6 +410,8 @@ On one hand, \lemref{lem:rel3m} gives $r \ast_{\M} s = \varphi(r) \ast_{V} s$. O
 \begin{remark}
 The converse sense is meaningful because it justifies that when the $\M$-convolution is employed, the property $\Gamma \equiv V$ underlies, without the need of expliciting $\varphi$.
 \end{remark}
+
+\todo{rewrite below}
 
 From $\M$-convolution, we can derive operators acting on the left of $\cs(V)$, of the form $s \mapsto w \ast_{\M} s$, parameterized by $w \in \cs(\Gamma)$. In particular, these operators would be relevant as layers of neural networks. On the contrary, derived operators acting on the right such as $r \mapsto r \ast_{\M} w$ wouldn't make sense with this formulation as they would make $\varphi$ resurface. However, the equivariance to $\Gamma$ incurring from \lemref{lem:rel3m} and \thref{prop:equiG} only holds for operators acting on the right. So we need to intertwine an abelian condition as follows. This is also a good excuse to see the influence of abelianity.
 
