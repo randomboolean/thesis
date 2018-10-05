@@ -38,7 +38,7 @@ Convolution operators are equivariant to translations. Below, we show that the c
 We first define what a transformation of a domain is, and how it can be extended to signals defined on this domain.
 
 \begin{definition}\textbf{Transformation}\\
-A \emph{transformation} $f: V \rightarrow V$ is a function with same domain and codomain. The set of transformations is denoted $\Phi(V)$. The set of invertible transformations is denoted $\Phi^*(V) \subset \Phi(V)$.
+A \emph{transformation} $f: V \rightarrow V$ is a function with same domain and codomain. The set of transformations is denoted $\Phi(V)$. The set of invertible transformations is denoted $\Phi^*(V) \subset \Phi(V)$. If $V$ is a linear space, the set of its linear transformation is denoted $\cl(V)$.
 \end{definition}
 
 \begin{remark}
@@ -47,7 +47,7 @@ Note that $\Phi^*(V)$ forms what is usually called the symmetric group of $V$.
 
 $\Phi^*(V)$ can \emph{move} signals of $\cs(V)$ by linear extension of its group action, as we explain with the lemma that follows.
 
-\begin{lemma}\textbf{Extension to $\cs(V)$ by group action}\\
+\begin{lemma}\textbf{Extension of $\Phi^*(V)$ to $\cl(\cs(V))$}\\
 An invertible transformation $f \in \Phi^*(V)$ can be extended linearly to the signal space $\cs(V)$, and we have:
 \begin{gather*}
 \forall s \in \cs(V), \forall v \in V, f(s)[v] = s[f^{-1}(v)]
