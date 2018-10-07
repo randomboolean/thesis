@@ -122,7 +122,7 @@ We naturally obtain the following relation, which put in simpler words means tha
 With this lemma, we can steer the definition of the group convolution from $\cs(\Gamma)$ to $\cs(V)$ as in the following definition.
 
 \begin{remark}
-Note that this definition is just a step in our construction since we will see that it is not enough to obtain the wanted counterpart of \thref{prop:equi}.
+Note that the following definition is just a step in our construction since we will see that it is not enough to obtain the wanted counterpart of \thref{prop:equi}.
 \end{remark}
 
 \begin{definition}\textbf{Vertex-group convolution}\\
@@ -177,7 +177,7 @@ And so, given $p \in \Gamma$, the equivariance of $\widetilde f$ rewrites for $f
 \varphi \circ L_p \circ \widetilde f \circ \varphi^{-1} & = \varphi \circ \widetilde f \circ L_p \circ \varphi^{-1}\\
 \ie (\varphi \circ L_p \circ \varphi^{-1}) \circ f & = f \circ (\varphi \circ L_p \circ \varphi^{-1}) \label{eq:fpf}
 \end{align}
-That is, if we paraphrase \thref{prop:equi}, the class of vertex-group convolution operator is the class of linear operators that are equivariant to $\{ \varphi \circ L_p \circ \varphi^{-1}, p \in \Gamma \}$. However, our goal is to obtain equivariance to $\Gamma$. Since $L_p$ is not exaclty an object of $\Gamma$, but a realization of a group action, we are going to consider group actions next.
+That is, if we paraphrase \thref{prop:equi}, the class of vertex-group convolution operators is the class of linear operators that are equivariant to $\{ \varphi \circ L_p \circ \varphi^{-1}, p \in \Gamma \}$. However, our goal is to obtain equivariance to $\Gamma$. Since $L_p$ is not exactly an object of $\Gamma$, but a realization of a group action, we are going to consider group actions next.
 
 \subsection{Construction under group actions}
 \label{sec:groupaction}
@@ -249,7 +249,7 @@ s_1 \ast_V s_2 & = \displaystyle \sum_{v \in V} s_1[v] \h{2} g_v(s_2)\label{eq:v
 \label{def:conv3}
 \end{definition}
 
-The two expressions differ on the domain upon which the summation is done. The expression \eqref{eq:vdom} put the emphasis on each vertex and its action, whereas the expression \eqref{eq:premix} put the emphasis on each transformation of $\Gamma$.
+The two expressions differ on the domain upon which the summation is done. Expression \eqref{eq:vdom} puts the emphasis on each vertex and its action, whereas expression \eqref{eq:premix} puts the emphasis on each transformation of~$\Gamma$.
 
 \begin{lemma}\textbf{Relation with vertex-group convolution}\\
 There is $\varphi$-equivalence if, and only if, vertex-group and vertex-action convolutions are equal, \ie
@@ -267,6 +267,10 @@ Hence, the direct sense is obtained by applying \eqref{eq:P}.
 
 For the converse, given $u, v \in V$, we first realize \eqref{eq:free} for $s_1 := \delta_v$, obtaining $s_2[\varphi(g_v^{-1}g_u)] = s_2[g_v^{-1}(u)]$, which we then realize for a real signal $s_2$ having no two equal entries, obtaining $\varphi(g_v^{-1}g_u) = g_v^{-1}(u)$. From the latter we finally obtain \eqref{eq:P} with the one-to-one correspondence $g_{v'} := g_v^{-1}$.
 \end{proof}
+
+\begin{remark}Note that we used the fact that the $\varphi$-equivalence is implicitly left. If it were right, we would have instead $s_1 \ast_{\Gamma} s_2 = s_2 \ast_{V} s_1$.
+
+\end{remark}
 
 We now coin the term $\varphi$-convolution, for when there is $\varphi$-equivalence.
 
@@ -355,10 +359,10 @@ The bullet \ref{enum:ppp} would just inform that it is equivalent to say that ei
 % \end{proof}
 
 %\paragraph{Construction of $\varphi$-convolutions on vertex domains}
-\thref{prop:equiG} tells us that in order to define a convolution on the vertex domain of a graph $\gve$, all we need is a subgroup $\Gamma$ of invertible transformations of the vertex set~$V$ (or of a subset of~$V$), that is equivalent to it. The choice of $\Gamma$ can be done with respect to the edge set~$E$. This is discussed in more details in \secref{sec:edges}, where we will see that in fact, we only need a generating set of $\Gamma$.
+\thref{prop:equiG} tells us that in order to define a convolution on the vertex domain of a graph $\gve$, all we need is a subgroup~$\Gamma$ of invertible transformations of the vertex set~$V$ (or of a subset of~$V$), that is equivalent to it. The choice of~$\Gamma$ can be done with respect to the edge set~$E$. This is discussed in more details in \secref{sec:edges}, where we will see that in fact, we only need a generating set of~$\Gamma$.
 
 %\paragraph{Exposure of $\varphi$}
-The previous construction relies on exposing a bijective equivariant map $\varphi$ between $\Gamma$ and $V$. In the next subsection, we show that in case $\Gamma$ is abelian, we even need not expose $\varphi$ and the characterization still holds.
+The previous construction relies on exposing a bijective equivariant map~$\varphi$ between $\Gamma$~and~$V$. In the next subsection, we show that in case $\Gamma$ is abelian, we even need not expose $\varphi$ and the characterization still holds.
 
 \subsection{Mixed domain formulation}
 
@@ -435,10 +439,11 @@ On one hand, \lemref{lem:rel3m} gives $r \ast_m s = \varphi(r) \ast_{V} s$. On t
 
 %%%%%%%%%%%
 
-From $m$-convolution, a left operator can be used as a layer of a neural network since it is defined over $\cs(V)$, whereas right operators are not.
+From $m$-convolution, a left operator can be used as a layer of a neural network since it is defined over $\cs(V)$, whereas right operators are not. 
 
 \begin{proposition}\textbf{Condition of equivariance}\\
 Let a subgroup $\Gamma \subset \Phi^*(V)$ such that $\Gamma \cong V$. $\Gamma$ is abelian, if and only if, $m$-convolution left operators are equivariant to~$\Gamma$.
+\label{prop:equiM}
 \end{proposition}
 \begin{proof}
 Let $w, g \in \Gamma$, and define $f_w: s \mapsto w \ast_m s$. In the following expressions, $\Gamma$ is abelian if and only if \eqref{eq:aba} and \eqref{eq:abb} are equal (the converse is obtained by particularizing on well chosen signals):
@@ -451,14 +456,29 @@ Let $w, g \in \Gamma$, and define $f_w: s \mapsto w \ast_m s$. In the following 
 \end{align}
 \end{proof}
 
+\begin{remark}
+We used this proof because it is simpler. However, the reason behind the abelian condition is that mixed domain convolution are expressed as if the underlying $\varphi$-equivalence were left. Therefore it is a consequence of \corref{cor:equiG}. Note that if we used a right expression for $\ast_m$ (which amounts to commute the operands), we would be interested in right operators instead of left ones, which would just change the problem to "right-right" instead of "left-left" which would also require abelianity for the equivariance.
+\end{remark}
+
 We then coin the term $\M$-convolution, for which $\Gamma$ is abelian.
-\todo{reword}
 
 \begin{definition}\textbf{M-convolution}\\
-Let a subgroup $\Gamma \subset \Phi^*(V)$ such that $\Gamma \cong V$. The \emph{$\M$-convolution} is defined as the mixed domain convolution such that $\Gamma$ is abelian subgroup of $\Phi^*(V)$
+Let a subgroup $\Gamma \subset \Phi^*(V)$ such that $\Gamma \cong V$.\\
+The \emph{$\M$-convolution} is defined as a mixed domain convolution such that $\Gamma$~is an abelian subgroup of $\Phi^*(V)$.
+We denote it $\ast_{\M}$.
 \end{definition}
 
-\todo{todo below}
+\begin{corollary}\textbf{Characterization of M-convolution left operators}\\
+Let a subgroup $\Gamma \subset \Phi^*(V)~\st \Gamma \cong V$, and $\Gamma$ is abelian. Let $f \in \cl(\cs(\Gamma))$, then:\\
+\centerline{$f$ is a $\M$-convolution left operator $\Leftrightarrow$ $f$ is equivariant to $\Gamma$}
+\label{cor:equiM}
+\end{corollary}
+\begin{proof}As a corollary of \corref{cor:equiG} and \propref{prop:equiM}.
+\end{proof}
+
+\begin{remark}
+Note that despite abelianity, we do not call them "commutative" operators but still call "left" operators since the domain is mixed.
+\end{remark}
 
 % So they would be relevant as layers of neural networks. On the contrary, the domain of right operators is $\cs(\Gamma)$
 
