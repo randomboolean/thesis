@@ -224,12 +224,12 @@ Suppose we have $\Gamma \overset{\varphi}{\cong} V$. If we also have that $\Gamm
 A group $\Gamma$ acting on $V$ such that $\Gamma \overset{\varphi}{\cong} V$, is said to be \emph{(left) $\varphi$-equivalent} if $\varphi$ is a bijective equivariant map under left multiplication \ie:
 \begin{gather}
 \forall v, u \in V, g_v(u) = \varphi(g_vg_u) \label{eq:P}\\
-\ie \forall g \in \Gamma, g = \varphi \circ L_g \circ \varphi^{-1} \label{eq:PP}
+\ie \forall g \in \Gamma, g(.) = \varphi \circ L_g \circ \varphi^{-1} \label{eq:PP}
 \end{gather}
 It is said to be \emph{right $\varphi$-equivalent} if $\varphi$ is a bijective equivariant map under right multiplication \ie:
 \begin{gather}
 \forall v, u \in V, g_v(u) = \varphi(g_ug_v) \label{eq:PPP}\\
-\ie \forall g \in \Gamma, g = \varphi \circ R_g \circ \varphi^{-1}
+\ie \forall g \in \Gamma, g(.) = \varphi \circ R_g \circ \varphi^{-1} \label{eq:PPPP}
 \end{gather}
 \end{definition}
 
@@ -459,7 +459,7 @@ Let $w, g \in \Gamma$, and define $f_w: s \mapsto w \ast_m s$. In the following 
 \end{proof}
 
 \begin{remark}
-We used this proof because it is simpler and does not repquire one-to-one correspondence between $\Gamma$ and $V$. However, the reason behind the abelian condition is that mixed domain convolutions are expressed as if the underlying $\varphi$-equivalence were left. Therefore it is a consequence of \corref{cor:equiG}. Note that if we used a right expression for $\ast_m$ (which amounts to commute the operands), we would be interested in right operators instead of left ones, which would just change the problem to "right-right" instead of "left-left" which would also require abelianity for the equivariance.
+We used this proof because it is simpler and does not require one-to-one correspondence between $\Gamma$ and $V$. However, the reason behind the abelian condition is that mixed domain convolutions are expressed as if the underlying $\varphi$-equivalence were left. Therefore it is a consequence of \corref{cor:equiG}. Note that if we used a right expression for $\ast_m$ (which amounts to commute the operands), we would be interested in right operators instead of left ones, which would just change the problem to "right-right" instead of "left-left" which would also require abelianity for the equivariance.
 \end{remark}
 
 We then coin the term $\M$-convolution, for which $\Gamma$ is abelian.
