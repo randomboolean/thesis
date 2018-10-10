@@ -133,7 +133,7 @@ Note that right $\varphi$-equivalences are instead characterized by right Cayley
 Through the former proof, we also obtain the following corollary. Note that we call an orientation $\vec{G_s} = \langle V_s, E_s \rangle$ of a graph $\gve$, a directed subgraph with same vertex set $V_s = V$ and such that $E_s \subset E$.
 
 \begin{corollary}\textbf{$\varphi$ is a graph isomorphism from a Cayley graph}\\
-Let a graph $\gve$, a group $\Gamma$ of generating set $\cu$ such that $\Gamma \overset\varphi\equiv V$. Then $\varphi$ is also a graph isomorphism between the Cayley graph $\langle \cu, \Gamma, E_c \rangle$ and an orientation of $G$.
+Let a graph $\gve$, a group $\Gamma$ of generating set $\cu$ such that $\Gamma \overset\varphi\equiv V$. Then $\varphi$ is also a graph isomorphism between the left Cayley graph $\langle \cu, \Gamma, E_c \rangle$ and an orientation of $G$.
 \label{cor:giso}
 \end{corollary}
 
@@ -169,7 +169,7 @@ w[g_v^{-1}(u)] \neq 0 & \Leftrightarrow g_v^{-1}(u) \in \varphi(\cm)\\
 \end{align*}
 where $\cm^{-1} = \{ g^{-1}, g \in \cm\}$ (which equals $\cm$ in the usual case it is symmetric). Denote $\ck_u = g_u(\varphi(\cm^{-1}))$, $f_w^{\varphi}$ can be rewritten as:
 \begin{gather}
-f_w^{\varphi}(s)[u] = \displaystyle\sum_{ v \in \ck_u} s[v] \h{2} w[g_v^{-1}(u)] \label{eq:sec}
+\forall u \in V, f_w^{\varphi}(s)[u] = \displaystyle\sum_{ v \in \ck_u} s[v] \h{2} w[g_v^{-1}(u)] \label{eq:sec}
 \end{gather}
 
 Let us call $r$ the \emph{root vertex} defined as the $\varphi$-fiber of the identity element~$e$ (\ie $g_r = e$). We can interprete \eqref{eq:sec} as if the convolution was first realized on $r$ with a sum over a vertex patch initially localized on $\ck_e = \varphi(\cm^{-1})$, and then its realization on another vertex $u$ would amount to move this patch under the action of $g_u$, exactly like with convolution operators on Euclidean domains.
@@ -194,13 +194,13 @@ Although the weight-sharing property is preserved and the $\varphi$-convolution 
 
 \subsection{Locality-preserving convolutions}
 
-Euclidean convolution operators have the property of preserving the local shape, in the sense that the shape of the summation kernel $w$ is preserved while being moved over the domain. In the case of graphs, what we call shape is more formally a subgraph. Therefore, the notion of locality preservation we aim to define is associated with graph automorphisms.
+Euclidean convolution operators have the property of preserving the local shape, in the sense that the shape of the kernel $w$ is preserved while being moved over the domain. In the case of graphs, what we call shape is more formally a subgraph. Therefore, the notion of locality preservation we aim to define is associated with graph automorphisms.
 
 \begin{definition}\textbf{Locality-preserving convolutions}\\
 Let a graph $\gve$, we say that a $\varphi$- or $\M$-convolution, of group $\Gamma$, is locality-preserving (LP) if the actions of $\Gamma$ are graph automorphisms.
 \end{definition}
 
-Similarly than with EC and EC*, we are interested in this property for operators with smaller kernels.
+Similarly than with EC and EC*, we are also interested in this property for operators with smaller kernels.
 
 \begin{definition}\textbf{Strictly locality-preserving convolution operator}\\
 We say that a $\varphi$-convolution operator, of supporting set $\cm \subset \Gamma$, is striclty locality-preserving (LP*) if every subgraph  $\ck_u = g_u(\ck_e)$ are isomorphic.

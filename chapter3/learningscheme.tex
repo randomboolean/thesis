@@ -49,11 +49,11 @@ In semi-supervised settings, we initialize the scheme $S$ using the normalized a
 
 \subsection{Experiments with grid graphs}
 
-We experiment GCTs on the MNIST dataset (see \secref{sec:datasets}). We use a shallow architecture made of a single ternary layer with 50 feature maps, without pooling, followed by a FC layer of 300 neurons, 50\% dropout, and terminated by a FC layer of 10 neurons with softmax activation. ReLu activations are used. Input layers are regularized by a factor weight of $10^{-5}$~\citep{ng2004feature}. We optimize with ADAM~\citep{kingma2014adam} up to 100 epochs and fine-tune (while $S$ is frozen) for up to 50 additional epochs.
+We experiment GCTs on the MNIST dataset (see \secref{sec:datasets}). We use a shallow architecture made of a single ternary layer with $50$ feature maps, without pooling, followed by a FC layer of $300$ neurons, $50\%$ dropout, and terminated by a FC layer of $10$ neurons with softmax activation. ReLu activations are used. Input layers are regularized by a factor weight of $10^{-5}$~\citep{ng2004feature}. We optimize with ADAM~\citep{kingma2014adam} up to $100$ epochs and fine-tune (while $S$ is frozen) for up to $50$ additional epochs.
 
-For the underlying graph strucure, we consider a grid graph that connects each pixel to itself and its 4 nearest neighbors (or less on the borders). We also consider the square of this graph (pixels are connected to their 13 nearest neighbors, including themselves), the cube of this graph (25 nearest neighbors), up to 10 powers (211 nearest neighbors).
+For the underlying graph strucure, we consider a grid graph that connects each pixel to itself and its 4 nearest neighbors (or less on the borders). We also consider the square of this graph (pixels are connected to their $13$ nearest neighbors, including themselves), the cube of this graph ($25$ nearest neighbors), up to $10$ powers ($211$ nearest neighbors).
 We test the model under two setups: either the ordering of the node is unknown, and then we use random one-hot intialization for $S$; either an ordering of the node is known, and then we use circulant one-hot intialization for $S$ which we freeze in this state. We use the number of nearest neighbors as for the dimension of the first rank of $S$.
-We also compare with a convolutional layer of size 5x5, thus containing as many weights as the cube of the grid graph. On MNIST, training architectures that learn $S$ took about twice longer. Table~\ref{toy} summarizes the obtained results. The ordering is unknown for the first result given, and known for the second result between parenthesis.
+We also compare with a convolutional layer of size $5x5$, thus containing as many weights as the cube of the grid graph. On MNIST, training architectures that learn $S$ took about twice longer. Table~\ref{toy} summarizes the obtained results. The ordering is unknown for the first result given, and known for the second result between parenthesis.
 
 \begin{table}[H]
   \caption{Error rates (in \%) on powers of the grid graphs on MNIST.}
@@ -122,7 +122,7 @@ On CIFAR-$10$, training architectures that learn $S$ took about $2.5$ times long
 %We switched each convolutional layer with receptive graph layers, but kept the pooling ones.
 We compare two different graph supports: the one obtained by using the underlying graph of a regular 5x5 convolution, and the support of the square of the grid graph. Optimization is done with stochastic gradient descent on 375 epochs where $S$ is freezed on the 125 last ones. Circulant one-hot intialization is used. These are weak classifiers for CIFAR-$10$ but they are enough to analyse the usefulness of the proposed layer.
 %Exploring deeper architectures is left for further work.
-Experiments are run five times each. Means and standard deviations of accuracies are reported in table~\ref{cifar}. ``Pos'' means parameters in $S$ are forced to being positive, ``Norm'' means that the $\ell_1$ norm of each vector in the third dimension of $S$ is forced to 1, ``Both'' means both constraints are applied, and ``None'' means none are used.
+Experiments are run five times each. Means and standard deviations of accuracies are reported in table~\ref{cifar}. ``Pos'' means parameters in $S$ are forced to being positive, ``Norm'' means that the $\ell_1$ norm of each vector in the third dimension of $S$ is forced to $1$, ``Both'' means both constraints are applied, and ``None'' means none are used.
 
 \begin{table}[H]
   \caption{Accuracies (in \%) of shallow networks on CIFAR-$10$.}
@@ -154,7 +154,7 @@ Learning the scheme $S$ implies a memory overhead due to the increase in the num
 
 %\todo{take S, and reuse it on resnet}
 
-\subsection{Learning $S$ for semi-supervised node classification}
+\subsection{Benchmarks on citation networks}
 \label{sec:lss}
 
 We benchmark multiple graph convolutional methods on citation networks. We refer the reader to \secref{sec:datasets} for a description of the datasets, and to \secref{sec:vert} for a review of the tested models. The models we benchmark are:
@@ -167,7 +167,7 @@ We benchmark multiple graph convolutional methods on citation networks. We refer
 \end{itemize}
 
 To proceed, we forked the official code repository of \cite{velickovic2017graph}, in order to replicate their environmental setup, from which we implemented the other tested models. This entailed a few differences %\footnote{Thanks to Daniel Grattarola for his helpful discussion \url{https://github.com/danielegrattarola/keras-gat/issues/17}.}
-to be noted between our implementation of GCN and TAGCN from the original ones: a bias is added, the right products $XW$ are computed first and are followed by $50\%$ dropout, and the best model on the validation set is saved to be reused at test time. We also used $50\%$ graph dropout for GAT, TAGCN, and GCT, except on the Pubmed dataset for which we saw that it was detrimental. The inputs of each layer undergo $50\%$ dropout, and the value of graph dropout of GCN* is also $50\%$. Every model is composed of two hidden layers. GAT models uses $8$ heads with $8$ hidden units (which amounts to $64$ hidden units), whereas the number of hidden units for other models was grid searched in $\{16, 32, 64\}$\footnote{Most of the time the value of $16$ was selected, sometimes $32$, and never $64$.}. The polynomial degree of TAGCN was $2$. For comparison, we also ran the experiment with an MLP composed of $500$ hidden neurons. The results are reported in \tabref{tab:lss}.
+to be noted between our implementation of GCN and TAGCN from the original ones: a bias is added, the right products $XW$ are computed first and are followed by $50\%$ dropout, and the best model on the validation set is saved to be reused at test time. We also used $50\%$ graph dropout for GAT, TAGCN, and GCT, except on the Pubmed dataset for which we saw that it was detrimental. The inputs of each layer undergo $50\%$ dropout, and the value of graph dropout of GCN* is also $50\%$. Every model is composed of two hidden layers. GAT models uses $8$ heads with $8$ hidden units (which amounts to $64$ hidden units) on the first layer, and $1$ head on the second one (except on Pubmed where it also uses $8$) of also $8$ hidden units. The number of hidden units for other models was grid searched in $\{16, 32, 64\}$\footnote{Most of the time the value of $16$ was selected, sometimes $32$, and never $64$.}. The polynomial degree of TAGCN was $2$. For comparison, we also ran the experiment with an MLP composed of $500$ hidden neurons. The results are reported in \tabref{tab:lss}.
 
 \begin{table}[H]
 \begin{center}
@@ -187,7 +187,7 @@ to be noted between our implementation of GCN and TAGCN from the original ones: 
   \end{tabular}
   \egroup
 \end{center}
-\caption{Mean accuracy (in \%) and standard deviation from 100 runs}
+\caption{Mean accuracy (in \%) and standard deviation after $100$ runs}
 \label{tab:lss}
 \end{table}
 

@@ -56,7 +56,7 @@ Let a group $\Gamma$, let $f \in \cl(\cs(\Gamma))$,
 \begin{proof}
 The proof is similar than the proof of \thref{prop:equi}.
 \begin{itemize}
-  \item[$\Rightarrow$]: Given $w \in \cs(\Gamma)$, let $f_R = .\ast_\Gamma w$, $f_L = .\ast_\Gamma w$, $s \in \cs(\Gamma)$, and $p \in \Gamma$. We have:
+  \item[$\Rightarrow$]: Given $w \in \cs(\Gamma)$, let $f_R = .\ast_\Gamma w$, $f_L = w \ast_\Gamma .$, $s \in \cs(\Gamma)$, and $p \in \Gamma$. We have:
   \begin{align*}
   (L_p \circ f_R) (s) & = L_p( s \ast_\Gamma w )                                         & (R_p \circ f_L) (s) & = R_p( w \ast_\Gamma s )\\
                 & = L_p\left(\displaystyle \sum_{g \in \Gamma} s[g] \h{2} L_g(w)\right)       & & = R_p\left(\displaystyle \sum_{g \in \Gamma} s[g] \h{2} R_g(w)\right)\\
@@ -154,7 +154,7 @@ Using \lemref{lem:outer},
 \end{align*}
 \end{proof}
 
-Let $f$ be a convolution right operator on $\cs(V)$, \st $f = . \ast_\Gamma w$, and $\widetilde f$ be its counterpart on $\cs(V)$, \ie $\widetilde f = . \ast_\Gamma \varphi^{-1} (w)$. Then, we have
+Let $f$ be a convolution right operator on $\cs(V)$, \st $f = . \ast_\Gamma w$, and $\widetilde f$ be its counterpart on $\cs(\Gamma)$, \ie $\widetilde f = . \ast_\Gamma \varphi^{-1} (w)$. Then, we have
 \begin{align}
 \forall s \in \cs(V), f(s) [u] &= \widetilde f (\varphi^{-1}(s)) [g_u] \tag{\lemref{lem:rel12}}\\
                                &= \varphi(\widetilde f (\varphi^{-1}(s))) [u] \tag{\lemref{lem:outer}}\\
@@ -310,7 +310,7 @@ As per \thref{prop:equiG} and its counterpart for bullet \ref{enum:pp} of \thref
 \end{proof}
 
 \begin{remark}
-The bullet \ref{enum:ppp} would just inform that it is equivalent to say that either the $\varphi$-equivalence is commutative, or the $\varphi$-convolution is commutative, or $\Gamma$ is abelian.
+The counterpart of bullet \ref{enum:ppp} of \thref{th:cgco} would just inform that it is equivalent to say that either the $\varphi$-equivalence is commutative, or the $\varphi$-convolution is commutative, or $\Gamma$ is abelian.
 \end{remark}
 
 % \begin{theorem}\textbf{Characterization by right-action equivariance to $\Gamma$}\\

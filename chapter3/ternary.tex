@@ -4,6 +4,7 @@
 In this section, we study the ternary representation, which is the general representation with weight sharing we obtained above. We already saw that it is linear, associative and commutative.
 
 \subsection{Genericity}
+\label{sec:gen}
 
 %\todo{split between supervised and semi supervised}
 
@@ -52,7 +53,7 @@ Without loss of generality, let us reduce to the simple case where $B=P=Q=1$. Th
                          & = \displaystyle \sum_{h=1}^\omega \theta[h] \h{2} x[g_h(j)]%\\
                          %& = \theta \ast_{\M} x [j]
 \end{align}
-which for EC layers, can be rewritten as a convolution of graph signals as studied in \chapref{chap:2}, since the (partial) transformations are invertible thanks to the sparse priors. Conversely, given a convolution of graph signals (formulated as $\ast_\varphi$ or $\ast_{\M}$), we can derive an assignment table $T$ and its corresponding scheme $S$ to obtain a neural contraction.
+which for EC layers, can be rewritten as an EC* convolution of graph signals as studied in \chapref{chap:2}, since the (partial) transformations are invertible thanks to the sparse priors. Conversely, given a convolution of graph signals (formulated as $\ast_\varphi$ or $\ast_{\M}$), we can derive an assignment table $T$ and its corresponding scheme $S$ to obtain a neural contraction.
 
 \subsection{Efficient implementation under sparse priors}
 
@@ -179,7 +180,7 @@ We run a classification task with standard hyperparameters on a toy dataset (we 
 
 The bigger is $\sigma$, the less accurate are the symmetries of the input domain, up to a point where the ternary representation becomes almost equivalent to a dense layer. The results illustrate nicely this evolution, and stress out the importance of trying to leverage symmetries when defining new convolutions.
 
-Moreover, they indicate that the ternary representation also allows to improve performances compared to using dense layers, providing we are able to create a relevant weight sharing scheme $S$ to exploit symmetries. For example, in the case the underlying graph structure of the input is embedded in a 2-d Euclidean space, $S$ can be created just as in this experiment.
+Moreover, they indicate that the ternary representation also allows to improve performances compared to using dense layers, providing we are able to create a relevant weight sharing scheme $S$ to exploit symmetries. For example, in the case the underlying graph structure of the input is embedded in a two-dimensional Euclidean space, $S$ can be created just as in this experiment.
 
 % \subsection{Randomly assigning weights}
 
@@ -235,13 +236,13 @@ We replicated the experimental setup done by \cite{defferrard2016convolutional} 
 \label{fig:archiMC}
 \end{figure}
 
-After 100 runs of 10 epochs, MCNet obtained a mean accuracy of $70.74~\pm~2.19\%$, which is a gain that is statistically significant compared to ChebNet ($65.76\%$, see \tabref{tab:20}), but not against the former MLP ($71.46~\pm~0.08\%$). It is to be noted that the variance of MCNet is quite high and cherry picking the max instead of considering the mean improves the result to $72.62\%$, which is better than the MLP's max at $72.25\%$. Therefore, in some random realizations, MCNet is capable of leveraging the underlying graph structure (and being state-of-the-art).
+After $100$ runs of $10$ epochs, MCNet obtained a mean accuracy of $70.74~\pm~2.19\%$, which is a gain that is statistically significant compared to ChebNet ($65.76\%$, see \tabref{tab:20}), but not against the former MLP ($71.46~\pm~0.08\%$). It is to be noted that the variance of MCNet is quite high and cherry picking the max instead of considering the mean improves the result to $72.62\%$, which is better than the MLP's max at $72.25\%$. Therefore, in some random realizations, MCNet is capable of leveraging the underlying graph structure (and being state-of-the-art).
 
 This is the least to be expected. But when the quality of the graph is low, there may not be anything better to demonstrate. A dataset with a graph that suits well the underpining structure of the domain is often resembling a grid graph to some extent. Therefore we expect the model that will be presented in \secref{sec:trans} to be more relevant in most cases.
 
 \paragraph{Semi-supervised classification of nodes}
 
-A similar kind of randomization based idea that come in mind when transposing the question to the semi-supervised task is to use dropout on the edges of the graph. We call that \emph{graph dropout}. We test this approach on citation networks, for which we set $\omega = 1$ (\ie one graph). The obtained architecture amounts to a GCN \citep{kipf2016semi} to which graph dropout is applied. We report our results in \secref{sec:lss}, \tabref{tab:lss}, where we compare them with other models.
+A similar kind of randomization based idea that come in mind when transposing the question to the semi-supervised task is to use dropout on the edges of the graph. We call that \emph{graph dropout}. We test this approach on citation networks, for which we set $\omega = 1$ (\ie one graph). The obtained architecture amounts to a GCN \citep{kipf2016semi} to which graph dropout is applied. We report and discuss our results in \secref{sec:lss}, \tabref{tab:lss}, where we compare them with other models.
 
 
 

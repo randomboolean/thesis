@@ -164,15 +164,13 @@ Using the proxy-translations on $G$, we move a localized $r$-hop indexing kernel
 Once proxy-translations are obtained on $G$, we use them to move training signals, artificially creating new ones. Note that this type of data-augmentation is weaker than for images since no flipping, scaling or rotations are used.
 
 \subsection{Experiments}
-\paragraph{Matching CNNs on an image classification task}
 
-On the CIFAR-$10$ dataset (see \secref{sec:datasets}), our models are based on a variant of a deep residual network, namely PreActResNet18 \citep{he2016identity}. We tested different combinations of graph support and data augmentation. For the graph support, we use either a regular 2D grid or either an inferred graph obtained by keeping the four neighbours that covary the most. In the second case, which correspond to scrambled CIFAR-$10$ (see \secref{sec:datasets}), no structure prior have been fed to the process, so the results can be compared with those of \cite{lin2015}. We also report results obtained with ChebNet~\citep{defferrard2016convolutional}, where only convolutional layers have been replaced for comparison.
-
-\tabref{tab:cifar-table} summarizes our results. In particular, it is interesting to note that results obtained without any structure prior (91.07\%) are only 2.7\% away from the baseline using classical CNNs on images (93.80\%). This gap is even smaller (less than 1\%) when using the grid prior. Also, without priors our method significantly outperforms the others. %% In the top left corner of the table we fully exploit the fact that the dataset is composed of 2D structured data, and in the bottom right corner this information is not used at all. Even with that disadvantage, the results differ of only 2.7\%, which shows the strenght of the method when compared to others.
+\paragraph{Matching CNNs on supervised image classification}
+On CIFAR-$10$ (see \secref{sec:datasets}), our models are based on a variant of a deep residual network, namely PreActResNet18 \citep{he2016identity}. We tested different combinations of graph support and data augmentation. For the graph support, we use either a regular 2D grid or either an inferred graph obtained by keeping the four neighbours that covary the most. In the second case, which correspond to scrambled CIFAR-$10$ (see \secref{sec:datasets}), no structure prior have been fed to the process, so the results can be compared with those of \cite{lin2015}. We also report results obtained with ChebNet~\citep{defferrard2016convolutional}, where only convolutional layers have been replaced for comparison. \tabref{tab:cifar-table} summarizes our results. In particular, it is interesting to note that results obtained without any structure prior (91.07\%) are only 2.7\% away from the baseline using classical CNNs on images (93.80\%). This gap is even smaller (less than 1\%) when using the grid prior. Also, on scrambled CIFAR-$10$ (case without prior) our method significantly outperforms the others.%% In the top left corner of the table we fully exploit the fact that the dataset is composed of 2D structured data, and in the bottom right corner this information is not used at all. Even with that disadvantage, the results differ of only 2.7\%, which shows the strenght of the method when compared to others.
 
 \begin{table}[h!]
 \begin{center}
-\caption{CIFAR-$10$ result comparison table.}
+\caption{CIFAR-$10$ and scrambled CIFAR-$10$ comparison table.}
 \vspace{-0.4cm}
 \label{tab:cifar-table}
 \resizebox{\columnwidth}{!}{%
@@ -192,7 +190,7 @@ None                     & 69.62\%                                              
 \end{center}
 \begin{flushleft}
 \footnotesize{
-$^a$ No priors about the structure\\
+$^a$ No prior about the structure\\
 $^b$ \cite{lin2015}\\
 $^c$ \cite{defferrard2016convolutional}\\
 $^d$ Data augmentation done with covariance graph 
@@ -201,12 +199,11 @@ $^d$ Data augmentation done with covariance graph
 \end{table}
 
 \paragraph{Experiments on a fMRI dataset}
-
 We used a shallow network on the PINES dataset (see \secref{sec:datasets}). The results reported on \tabref{tab:iaps-table} show that our method was able to improve over CNNs, MLPs and other graph-based extended convolutional neural networks.
 
 \begin{table}[h!]
 \centering
-\caption{PINES fMRI dataset accuracy comparison table.}
+\caption{PINES fMRI comparison table.}
 \label{tab:iaps-table}
 \begin{tabular}{|l||c|c||c|c|}
 \hline

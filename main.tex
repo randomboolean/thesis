@@ -11,17 +11,21 @@
 
 \pagestyle{empty}
 \input{date}\newline
-\input{revcount}
+\input{revcount}\newline \h{0}\newline
+Ph. D. candidate: Jean-Charles Vialatte\newline
+Mentor: Vincent Gripon\newline
+Director: Gilles Coppin\newline
+Defense date: 2018-12-13\newline
+Institution: IMT Atlantique\newline
+Funded by: City Zen Data, ANRT
+
 % \linenumbers
 
 %
 % Title
 %
 
-%\title{A Theory\\\begin{large}\emph{on}\end{large}\\Convolution of Graph Signals\\\begin{large}\emph{and its}\end{large}\\Application to Deep Learning}
 \title{\begin{large}\emph{On}\end{large}\\Convolution of Graph Signals\\\begin{large}\emph{And}\end{large}\\Deep Learning on Graph Domains}
-%\title{Convolution of Graph Signals\\and its Application to Deep Learning}
-%\title{A Theory on Convolution of Graph Signals and its Application to Deep Learning}
 \date{}
 \maketitle
 
@@ -116,15 +120,7 @@
  \input{chapter3/ternary}\newpage
  \input{chapter3/learningscheme}\newpage
  \input{chapter3/bastnet}\newpage
- %\input{chapter3/recap3}\newpage
-
-%
-% Chapter 4 ----> as a section in chapter 3 maybe, or as a motivation in the introduction
-%
-
-% \chapter{Industrial applications}
-% \todo{}
-% \vfill\minitoc\newpage
+ \input{chapter3/recap3}\newpage
 
 %
 % Conclusion
@@ -143,32 +139,13 @@
 \printbibliography[heading=bibintoc]
 
 %
-% Bin
+% Appendix
 %
 
-% \setcounter{chapter}{-1}
-% \chapter{Trash bin and more drafts}
-% ... that we may use in some section.
-% \vfill\minitoc\newpage
-
-% \input{chapter_unsorted/disamb}\newpage
-% \input{chapter2/expressivity}\newpage
-% \input{chapter_unsorted/crapconv}\newpage
-% \input{chapter_unsorted/cayleydraft}\newpage
-
-%
-% Post body
-%
-
-% % Temptative previsional plan
-% \setcounter{chapter}{-1}
-% \fakechapter{Temptative previsional plans}
-% \includepdf[pages=1-7]{others/temptative_plan.pdf}
-
-% % keywords and temptative titles
-% \setcounter{chapter}{-1}
-% \chapter{Keywords and temptative titles}
-% \input{others/keywords} % to be put somewhere else
-% \input{others/titles}
+\clearpage
+%\appendix
+\chapter*{Résumé en français}\label{chp:rsm}
+\addcontentsline{toc}{chapter}{\nameref{chp:rsm}}
+\input{chapter0/rsm}
 
 \end{document}
