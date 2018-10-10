@@ -140,7 +140,7 @@ Let a graph $\gve$, a group $\Gamma$ of generating set $\cu$ such that $\Gamma \
 \subsection{On properties of the corresponding operators}
 \label{sec:ec}
 
-Until now we have described operators with kernel $w$ of any size. However, in practice in deep learning we rather use convolution operators with small kernels. This case is indeed encompassed by kernel of any size by considering a smaller support. This is convenient with edge-contrained convolutions, since we can choose a support not larger than the span of the generating set $\cu$, so that an EC convolution operator can be expressed with only actions of $\cu$.
+Until now we have described operators with kernel $w$ of any size. However, in practice in deep learning we rather use convolution operators with small kernels. This case is indeed encompassed by kernel of any size by considering a smaller support. This is convenient with edge-constrained convolutions, since we can choose a support not larger than the span of the generating set $\cu$, so that an EC convolution operator can be expressed with only actions of $\cu$.
 We formalize this discussion as follows.
 
 \begin{definition}\textbf{Supporting set}\\
@@ -149,7 +149,7 @@ Let $f_w^{\M}$ be an EC $\M$-convolution left operator of group $\Gamma$. The su
 \end{definition}
 
 \begin{definition}\textbf{Strictly edge-constrained convolution operator}\\
-We say that an EC $\varphi$ or $\M$-convolution operator, of group $\Gamma$ and generating set $\cu$, is striclty edge-contrained (EC*) if its supporting set $\cm \subset \cu$ and $\cm$ is symmetric (\ie $g \in \cm \Leftrightarrow g^{-1} \in \cm$).
+We say that an EC $\varphi$ or $\M$-convolution operator, of group $\Gamma$ and generating set $\cu$, is strictly edge-constrained (EC*) if its supporting set $\cm \subset \cu$ and $\cm$ is symmetric (\ie $g \in \cm \Leftrightarrow g^{-1} \in \cm$).
 \end{definition}
 
 \begin{remark}EC* convolution operators are simpler to obtain as we can construct them just with the actions $\cu \to \Phi^*_{\EC}(G)$ without composing the transformations. Also, their complexity is $\co(kn)$, where $n = |V|$ is the order of the graph and $k = |\cm|$ is the size of the kernel. In comparison, EC convolutions have complexity up to $\co(n^2)$.
@@ -172,7 +172,7 @@ where $\cm^{-1} = \{ g^{-1}, g \in \cm\}$ (which equals $\cm$ in the usual case 
 \forall u \in V, f_w^{\varphi}(s)[u] = \displaystyle\sum_{ v \in \ck_u} s[v] \h{2} w[g_v^{-1}(u)] \label{eq:sec}
 \end{gather}
 
-Let us call $r$ the \emph{root vertex} defined as the $\varphi$-fiber of the identity element~$e$ (\ie $g_r = e$). We can interprete \eqref{eq:sec} as if the convolution was first realized on $r$ with a sum over a vertex patch initially localized on $\ck_e = \varphi(\cm^{-1})$, and then its realization on another vertex $u$ would amount to move this patch under the action of $g_u$, exactly like with convolution operators on Euclidean domains.
+Let us call $r$ the \emph{root vertex} defined as the $\varphi$-fiber of the identity element~$e$ (\ie $g_r = e$). We can interpret \eqref{eq:sec} as if the convolution was first realized on $r$ with a sum over a vertex patch initially localized on $\ck_e = \varphi(\cm^{-1})$, and then its realization on another vertex $u$ would amount to move this patch under the action of $g_u$, exactly like with convolution operators on Euclidean domains.
 
 From this expression, we can observe the following proposition.
 
@@ -180,7 +180,7 @@ From this expression, we can observe the following proposition.
 Let a $\varphi$- or $\M$-convolution operator $f_w$ of supporting set $\cm \subset \Gamma$. Then the entries of $w$ are shared between each realization of $f_w$.
 \end{proposition}
 \begin{proof}
-By reading \eqref{eq:secm}, this result is obvious for $\M$-convolution operators. So let us assume that $f_w$ is a $\varphi$-convolution operator. Given a realization vertex $a \in V$, the non-nul entries of $w$ in expression \eqref{eq:sec} are characterized by vertices $\alpha \in \ck_a$. Given another realization vertex $b$, its non-nul entries match those of $a$ if, and only if,
+By reading \eqref{eq:secm}, this result is obvious for $\M$-convolution operators. So let us assume that $f_w$ is a $\varphi$-convolution operator. Given a realization vertex $a \in V$, the non-null entries of $w$ in expression \eqref{eq:sec} are characterized by vertices $\alpha \in \ck_a$. Given another realization vertex $b$, its non-nil entries match those of $a$ if, and only if,
 \begin{align*}
 g_{\ck_b}^{-1}(b) = g_{\ck_a}^{-1}(a)
   & \Leftrightarrow  g_{b}^{-1}g_{\ck_{b}} = g_a^{-1}g_{\ck_a}\\
@@ -203,7 +203,7 @@ Let a graph $\gve$, we say that a $\varphi$- or $\M$-convolution, of group $\Gam
 Similarly than with EC and EC*, we are also interested in this property for operators with smaller kernels.
 
 \begin{definition}\textbf{Strictly locality-preserving convolution operator}\\
-We say that a $\varphi$-convolution operator, of supporting set $\cm \subset \Gamma$, is striclty locality-preserving (LP*) if every subgraph  $\ck_u = g_u(\ck_e)$ are isomorphic.
+We say that a $\varphi$-convolution operator, of supporting set $\cm \subset \Gamma$, is strictly locality-preserving (LP*) if every subgraph  $\ck_u = g_u(\ck_e)$ are isomorphic.
 \end{definition}
 
 \begin{remark}

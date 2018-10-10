@@ -199,7 +199,7 @@ Obtaining,
 \begin{align}
   \vec{\bigtriangledown}_{\theta_k} = J_{\theta_k}(x_k) (\prod_{p=k}^{L-1} J_{x_p}(x_{p+1})) \vec{\bigtriangledown}_{x_L}
 \end{align}
-where $J_{\text{wrt}}(.)$ are the respective jacobians which can be determined with the layer's expressions and the $\{x_k\}$; and $\vec{\bigtriangledown}_{x_L}$ can be determined using $\mathcal{L}$, $\ccr$ and $x_L$.
+where $J_{\text{wrt}}(.)$ are the respective Jacobians which can be determined with the layer's expressions and the $\{x_k\}$; and $\vec{\bigtriangledown}_{x_L}$ can be determined using $\mathcal{L}$, $\ccr$ and $x_L$.
 This allows to compute the gradients with a complexity that is linear with the number of weights (only one computation of the activations), instead of being quadratic if it were done with the difference quotient expression of the derivatives (one more computation of the activations for each weight).
 
 \paragraph{Backpropagation}
@@ -210,7 +210,7 @@ We can remark that \eqref{eq:bp} rewrites as
                                & = J_{x'_k}(h(x'_k)) J_{x_k}(W_k x_k) \vec{\bigtriangledown}_{x_{k+1}}
   \end{split}
 \end{align}
-where $x'_k = W_k x_k$, and these jacobians can be expressed as:
+where $x'_k = W_k x_k$, and these Jacobians can be expressed as:
 \begin{align}
   \begin{split}
   J_{x'_k}(h(x'_k)) & [i,j] = \delta_i^j h'(x'_k[i])\\
@@ -242,7 +242,7 @@ Neural networks, like any other machine learning technique, may overfit. That is
 The study of the \emph{expressivity} (also called \emph{representational power}) of families of neural networks is the field that is interested in the range of functions that can be realized or approximated by this family \citep{haastad1991power,pascanu2013number}. In general, given a maximal error~$\epsilon$ and an objective~$F$, the more expressive is a family $N \subset \cn$, the more likely it is to contain an approximation $f \in N$ such that $d(f,F) < \epsilon$. However, if we consider the approximation $f_{min} \in N$ that have the lowest number of neurons, it is possible that~$f_{min}$ is still too large and may be unpractical. For this reason, expressivity is often studied along the related notion of \emph{expressive efficiency} \citep{delalleau2011shallow,cohen2018boosting}.
 \label{par:expr}
 
-\paragraph{Rectifier neural netowrks}
+\paragraph{Rectifier neural networks}
 Of particular interest for the intuition is a result stating that a simply connected neural networks with only ReLU activations (a rectifier neural network) is a piecewise linear function \citep{pascanu2013number,montufar2014number}, and that conversely any piecewise linear function is also a rectifier neural network such that an upper bound of its depth is logarithmically related to the input dimension (\cite{arora2018understanding}, th. 2.1.). Their expressive efficiency have also been demonstrated compared to neural networks using threshold or sigmoid activations~\citep{pan2016expressiveness}.
 
 \paragraph{Benefits of depth}

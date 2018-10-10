@@ -4,7 +4,7 @@
 \subsection{Motivation}
 \label{sec:motiv}
 
-One possible limitation coming from searching for Cayley subgraphs is that they are degree-regular \ie the in- and the out-degree $d = |\cu|$ of each vertex is the same. That is, for a general graph $G$, the size of the weight kernel $w$ of an EC* convolution operator $f_w$ supported on $\cu$ is bounded by $d$, which in turn is bounded by twice the mininimal degree of $G$ (twice because $G$ is undirected and $\cu$ can contain every inverse).
+One possible limitation coming from searching for Cayley subgraphs is that they are degree-regular \ie the in- and the out-degree $d = |\cu|$ of each vertex is the same. That is, for a general graph $G$, the size of the weight kernel $w$ of an EC* convolution operator $f_w$ supported on $\cu$ is bounded by $d$, which in turn is bounded by twice the minimal degree of $G$ (twice because $G$ is undirected and $\cu$ can contain every inverse).
 
 There are a lot of possible strategies to overcome this limitation. For example:
 \begin{enumerate}
@@ -16,7 +16,7 @@ There are a lot of possible strategies to overcome this limitation. For example:
 
 These strategies require to concede that the topological structure supported by $G$ is not the best one to support an EC* convolution on it, which breeds the following question:
 \begin{itemize}
-  \item What can we relax in the previous EC* contruction in order to unbound the supporting set, and still preserve the equivariance characterization?
+  \item What can we relax in the previous EC* construction in order to unbound the supporting set, and still preserve the equivariance characterization?
 \end{itemize}
 
 The latter constraint is a consequence that every vertex of the Cayley subgraph $\vec{G}$ must be composable with every generator from $\cu$. Therefore, an answer consists in considering groupoids~\citep{brandt1927verallgemeinerung} instead of groups. Roughly speaking, a groupoid is almost a group except that its composition law needs not be defined everywhere. \cite{weinstein1996groupoids}, unveiled the benefits to base convolutions on groupoids instead of groups in order to exploit partial symmetries.
@@ -110,10 +110,10 @@ Let a partial equivariant map $\varphi: \Upsilon \rightarrow V$. It can be exten
 \end{gather*}
 \end{lemma}
 \begin{proof}
-We have $\varphi(0) \notin V$ because $\varphi$ is bijective. Additionaly, we must have $\forall (g,h) \notin \cd, g(\varphi(h)) = \varphi(gh) = \varphi(0) = 0_V$.
+We have $\varphi(0) \notin V$ because $\varphi$ is bijective. Additionally, we must have $\forall (g,h) \notin \cd, g(\varphi(h)) = \varphi(gh) = \varphi(0) = 0_V$.
 \end{proof}
 
-\begin{remark} Note that for notational conveniency, we may use the same symbol~$0$ for~$0_{\Upsilon}$, $0_V$ and~$0_{\bbr}$.
+\begin{remark} Note that for notational convenience, we may use the same symbol~$0$ for~$0_{\Upsilon}$, $0_V$ and~$0_{\bbr}$.
 \end{remark}
 
 Similarly to $\Phi^*(V)$, $\Psi^*(V)$ can also move signals of $\cs(V)$.
@@ -283,7 +283,7 @@ Note the following properties:
 Note that this time we won't use the notation $p(v)$ for $\gamma_p(v)$ for clarity.
 \end{remark}
 
-One of the key object of our contruction is the use of $\varphi$-equivalence in order to transform a sum over a group(oid) of (partial) transformations, into a sum over the vertex set. With the current notion of path groupoid, searching for something similar amounts to searching for a graph traversal.
+One of the key object of our construction is the use of $\varphi$-equivalence in order to transform a sum over a group(oid) of (partial) transformations, into a sum over the vertex set. With the current notion of path groupoid, searching for something similar amounts to searching for a graph traversal.
 
 \begin{definition}\textbf{Traversal set}\\
 Let a graph $\gve$ that is connected. A \emph{traversal set} is a pair $(\cu, \ct)$ of EC partial transformations subsets $\subset \Psi_{\EC}^*(G)$, such that
@@ -355,7 +355,7 @@ Let $(\cu, \ct) \in \tree(G)$.
 \end{theorem}
 
 \begin{proof}
-Instead of the domain-symmetric condition that was used in the proof of the converse of \thref{prop:equiP} (2.(i)), we use the fact that any vertex can be reached with an action from the root of the spanning tree of the traversal set. Indeed, given $v \in V$, as we have $\gamma_{p_v}(r)=v$, then $\gamma_{p_v}(\delta_r) = \delta_v$. Therefore, by developping a linear transformation $f(s)$ on the dirac family, and commuting $f$ with $\gamma_{p_v}$, we obtain that $f(s) = s \ast_\varphi w$, where $w = f(\delta_r)$. The rest of the proof is similar to that of \thref{prop:equiP}.
+Instead of the domain-symmetric condition that was used in the proof of the converse of \thref{prop:equiP} (2.(i)), we use the fact that any vertex can be reached with an action from the root of the spanning tree of the traversal set. Indeed, given $v \in V$, as we have $\gamma_{p_v}(r)=v$, then $\gamma_{p_v}(\delta_r) = \delta_v$. Therefore, by developing a linear transformation $f(s)$ on the Dirac family, and commuting $f$ with $\gamma_{p_v}$, we obtain that $f(s) = s \ast_\varphi w$, where $w = f(\delta_r)$. The rest of the proof is similar to that of \thref{prop:equiP}.
 \end{proof}
 
 \begin{remark}

@@ -55,7 +55,7 @@ An invertible transformation $f \in \Phi^*(V)$ can be extended linearly to the s
 \label{lem:extlin}
 \end{lemma}
 \begin{proof}
-Let $s \in \cs(V), f \in \Phi^*(V), L_f \in \cl(\cs(V))$ \st $\forall v \in V, L_f(\delta_v) = \delta_{f(v)}$. Then, by linear decomposition of $s$ on the family of dirac signals, we have:
+Let $s \in \cs(V), f \in \Phi^*(V), L_f \in \cl(\cs(V))$ \st $\forall v \in V, L_f(\delta_v) = \delta_{f(v)}$. Then, by linear decomposition of $s$ on the family of Dirac signals, we have:
 \begin{align*}
 L_f(s) & = \displaystyle\sum_{v \in V} s[v] \h{2} L_f(\delta_v)\\
        & = \displaystyle\sum_{v \in V} s[v] \h{2} \delta_{f(v)}\\
@@ -109,7 +109,7 @@ f_w \circ t_{x,y} (s)[a,b] & = \displaystyle \sum_i \sum_j t_{x,y}(s)[i,j] \h{2}
 \end{align}
 Now let's prove the result from right to left.
 
-Let $f \in \cl(\cs(\bbz^2))$, $s \in \cs(\bbz^2)$ and we suppose that $f$ commutes with translations. By linear decomposition of $s$ on the family of dirac signals, we have:
+Let $f \in \cl(\cs(\bbz^2))$, $s \in \cs(\bbz^2)$ and we suppose that $f$ commutes with translations. By linear decomposition of $s$ on the family of Dirac signals, we have:
 \begin{align*}
 f(s) & = \displaystyle \sum_i \sum_j s[i,j] \h{2} f(\delta_{i,j})\\
  & = \displaystyle \sum_i \sum_j s[i,j] \h{2} f \circ t_{i,j} (\delta_{0,0})\\

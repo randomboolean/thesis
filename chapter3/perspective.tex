@@ -43,7 +43,7 @@ In what follows, without loss of generality, we will make the simplification tha
 
 Let $\cl = (g,h)$, recall that $g: \cs(V) \rightarrow \cs(U)$ is characterized by a connectivity matrix $W$ such that, $g(x) = Wx$.
 
-\begin{remark}Using the mapping defined in the proof of \lemref{lem:relts}, for notational conveniency, we'll abusively consider $x$ as a vector (enventually reshaped from a tensor), and $W$ as an object of a binary tensor product for its indexing (\ie $W[u,v] := W[i,j]$ where $u = \uu^i$ and $v = \vv^j$).
+\begin{remark}Using the mapping defined in the proof of \lemref{lem:relts}, for notational convenience, we'll abusively consider $x$ as a vector (eventually reshaped from a tensor), and $W$ as an object of a binary tensor product for its indexing (\ie $W[u,v] := W[i,j]$ where $u = \uu^i$ and $v = \vv^j$).
 \end{remark}
 
 % Define bipartite graph here?
@@ -154,7 +154,7 @@ Therefore, any layer that has its receptive fields intertwined, admits an \emph{
 \subsection{Novel ternary representation with weight sharing}
 \label{sec:nct}
 
-Weight sharing refers to the fact that some parameters of the connectivity matrix $W$ are equal, and stay equal after each learning iteration. In other words they are tied together. From a propagational point of view, this amounts to label the edges of the propagation graph $P$ with weights, where weights can be used multiple times to label these edges. Supposed $W$ is of shape $m \times n$ and there are $\omega$ weights in the kernel used to label the edges. Given a input neuron $i$ and an output neuron $j$, the edge labelling can be expressed as:
+Weight sharing refers to the fact that some parameters of the connectivity matrix $W$ are equal, and stay equal after each learning iteration. In other words they are tied together. From a propagational point of view, this amounts to label the edges of the propagation graph $P$ with weights, where weights can be used multiple times to label these edges. Supposed $W$ is of shape $m \times n$ and there are $\omega$ weights in the kernel used to label the edges. Given a input neuron $i$ and an output neuron $j$, the edge labeling can be expressed as:
 \begin{gather}
 %W[i,j] = \theta[h] = \theta^T S[:,i,j]
 W[j,i] = \theta[h] = \theta^T a \label{eq:alloc}
