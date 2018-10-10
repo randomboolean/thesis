@@ -2,6 +2,7 @@
 \label{sec:2.4}
 
 \subsection{Motivation}
+\label{sec:motiv}
 
 One possible limitation coming from searching for Cayley subgraphs is that they are degree-regular \ie the in- and the out-degree $d = |\cu|$ of each vertex is the same. That is, for a general graph $G$, the size of the weight kernel $w$ of an EC* convolution operator $f_w$ supported on $\cu$ is bounded by $d$, which in turn is bounded by twice the mininimal degree of $G$ (twice because $G$ is undirected and $\cu$ can contain every inverse).
 
@@ -10,7 +11,7 @@ There are a lot of possible strategies to overcome this limitation. For example:
   \item connecting each vertex with its $k$-hop neighbors, with $k > 1$,
   \item artificially creating new connections for less connected vertices,
   \item ignoring less connected vertices,
-  \item allowing the supporting set $\cn$ to exceed $\cu$ \ie dropping * in EC*.
+  \item allowing the supporting set $\cm$ to exceed $\cu$ \ie dropping * in EC*.
 \end{enumerate}
 
 These strategies require to concede that the topological structure supported by $G$ is not the best one to support an EC* convolution on it, which breeds the following question:
@@ -50,26 +51,6 @@ Note that left and right inverses are necessarily equal (because $(gg^{-1})g=g(g
 
 Most definitions related to groups can be adapted to groupoids. In particular, let's adapt a few notions.
 
-\begin{definition}\textbf{Groupoid partial action}\\
-A partial \emph{action} of a groupoid $\Upsilon$ on a set $V$, is a function $L$, with domain $\cd_L \subset \Upsilon \times V$ and valued in $V$, such that the map $g \mapsto L_g$ is a groupoid homomorphism.
-\end{definition}
-
-\begin{remark}
-As usual, we will confound $L_g$ and $g$ when there is no possible confusion, and we denote $\cd_{L_g} = \cd_g = \{ v \in V, (g,v) \in \cd_L \}$.
-\end{remark}
-
-\begin{definition}\textbf{Partial equivariant map}\\
-A map $\varphi$ from a groupoid $\Upsilon$ partially acting on the destination set $V$ is said to be a \emph{partial equivariant map} if
-\begin{gather*}
-\forall g,h \in \Upsilon,
-  \begin{cases}
-    \varphi(h) \in \cd_g \Leftrightarrow (g,h) \in \cd\\
-    g(\varphi(h)) = \varphi(gh)
-  \end{cases}
-\end{gather*}
-\end{definition}
-
-Also, $\varphi$-equivalence between a subgroupoid and a set is defined similarly with $\varphi$ being a bijective \emph{partial} equivariant map between them.
 
 \begin{definition}\textbf{Partial transformations groupoid}\\
 The \emph{partial transformations groupoid} $\Psi^*(V)$, is the set of invertible partial transformations, equipped with the functional composition law with domain~$\cd$ such that
@@ -83,6 +64,27 @@ The \emph{partial transformations groupoid} $\Psi^*(V)$, is the set of invertibl
 
 \begin{remark}Note that a subgroupoid $\Upsilon \subset \Psi^*(V)$ is domain-symmetric when $\exists v \in V, g(v) \in \cd_h \Leftrightarrow \exists u \in V, h(u) \in \cd_g$
 \end{remark}
+
+\begin{definition}\textbf{Groupoid partial action}\\
+A partial \emph{action} of a groupoid $\Upsilon$ on a set $V$ is a groupoid homomorphism $L: \Upsilon \to \Psi^*(V)$.
+\end{definition}
+
+\begin{remark}
+As usual, we will confound $L_g$ and $g(.)$ when there is no possible confusion, and we denote $\cd_{L_g} = \cd_g = \{ v \in V, (g,v) \in \cd_L \}$.
+\end{remark}
+
+\begin{definition}\textbf{Partial equivariant map}\\
+A map $\varphi$ from a groupoid $\Upsilon$ partially acting on the destination set $V$ is said to be a \emph{partial equivariant map} if
+\begin{gather*}
+\forall g,h \in \Upsilon,
+  \begin{cases}
+    \varphi(h) \in \cd_g \Leftrightarrow (g,h) \in \cd\\
+    g(\varphi(h)) = \varphi(g(h))
+  \end{cases}
+\end{gather*}
+\end{definition}
+
+Also, $\varphi$-equivalence between a groupoid and a set is defined similarly than for groups, with also left multiplicative partial action being implicit.
 
 \subsection{Construction of partial convolutions}
 
@@ -101,7 +103,7 @@ The \emph{zero-closure} of a groupoid $\Upsilon$, denoted $\Upsilon^0$, is the s
 
 Now, we will also extend every other algebraic object used in the expression of the $\varphi$-convolution and the $\M$-convolution, so that we can directly apply our previous constructions.
 
-\begin{lemma}\textbf{Extension of $\varphi$ on $V^0$}\\
+\begin{lemma}\textbf{Zero-extension of $\varphi$ on $V^0$}\\
 Let a partial equivariant map $\varphi: \Upsilon \rightarrow V$. It can be extended to a (total) equivariant map $\varphi: \Upsilon^0 \rightarrow V^0 = V \cup \varphi(0)$, such that $\varphi(0) \notin V$, that we denote $0_V = \varphi(0)$, and such that
 \begin{gather*}
 	\forall g \in \Upsilon^0, \forall v \in V^0, g(v) = \begin{cases} \varphi(gg_v) &\text{ if } g_v \in \cd_g\\ 0_V &\text{ else}\end{cases}
@@ -116,7 +118,7 @@ We have $\varphi(0) \notin V$ because $\varphi$ is bijective. Additionaly, we mu
 
 Similarly to $\Phi^*(V)$, $\Psi^*(V)$ can also move signals of $\cs(V)$.
 
-\begin{lemma}\textbf{Extension of injective partial transformations to $\cs(V)$}\\
+\begin{lemma}\textbf{Zero-extension of partial actions to $\cs(V)$}\\
 Let $g \in \Psi^*(V)$. Its extension is done in two steps:
 \begin{enumerate}
   \item $g$ is extended to $V^0 = V \cup \{0_V\}$ as $g(v) = 0_V \Leftrightarrow v \notin \cd_g$.
@@ -132,12 +134,13 @@ Straightforward.
 
 With these extensions, we can obtain the partial $\varphi$- and $\M$-convolutions related to~$\Upsilon$ almost by substituting~$\Upsilon^0$ to~$\Gamma$ in \defref{def:convv} and \defref{def:convm}.
 
-\begin{definition}\textbf{Partial convolution}\\
-Let a subgroupoid $\Upsilon \subset \Psi^*(V)$, such that $\Upsilon \overset\varphi\equiv V$. The partial $\varphi$- and $\M$-convolutions, based on~$\Upsilon$, are defined on its zero-closure, with the same expression as if~$\Upsilon^0$ were a subgroup, and by extension of~$\varphi$ and of the groupoid partial actions \ie
+\begin{definition}\textbf{Partial convolutions}\\
+Let a groupoid $\Upsilon$ acting on $V^0$. %, such that $\Upsilon \overset\varphi\equiv V$.
+The partial $\varphi$- and $\M$-convolutions extend their definition on groups to groupoids using the appropriate zero-extensions \ie
 \begin{enumerate}[label=(\roman*)]
   \item $\forall s, w \in \cs(V),
-  			s \ast_\varphi w = \displaystyle\sum_{v \in V} s[v] \h{2} g_v(w) = \displaystyle\sum_{g \in \Upsilon} s[\varphi(g)] \h{2} g(w)$ \label{enum:i}
-  \item $\forall (w,s) \in \cs(\Upsilon) \times \cs(V), w \ast_{\M} s  = \displaystyle\sum_{g \in \Upsilon} w[g] \h{2} g(s)$ \label{enum:ii}
+  			s \ast_\varphi w = \displaystyle\sum_{v \in V} s[v] \h{2} g_v(w) = \displaystyle\sum_{g \in \Upsilon} s[\varphi(g)] \h{2} g(w)$ \st $\Upsilon \overset\varphi\equiv V$\label{enum:i}
+  \item $\forall (w,s) \in \cs(\Upsilon) \times \cs(V), w \ast_{\M} s  = \displaystyle\sum_{g \in \Upsilon} w[g] \h{2} g(s)$ \st $\Upsilon$ is abelian\label{enum:ii}
 \end{enumerate}
 \end{definition}
 
@@ -148,20 +151,20 @@ Note that, as $\forall r, r[0] = 0$, the partial convolutions can also be expres
   \item $\forall u \in V, (w \ast_{\M} s)[u]  = \displaystyle\sum_{\substack{v \in \cd_g\\ \st g(v) = u}} w[g] \h{2} s[v]$
 \end{enumerate}
 
-We obtain an equivariance characterization similar to \thref{prop:equiG} and \thref{cor:equiM}.
+We obtain an equivariance characterization similar to \thref{prop:equiG} and \thref{cor:equiM}, under the mild condition that $\Upsilon$ is at least domain-symmetric if it is not abelian.
 
 \begin{theorem}\textbf{Characterization by equivariance to $\Upsilon$}\\
-Let a subgroupoid $\Upsilon \subset \Psi^*(V)$, such that~$\Upsilon \overset\varphi\equiv V$, with $\ast$ based on~$\Upsilon$.
-\begin{enumerate}
+Let a groupoid $\Upsilon$ acting on $V^0$. Supposedly for \ref{enum:ci}, $\Upsilon \overset\varphi\equiv V$, and for \ref{enum:cii}, $\Upsilon$ is abelian.
+\begin{enumerate}[nolistsep, noitemsep]
 \item Then,
-\begin{enumerate}[label=(\roman*)]
-  \item partial $\varphi$-convolution right-operators are equivariant to~$\Upsilon$,\label{enum:i}
-  \item if $\Upsilon$ is abelian, partial $\M$-convolution left-operators are equiv to~$\Upsilon$.\label{enum:ii}
+\begin{enumerate}[nolistsep, noitemsep,label=(\roman*)]
+  \item partial $\varphi$-convolution right operators are equivariant to~$\Upsilon$,\label{enum:ci}
+  \item partial $\M$-convolution left operators are equiv to~$\Upsilon$.\label{enum:cii}
 \end{enumerate}
 \item Conversely, \label{enum:2}
 \begin{enumerate}[label=(\roman*)]
-  \item if $\Upsilon$ is domain-symmetric, linear transformations of $\cs(V)$ that are equivariant to~$\Upsilon$ are partial $\varphi$-convolution right-operators,
-  \item if $\Upsilon$ is abelian, they are also partial $\M$-convolution left-operators.
+  \item if $\Upsilon$ is domain-symmetric, linear transformations of $\cs(V)$ that are equivariant to~$\Upsilon$ are partial $\varphi$-convolution right operators,
+  \item linear transformations of $\cs(V)$ that are equivariant to~$\Upsilon$ are partial $\M$-convolution left operators.
 \end{enumerate}
 \end{enumerate}
 \label{prop:equiP}
@@ -221,8 +224,8 @@ Let a subgroupoid $\Upsilon \subset \Psi^*(V)$, such that~$\Upsilon \overset\var
 \end{enumerate}
 \end{proof}
 
-\paragraph{Inclusion of EC}
-Similarly to the construction in \secref{sec:edges}, partial convolutions can define EC and EC* counterparts with a characterization of admissibility by groupoid Cayley subgraph isomorphism, and similar intrinsic properties.
+\paragraph{Inclusion of EC and LP}
+Similarly to the construction in \secref{sec:edges}, partial convolutions can define EC, EC*, LP and LP* counterparts with the same characterizations by Cayley subgraphs whose vertex sets are zero-closure of groupoids, and other similar results.
 
 \paragraph{Limitation of partial convolutions}
 However, because of the groupoid associativity, if $g \in \Psi_{\EC}^*(G)$, then, any $v \in V$ \st $g(u) = v$ would be constrained to allow to be acted by every $h$ \st $(h,g) \in \cd$. That is, unless partial transformations that we want to allow to be in each other domains are restricted to the same connected component of the graph, the supporting set of a partial EC*~convolutions would still be bounded by the minimal degree.%complicated to explain..
@@ -230,7 +233,7 @@ However, because of the groupoid associativity, if $g \in \Psi_{\EC}^*(G)$, then
 \subsection{Construction of path convolutions}
 \label{sec:path}
 
-To answer the limitation of partial convolutions, given $g \in \langle \cu \rangle$ where $\cu \subset \Psi_{\EC}^*(G)$, the idea is to proceed with a foliation of $g$ into pieces, each corresponding to an edge $e \in E$, and together generating another groupoid with a different associativity law, as follows.
+To answer the limitation of partial convolutions, given $\cu \subset \Psi_{\EC}^*(G)$, we explore the idea of proceeding with a foliation of each $g \in \cu$ into pieces, each piece corresponding to an edge $e \in E$, and together generating another groupoid with a different associativity law, as follows.
 
 \begin{definition}\textbf{Path groupoid}\\
 Let $\cu \subset \Psi_{\EC}^*(G)$. The \emph{path groupoid} generated from $\cu$, denoted $\cu \ltimes G$, with composition rule $\cdl$, is the groupoid obtained inductively with:
@@ -239,7 +242,7 @@ Let $\cu \subset \Psi_{\EC}^*(G)$. The \emph{path groupoid} generated from $\cu$
   \item $((g_n,v_n) \cdots (g_1,v_1) , (h_m,u_m) \cdots (h_1,u_1)) \in \cdl \Leftrightarrow h_m(u_m) = v_1$
   \item $((g_n,v_n) \cdots (g_1,v_1))^{-1} = (g_1^{-1}, g_1(v_1)) \cdots (g_n^{-1}, g_n(v_n))$
 \end{enumerate}
-Call path its objects. Given a length $l \in \bbn$, denote $\cu \ltimes_l G$ the subset composed of the paths that are the composition of exactly~$l$ paths of $\cu \ltimes_1 G$.
+We call path its objects. Given a length $l \in \bbn$, we denote $\cu \ltimes_l G$ the subset composed of the paths that are the composition of exactly~$l$ paths of $\cu~\ltimes_1~G$.
 \end{definition}
 
 \begin{remark}
@@ -313,9 +316,6 @@ Let $(\cu, \ct) \in \tree(G)$. Given $v \in V$, there exists a unique $p_v \in \
 Then $\varphi: \alpha^{-1}_{\ct \ltimes G}\{r\} \rightarrow V$ is a bijective partial equivariant map.
 \end{lemma}
 
-\todo{fix domain of $\varphi$ and bijectivity}
-\todo{Vincent peux-tu m'aider à corriger lemme 82 et definition 83 pour que ca ait du sens ?}
-
 \begin{proof}
 Bijectivity is a consequence of the spanning tree structure of $\ct$.
 Equivariance because $\gamma_{p_v}(u) = \gamma_{p_v}\gamma_{p_u}(r) = \gamma_{p_vp_u}(r) = \varphi(p_vp_u)$.
@@ -359,9 +359,11 @@ Instead of the domain-symmetric condition that was used in the proof of the conv
 \end{proof}
 
 \begin{remark}
-Note that $\cu \ltimes V$'s action is almost the same as the groupoid partial action of $\Upsilon = \langle \cu \rangle$ (only "almost" because not all combinations of partial transformations might exist in the paths). However $\cu \ltimes V$ alleviates the limitations of $\Upsilon$ we discussed earlier.
+Note that $\cu \ltimes V$'s action is almost the same as the groupoid partial action of $\Upsilon = \langle \cu \rangle$ (only "almost" because not all combinations of partial transformations might exist in the paths).
 \end{remark}
 
-\paragraph{Edge convolution operators}
-The counterparts of EC* convolution operators for path convolutions, are indeed path convolution operators obtained with supporting set $\cn \subset \ct \ltimes_1 G$ which any graph can admit. By extrapolation, we can coin them \emph{edge convolution operators}. As shown by this section, to construct one, all we need is a traversal set of partial transformations $(\cu, \ct)$.
+Even though $\cu \ltimes V$ alleviates the limitations of $\Upsilon$ we discussed earlier, it introduces another one: the zero-extension of the partial actions $p^u_v$ can be harsh for some graphs with $p^u_v$ often being equal to the groupoid zero (since the edge sequence of $p_u$ must be walkable from $v$). However, there would be less degenerated scenarios for EC* operators counterparts supported on paths of small length. On the other hand, it can be preferable to avoid the degenerated cases and stick to partial actions or strategies discussed in \secref{sec:motiv}.
+
+% \paragraph{Edge convolution operators}
+% The counterparts of EC* convolution operators for path convolutions, are indeed path convolution operators obtained with supporting set $\cn \subset \ct \ltimes_1 G$ which any graph can admit. By extrapolation, we can coin them \emph{edge convolution operators}. As shown by this section, to construct one, all we need is a traversal set of partial transformations $(\cu, \ct)$.
 

@@ -172,7 +172,7 @@ where $\cm^{-1} = \{ g^{-1}, g \in \cm\}$ (which equals $\cm$ in the usual case 
 f_w^{\varphi}(s)[u] = \displaystyle\sum_{ v \in \ck_u} s[v] \h{2} w[g_v^{-1}(u)] \label{eq:sec}
 \end{gather}
 
-Let us call $r$ the \emph{root vertex} defined as the $\varphi$-fiber of the identity element~$e$ (\ie $g_r = e$). We can interpretate \eqref{eq:sec} as if the convolution was first realized on $r$ with a sum over a vertex patch initially localized on $\ck_e = \varphi(\cm^{-1})$, and then its realization on another vertex $u$ would amount to move this patch under the action of $g_u$, exactly like with convolution operators on Euclidean domains.
+Let us call $r$ the \emph{root vertex} defined as the $\varphi$-fiber of the identity element~$e$ (\ie $g_r = e$). We can interprete \eqref{eq:sec} as if the convolution was first realized on $r$ with a sum over a vertex patch initially localized on $\ck_e = \varphi(\cm^{-1})$, and then its realization on another vertex $u$ would amount to move this patch under the action of $g_u$, exactly like with convolution operators on Euclidean domains.
 
 From this expression, we can observe the following proposition.
 
@@ -243,3 +243,11 @@ Let a graph $\gve$,
 \begin{proof}
 As a consequence of \thref{th:cayleychar} and \thref{th:cayleycharLP}.
 \end{proof}
+
+\subsection{Checkpoint summary}
+
+In \secref{sec:2.2}, we obtained two formulations of convolutions of signals on a graph $\gve$, $\ast_\varphi$ and $\ast_{\M}$, depending on a group $\Gamma$, that preserve fully the characterization by equivariance to actions of $\Gamma$. The $\varphi$-convolution can be used given a bijective equivariant map $\varphi$ between $\Gamma$ and a subset $V_s \subset V$, whereas the $\M$-convolution can be used under the condition that $\Gamma$ is abelian. Then in \secref{sec:edges}, we introduced conditions related to the edge set $E$, which leads us to define EC and LP convolutions, that we were able to characterize by Cayley subgraph isomorphism, and for which we were capable to understand the impact of abelianity. We also defined EC* and LP* convolution operators, that are closer to what can be used in deep learning practice. In particular, to define an EC* convolution operator, we only need to search for a set of actions that is a generating set of $\Gamma$. A practical example will be seen in \secref{sec:trans}.
+
+The sets of theorems we obtained are already satisfactory enough to understand how to convolute signals on any graph, using symmetries defined by a group acting on the vertex domain (or on a subset of the vertex domain). Therefore we can consider that the main contributions of this chapter have already been presented.
+
+Nonetheless, symmetries defined by groups can have limitations, since they may be too perfect for some graphs, as discussed in the next section. Hence, we can try to extend further the construction with partial symmetries defined by groupoids. That is the research avenue that we explore in the remainder of this chapter.
