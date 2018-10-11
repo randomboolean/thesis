@@ -47,9 +47,9 @@ The group convolution preserves the characterization from \thref{prop:equi}.
 \begin{theorem}\textbf{Characterization of group convolution operators}\\
 Let a group $\Gamma$, let $f \in \cl(\cs(\Gamma))$,
 \begin{enumerate}[nolistsep,noitemsep,label=(\roman*)]
-  \item $f$ is a group convolution right operator $\Leftrightarrow$ $f$ is equivariant to left multiplications \label{enum:p}
-  \item $f$ is a group convolution left operator $\Leftrightarrow$ $f$ is equivariant to right multiplications \label{enum:pp}
-  \item $f$ is a group convolution commutative operator $\Leftrightarrow$ $f$ is equivariant to multiplications \label{enum:ppp}%$\Leftrightarrow$ $\Gamma$ is abelian \label{enum:ppp}
+  \item $f$ is a group convolution right operator $\Leftrightarrow$ $f$ is equivariant to left multiplications, \label{enum:p}
+  \item $f$ is a group convolution left operator $\Leftrightarrow$ $f$ is equivariant to right multiplications, \label{enum:pp}
+  \item $f$ is a group convolution commutative operator $\Leftrightarrow$ $f$ is equivariant to multiplications. \label{enum:ppp}%$\Leftrightarrow$ $\Gamma$ is abelian \label{enum:ppp}
 \end{enumerate}
 \label{th:cgco}
 \end{theorem}
@@ -115,7 +115,7 @@ We naturally obtain the following relation, which put in simpler words means tha
  = \displaystyle \sum_{g \in \Gamma} s[g] \h{2} \varphi(\delta_g)
  = \displaystyle \sum_{g \in \Gamma} s[g] \h{2} \delta_{\varphi(g)}\\
  & = \displaystyle \sum_{v \in V} s[g_v] \h{2} \delta_v\\
- \text{So }\forall u \in V, \varphi(s) [u] & = s[g_u]
+ \text{So }\forall u \in V, \varphi(s) [u] & = s[g_u].
 \end{align*}
 \end{proof}
 
@@ -372,25 +372,25 @@ From $\eqref{eq:premix}$, we can define a mixed domain convolution \ie that is d
 
 \begin{definition}\textbf{Mixed domain convolution}\\
 Let a group $\Gamma$ acting on $V$.
-The \emph{mixed domain convolution} between two signals $r \in \cs(\Gamma)$ and $s \in \cs(V)$ results in a signal $r \ast_m s \in \cs(V)$ and is defined as:
+The \emph{mixed domain convolution} between two signals $r \in \cs(\Gamma)$ and $s \in \cs(V)$ results in a signal $r \ast_\mu s \in \cs(V)$ and is defined as:
 \begin{gather*}
-r \ast_m s = \displaystyle \sum_{g \in \Gamma} r[g] \h{2} g(s)
+r \ast_\mu s = \displaystyle \sum_{g \in \Gamma} r[g] \h{2} g(s)
 \end{gather*}
 \label{def:convm}
 \end{definition}
 
-We call it $m$-convolution. From a practical point of view, this expression of the convolution is useful because it relegates $\varphi$ as an underpinning object.% Therefore, only $V$ and some of its transformations are enough to define a convolution.
+We call it $\mu$convolution. From a practical point of view, this expression of the convolution is useful because it relegates $\varphi$ as an underpinning object.% Therefore, only $V$ and some of its transformations are enough to define a convolution.
 
 \begin{lemma}\textbf{Relation with vertex-action convolution}\\
 $\forall \varphi \in \bij(\Gamma, V), \forall (r,s) \in \cs(\Gamma) \times \cs(V),$\\
-\centerline{$r \ast_m s = \varphi(r) \ast_{V} s$}
+\centerline{$r \ast_\mu s = \varphi(r) \ast_{V} s$}
 \label{lem:rel3m}
 \end{lemma}
 
 \begin{proof}
 Let $\varphi \in \bij(\Gamma, V),(r,s) \in \cs(\Gamma) \times \cs(V)$,
 \begin{align*}
-r \ast_m s & = \displaystyle \sum_{g \in \Gamma} r[g] \h{2} g(s)
+r \ast_\mu s & = \displaystyle \sum_{g \in \Gamma} r[g] \h{2} g(s)
   = \displaystyle \sum_{v \in V} r[g_v] \h{2} g_v(s)
   \overset{(\diamond)}{=} \displaystyle \sum_{v \in V} \varphi(r)[v] \h{2} g_v(s)\\
 & =\varphi(r) \ast_{V} s
@@ -398,20 +398,20 @@ r \ast_m s & = \displaystyle \sum_{g \in \Gamma} r[g] \h{2} g(s)
 Where $\overset{(\diamond)}{=}$ comes from \lemref{lem:outer}.
 \end{proof}
 
-In other words, $\ast_m$ is a convenient reformulation of $\ast_{V}$.
+In other words, $\ast_\mu$ is a convenient reformulation of $\ast_{V}$.
 
 \begin{lemma}\textbf{Relation with group, vertex-group and $\varphi$-convolutions}\\
 Let $\varphi \in \bij(\Gamma, V),(r,s) \in \cs(\Gamma) \times \cs(V)$, we have:
 \begin{align*}
-\Gamma \overset{\varphi}{\equiv} V & \Leftrightarrow \forall v \in V, (r \ast_m s)[v] = (r \ast_{\Gamma} \varphi^{-1}(s))[g_v]\\
-& \Leftrightarrow r \ast_m s = \varphi(r) \ast_{\Gamma} s\\
-& \Leftrightarrow r \ast_m s = \varphi(r) \ast_{\varphi} s
+\Gamma \overset{\varphi}{\equiv} V & \Leftrightarrow \forall v \in V, (r \ast_\mu s)[v] = (r \ast_{\Gamma} \varphi^{-1}(s))[g_v]\\
+& \Leftrightarrow r \ast_\mu s = \varphi(r) \ast_{\Gamma} s\\
+& \Leftrightarrow r \ast_\mu s = \varphi(r) \ast_{\varphi} s
 \end{align*}
 \label{lem:rel12m}
 \end{lemma}
 
 \begin{proof}
-On one hand, \lemref{lem:rel3m} gives $r \ast_m s = \varphi(r) \ast_{V} s$. On the other hand, \lemref{lem:rel12} gives $\forall v \in V,
+On one hand, \lemref{lem:rel3m} gives $r \ast_\mu s = \varphi(r) \ast_{V} s$. On the other hand, \lemref{lem:rel12} gives $\forall v \in V,
 (r \ast_{\Gamma} \varphi^{-1}(s))[g_v] = (\varphi(r) \ast_{\Gamma} s)[v]$. Then \lemref{lem:rel23} concludes.
 \end{proof}
 
@@ -423,7 +423,7 @@ On one hand, \lemref{lem:rel3m} gives $r \ast_m s = \varphi(r) \ast_{V} s$. On t
 
 % \todo{rewrite below, start by stating the proposition, then discuss}
 
-% From $m$-convolution, a left operators can be used as a layer of a neural network since it is defined over $\cs(V)$, whereas right operators are not. Also, it is of the form $f:s \mapsto w \ast_m s = \sum_{g \in \Gamma} w[g] \h{2} g(s)$, so its realization on a vertex $u \in V$ can rely on the rule:
+% From $\mu$convolution, a left operators can be used as a layer of a neural network since it is defined over $\cs(V)$, whereas right operators are not. Also, it is of the form $f:s \mapsto w \ast_\mu s = \sum_{g \in \Gamma} w[g] \h{2} g(s)$, so its realization on a vertex $u \in V$ can rely on the rule:
 % \begin{itemize}
 % \item $g(s)[u] = s[g^{-1}(u)]$, in case the underlying $\varphi$-equivalence is left,
 % \item or on $g(s)[u] = s[g_u(\varphi(g^{-1}))]$, in the other case
@@ -441,25 +441,25 @@ On one hand, \lemref{lem:rel3m} gives $r \ast_m s = \varphi(r) \ast_{V} s$. On t
 
 %%%%%%%%%%%
 
-From $m$-convolution, a left operator can be used as a layer of a neural network since it is defined over $\cs(V)$, whereas right operators are not. 
+From $\mu$convolution, a left operator can be used as a layer of a neural network since it is defined over $\cs(V)$, whereas right operators are not. 
 
-\begin{proposition}\textbf{Condition of equivariance for $\ast_m$}\\
-Let a group $\Gamma$ acting on $V$. $\Gamma$ is abelian, if and only if, $m$-convolution left operators are equivariant to~$\Gamma$.
+\begin{proposition}\textbf{Condition of equivariance for $\ast_\mu$}\\
+Let a group $\Gamma$ acting on $V$. $\Gamma$ is abelian, if and only if, $\mu$convolution left operators are equivariant to~$\Gamma$.
 \label{prop:equiM}
 \end{proposition}
 \begin{proof}
-Let $w, g \in \Gamma$, and define $f_w: s \mapsto w \ast_m s$. In the following expressions, $\Gamma$ is abelian if and only if \eqref{eq:aba} and \eqref{eq:abb} are equal (the converse is obtained by particularizing on well chosen signals):
+Let $w, g \in \Gamma$, and define $f_w: s \mapsto w \ast_\mu s$. In the following expressions, $\Gamma$ is abelian if and only if \eqref{eq:aba} and \eqref{eq:abb} are equal (the converse is obtained by particularizing on well chosen signals):
 \begin{align}
 (f_w \circ g) (s) & = \displaystyle \sum_{h \in \Gamma} w[h] \h{2} hg(s) \label{eq:aba}\\
  & = \displaystyle \sum_{h \in \Gamma} w[h] \h{2} gh(s) \label{eq:abb}\\
  & = \displaystyle g\left(\sum_{h \in \Gamma} w[h] \h{2} h(s)\right) \nn\\
- & = g(w \ast_m s ) \nn\\
+ & = g(w \ast_\mu s ) \nn\\
  & = (g \circ f_w) (s) \nn
 \end{align}
 \end{proof}
 
 \begin{remark}
-We used this proof because it is simpler and does not require one-to-one correspondence between $\Gamma$ and $V$. However, the reason behind the abelian condition is that mixed domain convolutions are expressed as if the underlying $\varphi$-equivalence were left. Therefore it is a consequence of \corref{cor:equiG}. Note that if we used a right expression for $\ast_m$ (which amounts to commute the operands), we would be interested in right operators instead of left ones, which would just change the problem to "right-right" instead of "left-left" which would also require abelianity for the equivariance.
+We used this proof because it is simpler and does not require one-to-one correspondence between $\Gamma$ and $V$. However, the reason behind the abelian condition is that mixed domain convolutions are expressed as if the underlying $\varphi$-equivalence were left. Therefore it is a consequence of \corref{cor:equiG}. Note that if we used a right expression for $\ast_\mu$ (which amounts to commute the operands), we would be interested in right operators instead of left ones, which would just change the problem to "right-right" instead of "left-left" which would also require abelianity for the equivariance.
 \end{remark}
 
 We then coin the term $\M$-convolution, for which $\Gamma$ is abelian.
