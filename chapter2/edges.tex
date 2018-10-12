@@ -150,6 +150,7 @@ Let $f_w^{\M}$ be an EC $\M$-convolution left operator of group $\Gamma$. The su
 
 \begin{definition}\textbf{Strictly edge-constrained convolution operator}\\
 We say that an EC $\varphi$ or $\M$-convolution operator, of group $\Gamma$ and generating set $\cu$, is strictly edge-constrained (EC*) if its supporting set $\cm \subset \cu$ and $\cm$ is symmetric (\ie $g \in \cm \Leftrightarrow g^{-1} \in \cm$).
+\label{def:ecc}
 \end{definition}
 
 \begin{remark}EC* convolution operators are simpler to obtain as we can construct them just with the actions $\cu \to \Phi^*_{\EC}(G)$ without composing the transformations. Also, their complexity is $\co(kn)$, where $n = |V|$ is the order of the graph and $k = |\cm|$ is the size of the kernel. In comparison, EC convolutions have complexity up to $\co(n^2)$.
@@ -178,6 +179,7 @@ From this expression, we can observe the following proposition.
 
 \begin{proposition}\textbf{Weight sharing}\\
 Let a $\varphi$- or $\M$-convolution operator $f_w$ of supporting set $\cm \subset \Gamma$. Then the entries of $w$ are shared between each realization of $f_w$.
+\label{prop:ws}
 \end{proposition}
 \begin{proof}
 By reading \eqref{eq:secm}, this result is obvious for $\M$-convolution operators. So let us assume that $f_w$ is a $\varphi$-convolution operator. Given a realization vertex $a \in V$, the non-null entries of $w$ in expression \eqref{eq:sec} are characterized by vertices $\alpha \in \ck_a$. Given another realization vertex $b$, its non-nil entries match those of $a$ if, and only if,
@@ -204,6 +206,7 @@ Similarly than with EC and EC*, we are also interested in this property for oper
 
 \begin{definition}\textbf{Strictly locality-preserving convolution operator}\\
 We say that a $\varphi$-convolution operator, of supporting set $\cm \subset \Gamma$, is strictly locality-preserving (LP*) if every subgraph  $\ck_u = g_u(\ck_e)$ are isomorphic.
+\label{def:lpp}
 \end{definition}
 
 \begin{remark}
@@ -239,6 +242,7 @@ Let a graph $\gve$,
 \item if a $\varphi$-convolution of group $\Gamma$ is EC and LP then $\Gamma$ is abelian,
 \item an $\M$-convolution is EC if, and only if, it is also LP.
 \end{enumerate}
+\label{cor:cayleycharECLP}
 \end{corollary}
 \begin{proof}
 As a consequence of \thref{th:cayleychar} and \thref{th:cayleycharLP}.
