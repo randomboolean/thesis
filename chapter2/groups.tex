@@ -379,7 +379,7 @@ r \ast_\mu s = \displaystyle \sum_{g \in \Gamma} r[g] \h{2} g(s)
 \label{def:convm}
 \end{definition}
 
-We call it $\mu$convolution. From a practical point of view, this expression of the convolution is useful because it relegates $\varphi$ as an underpinning object.% Therefore, only $V$ and some of its transformations are enough to define a convolution.
+We call it $\mu$-convolution. From a practical point of view, this expression of the convolution is useful because it relegates $\varphi$ as an underpinning object.% Therefore, only $V$ and some of its transformations are enough to define a convolution.
 
 \begin{lemma}\textbf{Relation with vertex-action convolution}\\
 $\forall \varphi \in \bij(\Gamma, V), \forall (r,s) \in \cs(\Gamma) \times \cs(V),$\\
@@ -423,7 +423,7 @@ On one hand, \lemref{lem:rel3m} gives $r \ast_\mu s = \varphi(r) \ast_{V} s$. On
 
 % \todo{rewrite below, start by stating the proposition, then discuss}
 
-% From $\mu$convolution, a left operators can be used as a layer of a neural network since it is defined over $\cs(V)$, whereas right operators are not. Also, it is of the form $f:s \mapsto w \ast_\mu s = \sum_{g \in \Gamma} w[g] \h{2} g(s)$, so its realization on a vertex $u \in V$ can rely on the rule:
+% From $\mu$-convolution, a left operators can be used as a layer of a neural network since it is defined over $\cs(V)$, whereas right operators are not. Also, it is of the form $f:s \mapsto w \ast_\mu s = \sum_{g \in \Gamma} w[g] \h{2} g(s)$, so its realization on a vertex $u \in V$ can rely on the rule:
 % \begin{itemize}
 % \item $g(s)[u] = s[g^{-1}(u)]$, in case the underlying $\varphi$-equivalence is left,
 % \item or on $g(s)[u] = s[g_u(\varphi(g^{-1}))]$, in the other case
@@ -441,10 +441,10 @@ On one hand, \lemref{lem:rel3m} gives $r \ast_\mu s = \varphi(r) \ast_{V} s$. On
 
 %%%%%%%%%%%
 
-From $\mu$convolution, a left operator can be used as a layer of a neural network since it is defined over $\cs(V)$, whereas right operators are not. 
+From $\mu$-convolution, a left operator can be used as a layer of a neural network since it is defined over $\cs(V)$, whereas right operators are not. 
 
 \begin{proposition}\textbf{Condition of equivariance for $\ast_\mu$}\\
-Let a group $\Gamma$ acting on $V$. $\Gamma$ is abelian, if and only if, $\mu$convolution left operators are equivariant to~$\Gamma$.
+Let a group $\Gamma$ acting on $V$. $\Gamma$ is abelian, if and only if, $\mu$-convolution left operators are equivariant to~$\Gamma$.
 \label{prop:equiM}
 \end{proposition}
 \begin{proof}
