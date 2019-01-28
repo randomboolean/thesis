@@ -6,6 +6,12 @@
 \selectlanguage{english}
 
 %
+% Intitution form
+%
+
+\includepdf[fitpaper=true,pages=1]{chapter0/couverture.pdf}
+
+%
 % Version info
 %
 
@@ -14,16 +20,21 @@
 \input{revcount}\newline
 \h{0}\newline
 Ph. D. candidate: Jean-Charles Vialatte\newline
-Advisor: Vincent Gripon\newline
-Supervisor: Gilles Coppin\newline
-Thesis examiners: Pierre Borgnat and Matthias Löwe\newline
-Jury members: Paulo Gonçalves and Juliette Mattioli\newline
-Invited member: Mathias Herberts\newline
+Supervisor: Gilles Coppin (professor at IMT Atlantique)\newline
+Advisor: Vincent Gripon (researcher at IMT Atlantique)\newline
+Jury director: Paulo Gonçalves (research director at ENS Lyon)\newline
+Jury examiner 1: Pierre Borgnat (research director at ENS Lyon)\newline
+Jury examiner 2: Matthias Löwe (professor at Münster university)\newline
+Jury member: Juliette Mattioli (senior expert at Thales Palaiseau)\newline
+Invited member: Mathias Herberts (chief technical officer at SenX)\newline
 \h{0}\newline
+Degree: Thèse de doctorat\newline
+Subject: On convolution of graph signals and deep learning on graph domains\newline
 Defense date: 2018-12-13\newline
-Institutions: IMT Atlantique, Université Bretagne Loire\newline
-Ecole doctorale: MathSTIC (601)\newline
-Mention: Informatique\newline
+Institutions: IMT Atlantique, COMUE Université Bretagne Loire\newline
+Laboratory: IMTA dpt. ELEC, ITI, LUSSI and Lab-STICC\newline
+Doctoral school: MathSTIC (601)\newline
+Specialty: Computer science - Artificial intelligence (cs.ai)\newline
 Funded by: SenX, ANRT
 
 % \linenumbers
@@ -156,5 +167,11 @@ Funded by: SenX, ANRT
 \chapter*{Résumé en français}\label{chp:rsm}
 \addcontentsline{toc}{chapter}{\nameref{chp:rsm}}
 \input{chapter0/rsm}
+
+
+%\clearpage \ifodd\value{page}\hbox{}\newpage\fi
+\thispagestyle{empty}
+\newpage
+\noindent\includepdf[fitpaper=true,pages=2]{chapter0/couverture.pdf}
 
 \end{document}

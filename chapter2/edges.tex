@@ -31,6 +31,37 @@ An \emph{edge-constrained} (EC) transformation on a graph $\gve$ is a transforma
 \end{gather*}
 \end{definition}
 
+\figref{fig:ec} gives a basic example of an EC transformation.
+
+\begin{figure}[h!t]
+    \begin{center}
+      \begin{tikzpicture}[scale=0.6]
+          \tikzstyle{every node} = [draw, circle, inner sep = 2pt, thick, minimum size=0.2in];
+          \node(1) at (1,2) {d};
+          \node[color=red](2) at (1.2,5) {\textcolor{red}{a}};
+          \node(3) at (3.4,4.8) {b};
+          \node(4) at (3.3,3.3) {c};
+          \node(5) at (4.4,0.9) {e};
+          \tikzstyle{every node} = []
+          \path[opacity=0.8,thick]
+          (1) edge (2);
+          \path[opacity=0.8,thick]
+          (2) edge (4);
+          \path[opacity=0.8,thick]
+          (4) edge (3);
+          \path[opacity=0.8,thick]
+          (1) edge (4);
+          \path[opacity=0.8,thick]
+          (1) edge (5);
+          \tikzstyle{every node} = []
+          \node at (10,3.5) {\scalebox{1.2}{$f(\textcolor{red}{a}) \in \{c,d\}$}};
+          \node at (10,2.5) {\scalebox{1.2}{$f(\textcolor{red}{a}) \notin \{b,e\}$}};
+          \end{tikzpicture}
+    \end{center}
+    \caption{Depiction of an EC transformation}
+    \label{fig:ec}
+  \end{figure}
+
 We denote $\Phi_{\EC}(G)$ and $\Phi^*_{\EC}(G)$ the sets of EC and invertible EC transformations. Note that $\Phi^*_{\EC}(G)$ is not a group. Therefore, we are interested in generating sets of groups.
 
 \begin{definition}\textbf{Edge-constrained convolution}\\
@@ -202,7 +233,60 @@ Euclidean convolution operators have the property of preserving the local shape,
 Let a graph $\gve$, we say that a $\varphi$- or $\M$-convolution, of group $\Gamma$, is locality-preserving (LP) if the actions of $\Gamma$ are graph automorphisms.
 \end{definition}
 
-Similarly than with EC and EC*, we are also interested in this property for operators with smaller kernels.
+\figref{fig:lp} depicts a group action of an LP convolution.
+
+\begin{figure}[h!t]
+    \begin{center}
+      \begin{tikzpicture}[scale=0.6]
+          \tikzstyle{every node} = [draw, circle, inner sep = 2pt, thick, minimum size=0.2in];
+          \node(1) at (0,0) {a};
+          \node(2) at (2,0) {b};
+          \node(3) at (0,2) {c};
+
+          \node(4) at (7,1) {a'};
+          \node(5) at (9,1) {b'};
+          \node(6) at (7,3) {c'};
+
+          \path[opacity=0.8,thick,red] (1) edge (2);
+          \path[opacity=0.8,thick,red] (1) edge (3);
+          \path[opacity=0.8,thick,red] (2) edge (3);
+
+          \path[opacity=0.8,thick,red] (4) edge (5);
+          \path[opacity=0.8,thick,red] (4) edge (6);
+          \path[opacity=0.8,thick,red] (5) edge (6);
+
+          \tikzstyle{every node} = []
+          \node(7) at (-1.5,3.5) {\h{0}};
+          \path[opacity=0.7,thick, dashed] (3) edge (7); 
+          \node(8) at (-1.5, 1) {\h{0}};
+          \path[opacity=0.7,thick, dashed] (3) edge (8);
+
+          \node(9) at (-1.5,1) {\h{0}};
+          \path[opacity=0.7,thick, dashed] (1) edge (9); 
+          \node(10) at (-1.5, -1) {\h{0}};
+          \path[opacity=0.7,thick, dashed] (1) edge (10);
+
+          \node(13) at (8.5,3.5) {\h{0}};
+          \path[opacity=0.7,thick, dashed] (6) edge (13); 
+          \node(14) at (7.5,4.5) {\h{0}};
+          \path[opacity=0.7,thick, dashed] (6) edge (14);
+
+          \node(17) at (10.5,1.5) {\h{0}};
+          \path[opacity=0.7,thick, dashed] (5) edge (17); 
+          \node(18) at (9.5,2.5) {\h{0}};
+          \path[opacity=0.7,thick, dashed] (5) edge (18);
+
+          \path[opacity=0.6,thick,dashed,->,blue] (1) edge (4);
+          \path[opacity=0.6,thick,dashed,->,blue] (2) edge (5);
+          \path[opacity=0.6,thick,dashed,->,blue] (3) edge (6);
+          \node[opacity=0.95] at (4.2,1.5) {\scalebox{1.3}{$\textcolor{blue}{g(.)}$}};
+          \end{tikzpicture}
+    \end{center}
+    \caption{Local depiction of the action of an LP convolution. The supporting set (red) is moved under the action of $g(.)$ to a subgraph of same shape.}
+    \label{fig:lp}
+  \end{figure}
+
+Similarly than with EC and EC*, we are also interested to particularize this property for operators with small kernels.
 
 \begin{definition}\textbf{Strictly locality-preserving convolution operator}\\
 We say that a $\varphi$-convolution operator, of supporting set $\cm \subset \Gamma$, is strictly locality-preserving (LP*) if every subgraph  $\ck_u = g_u(\ck_e)$ are isomorphic.

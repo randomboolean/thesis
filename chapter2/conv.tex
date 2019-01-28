@@ -123,6 +123,23 @@ By denoting $w = f (\delta_{0,0}) \in \cs(\bbz^2)$, we obtain:
 \end{align}
 \end{proof}
 
+For example, on \figref{fig:cat}, $f$ is a convolution operator if, and only if, this diagram commutes.
+
+\begin{figure}[h!t]
+\begin{tikzpicture}
+\node(a) at (0, 3) {\includegraphics[width=0.22\linewidth,height=\textheight,keepaspectratio]{chapter2/cat.jpeg}};
+\node(b) at (6, 3) {\includegraphics[width=0.22\linewidth,height=\textheight,keepaspectratio]{chapter2/cat_translated.jpeg}};
+\node(c) at (0, 0) {\includegraphics[width=0.22\linewidth,height=\textheight,keepaspectratio]{chapter2/cat_filtered.jpeg}};
+\node(d) at (6, 0) {\includegraphics[width=0.22\linewidth,height=\textheight,keepaspectratio]{chapter2/cat_translated_filtered.jpeg}};
+\path[->, thick] (a) edge node[above] {\textit{translation}} (b);
+\path[->, thick] (a) edge node[left] {\scalebox{1.32}{$f$}} (c);
+\path[->, thick] (b) edge node[right] {\scalebox{1.32}{$f$}} (d);
+\path[->, thick] (c) edge node[above] {\textit{translation}} (d);
+\end{tikzpicture}
+\caption{Commutative diagram when $f$ is a convolution operator}
+\label{fig:cat}
+\end{figure}
+
 \subsection{Usefulness of convolutions in deep learning}
 \label{sec:cnnvsmlp}
 
