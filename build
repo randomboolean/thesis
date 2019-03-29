@@ -4,3 +4,5 @@ rm *.bbl
 echo "Build version as of `date '+%Y-%m-%d %H:%M:%S'`" > date.tex
 echo "Revision number `git rev-list --all --count`" > revcount.tex 
 pdflatex main.tex && bibtex main.aux && pdflatex main.tex && pdflatex main.tex
+rm main.aux main.blg main.log main.mtc* main.bbl main.maf main.out main.run.xml main.toc main.fdb_latexmk
+rm main-blx.bib
